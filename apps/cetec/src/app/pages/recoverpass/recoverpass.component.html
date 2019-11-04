@@ -1,0 +1,51 @@
+<div class="wrapper wrapper-fullpage">
+	<div class="page-header login-page header-filter"
+		filter-color="black"
+		style="background-image: url('assets/img/reqpassrecover.jpg');
+		background-size: cover; background-position: top center;"
+		>
+		<div class="container index-page">
+	    <div class="row">
+					<div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
+			      <div class="card card-login card-hidden">
+							<div class="card-header card-header-primary text-center">
+								<p class="h3">Recuperar Contraseña</p>
+							</div>
+			        <div class="card-body">
+			          <form class="was-validated">
+									<label class="form-inline"><b>*Ingresa tu correo electrónico : </b></label>
+									<input
+									type="text"
+									class="form-control"
+									#username (blur)="getusername(username.value)"
+									placeholder="Email" required
+									>
+									<!-- <span *ngIf="!dataIsOk" class="text-danger">Ingresa tu correo electrónico</span> -->
+			          </form>
+			          <div class="form-group">
+									<button
+										*ngIf="!dataIsOk"
+										type="button"
+										class="btn btn-success"
+										disabled
+										>
+										<i class="far fa-window-restore"></i>
+										Recuperar contraseña
+									</button>
+									<button
+										*ngIf="dataIsOk && !pushed"
+										type="button"
+										class="btn btn-success"
+										(click)="requestPasswordRecovery(username.value)"
+										>
+										<i class="far fa-window-restore"></i>
+										Recuperar contraseña
+									</button>
+			          </div>
+			        </div>
+			      </div>
+			    </div>
+	    </div>
+	  </div>
+	</div>
+</div>

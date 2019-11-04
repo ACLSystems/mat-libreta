@@ -1,0 +1,111 @@
+<div *ngIf="loading">
+	<div class="row text-center animated fadeIn">
+		<div class="col ">
+			<i class="fas fa-sync fa-spin fa-5x"></i>
+		</div>
+	</div>
+	<div class="row text-center">
+		<div class="col">
+			<h1>Cargando componentes ... </h1>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="!loading" class="container rounded" style="background: linear-gradient(to right, white, gray);">
+	<h1>&nbsp;</h1>
+	<h5>&nbsp;</h5>
+</div>
+
+<div *ngIf="!loading" class="main-content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-10 ml-auto mr-auto">
+				<div class="card">
+					<div class="card-header card-header-danger">
+						<h4 class="card-title">{{curso.title}} -
+							<small>{{curso.code}}</small>
+						</h4>
+					</div>
+					<div class="card-body">
+						<ul class="nav nav-pills nav-pills-{{color}}" role="tablist">
+							<li class="nav-item">
+								<a href="#description"
+									class="nav-link active"
+									data-toggle="tab"
+									role="tablist"
+									>
+									<!-- <i class="fas fa-book-reader"></i> Descripción del curso -->
+									Descripción
+									</a>
+							</li>
+							<li class="nav-item">
+								<a href="#data"
+									class="nav-link"
+									data-toggle="tab"
+									role="tablist"
+									>
+									<!-- <i class="fas fa-info"></i> Características -->
+									Información
+									</a>
+							</li>
+							<li class="nav-item">
+								<a href="#agenda"
+									class="nav-link"
+									data-toggle="tab"
+									role="tablist"
+									>
+									<!-- <i class="fas fa-list"></i> Temario -->
+									Temario
+									</a>
+							</li>
+						</ul>
+						<div class="tab-content tab-space">
+							<div class="tab-pane" id="description">
+								<div class="row">
+									<div class="col-md-3">
+										<img class="img-fluid rounded" [src]="curso.image" alt="{{curso.code}}">
+									</div>
+									<div class="col-md" [innerHTML]="curso.description">
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane active" id="data">
+								<div class="row">
+									<div class="col-md-3">
+										<img class="img-fluid rounded" [src]="curso.image" alt="{{curso.code}}">
+									</div>
+									<div class="col-md" [innerHTML]="curso.description">
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane" id="agenda">
+								<div class="row">
+									<div class="col-md-3">
+										<img class="img-fluid rounded" [src]="curso.image" alt="{{curso.code}}">
+									</div>
+									<div class="col-md">
+										<ul class="list-unstyled">
+											<li *ngFor="let item of blocks">
+												<h5 *ngIf="item.number==0">
+													{{item.section}}.{{item.title}} <span *ngIf="item.beginDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de inicio: {{item.beginDate | date}}</span> <span *ngIf="item.endDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de término: {{item.endDate | date}}</span><span *ngIf="item.duration" class="text-right text-secondary"> | <i class="far fa-clock"></i> Duración:{{item.duration}}</span>
+												</h5>
+												<span *ngIf="item.number!=0" class="text-primary">
+													&nbsp; {{item.section}}.{{item.number}} {{item.title}}
+												</span>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<button type="button" class="btn btn-{{color}} blockquote" [routerLink]="['/pages/catalog']">
+							<i class="fas fa-reply"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

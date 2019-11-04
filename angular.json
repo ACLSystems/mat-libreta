@@ -1,7 +1,336 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "cetec": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/cetec",
+      "sourceRoot": "apps/cetec/src",
+      "prefix": "mat-libreta",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/cetec",
+            "index": "apps/cetec/src/index.html",
+            "main": "apps/cetec/src/main.ts",
+            "polyfills": "apps/cetec/src/polyfills.ts",
+            "tsConfig": "apps/cetec/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+							"apps/cetec/src/favicon.ico",
+							"apps/cetec/src/assets"
+						],
+            "styles": [
+							"node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+							"node_modules/sweetalert2/src/sweetalert2.scss",
+							"node_modules/datatables.net-bs4/css/datatables.bootstrap4.css",
+							"apps/cetec/src/assets/scss/material-dashboard.scss",
+							"apps/cetec/src/styles.scss",
+						],
+            "scripts": [
+							"node_modules/jquery/dist/jquery.js",
+							"node_modules/popper.js/dist/umd/popper.js",
+							"node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+							"node_modules/sweetalert2/dist/sweetalert2.all.min.js",
+							"node_modules/moment/moment.js",
+							"node_modules/arrive/src/arrive.js",
+							"node_modules/hammerjs/hammer.min.js",
+							"node_modules/web-animations-js/web-animations.min.js",
+							"node_modules/chartist/dist/chartist.js",
+							"node_modules/chartist-plugin-zoom/dist/chartist-plugin-zoom.js",
+							"node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
+							"node_modules/bootstrap-notify/bootstrap-notify.js",
+							"node_modules/nouislider/distribute/nouislider.min.js",
+							"node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+							"node_modules/datatables/media/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
+              "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/jqvmap/dist/jquery.vmap.min.js",
+              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
+              "node_modules/jquery-validation/dist/jquery.validate.min.js"
+						]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/cetec/src/environments/environment.ts",
+                  "with": "apps/cetec/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3500kb",
+                  "maximumError": "5mb"
+                },
+								{
+                  "type": "bundle",
+									"name": "vendor",
+									"baseline": "1mb",
+                  "warning": "250kb",
+                  "maximumError": "500kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "cetec:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "cetec:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "cetec:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/cetec/tsconfig.app.json",
+              "apps/cetec/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/cetec/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/cetec/jest.config.js",
+            "tsConfig": "apps/cetec/tsconfig.spec.json",
+            "setupFile": "apps/cetec/src/test-setup.ts",
+						"assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+							"node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+							"node_modules/sweetalert2/src/sweetalert2.scss",
+							"node_modules/datatables.net-bs4/css/datatables.bootstrap4.css",
+							"src/assets/scss/material-dashboard.scss",
+              "src/styles.scss"
+            ],
+            "scripts": [
+							"node_modules/jquery/dist/jquery.js",
+							"node_modules/popper.js/dist/umd/popper.js",
+							"node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+							"node_modules/moment/moment.js",
+							"node_modules/arrive/src/arrive.js",
+							"node_modules/hammerjs/hammer.min.js",
+							"node_modules/web-animations-js/web-animations.min.js",
+							"node_modules/chartist/dist/chartist.js",
+							"node_modules/chartist-plugin-zoom/dist/chartist-plugin-zoom.js",
+							"node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
+							"node_modules/bootstrap-notify/bootstrap-notify.js",
+							"node_modules/nouislider/distribute/nouislider.min.js",
+							"node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+							"node_modules/datatables/media/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
+              "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/jqvmap/dist/jquery.vmap.min.js",
+              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
+              "node_modules/jquery-validation/dist/jquery.validate.min.js"
+						]
+          }
+        }
+      }
+    },
+    "cetec-e2e": {
+      "root": "apps/cetec-e2e",
+      "sourceRoot": "apps/cetec-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/cetec-e2e/cypress.json",
+            "tsConfig": "apps/cetec-e2e/tsconfig.e2e.json",
+            "devServerTarget": "cetec:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "cetec:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/cetec-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/cetec-e2e/**"]
+          }
+        }
+      }
+    },
+    "conalepjalisco": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/conalepjalisco",
+      "sourceRoot": "apps/conalepjalisco/src",
+      "prefix": "mat-libreta",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/conalepjalisco",
+            "index": "apps/conalepjalisco/src/index.html",
+            "main": "apps/conalepjalisco/src/main.ts",
+            "polyfills": "apps/conalepjalisco/src/polyfills.ts",
+            "tsConfig": "apps/conalepjalisco/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "apps/conalepjalisco/src/favicon.ico",
+              "apps/conalepjalisco/src/assets"
+            ],
+            "styles": ["apps/conalepjalisco/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/conalepjalisco/src/environments/environment.ts",
+                  "with": "apps/conalepjalisco/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "conalepjalisco:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "conalepjalisco:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "conalepjalisco:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/conalepjalisco/tsconfig.app.json",
+              "apps/conalepjalisco/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/conalepjalisco/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/conalepjalisco/jest.config.js",
+            "tsConfig": "apps/conalepjalisco/tsconfig.spec.json",
+            "setupFile": "apps/conalepjalisco/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "conalepjalisco-e2e": {
+      "root": "apps/conalepjalisco-e2e",
+      "sourceRoot": "apps/conalepjalisco-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/conalepjalisco-e2e/cypress.json",
+            "tsConfig": "apps/conalepjalisco-e2e/tsconfig.e2e.json",
+            "devServerTarget": "conalepjalisco:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "conalepjalisco:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/conalepjalisco-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/conalepjalisco-e2e/**"]
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "cetec"
 }

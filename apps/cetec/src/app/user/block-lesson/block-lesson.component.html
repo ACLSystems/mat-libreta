@@ -1,0 +1,98 @@
+<div class="card">
+	<div
+		class="card-header card-header-icon"
+		[ngClass]="{'card-header-danger': blockData.blockNumber==0, 'card-header-primary': blockData.blockNumber!=0}"
+		>
+		<div class="card-icon">
+			<i class="material-icons" *ngIf="blockData.blockType=='textVideo' || blockData.blockType=='video'">
+				theaters</i>
+			<i class="material-icons" *ngIf="blockData.blockType=='text'">
+				label</i>
+			<i class="material-icons" *ngIf="blockData.blockType=='questionnarie'">
+				ballot</i>
+			<i class="material-icons" *ngIf="blockData.blockType=='task'">
+				create</i>
+		</div>
+		<div class="card-title">
+			<div class="row">
+				<div class="col">
+					<i class="material-icons text-success" *ngIf="blockData.track">visibility</i>
+					<span
+						*ngIf="blockData.blockNumber==0"
+						[ngClass]="{'text-success': blockData.track}"
+						>
+						Unidad {{blockData.blockSection}}
+					</span>
+					<span *ngIf="blockData.blockNumber!=0"
+						[ngClass]="{'text-success': blockData.track}"
+						>
+						Lección {{blockData.blockSection}}.{{blockData.blockNumber}}
+					</span>
+				</div>
+				<div class="col-auto">
+					<div class="row">
+						<div class="col">
+							<small>Avance del curso: {{blockData.track+'%'}}</small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="progress">
+								<div
+								class="progress-bar"
+								[ngClass]="{'progress-bar-success bg-success':blockData.track>=60,'progress-bar-warning bg-warning':blockData.track>=30 && blockData.track<60,'progress-bar-danger bg-danger':blockData.track<30}"
+								role="progressbar"
+								attr.aria-valuenow="{{blockData.track | number : '.1'}}"
+								aria-valuemin="0"
+								aria-valuemax="100"
+								[ngStyle]="{width:blockData.track+'%'}"
+								></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<h3>{{blockData.blockTitle}}</h3>
+		<div
+			class="video-container"
+			*ngIf="blockData.blockMedia.length > 0 && blockData.blockBegin">
+			<iframe
+				[src]="blockData.blockMedia | safe "
+				frameborder="0"
+				allow="autoplay; encrypted-media"
+				width="853"
+				height="480"
+				allowfullscreen
+				></iframe>
+		</div>
+		<div [innerHtml]="blockData.blockContent">
+		</div>
+		<div *ngIf="blockData.questionnarie">
+			<app-block-questionnarie
+				[blockData]="blockData"
+				[groupid]="groupid"
+				[blockid]="blockid"
+			>
+			</app-block-questionnarie>
+		</div>
+		<div *ngIf="blockData.tasks">
+			<app-block-tasks [tasks]="blockData.tasks">
+			</app-block-tasks>
+		</div>
+		<div
+			class="video-container"
+			*ngIf="blockData.blockMedia.length > 0 && !blockData.blockBegin">
+			<iframe
+				[src]="blockData.blockMedia | safe"
+				frameborder="0"
+				allow="autoplay; encrypted-media"
+				width="853"
+				height="480"
+				allowfullscreen
+				></iframe>
+		</div>
+	</div>
+</div>

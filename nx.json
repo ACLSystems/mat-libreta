@@ -7,5 +7,18 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "cetec-e2e": {
+      "tags": []
+    },
+    "cetec": {
+      "tags": []
+    },
+    "conalepjalisco-e2e": {
+      "tags": []
+    },
+    "conalepjalisco": {
+      "tags": []
+    }
+  }
 }

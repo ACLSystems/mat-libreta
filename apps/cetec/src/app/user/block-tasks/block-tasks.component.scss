@@ -1,0 +1,16 @@
+.task-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-container > * {
+  width: 100%;
+}
+
+.vertical-align-middle {
+	vertical-align: middle;
+}
+
+.padding-bottom-3 {
+	padding-bottom: 3px;
+}

@@ -1,0 +1,13 @@
+<i>Arrastra los bloques y ordénalos segun las instrucciones</i>
+<div cdkDropList
+	class="example-list"
+	(cdkDropListDropped)="drop($event)"
+	>
+	<div
+		class="example-box"
+		*ngFor="let option of groupList"
+		cdkDrag
+		>
+		<span class="text-white">{{option}}</span>
+	</div>
+</div>

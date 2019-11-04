@@ -15,7 +15,18 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+			"@cetecapp/*"			: ["apps/cetec/src/app/*"],
+			"@cetecnavbar/*"	: ["apps/cetec/src/app/layouts/navbar/*"],
+			"@cetecsidebar/*"	: ["apps/cetec/src/app/layouts/sidebar/*"],
+			"@ceteclanding/*"	: ["apps/cetec/src/app/landing/*"],
+			"@ceteclayouts/*"	: ["apps/cetec/src/app/layouts/*"],
+			"@cetecpages/*"		: ["apps/cetec/src/app/pages/*"],
+			"@cetecshared/*"	: ["apps/cetec/src/app/shared/*"],
+			"@cetecmd/*"			: ["apps/cetec/src/app/md/*"],
+			"@cetecenv/*"			: ["apps/cetec/src/environments/*"],
+			"@cetecassets/*"	: ["apps/cetec/src/assets/*"],
+		}
   },
   "exclude": ["node_modules", "tmp"]
 }

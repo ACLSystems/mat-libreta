@@ -1,0 +1,142 @@
+<!-- <div class="wrapper wrapper-full-page" (scroll)="scrollHandler()"> -->
+<div class="wrapper wrapper-full-page" (scroll)="scrollHandler($event)">
+	<div class="page-header pricing-page header-filter"
+		style="background-image: url('./assets/img/bg0.jpg');  background-size: cover; background-position: top center;">
+		<div class="container index-page">
+			<div class="row">
+				<div class="col-md-8 ml-auto mr-auto">
+					<div class="brand">
+						<img class="img-fluid" src="./assets/img/logo_cetec_main.png" alt="Grupo CETEC">
+						<h4 class="text-justify"><b>Diseñamos este espacio para la capacitación y adquisición de nuevos conocimientos con el objetivo de mejorar el desempeño de nuestros estudiantes, docentes, egresados, así como usuarios en general del sector productivo y gubernamental mediante cursos en línea de fácil acceso.</b></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="main main-raised">
+		<div class="section section-basic">
+			<div class="container">
+				<div class="title">
+					<h2 class="text-center text-{{color}}">¿Por qué tomar un curso en línea?</h2>
+				</div>
+				<ul class="list-unstyled">
+					<li>
+						<p class="text-justify">
+							Tomar un curso en línea te da la oportunidad de seguir aprendiendo en cualquier lugar y a cualquier hora, sin necesidad de trasladarte a un lugar en especifico.
+						</p>
+					</li>
+					<li>
+						<p class="text-justify">
+							Te permite administrar tu tiempo y poder seguir con otras actividades que contribuyen a tu desarrollo personal.
+						</p>
+					</li>
+					<li>
+						<p class="text-justify">
+							La educación en línea en la actualidad es uno de los servicios mas usados gracias a los avances en dispositivos y tecnologías móviles.
+						</p>
+					</li>
+				</ul>
+				<p class="text-justify text-{{color}}">
+					Nuestros cursos están orientados a satisfacer las necesidades actuales en los diferentes sectores laborales.
+				</p>
+				<p class="text-justify text-{{color}}">
+					Un espacio diseñado para tomar los cursos en línea implementados con la finalidad de que tengas los conocimientos y habilidades necesarias para afrontar los retos de la vida laboral actual.
+				</p>
+				<hr>
+				<h3 class="text-center text-{{color}}">Nuestros Cursos</h3>
+				<div class="row">
+					<!-- <div class="col-md-1"></div> -->
+					<div class="col-md col-md-offset-1">
+						<label for="selectCourse">Selecciona un curso: </label>
+						<select class="form-control" #t data-style="btn btn-link" id="selectCourse" (change)="cambiaCurso(t.value)">
+							<option *ngFor="let crs of cursos" [value]="crs.code">
+								{{crs.title}}
+							</option>
+						</select>
+					</div>
+					<div class="col-md-1"></div>
+				</div>
+				<div class="row"><div class="col-md"><h1>&nbsp;</h1></div></div>
+				<div *ngIf="!loading" class="row">
+					<div class="col-md">
+						<div class="col-md-1"></div>
+						<div class="col-md">
+							<h3><small>{{curso.code}} <span class="text-primary">{{curso.title}}</span></small></h3>
+						</div>
+						<div class="card card-nav-tabs">
+							<div class="card-header card-header-danger">
+								<div class="nav-tabs-navigation">
+									<div class="nav-tabs-wrapper">
+										<ul class="nav nav-tabs" data-tabs="tabs">
+											<li class="nav-item">
+												<a class="nav-link active" href="#profile" data-toggle="tab">
+													<!-- <i class="fas fa-info"></i>  -->
+													Descripción
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#messages" data-toggle="tab">
+													<!-- <i class="fas fa-minus-square"></i>  -->
+													Detalles
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link" href="#settings" data-toggle="tab">
+													<!-- <i class="fas fa-list-ol"></i>  -->
+													Temario
+												</a>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="card-body ">
+							<div class="tab-content">
+								<div class="tab-pane active" id="profile">
+									<div class="row">
+										<div class="col-md-3">
+										<img class="img-fluid rounded" [src]="curso.image" alt="{{curso.code}}">
+										</div>
+										<div class="col-md" [innerHTML]="curso.description">
+											<!-- {{curso.description}} -->
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="messages">
+									<div class="row">
+										<div class="col-md-3">
+										<img class="img-fluid rounded" [src]="curso.image" alt="{{curso.code}}">
+										</div>
+										<div class="col-md">
+											Duración: {{curso.duration}}
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane" id="settings">
+									<div class="row">
+										<div class="col-md-3">
+										<img class="img-fluid rounded" [src]="curso.image" alt="{{curso.code}}">
+										</div>
+										<div class="col-md">
+											<ul class="list-unstyled">
+												<li *ngFor="let item of blocks">
+													<h5 *ngIf="item.number==0">
+														{{item.section}}.{{item.title}} <span *ngIf="item.beginDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de inicio: {{item.beginDate | date}}</span> <span *ngIf="item.endDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de término: {{item.endDate | date}}</span><span *ngIf="item.duration" class="text-right text-secondary"> | <i class="far fa-clock"></i> Duración:{{item.duration}}</span>
+													</h5>
+													<span *ngIf="item.number!=0" class="text-primary">
+														&nbsp; {{item.section}}.{{item.number}} {{item.title}}
+													</span>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

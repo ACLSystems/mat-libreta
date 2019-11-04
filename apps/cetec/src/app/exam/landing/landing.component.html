@@ -1,0 +1,18 @@
+<div class="wrapper">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div *ngIf="!loading">
+		<div class="main-content">
+			<div class="navbar">
+				<div class="navbar-brand">
+					<img src="assets/img/cetec_redwhite_brand.png" alt="CETEC" width="42px">
+				</div>
+				<div class="navbar-text mr-auto">
+					Curso: <span class="text-primary">{{blockData.courseCode}}</span> Grupo: <span class="text-primary">{{blockData.groupCode}}</span> {{today | date: 'medium'}}
+				</div>
+			</div>
+			<app-exam [blockData]="blockData"></app-exam>
+		</div>
+	</div>
+</div>

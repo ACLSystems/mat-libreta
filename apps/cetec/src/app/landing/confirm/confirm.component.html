@@ -1,0 +1,99 @@
+<div class="container">
+	<div class="alert alert-primary" role="alert">
+		<h3 class="text-center">
+			Confirmación de datos de acceso al sistema CETEC en línea
+		</h3>
+		<p class="text-center">
+			Estás en esta página porque recibiste un correo con instrucciones para accesar a este sistema.
+		</p>
+		<p class="text-center">
+			Debes confirmar los datos proporcionados.<br>Solo tienes esta oportunidad para validar tus datos, ya que no podrán ser modificados posteriormente.
+		</p>
+	</div>
+	<div class="alert alert-warning" role="alert">
+		<h2 class="text-center">
+			Aviso importante
+		</h2>
+		<p class="text-center">
+			Una vez aceptados estos datos, no podran ser modificados posteriormente
+		</p>
+	</div>
+
+	<div *ngIf="messageSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+		<strong>{{messageSuccess}}</strong>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div *ngIf="messageError" class="alert alert-danger alert-dismissible fade show" role="alert">
+		Se generó el siguiente error en el sistema: <strong>{{messageError}}</strong> ,favor de reportarlo en la mesa de ayuda
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<h3>Valida tus Datos personales
+			</h3>
+			<small>Modifica tu nombre y apellidos si es necesario y selecciona <b class="text-success">Mis datos son correctos</b> para confirmar.</small>
+			<br>
+			<form>
+				<label class="form-inline"><b>*Nombre : </b></label>
+				<input type="text" class="form-control" value={{name}} #namecheck required>
+				<br>
+				<label class="form-inline"><b>*Apellido Paterno : </b></label>
+				<input type="text" class="form-control" value={{fathername}} #fname required>
+				<br>
+				<label class="form-inline"><b>*Apellido Materno : </b></label>
+				<input type="text" class="form-control" value={{mothername}} #mname required>
+				<br>
+			</form>
+			<form class="was-validated">
+				<div class="custom-control custom-checkbox mb-3">
+					<input type="checkbox" class="custom-control-input" id="validacion1" (change)="getData($event, namecheck.value, fname.value, mname.value)" required> <!--(change)="getData($event, namecheck.value, fname.value, mname.value)"-->
+					<label class="custom-control-label" for="validacion1"><b>Mis datos son correctos</b></label>
+					<br>
+					<span *ngIf="!isDataOk" class="text-danger">Aún no has confirmado tus datos</span>
+				</div>
+			</form>
+			<hr>
+			<h3>Ingresa una nueva contraseña</h3>
+			<small>Por seguridad, debes hacer un cambio de contraseña para ingresar al sistema.</small>
+			<form>
+				<div class="form-group">
+
+					<label for="txtpass">Contraseña</label>
+					<input
+						autocomplete="new-password"
+						type="password"
+						id="txtpass"
+						class="form-control"
+						#passOne
+						(blur)="getPassword(passOne.value, passTwo.value)"
+						required>
+
+					<label for="txtpassc">Confirma nuevamente tu contraseña</label>
+					<input
+						autocomplete="new-password"
+						type="password"
+						id="txtpassc"
+						class="form-control"
+						#passTwo
+						(blur)="getPassword(passOne.value, passTwo.value)"
+						required>
+					<span *ngIf="!isPassOk && !emptyPassword" class="text-danger">Las contraseñas no coinciden</span>
+					<span *ngIf="isPassOk && !emptyPassword" class="text-success">Las contraseñas coinciden</span>
+
+				</div>
+				<div class="alert alert-warning" role="alert">
+					<h6><b>*Al enviar esta información aceptas </b><a [routerLink]="['/avisoprivacidad']">los terminos y condiciones de uso.</a></h6>
+				</div>
+				<div class="form-group">
+					<button *ngIf="!isDataOk || !isPassOk" type="button" class="btn btn-success blockquote" disabled ><i class="fas fa-check"></i> Enviar</button>
+					<button *ngIf="isDataOk && isPassOk" type="button" class="btn btn-success blockquote" (click)="sendData()"><i class="fas fa-check"></i> Enviar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

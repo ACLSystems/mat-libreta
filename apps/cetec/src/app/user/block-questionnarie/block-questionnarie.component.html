@@ -1,0 +1,153 @@
+<div *ngIf="questionnarie.maxAttempts > attempts">
+  <div class="alert alert-info">
+    <span><i class="material-icons md-light">warning</i> Has usado {{attempts}} de {{questionnarie.maxAttempts}} intentos permitidos</span>
+  </div>
+</div>
+
+<div *ngIf="questionnarie.maxAttempts == 1 && questionnarie.maxAttempts > attempts">
+  <div class="alert alert-warning">
+    <span><i class="material-icons md-dark">warning</i> Solo tienes un intento para realizar tu examen</span>
+  </div>
+</div>
+
+<div *ngIf="questionnarie.maxAttempts <= attempts">
+  <div class="alert alert-danger">
+    <span><i class="material-icons md-light">warning</i> Has agotado los intentos permitidos</span>
+  </div>
+</div>
+
+<div class="container-fluid" *ngIf="hideQuiz">
+	Ya has realizado este examen previamente sacando una calificación de <b [ngClass]="{'text-success':blockGrade>=70,'text-danger':blockGrade<70}">{{blockGrade}}</b>.
+</div>
+<div class="container-fluid" *ngIf="hideQuiz && questionnarie.maxAttempts > attempts">
+	Todavía tienes intentos si deseas mejorar tu calificación.<br>
+	<button
+		class="btn btn-primary"
+		type="button"
+		name="button"
+		(click)="attemptQuiz();"
+		>Deseo realizar nuevamente el cuestionario</button>
+</div>
+
+<div
+	class="container-fluid"
+	*ngIf="questionnarie.type=='quiz' &&
+	 questionnarie.maxAttempts > attempts && !hideQuiz">
+	<div class="card"
+		*ngFor="let question of questionnarie.questions; let questionNumber = index;"
+		>
+		<div class="card-header">
+			<h4 *ngIf="question.label" class="text-primary">
+				<i class="material-icons vertical-align-middle padding-bottom-3">help</i>
+				<span *ngIf="question.label">{{question.label}}</span>
+				<span *ngIf="question.help">- {{question.help}}</span>
+			</h4>
+			<h4 *ngIf="!question.label">
+				<i
+					class="material-icons vertical-align-middle padding-bottom-3"
+					[ngClass]="{'text-success': questionsAnswered[questionNumber]>0}"
+					>help</i>
+				Pregunta {{questionNumber+1}}
+				<span *ngIf="question.help">- {{question.help}}</span>
+			</h4>
+			<!--Para los headers de las preguntas-->
+			<div *ngIf="question.header">
+				<div [innerHTML]="question.header"></div>
+			</div>
+			<!--  -->
+		</div>
+		<div class="card-body">
+			<!--Contenido o texto de la pregunta-->
+			<div
+				[innerHTML]="question.text"
+				*ngIf="question.type != 'option' && question.text"
+				>
+			</div>
+			<!--  -->
+			<!--Seccion para el tipo de respuesta en optativas-->
+			<div *ngIf="question.type == 'option'">
+				<div class="row">
+					<div class="col">
+						<div
+							*ngIf="question.type == 'option' && question.text"
+							[innerHTML]="question.text"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col" style="margin-top:15px;">
+						<app-option
+							[question]="question"
+							[questionNumber]="questionNumber"
+							></app-option>
+					</div>
+				</div>
+			</div>
+			<!-- <div *ngIf="question.type == 'option'" style="margin-top:15px;">
+
+			</div> -->
+			<!--  -->
+			<!--Seccion para el tipo de preguntas map-->
+			<div *ngIf="question.type == 'map'">
+				<app-map
+					[question]="question"
+					[questionNumber]="questionNumber"
+				></app-map>
+			</div>
+			<!---->
+			<!--Seccion para el tipo de preguntas group-->
+			<div *ngIf="question.type == 'group' && !question.order" style="margin-top:15px;">
+				<app-group
+					[question]="question"
+					[questionNumber]="questionNumber"
+				>
+				</app-group>
+			</div>
+			<!---->
+			<!--Seccion para el tipo de preguntas group con variación order==true-->
+			<!-- Solo funciona si tiene un solo grupo de respuestas -->
+			<div *ngIf="question.type == 'group' && question.order && question.answers.length == 1 && question.answers[0].type=='group'" style="margin-top:15px;">
+				<app-order
+					[question]="question"
+					[questionNumber]="questionNumber"
+				>
+				</app-order>
+			</div>
+			<!---->
+			<!--Seccion para el tipo de respuesta en true o false-->
+			<div *ngIf="question.type == 'tf'" style="margin-top:15px;">
+				<app-tf
+					[question]="question"
+					[questionNumber]="questionNumber"
+				>
+				</app-tf>
+			</div>
+			<!--  -->
+		</div>
+		<div class="card-footer" *ngIf="question.footer">
+			<!--Para las preguntas que tengan pie de pagina-->
+			<span class="text-primary text-justify">
+				<i class="fas fa-quote-left"></i>
+				<p>
+					{{question.footer}}
+				</p>
+			</span>
+			<!--  -->
+		</div>
+	</div>
+	<button mat-raised-button
+		class="btn btn-sm btn-raised btn-primary"
+		(click)="validateResponses()"
+		>
+		Validar respuestas
+	</button>
+</div>
+
+<button mat-raised-button
+	class="btn btn-sm btn-raised btn-danger"
+	(click)="goExam()"
+	*ngIf="questionnarie.type!='quiz' && questionnarie.maxAttempts > attempts"
+	>
+	Lanza Examen
+</button>
