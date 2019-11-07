@@ -1,0 +1,45 @@
+<script type="text/javascript" src="https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
+<style type="text/css" media="screen, projection">
+	@import url(https://s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.css);
+</style>
+<!-- <div *ngIf="!loading" class="container rounded" style="background:silver">
+	<h1>&nbsp;</h1>
+</div> -->
+<!-- <div class="page-header" (scroll)="scrollHandler($event);"
+	data-parallax="true"
+	style="background-image: url('assets/img/help.jpg');"
+	> -->
+<div class="page-header"
+	data-parallax="true"
+	style="background-image: url('assets/img/help.jpg');"
+	>
+	<div class="container">
+		<div class="row">
+		<div *ngIf="width >= 768" class="col-lg-5 col-md-6 col-sm ml-auto mr-auto">
+			<div class="row">
+				<div class="col">
+					<h3 class="text-dark">Permítenos ayudarte.</h3>
+					<p class="text-justify text-dark">Llena los datos solicitados en el formulario de lado derecho. Coloca tu correo electrónico (Requester) y el asunto (Subject) de la falla o duda que tengas.</p>
+					<p class="text-justify text-dark">Luego, llena el campo de descripción con todo el detalle de tu consulta. Escoge el tipo (Tipo) de consulta, llena el <b>CAPTCHA</b> y presiona <b>"Enviar comentarios"</b>.</p>
+					<p class="text-justify text-dark">Esto levanta un ticket con el que te atenderems. La respuesta te llegará vía correo electrónico. Te contestaremos lo más pronto posible.</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<p class="text-justify text-dark">También es posible realizar búsquedas en artículos que ya tengamos publicados de manera que puedas resolver la falla o duda sin que tengas que levantar el ticket. </p>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-5 col-md-6 col-sm ml-auto mr-auto">
+			<iframe title="Feedback Form"
+			class="freshwidget-embedded-form"
+			id="freshwidget-embedded-form"
+			src="https://superatemexico.freshdesk.com/widgets/feedback_widget/new?&widgetType=embedded&screenshot=No&captcha=yes"
+			scrolling="no"
+			height="550px" width="100%"
+			frameborder="0" >
+			</iframe>
+		</div>
+		</div>
+	</div>
+</div>

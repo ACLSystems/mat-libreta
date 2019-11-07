@@ -1,0 +1,139 @@
+<div class="container-fluid">
+	<div class="alert alert-danger alert-with-icon" data-notify="container">
+		<i class="material-icons" data-notify="icon">notifications</i>
+		<button mat-button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<i class="material-icons">close</i>
+		</button>
+		<span data-notify="icon" class="now-ui-icons ui-1_bell-53"></span>
+		EXAMEN INICIADO - NO CERRAR ESTA VENTANA O SE TOMARÁ COMO EXAMEN ENTREGADO
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="alert alert-info">
+		<h4>Examen {{blockData.blockSection}}.{{blockData.blockNumber}} {{blockData.blockTitle}}</h4>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header">
+			<div *ngIf="question.label">
+				<legend>
+					{{question.label}} <span *ngIf="question.help">- {{question.help}}</span>
+				</legend>
+			</div>
+			<div *ngIf="!question.label">
+				<!-- <span class="text-primary" style="margin-bottom:15px;"><i class="fas fa-info-circle"></i> Pregunta {{questionNumber+1}} {{question.help}}</span> -->
+				<legend>Pregunta {{questionNumber+1}} <span *ngIf="question.help">- {{question.help}}</span>
+				</legend>
+			</div>
+		</div>
+		<div class="card-body">
+			<!--Para los headers de las preguntas-->
+			<div *ngIf="question.header">
+				<div [innerHTML]="question.header"></div>
+			</div>
+			<!--  -->
+			<!--Contenido o texto adicional de la pregunta-->
+			<div [innerHTML]="question.text"></div>
+			<!--  -->
+			<!--Para las preguntas que tengan pie de pagina-->
+			<div *ngIf="question.footer">
+				<span class="text-primary text-justify">
+					<i class="fas fa-quote-left"></i>
+					<p>
+						{{question.footer}}
+					</p>
+				</span>
+			</div>
+			<!--  -->
+			<!--Seccion para el tipo de respuesta en optativas-->
+			<div *ngIf="question.type == 'option'" style="margin-top:15px;">
+				<app-option
+					[question]="question"
+					[questionNumber]="questionNumber"
+					[selectedValue]="selectedValue"
+					></app-option>
+			</div>
+			<!--  -->
+			<!--Seccion para el tipo de preguntas map-->
+			<div *ngIf="question.type == 'map'" style="margin-top:15px;">
+				<app-map
+					[question]="question"
+					[questionNumber]="questionNumber"
+					[selectedValue]="selectedValue"
+				></app-map>
+			</div>
+			<!---->
+			<!--Seccion para el tipo de preguntas group-->
+			<div *ngIf="question.type == 'group'" style="margin-top:15px;">
+				<app-group
+					[question]="question"
+					[questionNumber]="questionNumber"
+					[selectedValue]="selectedValue"
+				>
+				</app-group>
+			</div>
+			<!---->
+			<!--Seccion para el tipo de respuesta en texto-->
+			<div *ngIf="question.type == 'text'" style="margin-top:15px;">
+				<app-text
+					[question]="question"
+					[questionNumber]="questionNumber"
+					[selectedValue]="selectedValue"
+					>
+				</app-text>
+			</div>
+		<!--  -->
+		<!--Seccion para el tipo de respuesta en true o false-->
+			<div *ngIf="question.type == 'tf'" style="margin-top:15px;">
+				<app-tf
+					[question]="question"
+					[questionNumber]="questionNumber"
+					[selectedValue]="selectedValue"
+				>
+				</app-tf>
+			</div>
+		<!--  -->
+		<!-- Validar Respuestas -->
+		<!-- Esto hay que ponerlo en la última pregunta -->
+		<!-- <button type="button" class="btn btn-success blockquote" [disabled]="!isValidateAttemp" (click)="showAccept(accept)">
+			<i class="fas fa-check-circle"></i> Validar mis respuestas
+		</button> -->
+		<!--  -->
+		</div>
+		<div class="card-footer">
+			<div class="btn-toolbar" role="toolbar">
+				<div class="btn-group" role="group">
+					<button
+						type="button"
+						class="btn btn-sm btn-raised btn-outline-primary"
+						(click)="prevQuestion();"
+						[disabled]="!prevButton"
+						>
+						<span *ngIf="prevButton">
+							<i class="material-icons">chevron_left</i> {{questionNumber}}
+						</span>
+					</button>
+					<button
+						type="button"
+						class="btn btn-sm btn-raised btn-outline-primary"
+						(click)="nextQuestion();"
+						[disabled]="!nextButton"
+						>
+						<span *ngIf="nextButton">
+							{{questionNumber+2}}<i class="material-icons">chevron_right</i>
+						</span>
+					</button>
+					<div *ngIf="!nextButton">
+						<button
+							type="button"
+							class="btn btn-sm btn-raised btn-primary"
+							>
+								Validar mis respuestas
+							</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

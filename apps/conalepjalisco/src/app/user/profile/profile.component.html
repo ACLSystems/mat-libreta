@@ -1,0 +1,177 @@
+<div class="main-content">
+	<div *ngIf="loading && !mainError" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div *ngIf="!loading && !mainError" class="container-fluid">
+		<h2>Mi Perfil</h2>
+		<div class="row">
+			<div class="col-md-8">
+				<div class="card">
+					<div class="card-header card-header-icon card-header-primary">
+						<div class="card-icon">
+							<i class="material-icons">perm_identity</i>
+						</div>
+						<h4 class="card-title">
+							Perfil de usuario
+						</h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<h6>Correo electrónico</h6>
+								<h4>{{identity.name}}</h4>
+							</div>
+							<div class="col text-success" *ngIf="details.admin.isVerified">
+								Correo verificado
+							</div>
+							<div class="col text-danger" *ngIf="!details.admin.isVerified">
+								Correo no verificado
+								<button type="button" class="btn btn-sm btn-primary" (click)= "validateEmail();" *ngIf="!details.admin.recoverString">Iniciar validación</button>
+								<div class="form-group" *ngIf="details.admin.recoverString">
+									<label class="bmd-label-floating">Nombre</label>
+									<input type="text" class="form-control" [(ngModel)]="code" placeholder="Coloca la clave que te llegó por correo" (keydown)="validateEmailCode($event);">
+								</div><br>
+								<button type="button" class="btn btn-sm btn-success" (click)= "validateEmailCode($event);" *ngIf="details.admin.recoverString">Validar clave</button><br>
+								<button type="button" class="btn btn-sm btn-primary" (click)= "validateEmail();" *ngIf="details.admin.recoverString">Solicitar clave nueva</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<hr>
+							</div>
+						</div>
+						<div class="row" *ngIf="details.admin.isDataVerified">
+							<div class="col-6">
+								<h6>Nombre</h6>
+								<h4>{{identity.person.name}}</h4>
+							</div>
+							<div class="col-3">
+								<h6>Apellido Paterno</h6>
+								<h4>{{identity.person.fatherName}}</h4>
+							</div>
+							<div class="col-3">
+								<h6>Apellido Materno</h6>
+								<h4>{{identity.person.motherName}}</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="!details.admin.isDataVerified">
+							<div class="col-6">
+								<div class="form-group">
+									<label class="bmd-label-floating">Nombre</label>
+									<input type="text" class="form-control" [(ngModel)]="name">
+								</div>
+							</div>
+							<div class="col-3">
+								<div class="form-group">
+									<label class="bmd-label-floating">Apellido Paterno</label>
+									<input type="text" class="form-control" [(ngModel)]="fatherName">
+								</div>
+							</div>
+							<div class="col-3">
+								<div class="form-group">
+									<label class="bmd-label-floating">Apellido Materno</label>
+									<input type="text" class="form-control" [(ngModel)]="motherName">
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="!details.admin.isDataVerified">
+							<div class="col text-danger">
+								Datos no verificados <i class="material-icons pointme" (click)="getHelpOnDataVerified()">help</i>
+							</div>
+							<div class="col">
+								<button
+									type="button"
+									class="btn btn-sm btn-danger"
+									(click)="updateUserMainData();"
+									>
+									Verificar datos
+								</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<hr>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col" *ngIf="details.person.birthDate && !changeBirthDate">
+								<h6>Fecha de nacimiento</h6>
+								<h4>{{details.person.birthDate | date: 'mediumDate'}} <i class="material-icons pointme md-18" (click)="doChangeBirthDate()">create</i></h4>
+							</div>
+							<div class="col mr-auto" *ngIf="!details.person.birthDate || changeBirthDate">
+								<!-- <div class="form-group">
+									<label class="bmd-label-floating">Fecha de nacimiento</label>
+									<input type="text" class="form-control">
+								</div> -->
+								<legend>Fecha de nacimiento</legend>
+								<mat-form-field color="accent">
+									<input matInput #input [matDatepicker]="picker" placeholder="Elige la fecha" (dateInput)="setBirthDate('input',$event);"
+									(dateChange)="setBirthDate('change',$event);"
+									(blur)="onBlurBDate();"
+									>
+									<mat-datepicker-toggle matSuffix [for]="picker">
+									</mat-datepicker-toggle>
+									<mat-datepicker #picker [startAt]="today"></mat-datepicker>
+								</mat-form-field>
+							</div>
+							<div class="col" *ngIf="details.person.celPhone && !ChangeCelPhone">
+									<h6>Teléfono Celular</h6>
+									<h4>{{details.person.celPhone}} <i class="material-icons pointme md-18" (click)="doChangeCelPhone()">create</i></h4>
+							</div>
+							<div class="col" *ngIf="!details.person.celPhone || ChangeCelPhone">
+								<div class="form-group">
+									<label class="bmd-label-floating">Teléfono Celular</label>
+									<input type="text" class="form-control" placeholder="{{details.person.celPhone}}"
+									(input)="setCelPhone($event.target.value);"
+									(blur)="onBlurCelPhone();"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<label>Acerca de mí</label>
+								<div class="form-group">
+									<label class="bmd-label-floating">
+										Escribe algo acerca de ti. No seas tímido y dinos cómo eres.
+									</label>
+									<textarea class="form-control" rows="5"></textarea>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card card-profile">
+					<div class="card-avatar">
+						<ngx-avatar
+							[src]="image"
+							[name]="identity.person.name + ' ' + identity.person.fatherName"
+							size="130"
+							>
+						</ngx-avatar>
+					</div>
+					<div class="card-body">
+						<h6 class="card-category text-gray">
+							Alias
+						</h6>
+						<h4 class="card-title">{{identity.person.name}}  {{identity.person.fatherName}}</h4>
+						<p class="card-description">
+							Bio
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div *ngIf="mainError" class="container-fluid text-center">
+		<h1>Ooops...</h1>
+		Parece que perdimos la comunicación. Probablemente sea temporal, así que intenta refrescar la pantalla en unos minutos.
+	</div>
+</div>

@@ -1,0 +1,55 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading" >
+		<div class="container">
+			<div class="card">
+				<div class="card-header card-header-icon card-header-primary">
+					<div class="card-icon">
+						<i class="material-icons">insert_drive_file</i>
+					</div>
+					<div class="card-title">
+						<h4>Material de apoyo</h4>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="container" *ngIf="resources.length===0">
+						Este curso no tiene material de apoyo
+					</div>
+					<div class="container" *ngIf="resources.length > 0">
+						<div id="accordion" role="tablist">
+							<div class="card-collapse" *ngFor="let res of resources; let in = index;">
+								<div class="card-header" role="tab" [attr.id]="'heading'+in">
+									<h5 class="mb-0">
+										<a
+											data-toggle="collapse"
+											[attr.href]="'#collapse'+in"
+											aria-expanded="false"
+											[attr.aria-controls]="'collapse'+in"
+											class="collapsed"
+										>
+											{{res.title}}
+											<i class="material-icons">keyboard_arrow_down</i>
+										</a>
+									</h5>
+								</div>
+								<div
+									class="collapse"
+									[attr.id]="'collapse'+in"
+									role="tabpanel"
+									[attr.aria-labelledby]="'heading'+in"
+									data-parent="#accordion"
+								>
+									<div class="card-body">
+										<div [innerHTML]="res.content"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

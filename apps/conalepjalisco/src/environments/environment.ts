@@ -3,7 +3,27 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+	production: false,
+  url: 'https://apiadmincja.sloppy.zone/',
+	// url: 'http://localhost:3050/',
+  urlLibreta: 'http://localhost:4200/',
+	libreta_URI: 'http://conalepjalisco.superatemexico.com/#',
+	vendor: 'ACL Systems SA de CV',
+  idTutor: '5ab47313007ce400a8ef4248',
+	versionCheckURL: 'version.json',
+	instanceName: 'conalep',
+	instanceTitle: 'Conalep JAlisco',
+	siteName: 'conalepjalisco.superatemexico.com',
+	footer:'CETEC',
+	captchaSiteKey: '6LczNrUUAAAAAMxj3XKiG9Nv7wOwBVpZiecKqiFX',
+	publicKey: 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZ3d0RRWUpLb1pJaHZjTkFRRUJCUUFEU3dBd1NBSkJBTldjcE5ZQlhjN2tEK3dNZC9HOGlGU0xIc1lJWlZuOQp0SWE1WjB2RDVxNFVwUG8wdDQwS21XVXZqVlVQWHZtM2FydUJOcjI3dmtoTHpvUmgrUDU0eElNQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=',
+	logo: '/assets/img/logoCOnalep.png',
+	color: 'primary',
+	eventColor: '#16A2B8',
+	colorEvents: ['#16A2B8', '#04B45F', '#BE1C1F', '#E6E6E6'],
+	textColor: '#FFFFFF',
+	selfRegister: true,
+	emailSupport: 'soporte@superatemexico.com'
 };
 
 /*

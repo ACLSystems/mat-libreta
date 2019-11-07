@@ -1,0 +1,56 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div *ngIf="!loading">
+		<!-- Bloque para la lección -->
+		<app-block-lesson
+			[blockData]="blockData"
+			[groupid]="groupid"
+			[blockid]="blockid"
+		>
+		</app-block-lesson>
+		<!-- bloque de navegación. Lo colocaremos al final, que es donde se requiere -->
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="btn-toolbar" role="toolbar">
+						<div class="btn-group mr-2" role="group">
+							<button
+								type="button"
+								class="btn btn-sm"
+								[ngClass]="{'btn-primary' : blockData.blockPrevId, 'btn-secondary': !blockData.blockPrevId}"
+								(click)="getNextBlock(groupid,blockData.blockPrevId)"
+								[disabled]="!blockData.blockPrevId"
+								>
+								<i class="material-icons">chevron_left</i> Anterior
+							</button>
+							<button
+								type="button"
+								class="btn btn-sm"
+								[ngClass]="{'btn-primary' : blockData.blockNextId, 'btn-secondary': !blockData.blockNextId}"
+								(click)="getNextBlock(groupid,blockData.blockNextId, blockData.blockCurrentId)"
+								[disabled]="!blockData.blockNextId"
+								>
+								Siguiente <i class="material-icons">chevron_right</i>
+							</button>
+						</div>
+						<div class="btn-group mr-2" role="group">
+							<button
+								type="button"
+								class="btn btn-sm btn-rose"
+								(click)="goGroup(groupid)"
+								>
+								<i class="material-icons">replay</i> Regresar
+							</button>
+						</div>
+						<div *ngIf="!blockData.blockNextId">
+							<small>Fin del curso</small>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<app-shared-footer></app-shared-footer>

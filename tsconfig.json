@@ -26,6 +26,16 @@
 			"@cetecmd/*"			: ["apps/cetec/src/app/md/*"],
 			"@cetecenv/*"			: ["apps/cetec/src/environments/*"],
 			"@cetecassets/*"	: ["apps/cetec/src/assets/*"],
+			"@cjaapp/*"			: ["apps/conalepjalisco/src/app/*"],
+			"@cjanavbar/*"	: ["apps/conalepjalisco/src/app/layouts/navbar/*"],
+			"@cjasidebar/*"	: ["apps/conalepjalisco/src/app/layouts/sidebar/*"],
+			"@cjalanding/*"	: ["apps/conalepjalisco/src/app/landing/*"],
+			"@cjalayouts/*"	: ["apps/conalepjalisco/src/app/layouts/*"],
+			"@cjapages/*"		: ["apps/conalepjalisco/src/app/pages/*"],
+			"@cjashared/*"	: ["apps/conalepjalisco/src/app/shared/*"],
+			"@cjamd/*"			: ["apps/conalepjalisco/src/app/md/*"],
+			"@cjaenv/*"			: ["apps/conalepjalisco/src/environments/*"],
+			"@cjaassets/*"	: ["apps/conalepjalisco/src/assets/*"],
 		}
   },
   "exclude": ["node_modules", "tmp"]
