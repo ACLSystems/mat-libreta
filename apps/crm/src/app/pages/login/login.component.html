@@ -1,0 +1,130 @@
+<div class="wrapper wrapper-fullpage">
+	<div class="page-header login-page header-filter"
+		filter-color="black"
+		style="background-image: url('./assets/img/bg1.jpg');
+		background-size: cover; background-position: top center;"
+		>
+		<div class="container index-page">
+	    <div class="row">
+					<div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
+			      <!-- <div *ngIf="messageSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
+			        <strong>{{messageSuccess}}</strong>
+			        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+
+			      <div *ngIf="messageErrorUser" class="alert alert-warning" role="alert">
+			        <strong><i class="fas fa-exclamation-triangle"></i> {{messageErrorUser}}</strong>
+			      </div>
+			      <div *ngIf="messageErrorAPI" class="alert alert-danger" role="alert">
+			        <strong><i class="fas fa-exclamation-triangle"></i> {{messageErrorAPI}}</strong>
+			      </div> -->
+
+			      <div class="card card-login card-hidden">
+							<div class="card-header card-header-primary text-center">
+								<p class="h3">Iniciar sesión</p>
+							</div>
+			        <div class="card-body">
+			          <form class="was-validated">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="fas fa-user"></i>
+											</span>
+										</div>
+										<input type="email"
+											class="form-control"
+											#username="ngModel"
+											placeholder="Usuario"
+											name="username"
+											[(ngModel)]="login.username"
+											(blur)="getCredentials()"
+											autocomplete="username"
+											required>
+									</div>
+			            <span *ngIf="messageErroremail" class="text-danger"><small>{{messageErroremail}}</small></span>
+			            <br>
+			            <div class="input-group">
+			            	<div class="input-group-prepend">
+			            		<span class="input-group-text">
+			            			<i class="fas fa-lock"></i>
+			            		</span>
+			            	</div>
+										<input type="{{type}}"
+											class="form-control"
+											#password="ngModel"
+											placeholder="Password"
+											name="password"
+											[(ngModel)]="login.password"
+											(blur)="getCredentials()"
+											autocomplete="currrent-password"
+											required>
+			            </div>
+			            <br>
+			            <span *ngIf="!dataIsOk" class="text-danger"><small>Debes ingresar usuario y contraseña</small></span>
+			          </form>
+			          <div class="form-check">
+			            <input class="form-check-input" type="checkbox" id="validacion1" (change)="showPass()">
+			            <label class="form-check-label" for="validacion1"> <small><i class="fas fa-eye"></i> Mostrar contraseña</small></label>
+			          </div>
+			          <hr>
+								<div class="container">
+				          <button *ngIf="!dataIsOk" type="button"
+										class="btn btn-success btn-block" disabled>
+										<i class="fas fa-sign-in-alt"></i> Entrar</button>
+				          <button *ngIf="dataIsOk"
+										type="button" class="btn btn-success btn-block"
+										(click)="getlogin()"
+										(keydown.enter)="getlogin()"
+										>
+				            <i [ngClass]=" { 'fa-key':!loading, 'fa-sync fa-spin':loading }" class="fa"></i>
+				            <span *ngIf="!loading"> Entrar</span>
+				            <span *ngIf="loading"> Procesando</span>
+				          </button>
+									<button type="button"
+										class="btn btn-secondary btn-block"
+										data-toggle="modal"
+										data-target="#accesoSinPassword"
+										>
+										<i class="fas fa-lock-open"></i> Acceso sin password
+									</button>
+				          <button type="button"
+										class="btn btn-primary btn-block"
+										[routerLink]="['/pages/reqrecoverpass']">
+										<i class="fas fa-unlock-alt"></i> Recuperar acceso
+									</button>
+									<!-- <hr>
+									<button type="button"
+										class="btn btn-info btn-block"
+										[routerLink]="['/signin']">
+										<i class="fas fa-user-plus"></i> <small> No tengo usuario</small> -> Registrarme
+									</button> -->
+									<div class="modal fade"
+										id="accesoSinPassword"
+										tabindex="-1" role="dialog">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+								          <h5 class="modal-title">Próximamente</h5>
+								          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								            <i class="fas fa-times"></i>
+								          </button>
+								        </div>
+								        <div class="modal-body">
+								          <p>Esta funcionalidad estará disponible próximamente.</p>
+								        </div>
+								        <div class="modal-footer">
+								          <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cerrar</button>
+								        </div>
+											</div>
+										</div>
+									</div>
+								</div>
+			        </div>
+			      </div>
+			    </div>
+	    </div>
+	  </div>
+	</div>
+</div>

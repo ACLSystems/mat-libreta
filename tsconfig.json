@@ -36,6 +36,16 @@
 			"@cjamd/*"			: ["apps/conalepjalisco/src/app/md/*"],
 			"@cjaenv/*"			: ["apps/conalepjalisco/src/environments/*"],
 			"@cjaassets/*"	: ["apps/conalepjalisco/src/assets/*"],
+			"@crmapp/*"			: ["apps/crm/src/app/*"],
+			"@crmnavbar/*"	: ["apps/crm/src/app/layouts/navbar/*"],
+			"@crmsidebar/*"	: ["apps/crm/src/app/layouts/sidebar/*"],
+			"@crmlanding/*"	: ["apps/crm/src/app/landing/*"],
+			"@crmlayouts/*"	: ["apps/crm/src/app/layouts/*"],
+			"@crmpages/*"		: ["apps/crm/src/app/pages/*"],
+			"@crmshared/*"	: ["apps/crm/src/app/shared/*"],
+			"@crmmd/*"			: ["apps/crm/src/app/md/*"],
+			"@crmenv/*"			: ["apps/crm/src/environments/*"],
+			"@crmassets/*"	: ["apps/crm/src/assets/*"]
 		}
   },
   "exclude": ["node_modules", "tmp"]

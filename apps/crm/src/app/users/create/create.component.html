@@ -1,0 +1,437 @@
+<div class="main-content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-header card-header-icon card-header-primary">
+						<div class="card-icon">
+							<i class="material-icons">person</i>
+						</div>
+						<h4 class="card-title">
+							Usuario
+						</h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-info text-white"><b>&nbsp;<i class="far fa-building"></i> Compañía y correo</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Cuenta(s)</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="account"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fas fa-at"></i> Correo Electrónico <span class="text-danger">*</span></label>
+									<input
+										type="email"
+										matInput
+										placeholder="user@domain.com"
+										class="form-control"
+										[errorStateMatcher]="matcher"
+										[formControl]="email"
+										required
+										(blur)="checkUserExistence();"
+										(ngModelChange)="emailValidationType($event);"
+									>
+									<span *ngIf="!validEmailType" class="text-danger">
+										Por favor, ingresa una dirección de correo válida
+									</span>
+									<span *ngIf="userExists" class="text-danger">
+										Usuario ya existe
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-user"></i> Nombre</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Nombre <span class="text-danger">*</span></label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="name"
+										required
+									>
+									<span *ngIf="!name" class="text-danger">
+										Por favor ingresa el nombre
+									</span>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Apellido Paterno  <span class="text-danger">*</span></label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="fatherName"
+										required
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Apellido Materno</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="motherName"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-phone"></i> Teléfonos</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Teléfono principal</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="mainPhone"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Teléfono secundario</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="phone"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Celular</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="celPhone"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-info"></i> Detalles</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select multiple placeholder="Tipo" [formControl]="type"
+										name="type"
+										ariaLabel="types[0]">
+												<mat-option *ngFor="let userType of types" [value]="userType.value">
+														{{ userType.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select multiple placeholder="Rol de Contacto" [formControl]="contactRole" name="contactRole" ariaLabel="roles[0]">
+												<mat-option *ngFor="let role of roles" [value]="role.value">
+														{{ role.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select placeholder="Fuente" [formControl]="source"
+										name="source"
+										ariaLabel="sources[0]">
+												<mat-option *ngFor="let userSource of sources" [value]="userSource.value">
+														{{ userSource.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select placeholder="Dueño" [formControl]="owner"
+										name="owner"
+										ariaLabel="owners[0]">
+												<mat-option *ngFor="let userOwner of owners" [value]="userOwner.value">
+														{{ userOwner.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-check">
+									<label class="form-check-label">
+										<input
+											type="checkbox"
+											class="form-check-input"
+											[formControl]="hasAuthority"
+										> Tiene autoridad
+										<span class="form-check-sign">
+										<span class="check"></span>
+									</span>
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+										<input
+											type="checkbox"
+											class="form-check-input"
+											[formControl]="unSubscribed"
+										> No suscrito
+										<span class="form-check-sign">
+										<span class="check"></span>
+									</span>
+									</label>
+								</div>
+								<mat-form-field class="bmd-label-floating">
+									<mat-chip-list #chipList aria-label="Etiquetas">
+										<mat-chip
+											*ngFor="let tag of tags"
+											[selectable]="selectable"
+											[removable]="removable"
+											(removed)="remove(tag)">
+											{{ tag }}
+											<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+										</mat-chip>
+										<input placeholder="Etiquetas"
+											[matChipInputFor]="chipList"
+											[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+											[matChipInputAddOnBlur]="addOnBlur"
+											(matChipInputTokenEnd)="add($event)">
+									</mat-chip-list>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<textarea
+											matInput
+											placeholder="Notas"
+											[formControl]="notes"
+										></textarea>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-info text-white"><b>&nbsp;<i class="far fa-thumbs-up"></i> Redes Sociales</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-twitter"></i> Twitter</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="twitter"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-facebook"></i> Facebook</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="facebook"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-linkedin"></i> Linkedin</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="linkedin"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-google-plus"></i> Google</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="google"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-instagram"></i> Instagram</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="instagram"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-skype"></i> Skype</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="skype"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-map"></i> Dirección</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Código Postal</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="postalCode"
+										(blur)="getPostalCode();"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select
+										placeholder="Colonia"
+										[formControl]="suburb"
+										name="suburb"
+										ariaLabel="suburbs[0]">
+												<mat-option *ngFor="let colonia of suburbs" [value]="colonia.value">
+														{{ colonia.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Municipio/Delegación</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="locality"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Calle</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="street"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Ext</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="extNum"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Int</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="intNum"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Ciudad</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="city"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-select
+									placeholder="Estado"
+									[formControl]="state"
+									name="state"
+									ariaLabel="states[0]">
+											<mat-option *ngFor="let userState of states" [value]="userState.value">
+													{{ userState.viewValue }}
+											</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">País</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="country"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="btn-group float-right">
+									<button class="btn btn-sm btn-secondary">Cancelar</button>
+									<button
+										class="btn btn-sm btn-primary"
+										(click)="saveUser();"
+										>
+										Guardar
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

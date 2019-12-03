@@ -1,0 +1,357 @@
+<div class="main-content">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-header card-header-icon card-header-danger">
+						<div class="card-icon">
+							<i class="material-icons">apartment</i>
+						</div>
+						<h4 class="card-title">
+							Cuenta
+						</h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-secondary text-white">&nbsp;<i class="fas fa-building"></i> &nbsp;<b>Nombre</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Nombre corto (comercial) <span class="text-danger">*</span></label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="name"
+										required
+										(blur)="checkOrgExistence();"
+										>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Nombre largo (razón social) <span class="text-danger">*</span></label>
+									<input
+										#long
+										type="text"
+										class="form-control"
+										[formControl]="longName"
+										required
+										>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-secondary text-white"><b>&nbsp;<i class="fas fa-phone"></i> Teléfonos e <i class="far fa-envelope"></i> emails</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Teléfono principal</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="mainPhone"
+										required
+										>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Teléfono secundario</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="phone"
+										required
+										>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field class="bmd-label-floating">
+										<mat-chip-list #chipEmailList aria-label="Emails">
+											<mat-chip
+												*ngFor="let email of emails"
+												[selectable]="selectableEmail"
+												[removable]="removableEmail"
+												(removed)="removeEmail(email)">
+												{{ email }}
+												<mat-icon matChipRemove *ngIf="removableEmail">cancel</mat-icon>
+											</mat-chip>
+											<input placeholder="Emails"
+												[matChipInputFor]="chipEmailList"
+												[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+												[matChipInputAddOnBlur]="addEmailOnBlur"
+												(matChipInputTokenEnd)="addEmail($event)">
+										</mat-chip-list>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-secondary text-white"><b>&nbsp;<i class="fas fa-info"></i> Detalles</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select multiple placeholder="Tipo" [formControl]="type"
+										name="type"
+										ariaLabel="types[0]">
+												<mat-option *ngFor="let accType of types" [value]="accType.value">
+														{{ accType.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select placeholder="Dueño" [formControl]="owner"
+										name="owner"
+										ariaLabel="owners[0]">
+												<mat-option *ngFor="let userOwner of owners" [value]="userOwner.value">
+														{{ userOwner.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<textarea
+											matInput
+											placeholder="Notas"
+											[formControl]="notes"
+										></textarea>
+									</mat-form-field>
+								</div>
+							</div>
+							<div class="col">
+								<mat-form-field class="bmd-label-floating">
+									<mat-chip-list #chipList aria-label="Etiquetas">
+										<mat-chip
+											*ngFor="let tag of tags"
+											[selectable]="selectableTag"
+											[removable]="removableTag"
+											(removed)="removeTag(tag)">
+											{{ tag }}
+											<mat-icon matChipRemove *ngIf="removableTag">cancel</mat-icon>
+										</mat-chip>
+										<input placeholder="Etiquetas"
+											[matChipInputFor]="chipList"
+											[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+											[matChipInputAddOnBlur]="addTagOnBlur"
+											(matChipInputTokenEnd)="addTag($event)">
+									</mat-chip-list>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-secondary text-white"><b>&nbsp;<i class="far fa-thumbs-up"></i> Redes Sociales</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-twitter"></i> Twitter</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="twitter"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-facebook"></i> Facebook</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="facebook"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-linkedin"></i> Linkedin</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="linkedin"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-google-plus"></i> Google</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="google"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-instagram"></i> Instagram</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="instagram"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-skype"></i> Skype</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="skype"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="bg bg-secondary text-white"><b>&nbsp;<i class="fas fa-map"></i> Dirección</b></div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Código Postal</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="postalCode"
+										(blur)="getPostalCode();"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select
+										placeholder="Colonia"
+										[formControl]="suburb"
+										name="suburb"
+										ariaLabel="suburbs[0]">
+												<mat-option *ngFor="let colonia of suburbs" [value]="colonia.value">
+														{{ colonia.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Municipio/Delegación</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="locality"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Calle</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="street"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Ext</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="extNum"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Int</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="intNum"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">Ciudad</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="city"
+									>
+								</div>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-select
+									placeholder="Estado"
+									[formControl]="state"
+									name="state"
+									ariaLabel="states[0]">
+											<mat-option *ngFor="let userState of states" [value]="userState.value">
+													{{ userState.viewValue }}
+											</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<label class="bmd-label-floating">País</label>
+									<input
+										type="text"
+										class="form-control"
+										[formControl]="country"
+									>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="btn-group float-right">
+									<button class="btn btn-sm btn-secondary">Cancelar</button>
+									<button
+										class="btn btn-sm btn-primary"
+										(click)="saveAccount();"
+										>
+										Guardar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
