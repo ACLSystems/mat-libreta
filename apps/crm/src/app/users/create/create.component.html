@@ -1,5 +1,8 @@
 <div class="main-content">
-	<div class="container-fluid">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
 		<div class="row">
 			<div class="col">
 				<div class="card">
@@ -9,6 +12,12 @@
 						</div>
 						<h4 class="card-title">
 							Usuario
+							<button
+								class="btn btn-sm btn-secondary float-right"
+								(click)="cancel();"
+								>
+								Cancelar
+							</button>
 						</h4>
 					</div>
 					<div class="card-body">
@@ -20,12 +29,13 @@
 						<div class="row">
 							<div class="col">
 								<div class="form-group">
-									<label class="bmd-label-floating">Cuenta(s)</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="account"
-									>
+									<mat-form-field>
+										<mat-select multiple placeholder="Selecciona la cuenta" [formControl]="account" name="account" ariaLabel="accounts[0]">
+												<mat-option *ngFor="let accountData of accounts" [value]="accountData.value">
+														{{ accountData.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
 								</div>
 							</div>
 							<div class="col">
@@ -125,7 +135,7 @@
 									<input
 										type="text"
 										class="form-control"
-										[formControl]="celPhone"
+										[formControl]="cellPhone"
 									>
 								</div>
 							</div>
@@ -206,21 +216,37 @@
 									</label>
 								</div>
 								<mat-form-field class="bmd-label-floating">
-									<mat-chip-list #chipList aria-label="Etiquetas">
+									<mat-chip-list #tagsList aria-label="Etiquetas">
 										<mat-chip
 											*ngFor="let tag of tags"
+											[color]="color"
 											[selectable]="selectable"
 											[removable]="removable"
 											(removed)="remove(tag)">
-											{{ tag }}
+											{{tag}}
 											<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
 										</mat-chip>
-										<input placeholder="Etiquetas"
-											[matChipInputFor]="chipList"
+										<input
+											placeholder="Etiquetas"
+											#tagInput
+											[formControl]="tagsCtrl"
+											[matAutocomplete]="auto"
+											[matChipInputFor]="tagsList"
 											[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
 											[matChipInputAddOnBlur]="addOnBlur"
 											(matChipInputTokenEnd)="add($event)">
 									</mat-chip-list>
+									<mat-autocomplete
+										#auto="matAutocomplete"
+										(optionSelected)="selected($event)"
+										>
+										<mat-option
+											*ngFor="let tag of filteredTags | async"
+											[value]="tag"
+											>
+											{{tag}}
+										</mat-option>
+									</mat-autocomplete>
 								</mat-form-field>
 							</div>
 						</div>
@@ -419,7 +445,12 @@
 						<div class="row">
 							<div class="col">
 								<div class="btn-group float-right">
-									<button class="btn btn-sm btn-secondary">Cancelar</button>
+									<button
+										class="btn btn-sm btn-secondary"
+										(click)="cancel();"
+										>
+										Cancelar
+									</button>
 									<button
 										class="btn btn-sm btn-primary"
 										(click)="saveUser();"

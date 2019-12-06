@@ -1,19 +1,19 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { UserService } from '@crmshared/services/user.service';
-import { Account } from '@crmshared/types/accounts.type';
 
-// declare const $: any;
+import { UserService } from '@crmshared/services/user.service';
+import { Contact } from '@crmshared/types/contact.type';
 
 @Component({
-	selector: 'mat-libreta-view',
-	templateUrl: './view.component.html',
-	styleUrls: ['./view.component.scss']
+  selector: 'mat-libreta-view',
+  templateUrl: './view.component.html',
+  styleUrls: ['./view.component.scss']
 })
-export class ViewAccountsComponent implements OnInit {
+export class ViewUserComponent implements OnInit {
 
-	accounts: Account[] = [];
+	users: Contact[] = [];
+
 	tableHeader: string[];
 	loading: boolean;
 	dtOptions = {
@@ -45,28 +45,28 @@ export class ViewAccountsComponent implements OnInit {
 		}
 	}
 
-	constructor(
+  constructor(
 		private userService: UserService,
 		private router: Router
 	) {
 		this.tableHeader = [
+			'Email',
 			'Nombre',
-			'Razón Social',
-			'Tipo',
+			'Cuenta(s)',
 			'Dueño',
 			'Acciones'
 		];
 	}
 
-	ngOnInit() {
+  ngOnInit() {
 		this.loading = true;
-		this.userService.orgList().subscribe(data => {
+		this.userService.usersList().subscribe(data => {
 			// console.log(data);
-			this.accounts = data;
-			this.accounts.forEach(acc => {
-				if(!acc.owner) {
-					acc.owner = {
-						name: '',
+			this.users = data;
+			this.users.forEach(user => {
+				if(!user.owner) {
+					user.owner = {
+						_id: '',
 						person: {
 							name: '',
 							fatherName: '',
@@ -78,17 +78,17 @@ export class ViewAccountsComponent implements OnInit {
 			});
 			this.loading = false;
 		}, error => {
-			console.log(error);
 			Swal.fire({
 				type: 'error',
 				title: 'Hubo un error',
 				text: error
 			})
+			console.log(error);
 		});
-	}
+  }
 
-	createAccount() {
-		this.router.navigate(['/accounts/create'])
+	createUser() {
+		this.router.navigate(['/users/create'])
 	}
 
 }

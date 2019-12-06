@@ -1,10 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { COMMA, ENTER, TAB} from '@angular/cdk/keycodes';
+import { Router } from  '@angular/router';
 import { MatChipInputEvent } from '@angular/material/chips';
-import {ErrorStateMatcher} from '@angular/material/core';
+import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
 import Swal from 'sweetalert2';
 import { UserService } from '@crmshared/services/user.service';
+
+import { Display } from '@crmshared/types/display.type';
+
+import {
+	TYPES,
+	ROLES,
+	SOURCES,
+	STATES,
+	HAPPINESS
+} from '@crmshared/enums/account.enum';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
 	isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -23,6 +38,12 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class CreateUserComponent implements OnInit {
 
+	@ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+	@ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>
+
+	loading: boolean = false;
+	color: string = 'primary';
+
 	// Compañía y correo
 	account				= new FormControl('');
 	email					= new FormControl('');
@@ -35,7 +56,7 @@ export class CreateUserComponent implements OnInit {
 	// Teléfonos
 	mainPhone			= new FormControl('');
 	phone					= new FormControl('');
-	celPhone			= new FormControl('');
+	cellPhone			= new FormControl('');
 
 	// Detalles
 
@@ -51,78 +72,24 @@ export class CreateUserComponent implements OnInit {
 	_maxRows: number;
 
 	tags					= [];
+	tagsCtrl 			= new FormControl('');
+	allTags: string[] = [];
+	filteredTags: Observable<string[]>;
 
-	types = [
-		{value: 'lead', viewValue: 'Prospecto'},
-		{value: 'contact', viewValue: 'Contact'},
-		{value: 'internal', viewValue: 'Interno'},
-		{value: 'partner', viewValue: 'Alianza'},
-		{value: 'reseller', viewValue: 'Broker'},
-		{value: 'other', viewValue: 'Otro'}
+	// Enums
+	readonly types			: Display[]=[...TYPES];
+	readonly roles			: Display[]=[...ROLES];
+	readonly sources		: Display[]=[...SOURCES];
+	readonly states			: Display[]=[...STATES];
+	readonly happiness	: Display[]=[...HAPPINESS];
+
+	accounts: Display[] = [
+		{value: 'no', viewValue: 'Primero crear cuentas'}
 	];
 
-	roles = [
-		{value: 'Decision Maker', viewValue: 'Tomador de decisiones'},
-		{value: 'Executive Sponsor', viewValue: 'Promotor Ejecutivo'},
-		{value: 'Admin/Project Manager', viewValue: 'Líder/Administrador de proyecto'},
-		{value: 'Finance', viewValue: 'Finanzas'},
-		{value: 'Legal', viewValue: 'Legal'},
-		{value: 'Purchase', viewValue: 'Compras'},
-		{value: 'Technical', viewValue: 'Técnico'},
-		{value: 'other', viewValue: 'Otro'}
+	owners: Display[] = [
+		{value: 'no', viewValue: 'Primero crear usuarios'}
 	];
-
-	sources = [
-		{value: 'web', viewValue: 'Web'},
-		{value: 'phone', viewValue: 'Teléfono'},
-		{value: 'email', viewValue: 'Email'},
-		{value: 'fresh', viewValue: 'Freshworks'},
-		{value: 'direct', viewValue: 'Directo'},
-		{value: 'refereral', viewValue: 'Referido'},
-		{value: 'social', viewValue: 'Redes Sociales'},
-		{value: 'other', viewValue: 'Otro'}
-	];
-
-	owners = [
-		{value: 'luis', viewValue: 'Luis'},
-		{value: 'arturo', viewValue: 'Arturo'},
-		{value: 'stranger', viewValue: 'Stranger'}
-	];
-
-	states = [
-		{value: 'AS', viewValue: 'Aguascalientes'},
-		{value: 'BC', viewValue: 'Baja California'},
-		{value: 'BS', viewValue: 'Baja California Sur'},
-		{value: 'CC', viewValue: 'Campeche'},
-		{value: 'CS', viewValue: 'Chiapas'},
-		{value: 'CH', viewValue: 'Chihuahua'},
-		{value: 'DF', viewValue: 'Ciudad de México'},
-		{value: 'CL', viewValue: 'Coahuila'},
-		{value: 'CM', viewValue: 'Colima'},
-		{value: 'DG', viewValue: 'Durango'},
-		{value: 'GT', viewValue: 'Guanajuato'},
-		{value: 'GR', viewValue: 'Guerrero'},
-		{value: 'HG', viewValue: 'Hidalgo'},
-		{value: 'JC', viewValue: 'Jalisco'},
-		{value: 'MX', viewValue: 'México'},
-		{value: 'MN', viewValue: 'Michoacán'},
-		{value: 'MS', viewValue: 'Morelos'},
-		{value: 'NT', viewValue: 'Nayarit'},
-		{value: 'NL', viewValue: 'Nuevo León'},
-		{value: 'OC', viewValue: 'Oaxaca'},
-		{value: 'PL', viewValue: 'Puebla'},
-		{value: 'QO', viewValue: 'Querétaro'},
-		{value: 'QR', viewValue: 'Quintana Roo'},
-		{value: 'SP', viewValue: 'San Luis Potosí'},
-		{value: 'SL', viewValue: 'Sinaloa'},
-		{value: 'SR', viewValue: 'Sonora'},
-		{value: 'TC', viewValue: 'Tabasco'},
-		{value: 'TS', viewValue: 'Tamaulipas'},
-		{value: 'TL', viewValue: 'Tlaxcala'},
-		{value: 'VZ', viewValue: 'Veracruz'},
-		{value: 'YN', viewValue: 'Yucatán'},
-		{value: 'ZS', viewValue: 'Zacatecas'}
-	]
 
 	// Redes Sociales
 
@@ -159,17 +126,34 @@ export class CreateUserComponent implements OnInit {
 
 	matcher = new MyErrorStateMatcher();
 
-	constructor(private userService: UserService) {
+	constructor(
+		private userService: UserService,
+		private router: Router
+	) {
 		// setear los defaults
+		this.loading = true;
 		this.type.setValue([this.types[0].value]);
 		this.source.setValue(this.sources[0].value);
 		this.contactRole.setValue([this.roles[0].value]);
-		this.owner.setValue(this.owners[0].value);
+		// this.owner.setValue(this.owners[0].value);
 		this.state.setValue(this.states[0].value);
 		this.country.setValue('México');
+		this.filteredTags = this.tagsCtrl.valueChanges.pipe(
+			startWith(null),
+			map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice())
+		);
 	}
 
 	ngOnInit() {
+		this.loading = true;
+
+		this.populateData();
+	}
+
+	displayLog(display:string, obj: any) {
+		console.group(display);
+		console.log(obj);
+		console.groupEnd();
 	}
 
 	emailValidationType(e){
@@ -211,17 +195,20 @@ export class CreateUserComponent implements OnInit {
 	}
 
 	add(event: MatChipInputEvent): void {
-		const input = event.input;
-		const value = event.value;
+		if(!this.matAutocomplete.isOpen) {
+			const input = event.input;
+			const value = event.value;
 
-		// Add a tag
-		if ((value || '').trim()) {
-			this.tags.push(value.trim());
-		}
+			// Add a tag
+			if ((value || '').trim()) {
+				this.tags.push(value.trim().toLowerCase());
+			}
 
-		// Reset the input value
-		if (input) {
-			input.value = '';
+			// Reset the input value
+			if (input) {
+				input.value = '';
+			}
+			this.tagsCtrl.setValue(null);
 		}
 	}
 
@@ -233,11 +220,28 @@ export class CreateUserComponent implements OnInit {
 		}
 	}
 
+	selected(event: MatAutocompleteSelectedEvent): void {
+		console.log(event.option.viewValue)
+		let findTag = this.tags.find(tag => tag === event.option.viewValue);
+		if(findTag) {
+			Swal.fire({
+				type: 'info',
+				title: `Etiqueta "${event.option.viewValue}" ya se agregó`
+			});
+			this.tagsCtrl.setValue(null);
+			this.tagInput.nativeElement.value='';
+			return;
+		}
+    this.tags.push(event.option.value);
+		this.tagInput.nativeElement.value='';
+		this.tagsCtrl.setValue(null);
+		this.displayLog('Etiquetas seleccionadas',this.tags);
+  }
+
 	getPostalCode() {
 		Swal.fire('Por favor espera');
 		Swal.showLoading();
 		this.userService.getPostalCode(this.postalCode.value).subscribe(data => {
-			console.log(data);
 			if(data && Array.isArray(data.colonias) && data.colonias.length > 0) {
 				this.locality.setValue(data.municipio);
 				let foundState = this.states.find(({ viewValue }) => viewValue === data.estado);
@@ -284,7 +288,10 @@ export class CreateUserComponent implements OnInit {
 				email: this.email.value,
 				name: this.name.value,
 				fatherName: this.fatherName.value,
-				motherName: this.motherName.value
+				motherName: this.motherName.value,
+				mainPhone: this.mainPhone.value,
+				secondaryPhone: this.phone.value,
+				cellPhone: this.cellPhone.value
 			},
 			type: this.type.value,
 			contactRole: this.contactRole.value,
@@ -319,7 +326,7 @@ export class CreateUserComponent implements OnInit {
 		Swal.showLoading();
 		this.userService.createUser(newUserProfile).subscribe(data => {
 			console.log(data);
-			if(this.notes) {
+			if(this.notes.value) {
 				const note = {
 					text: this.notes.value,
 					id: data.id
@@ -333,7 +340,7 @@ export class CreateUserComponent implements OnInit {
 					});
 				}, error => {
 					console.log(error);
-				})
+				});
 			} else {
 				Swal.close();
 				Swal.hideLoading();
@@ -342,10 +349,67 @@ export class CreateUserComponent implements OnInit {
 					title: 'Usuario generado'
 				});
 			}
+			this.router.navigate(['/users/view']);
 		}, error => {
 			console.log(error);
+			Swal.hideLoading();
+			Swal.fire({
+				type: 'error',
+				title: 'Hubo un error',
+				text: error
+			});
 		});
 	}
 
+	cancel(){
+		this.router.navigate(['/users/view']);
+	}
+
+	populateData() {
+		this.userService.orgList().subscribe(data => {
+			if(data && Array.isArray(data) && data.length > 0) {
+				console.log(data)
+				this.accounts = [];
+				data.forEach(eachAccount => {
+					this.accounts.push({
+						value: eachAccount._id,
+						viewValue: eachAccount.name
+					});
+				});
+				this.userService.ownerList().subscribe(data => {
+					if(data && Array.isArray(data) && data.length > 0) {
+						this.owners = [];
+						data.forEach(eachOwner => {
+							this.owners.push({
+								value: eachOwner._id,
+								viewValue: `${eachOwner.person.name.split(' ')[0]} ${eachOwner.person.fatherName}`
+							});
+						});
+						this.userService.getTags().subscribe(data => {
+							this.allTags = data;
+							this.displayLog('allTags', this.allTags);
+							this.loading = false;
+						}, error => {
+							console.log(error.message);
+							this.loading = false;
+						});
+						// console.log(this.accounts);
+						// console.log(this.owners);
+					}
+				}, error => {
+					console.log(error);
+					this.loading = false;
+				});
+			}
+		}, error => {
+			console.log(error);
+			this.loading = false;
+		});
+	}
+
+	private _filter(value:string): string[] {
+		const filterValue = value.toLowerCase();
+		return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+	}
 
 }

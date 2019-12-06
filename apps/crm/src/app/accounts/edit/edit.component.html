@@ -2,28 +2,60 @@
 	<div *ngIf="loading" class="text-center">
 		<app-loading-spinner></app-loading-spinner>
 	</div>
-	<div class="container-fluid"  *ngIf="!loading">
+	<div class="container-fluid" *ngIf="!loading">
 		<div class="row">
-			<div class="col">
+			<div class="col-9">
 				<div class="card">
-					<div class="card-header card-header-icon card-header-danger">
+					<div
+						class="card-header card-header-icon"
+						[ngClass]="{'card-header-secondary': account.happiness=='unknown', 'card-header-success': account.happiness=='elated','card-header-info': account.happiness=='happy','card-header-warning': account.happiness=='neutral','card-header-danger': account.happiness=='angry' || account.happiness=='fragile' }"
+						>
 						<div class="card-icon">
-							<i class="material-icons">apartment</i>
+							<i
+								class="far fa-meh-blank fa-2x"
+								*ngIf="account.happiness == 'unknown'"
+								>
+							</i>
+							<i
+								class="far fa-angry fa-2x"
+								*ngIf="account.happiness == 'angry'"
+								>
+							</i>
+							<i
+								class="far fa-frown-open fa-2x"
+								*ngIf="account.happiness == 'fragile'"
+								>
+							</i>
+							<i
+								class="far fa-meh fa-2x"
+								*ngIf="account.happiness == 'neutral'"
+								>
+							</i>
+							<i
+								class="far fa-smile fa-2x"
+								*ngIf="account.happiness == 'happy'"
+								>
+							</i>
+							<i
+								class="far fa-laugh-beam fa-2x"
+								*ngIf="account.happiness == 'elated'"
+								>
+							</i>
 						</div>
-						<h4 class="card-title">
-							Cuenta
+						<h3 class="card-title">
+							<small>Editando Cuenta</small>&nbsp;<b class="text-primary">{{account.name}}</b>
 							<button
 								class="btn btn-sm btn-secondary float-right"
 								(click)="cancel();"
 								>
-								Cancelar
+								Regresar
 							</button>
-						</h4>
+						</h3>
 					</div>
 					<div class="card-body">
 						<div class="row">
 							<div class="col">
-								<div class="bg bg-secondary text-white">&nbsp;<i class="fas fa-building"></i> &nbsp;<b>Nombre</b></div>
+								<div class="bg bg-secondary text-white"><b>&nbsp;<i class="far fa-building"></i> Nombre</b></div>
 							</div>
 						</div>
 						<div class="row">
@@ -86,6 +118,7 @@
 										<mat-chip-list #chipEmailList aria-label="Emails">
 											<mat-chip
 												*ngFor="let email of emails"
+												[color]="color"
 												[selectable]="selectableEmail"
 												[removable]="removableEmail"
 												(removed)="removeEmail(email)">
@@ -111,27 +144,122 @@
 							<div class="col">
 								<div class="form-group">
 									<mat-form-field>
-										<mat-select multiple placeholder="Tipo" [formControl]="type"
-										name="type"
-										ariaLabel="types[0]">
-												<mat-option *ngFor="let accType of types" [value]="accType.value">
-														{{ accType.viewValue }}
+										<mat-select
+											multiple
+											placeholder="Tipo"
+											[formControl]="type"
+											name="type"
+											ariaLabel="types[0]"
+											(selectionChange)="setField('type','type','types');"
+											>
+											<mat-option *ngFor="let accType of types" [value]="accType.value">
+													{{ accType.viewValue }}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select
+											placeholder="Vendedor"
+											[formControl]="owner"
+											name="owner"
+											ariaLabel="owners[0]"
+											(selectionChange)="setField('owner','owner','owners','_id');"
+											>
+												<mat-option *ngFor="let userOwner of owners" [value]="userOwner.value">
+														{{ userOwner.viewValue }}
 												</mat-option>
 										</mat-select>
 									</mat-form-field>
 								</div>
 							</div>
 							<div class="col">
-								<div class="form-group">
-									<mat-form-field>
-										<mat-select placeholder="Dueño" [formControl]="owner"
-										name="owner"
-										ariaLabel="owners[0]">
-												<mat-option *ngFor="let userOwner of owners" [value]="userOwner.value">
-														{{ userOwner.viewValue }}
+								<div class="row">
+									<div class="col-1">
+										<i
+											class="far fa-meh-blank fa-2x"
+											*ngIf="account.happiness == 'unknown'"
+											>
+										</i>
+										<i
+											class="far fa-angry text-danger fa-2x"
+											*ngIf="account.happiness == 'angry'"
+											>
+										</i>
+										<i
+											class="far fa-frown-open text-danger fa-2x"
+											*ngIf="account.happiness == 'fragile'"
+											>
+										</i>
+										<i
+											class="far fa-meh text-warning fa-2x"
+											*ngIf="account.happiness == 'neutral'"
+											>
+										</i>
+										<i
+											class="far fa-smile text-info fa-2x"
+											*ngIf="account.happiness == 'happy'"
+											>
+										</i>
+										<i
+											class="far fa-laugh-beam text-success fa-2x"
+											*ngIf="account.happiness == 'elated'"
+											>
+										</i>
+									</div>
+									<div class="col">
+										<div class="form-group">
+											<mat-form-field>
+												<mat-select placeholder="Felicidad"
+												(selectionChange)="setField('happiness','accountHappiness');"
+												[formControl]="accountHappiness"
+												name="accountHappiness"
+												ariaLabel="happiness[0]">
+														<mat-option *ngFor="let hap of happiness" [value]="hap.value">
+																{{ hap.viewValue }}
+														</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field class="bmd-label-floating">
+											<mat-chip-list #tagsList aria-label="Etiquetas">
+												<mat-chip
+													*ngFor="let tag of tags"
+													[color]="color"
+													[selectable]="selectableTag"
+													[removable]="removableTag"
+													(removed)="removeTag(tag)">
+													{{tag}}
+													<mat-icon matChipRemove *ngIf="removableTag">cancel</mat-icon>
+												</mat-chip>
+												<input
+													placeholder="Etiquetas"
+													#tagInput
+													[formControl]="tagsCtrl"
+													[matAutocomplete]="auto"
+													[matChipInputFor]="tagsList"
+													[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+													[matChipInputAddOnBlur]="addTagOnBlur"
+													(matChipInputTokenEnd)="addTag($event)">
+											</mat-chip-list>
+											<mat-autocomplete
+												#auto="matAutocomplete"
+												(optionSelected)="selectedTag($event)"
+												>
+												<mat-option
+													*ngFor="let tag of filteredTags | async"
+													[value]="tag"
+													>
+													{{tag}}
 												</mat-option>
-										</mat-select>
-									</mat-form-field>
+											</mat-autocomplete>
+										</mat-form-field>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -147,41 +275,6 @@
 									</mat-form-field>
 								</div>
 							</div>
-							<div class="col">
-								<mat-form-field class="bmd-label-floating">
-									<mat-chip-list #tagsList aria-label="Etiquetas">
-										<mat-chip
-											*ngFor="let tag of tags"
-											[color]="color"
-											[selectable]="selectableTag"
-											[removable]="removableTag"
-											(removed)="removeTag(tag)">
-											{{tag}}
-											<mat-icon matChipRemove *ngIf="removableTag">cancel</mat-icon>
-										</mat-chip>
-										<input
-											placeholder="Etiquetas"
-											#tagInput
-											[formControl]="tagsCtrl"
-											[matAutocomplete]="auto"
-											[matChipInputFor]="tagsList"
-											[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-											[matChipInputAddOnBlur]="addTagOnBlur"
-											(matChipInputTokenEnd)="addTag($event)">
-									</mat-chip-list>
-									<mat-autocomplete
-										#auto="matAutocomplete"
-										(optionSelected)="selectedTag($event)"
-										>
-										<mat-option
-											*ngFor="let tag of filteredTags | async"
-											[value]="tag"
-											>
-											{{tag}}
-										</mat-option>
-									</mat-autocomplete>
-								</mat-form-field>
-							</div>
 						</div>
 						<div class="row">
 							<div class="col">
@@ -196,6 +289,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="twitter"
+										(blur)="setField('social','twitter',null,'twitter');"
 									>
 								</div>
 							</div>
@@ -206,6 +300,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="facebook"
+										(blur)="setField('social','facebook',null,'facebook');"
 									>
 								</div>
 							</div>
@@ -216,6 +311,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="linkedin"
+										(blur)="setField('social','linkedin',null,'linkedin');"
 									>
 								</div>
 							</div>
@@ -228,6 +324,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="google"
+										(blur)="setField('social','google',null,'google');"
 									>
 								</div>
 							</div>
@@ -238,6 +335,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="instagram"
+										(blur)="setField('social','instagram',null,'instagram');"
 									>
 								</div>
 							</div>
@@ -248,6 +346,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="skype"
+										(blur)="setField('social','skype',null,'skype');"
 									>
 								</div>
 							</div>
@@ -276,7 +375,9 @@
 										placeholder="Colonia"
 										[formControl]="suburb"
 										name="suburb"
-										ariaLabel="suburbs[0]">
+										ariaLabel="suburbs[0]"
+										(selectionChange)="setField('address','suburb',null,'suburb');"
+										>
 												<mat-option *ngFor="let colonia of suburbs" [value]="colonia.value">
 														{{ colonia.viewValue }}
 												</mat-option>
@@ -291,6 +392,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="locality"
+										(blur)="setField('address','locality',null,'locality');"
 									>
 								</div>
 							</div>
@@ -303,6 +405,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="street"
+										(blur)="setField('address','street',null,'street');"
 									>
 								</div>
 							</div>
@@ -312,7 +415,8 @@
 									<input
 										type="text"
 										class="form-control"
-										[formControl]="extNum"
+										[formControl]="ext"
+										(blur)="setField('address','ext',null,'ext');"
 									>
 								</div>
 							</div>
@@ -322,7 +426,8 @@
 									<input
 										type="text"
 										class="form-control"
-										[formControl]="intNum"
+										[formControl]="int"
+										(blur)="setField('address','int',null,'int');"
 									>
 								</div>
 							</div>
@@ -335,6 +440,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="city"
+										(blur)="setField('address','city',null,'city');"
 									>
 								</div>
 							</div>
@@ -344,7 +450,9 @@
 									placeholder="Estado"
 									[formControl]="state"
 									name="state"
-									ariaLabel="states[0]">
+									ariaLabel="states[0]"
+									(selectionChange)="this.setField('address','state',null,'state');"
+									>
 											<mat-option *ngFor="let userState of states" [value]="userState.value">
 													{{ userState.viewValue }}
 											</mat-option>
@@ -358,6 +466,7 @@
 										type="text"
 										class="form-control"
 										[formControl]="country"
+										(blur)="setField('address','country',null,'country');"
 									>
 								</div>
 							</div>
@@ -369,16 +478,51 @@
 										class="btn btn-sm btn-secondary"
 										(click)="cancel();"
 										>
-										Cancelar
+										Regresar
 									</button>
 									<button
 										class="btn btn-sm btn-primary"
 										(click)="saveAccount();"
 										>
-										Guardar</button>
+										Guardar
+									</button>
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card">
+					<div class="card-body">
+						<div class="btn-group" role="group">
+							<button
+								mat-raised-button
+								matTooltip="Agregar negocio"
+								matTooltipPosition="above"
+								class="btn btn-sm btn-warning"
+								name="button"
+							> +
+								<i class="fas fa-dollar-sign"></i>
+							</button>
+							<button
+								mat-raised-button
+								matTooltip="Agregar usuario"
+								matTooltipPosition="above"
+								class="btn btn-sm btn-info"
+								name="button"
+							> +
+								<i class="fas fa-user"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">
+						<p class="card-title">Usuarios relacionados a </p><h4 class="text-primary">{{account.name}}</h4>
+					</div>
+					<div class="card-body">
+						Usuario 1
 					</div>
 				</div>
 			</div>

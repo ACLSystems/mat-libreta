@@ -10,13 +10,13 @@
 						<div class="card-icon">
 							<i class="far fa-building"></i>
 						</div>
-						<h3 class="card-title">Cuentas</h3>
+						<h3 class="card-title">Usuarios</h3>
 					</div>
 					<div class="card-body">
 						<div class="toolbar">
 							<button
 								class="btn btn-primary btn-sm"
-								(click)="createAccount();"
+								(click)="createUser();"
 								>
 								<i class="fas fa-plus-circle"></i>
 							</button>
@@ -24,7 +24,7 @@
 						<div class="material-datatables">
 							<table
 								datatable
-								id="accounts"
+								id="users"
 								class="table table-stripped table-no-bordered table-hover"
 								cellspacing="0"
 								width="100%"
@@ -46,31 +46,28 @@
 									</tr>
 								</tfoot>
 								<tbody>
-									<tr *ngFor="let account of accounts">
-										<td><b class="text-info">{{account.name}}</b></td>
-										<td>{{account.longName}}</td>
+									<tr *ngFor="let user of users">
+										<td><b class="text-info">{{user.name}}</b></td>
+										<td>{{user.person.name}} {{user.person.fatherName}} {{user.person.motherName}}</td>
 										<td>
-											<span *ngIf="account.type.includes('internal')"><i class="fas fa-home text-success"></i>&nbsp;</span>
-											<span *ngIf="account.type.includes('support')"><i class="fas fa-wrench text-danger"></i>&nbsp;</span>
-											<span *ngIf="account.type.includes('customer')"><i class="fas fa-money-bill text-primary"></i>&nbsp;</span>
-											<span *ngIf="account.type.includes('partner')"><i class="fas fa-handshake text-success"></i>&nbsp;</span>
-											<span *ngIf="account.type.includes('provider')"><i class="fas fa-truck text-danger"></i>&nbsp;</span>
+											<span *ngFor="let org of user.org">
+												{{org.name}}
+											</span>
 										</td>
 										<td
-
-											*ngIf="account.owner.person.name"
+											*ngIf="user.owner.person.name"
 										>
-											{{account.owner.person.name.split(' ')[0]}} {{account.owner.person.fatherName}}
+											{{user.owner.person.name.split(' ')[0]}} {{user.owner.person.fatherName}}
 										</td>
 										<td
 											class="text-danger"
-											*ngIf="!account.owner.person.name"
+											*ngIf="!user.owner.person.name"
 											>
 											Sin dueño
 										</td>
 										<td>
 											<a
-												[routerLink]="['/accounts/edit',account._id]"
+												[routerLink]="['/users/edit',user._id]"
 												class="nav-link"
 												>
 												<i class="fas fa-pencil-alt text-danger"></i>

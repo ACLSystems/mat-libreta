@@ -1,0 +1,621 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="card">
+			<div
+				class="card-header card-header-icon"
+				[ngClass]="{'card-header-secondary': user.happiness=='unknown', 'card-header-success': user.happiness=='elated','card-header-info': user.happiness=='happy','card-header-warning': user.happiness=='neutral','card-header-danger': user.happiness=='angry' || user.happiness=='fragile' }"
+				>
+				<div class="card-icon">
+					<i
+						class="far fa-meh-blank fa-2x"
+						*ngIf="user.happiness == 'unknown'"
+						>
+					</i>
+					<i
+						class="far fa-angry fa-2x"
+						*ngIf="user.happiness == 'angry'"
+						>
+					</i>
+					<i
+						class="far fa-frown-open fa-2x"
+						*ngIf="user.happiness == 'fragile'"
+						>
+					</i>
+					<i
+						class="far fa-meh fa-2x"
+						*ngIf="user.happiness == 'neutral'"
+						>
+					</i>
+					<i
+						class="far fa-smile fa-2x"
+						*ngIf="user.happiness == 'happy'"
+						>
+					</i>
+					<i
+						class="far fa-laugh-beam fa-2x"
+						*ngIf="user.happiness == 'elated'"
+						>
+					</i>
+				</div>
+				<h3 class="card-title">
+					Editando Usuario <span class="text-primary">{{user.name}}</span>
+					<button
+						class="btn btn-sm btn-secondary float-right"
+						(click)="cancel();"
+						>
+						Cancelar
+					</button>
+				</h3>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col">
+						<div class="bg bg-info text-white"><b>&nbsp;<i class="far fa-building"></i> Compañía y correo</b></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<mat-form-field>
+								<mat-select
+									multiple
+									placeholder="Cuentas asociadas"
+									[formControl]="account"
+									name="account"
+									(selectionChange)="this.setField('org','account','accounts');"
+									>
+										<mat-option *ngFor="let accountData of accounts" [value]="accountData.value">
+												{{ accountData.viewValue }}
+										</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating"><i class="fas fa-at"></i> Correo Electrónico</label>
+							<input
+								type="email"
+								matInput
+								placeholder="user@domain.com"
+								class="form-control"
+								[errorStateMatcher]="matcher"
+								[formControl]="email"
+								required
+								(blur)="checkUserExistence()"
+								(ngModelChange)="emailValidationType($event);"
+							>
+							<span *ngIf="!validEmailType" class="text-danger">
+								Por favor, ingresa una dirección de correo válida
+							</span>
+							<span *ngIf="userExists" class="text-danger">
+								Usuario ya existe
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-user"></i> Nombre</b></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Nombre</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="name"
+								(blur)="setField('person','name',null,'name');"
+								required
+							>
+							<span *ngIf="!name" class="text-danger">
+								Por favor ingresa el nombre
+							</span>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Apellido Paterno</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="fatherName"
+								(blur)="setField('person','fatherName',null,'fatherName');"
+								required
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Apellido Materno</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="motherName"
+								(blur)="setField('person','motherName',null,'motherName');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Fecha de cumpleaños</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="birthDate"
+								(blur)="setField('person','birthDate',null,'birthDate');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-phone"></i> Teléfonos</b></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Teléfono principal</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="mainPhone"
+								(blur)="setField('person','mainPhone',null,'mainPhone');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Teléfono secundario</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="phone"
+								(blur)="setField('person','phone',null,'phone');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Celular</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="cellPhone"
+								(blur)="setField('person','cellPhone',null,'cellPhone');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-info"></i> Detalles</b></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<mat-form-field>
+								<mat-select
+									multiple
+									placeholder="Tipo"
+									[formControl]="type"
+									name="type"
+									ariaLabel="types[0]"
+									(selectionChange)="setField('type','type','types');"
+									>
+										<mat-option *ngFor="let userType of types" [value]="userType.value">
+												{{ userType.viewValue }}
+										</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="form-group">
+							<mat-form-field>
+								<mat-select
+									multiple
+									placeholder="Rol de Contacto"
+									[formControl]="contactRole"
+									name="contactRole"
+									ariaLabel="roles[0]"
+									(selectionChange)="setField('contactRole','contactRole','roles');"
+									>
+										<mat-option *ngFor="let role of roles" [value]="role.value">
+												{{ role.viewValue }}
+										</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="form-group">
+							<mat-form-field>
+								<mat-select
+								placeholder="Fuente"
+								[formControl]="source"
+								name="source"
+								ariaLabel="sources[0]"
+								(selectionChange)="setField('source','source');"
+								>
+									<mat-option *ngFor="let userSource of sources" [value]="userSource.value">
+											{{ userSource.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="form-group">
+							<mat-form-field>
+								<mat-select
+									placeholder="Vendedor"
+									[formControl]="owner"
+									name="owner"
+									ariaLabel="owners[0]"
+									(selectionChange)="setField('source','source');"
+									>
+										<mat-option *ngFor="let userOwner of owners" [value]="userOwner.value">
+												{{ userOwner.viewValue }}
+										</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="col">
+						<div class="row">
+							<div class="col">
+								<div class="form-check">
+									<label class="form-check-label">
+										<input
+											type="checkbox"
+											class="form-check-input"
+											[formControl]="hasAuthority"
+											(change)="setField('hasAuthority','hasAuthority');"
+										> Tiene autoridad
+										<span class="form-check-sign">
+										<span class="check"></span>
+									</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="form-check">
+									<label class="form-check-label">
+										<input
+											type="checkbox"
+											class="form-check-input"
+											[formControl]="unSubscribe"
+											(change)="setField('unSubscribe','unSubscribe')"
+										> No suscrito
+										<span class="form-check-sign">
+										<span class="check"></span>
+									</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1">
+								<i
+									class="far fa-meh-blank fa-2x"
+									*ngIf="user.happiness == 'unknown'"
+									>
+								</i>
+								<i
+									class="far fa-angry text-danger fa-2x"
+									*ngIf="user.happiness == 'angry'"
+									>
+								</i>
+								<i
+									class="far fa-frown-open text-danger fa-2x"
+									*ngIf="user.happiness == 'fragile'"
+									>
+								</i>
+								<i
+									class="far fa-meh text-warning fa-2x"
+									*ngIf="user.happiness == 'neutral'"
+									>
+								</i>
+								<i
+									class="far fa-smile text-info fa-2x"
+									*ngIf="user.happiness == 'happy'"
+									>
+								</i>
+								<i
+									class="far fa-laugh-beam text-success fa-2x"
+									*ngIf="user.happiness == 'elated'"
+									>
+								</i>
+							</div>
+							<div class="col">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select placeholder="Felicidad"
+										(selectionChange)="setField('happiness','userHappiness');"
+										[formControl]="userHappiness"
+										name="userHappiness"
+										ariaLabel="happiness[0]">
+												<mat-option *ngFor="let hap of happiness" [value]="hap.value">
+														{{ hap.viewValue }}
+												</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<mat-form-field class="bmd-label-floating">
+									<mat-chip-list #tagsList aria-label="Etiquetas">
+										<mat-chip
+											*ngFor="let tag of tags"
+											[color]="color"
+											[selectable]="selectable"
+											[removable]="removable"
+											(removed)="remove(tag)">
+											{{tag}}
+											<mat-icon matChipRemove *ngIf="removable">cancel
+											</mat-icon>
+										</mat-chip>
+										<input
+											placeholder="Etiquetas"
+											#tagInput
+											[formControl]="tagsCtrl"
+											[matAutocomplete]="auto"
+											[matChipInputFor]="tagsList"
+											[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+											[matChipInputAddOnBlur]="addOnBlur"
+											(matChipInputTokenEnd)="add($event)">
+									</mat-chip-list>
+									<mat-autocomplete
+										#auto="matAutocomplete"
+										(optionSelected)="selected($event)"
+										>
+										<mat-option
+											*ngFor="let tag of filteredTags | async"
+											[value]="tag"
+											>
+											{{tag}}
+										</mat-option>
+									</mat-autocomplete>
+								</mat-form-field>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<mat-form-field>
+								<textarea
+									matInput
+									placeholder="Notas"
+									[formControl]="notes"
+								></textarea>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="bg bg-info text-white"><b>&nbsp;<i class="far fa-thumbs-up"></i> Redes Sociales</b></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating"><i class="fab fa-twitter"></i> Twitter</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="twitter"
+								(blur)="setField('social','twitter',null,'twitter');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating"><i class="fab fa-facebook"></i> Facebook</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="facebook"
+								(blur)="setField('social','facebook',null,'facebook');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating"><i class="fab fa-linkedin"></i> Linkedin</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="linkedin"
+								(blur)="setField('social','linkedin',null,'linkedin');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating"><i class="fab fa-google-plus"></i> Google</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="google"
+								(blur)="setField('social','google',null,'google');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating"><i class="fab fa-instagram"></i> Instagram</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="instagram"
+								(blur)="setField('social','instagram',null,'instagram');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating"><i class="fab fa-skype"></i> Skype</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="skype"
+								(blur)="setField('social','skype',null,'skype');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="bg bg-info text-white"><b>&nbsp;<i class="fas fa-map"></i> Dirección</b></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Código Postal</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="postalCode"
+								(blur)="getPostalCode();"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<mat-form-field>
+								<mat-select
+								placeholder="Colonia"
+								[formControl]="suburb"
+								name="suburb"
+								ariaLabel="suburbs[0]"
+								(selectionChange)="setField('address','suburb',null,'suburb');"
+								>
+										<mat-option *ngFor="let colonia of suburbs" [value]="colonia.value">
+												{{ colonia.viewValue }}
+										</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Municipio/Delegación</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="locality"
+								(blur)="setField('address','locality',null,'locality');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Calle</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="street"
+								(blur)="setField('address','street',null,'street');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Ext</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="ext"
+								(blur)="setField('address','ext',null,'ext');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Int</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="int"
+								(blur)="setField('address','int',null,'int');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">Ciudad</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="city"
+								(blur)="setField('address','city',null,'city');"
+							>
+						</div>
+					</div>
+					<div class="col">
+						<mat-form-field>
+							<mat-select
+							placeholder="Estado"
+							[formControl]="state"
+							name="state"
+							ariaLabel="states[0]"
+							(selectionChange)="this.setField('address','state',null,'state');"
+							>
+									<mat-option *ngFor="let userState of states" [value]="userState.value">
+											{{ userState.viewValue }}
+									</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label class="bmd-label-floating">País</label>
+							<input
+								type="text"
+								class="form-control"
+								[formControl]="country"
+								(blur)="setField('address','country',null,'country');"
+							>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<div class="btn-group float-right">
+							<button
+								class="btn btn-sm btn-secondary"
+								(click)="cancel();"
+								>
+								Cancelar
+							</button>
+							<button
+								class="btn btn-sm btn-primary"
+								(click)="saveUser();"
+								>
+								Guardar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

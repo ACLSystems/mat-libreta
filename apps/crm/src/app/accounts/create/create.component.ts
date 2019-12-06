@@ -1,9 +1,25 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { COMMA, ENTER, TAB} from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+
 import { UserService } from '@crmshared/services/user.service';
+
+import { Account } from '@crmshared/types/account.type';
+import { Display } from '@crmshared/types/display.type';
+
+import {
+	TYPES,
+	ROLES,
+	SOURCES,
+	STATES,
+	HAPPINESS
+} from '@crmshared/enums/account.enum';
 
 @Component({
   selector: 'mat-libreta-create',
@@ -11,6 +27,12 @@ import { UserService } from '@crmshared/services/user.service';
   styleUrls: ['./create.component.scss']
 })
 export class CreateAccountComponent implements OnInit {
+
+	@ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+	@ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>
+
+	loading		: boolean = false;
+	color: string = 'primary';
 
 	name			= new FormControl('');
 	longName	= new FormControl('');
@@ -43,7 +65,13 @@ export class CreateAccountComponent implements OnInit {
 	state					= new FormControl('');
 	country				= new FormControl('');
 
+	suburbs = [];
+
 	tags					= [];
+	tagsCtrl 			= new FormControl('');
+	allTags: string[] = [];
+	filteredTags: Observable<string[]>;
+
 	visible = true;
 	selectableTag = true;
 	removableTag = true;
@@ -57,56 +85,17 @@ export class CreateAccountComponent implements OnInit {
 	orgExists: boolean = false;
 	orgExistsMessage: string = '';
 
-	types = [
-		{value: 'customer', viewValue: 'Cliente'},
-		{value: 'provider', viewValue: 'Proveedor'},
-		{value: 'internal', viewValue: 'Interno'},
-		{value: 'partner', viewValue: 'Alianza'},
-		{value: 'support', viewValue: 'Soporte'}
-	];
+	// Enums
+	readonly types			: Display[]=[...TYPES];
+	readonly roles			: Display[]=[...ROLES];
+	readonly sources		: Display[]=[...SOURCES];
+	readonly states			: Display[]=[...STATES];
+	readonly happiness	: Display[]=[...HAPPINESS];
 
-	owners = [
-		{value: 'luis', viewValue: 'Luis'},
-		{value: 'arturo', viewValue: 'Arturo'},
-		{value: 'stranger', viewValue: 'Stranger'}
-	];
-
-	suburbs = [];
-
-	states = [
-		{value: 'AS', viewValue: 'Aguascalientes'},
-		{value: 'BC', viewValue: 'Baja California'},
-		{value: 'BS', viewValue: 'Baja California Sur'},
-		{value: 'CC', viewValue: 'Campeche'},
-		{value: 'CS', viewValue: 'Chiapas'},
-		{value: 'CH', viewValue: 'Chihuahua'},
-		{value: 'DF', viewValue: 'Ciudad de México'},
-		{value: 'CL', viewValue: 'Coahuila'},
-		{value: 'CM', viewValue: 'Colima'},
-		{value: 'DG', viewValue: 'Durango'},
-		{value: 'GT', viewValue: 'Guanajuato'},
-		{value: 'GR', viewValue: 'Guerrero'},
-		{value: 'HG', viewValue: 'Hidalgo'},
-		{value: 'JC', viewValue: 'Jalisco'},
-		{value: 'MX', viewValue: 'México'},
-		{value: 'MN', viewValue: 'Michoacán'},
-		{value: 'MS', viewValue: 'Morelos'},
-		{value: 'NT', viewValue: 'Nayarit'},
-		{value: 'NL', viewValue: 'Nuevo León'},
-		{value: 'OC', viewValue: 'Oaxaca'},
-		{value: 'PL', viewValue: 'Puebla'},
-		{value: 'QO', viewValue: 'Querétaro'},
-		{value: 'QR', viewValue: 'Quintana Roo'},
-		{value: 'SP', viewValue: 'San Luis Potosí'},
-		{value: 'SL', viewValue: 'Sinaloa'},
-		{value: 'SR', viewValue: 'Sonora'},
-		{value: 'TC', viewValue: 'Tabasco'},
-		{value: 'TS', viewValue: 'Tamaulipas'},
-		{value: 'TL', viewValue: 'Tlaxcala'},
-		{value: 'VZ', viewValue: 'Veracruz'},
-		{value: 'YN', viewValue: 'Yucatán'},
-		{value: 'ZS', viewValue: 'Zacatecas'}
-	]
+	owners		: Display[] = [{
+		value: 'no',
+		viewValue: 'Primero crear usuarios'
+	}];
 
 	@ViewChild("long", {static: false}) longNameField: ElementRef;
 	focusLongName(): void {
@@ -114,16 +103,47 @@ export class CreateAccountComponent implements OnInit {
 	}
 
   constructor(
-		private userService: UserService
+		private userService: UserService,
+		private router: Router
 	) {
 		this.type.setValue([this.types[0].value]);
 		this.owner.setValue(this.owners[0].value);
 		this.state.setValue(this.states[0].value);
 		this.country.setValue('México');
+		this.color='primary';
+		this.filteredTags = this.tagsCtrl.valueChanges.pipe(
+			startWith(null),
+			map((tag: string | null) => tag ? this._filter(tag) : this.allTags.slice())
+		);
 	}
 
   ngOnInit() {
+		this.loading = true;
+		this.getData();
   }
+
+	getData() {
+		this.userService.ownerList().subscribe(data => {
+			if(data && Array.isArray(data) && data.length > 0) {
+				this.owners = [];
+				data.forEach(eachOwner => {
+					this.owners.push({
+						value: eachOwner._id,
+						viewValue: `${eachOwner.person.name.split(' ')[0]} ${eachOwner.person.fatherName}`
+					});
+				});
+				this.displayLog('Vendedores',this.owners);
+				this.userService.getTags().subscribe(data => {
+					this.allTags = data;
+					this.displayLog('allTags', this.allTags);
+					this.loading = false;
+				}, error => {
+					console.log(error.message);
+				});
+			}
+		}, error => {							console.log(error);
+		});
+	}
 
 	checkOrgExistence() {
 		Swal.fire('Espera...');
@@ -153,26 +173,30 @@ export class CreateAccountComponent implements OnInit {
 	}
 
 	addTag(event: MatChipInputEvent): void {
-		const input = event.input;
-		const value = event.value;
+		if(!this.matAutocomplete.isOpen) {
+			const input = event.input;
+			const value = event.value;
 
-		// Add a tag
-		if ((value || '').trim()) {
-			let findTag = this.tags.find(tag => tag === value);
-			if(!findTag) {
-				this.tags.push(value.trim());
-			} else {
-				Swal.fire({
-					type: 'info',
-					title: `Etiqueta "${value}" ya se agregó`
-				});
+			// Add a tag
+			if ((value || '').trim()) {
+				let findTag = this.tags.find(tag => tag === value);
+				if(!findTag) {
+					this.tags.push(value.trim().toLowerCase());
+				} else {
+					Swal.fire({
+						type: 'info',
+						title: `Etiqueta "${value}" ya se agregó`
+					});
+				}
+
 			}
 
-		}
+			// Reset the input value
+			if (input) {
+				input.value = '';
+			}
 
-		// Reset the input value
-		if (input) {
-			input.value = '';
+			this.tagsCtrl.setValue(null);
 		}
 	}
 
@@ -183,6 +207,24 @@ export class CreateAccountComponent implements OnInit {
 			this.tags.splice(index, 1);
 		}
 	}
+
+	selectedTag(event: MatAutocompleteSelectedEvent): void {
+		console.log(event.option.viewValue)
+		let findTag = this.tags.find(tag => tag === event.option.viewValue);
+		if(findTag) {
+			Swal.fire({
+				type: 'info',
+				title: `Etiqueta "${event.option.viewValue}" ya se agregó`
+			});
+			this.tagsCtrl.setValue(null);
+			this.tagInput.nativeElement.value='';
+			return;
+		}
+    this.tags.push(event.option.value);
+		this.tagInput.nativeElement.value='';
+		this.tagsCtrl.setValue(null);
+		this.displayLog('Etiquetas seleccionadas',this.tags);
+  }
 
 	addEmail(event: MatChipInputEvent): void {
 		const input = event.input;
@@ -285,7 +327,7 @@ export class CreateAccountComponent implements OnInit {
 			name: this.name.value,
 			type: this.type.value,
 			owner: this.owner.value || identity.userid,
-			tags: this.tags,
+			tags: [...this.tags],
 			phone: [],
 			emails: (this.emails.length > 0) ? this.emails : [],
 			social: {
@@ -343,6 +385,7 @@ export class CreateAccountComponent implements OnInit {
 					title: 'Cuenta generada'
 				});
 			}
+			this.router.navigate(['/accounts/view']);
 		}, error => {
 			Swal.close();
 			Swal.hideLoading();
@@ -353,5 +396,22 @@ export class CreateAccountComponent implements OnInit {
 			console.log(error);
 		});
 	}
+
+	cancel(){
+		this.router.navigate(['/accounts/view']);
+	}
+
+	displayLog(display:string, obj: any) {
+		console.group(display);
+		console.log(obj);
+		console.groupEnd();
+	}
+
+	private _filter(value:string): string[] {
+		const filterValue = value.toLowerCase();
+		return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+	}
+
+
 
 }

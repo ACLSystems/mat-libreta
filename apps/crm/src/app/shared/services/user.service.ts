@@ -27,26 +27,6 @@ export class UserService{
 	}
 
 	/*
-	metodo para obtener la informacion del usuario
-	*/
-	/*
-	Falta validar que hacer si no hay token. Debería mandarlo a login
-	*/
-	getUser(username:string): Observable<any> {
-		const httpOptions = {
-			headers: JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-			),
-			params: new HttpParams().set(
-				'name', username
-			)
-		};
-		const route = this.url + 'api/v1/user/getdetails';
-		return this.http.get(route, httpOptions);
-	}
-
-	/*
 	metodo para traer la identidad del usuario autenticado
 	*/
 	getidentity() {
@@ -201,6 +181,10 @@ export class UserService{
 		return this.http.get(route);
 	}
 
+	/*
+	Método para traer la lista de cuentas
+	*/
+
 	orgList():Observable<any>{
 		const httpOptions = {
 			headers: JSONHeaders.set(
@@ -209,6 +193,109 @@ export class UserService{
 			)
 		};
 		const route = this.url+'api/v1/sales/orgs';
+		return this.http.get(route,httpOptions);
+	}
+
+	/*
+	Método para traer la lista de dueños
+	*/
+
+	ownerList():Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/owners';
+		return this.http.get(route,httpOptions);
+	}
+
+	/*
+	Método para traer la lista de usuarios
+	*/
+
+	usersList():Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/users';
+		return this.http.get(route,httpOptions);
+	}
+
+	/*
+	Método para traer los detalles de un usuario
+	*/
+
+	getUser(userid:string):Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/user/' + userid;
+		return this.http.get(route,httpOptions);
+	}
+
+	/*
+	Método para modificar propiedades de un usuario
+	*/
+
+	modifyUser(user:any):Observable<any>{
+		const params = JSON.stringify(user);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/sales/user';
+		return this.http.patch(route, params, {headers});
+	}
+
+	/*
+	Método para traer los detalles de una cuenta
+	*/
+
+	getAccount(orgid:string):Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/org/' + orgid;
+		return this.http.get(route,httpOptions);
+	}
+
+	/*
+	Método para modificar propiedades de una cuenta
+	*/
+
+	modifyAccount(org:any):Observable<any>{
+		const params = JSON.stringify(org);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/sales/org';
+		return this.http.patch(route, params, {headers});
+	}
+
+	/*
+	Método para traer los detalles de una cuenta
+	*/
+
+	getTags():Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/tags';
 		return this.http.get(route,httpOptions);
 	}
 
