@@ -50,16 +50,16 @@ export const ROUTES: RouteInfo[] = [{
 					{path: 'create', title: 'Crear usuario', ab: 'CU'},
 					{path: 'view', title: 'Ver usuarios', ab: 'VU'}
 				]
-		},{
-				path: '/oportunities',
-				title: 'Oportunidades',
-				type: 'sub',
-				icontype: 'flag',
-				collapse: 'oportunidades',
-				children: [
-					{path: 'create', title: 'Crear oportunidad', ab: 'CO'},
-					{path: 'view', title: 'Ver oportunidades', ab: 'VO'}
-				]
+		// },{
+		// 		path: '/oportunities',
+		// 		title: 'Oportunidades',
+		// 		type: 'sub',
+		// 		icontype: 'flag',
+		// 		collapse: 'oportunidades',
+		// 		children: [
+		// 			{path: 'create', title: 'Crear oportunidad', ab: 'CO'},
+		// 			{path: 'view', title: 'Ver oportunidades', ab: 'VO'}
+		// 		]
 		},{
 				path: '/accounts',
 				title: 'Cuentas',

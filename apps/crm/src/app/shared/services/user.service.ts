@@ -159,8 +159,14 @@ export class UserService{
 	*/
 
 	getPostalCode(code:string):Observable<any>{
-		const route = 'https://api-codigos-postales.herokuapp.com/v2/codigo_postal/' + code;
-		return this.http.get(route);
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/cp/'+code;
+		return this.http.get(route,httpOptions);
 	}
 
 	/*
@@ -193,6 +199,21 @@ export class UserService{
 			)
 		};
 		const route = this.url+'api/v1/sales/orgs';
+		return this.http.get(route,httpOptions);
+	}
+
+	/*
+	Método para traer la lista de negocios/oportunidades
+	*/
+
+	businessList():Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/businesses';
 		return this.http.get(route,httpOptions);
 	}
 

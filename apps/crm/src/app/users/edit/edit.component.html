@@ -41,12 +41,12 @@
 					</i>
 				</div>
 				<h3 class="card-title">
-					Editando Usuario <span class="text-primary">{{user.name}}</span>
+					<span class="text-primary">{{user.person.name}} {{user.person.fatherName}} {{user.person.motherName}}</span>
 					<button
 						class="btn btn-sm btn-secondary float-right"
 						(click)="cancel();"
 						>
-						Cancelar
+						Regresar
 					</button>
 				</h3>
 			</div>
@@ -491,6 +491,7 @@
 								class="form-control"
 								[formControl]="postalCode"
 								(blur)="getPostalCode();"
+								(keydown.enter)="getPostalCode();"
 							>
 						</div>
 					</div>
@@ -604,7 +605,7 @@
 								class="btn btn-sm btn-secondary"
 								(click)="cancel();"
 								>
-								Cancelar
+								Regresar
 							</button>
 							<button
 								class="btn btn-sm btn-primary"

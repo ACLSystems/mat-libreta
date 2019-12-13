@@ -8,7 +8,7 @@
 				<div class="card">
 					<div class="card-header card-header-info card-header-icon">
 						<div class="card-icon">
-							<i class="far fa-building"></i>
+							<i class="far fa-building fa-2x"></i>
 						</div>
 						<h3 class="card-title">Cuentas</h3>
 					</div>
@@ -51,9 +51,9 @@
 										<td>{{account.longName}}</td>
 										<td>
 											<span *ngIf="account.type.includes('internal')"><i class="fas fa-home text-success"></i>&nbsp;</span>
-											<span *ngIf="account.type.includes('support')"><i class="fas fa-wrench text-danger"></i>&nbsp;</span>
+											<span *ngIf="account.type.includes('support')"><i class="fas fa-wrench text-warning"></i>&nbsp;</span>
 											<span *ngIf="account.type.includes('customer')"><i class="fas fa-money-bill text-primary"></i>&nbsp;</span>
-											<span *ngIf="account.type.includes('partner')"><i class="fas fa-handshake text-success"></i>&nbsp;</span>
+											<span *ngIf="account.type.includes('partner')"><i class="fas fa-handshake text-info"></i>&nbsp;</span>
 											<span *ngIf="account.type.includes('provider')"><i class="fas fa-truck text-danger"></i>&nbsp;</span>
 										</td>
 										<td
@@ -68,12 +68,13 @@
 											>
 											Sin dueño
 										</td>
-										<td>
+										<td class="text-right">
 											<a
 												[routerLink]="['/accounts/edit',account._id]"
-												class="nav-link"
-												>
-												<i class="fas fa-pencil-alt text-danger"></i>
+												class="btn btn-link btn-danger btn-just-icon like"><i class="material-icons">edit</i>
+											</a><a
+												[routerLink]="['/business/create']"
+												class="btn btn-link btn-dark btn-just-icon like"><i class="material-icons">attach_money</i>
 											</a>
 										</td>
 									</tr>

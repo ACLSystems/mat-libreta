@@ -1,19 +1,26 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { UserService } from '@crmshared/services/user.service';
-import { Account } from '@crmshared/types/accounts.type';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeMX from '@angular/common/locales/es-MX';
 
-// declare const $: any;
+import { UserService } from '@crmshared/services/user.service';
+import { Business } from '@crmshared/types/business.type';
+
+registerLocaleData(localeMX);
 
 @Component({
 	selector: 'mat-libreta-view',
 	templateUrl: './view.component.html',
-	styleUrls: ['./view.component.scss']
+	styleUrls: ['./view.component.scss'],
+	providers: [
+		{ provide: LOCALE_ID, useValue: 'es-MX'}
+	]
 })
-export class ViewAccountsComponent implements OnInit {
+export class ViewBusinessComponent implements OnInit {
 
-	accounts: Account[] = [];
+	businesses: Business[] = [];
 	tableHeader: string[];
 	loading: boolean;
 	dtOptions = {
@@ -51,44 +58,40 @@ export class ViewAccountsComponent implements OnInit {
 	) {
 		this.tableHeader = [
 			'Nombre',
-			'Razón Social',
-			'Tipo',
-			'Dueño',
-			''
+			'Valor',
+			'Status',
+			'Fecha esperada de cierre',
+			'Vendedor',
+			'Cuenta',
+			'Acciones'
 		];
+		this.loading = true;
 	}
 
 	ngOnInit() {
 		this.loading = true;
-		this.userService.orgList().subscribe(data => {
-			// console.log(data);
-			this.accounts = data;
-			this.accounts.forEach(acc => {
-				if(!acc.owner) {
-					acc.owner = {
-						name: '',
-						person: {
-							name: '',
-							fatherName: '',
-							motherName: '',
-							email: ''
-						}
-					};
-				}
-			});
+		this.userService.businessList().subscribe(data => {
+			this.businesses = data;
+			this.displayLog('Negocios', this.businesses);
 			this.loading = false;
 		}, error => {
 			console.log(error);
 			Swal.fire({
 				type: 'error',
 				title: 'Hubo un error',
-				text: error
+				text: error.message
 			})
 		});
 	}
 
-	createAccount() {
-		this.router.navigate(['/accounts/create']);
+	createBusiness() {
+		this.router.navigate(['/business/create'])
+	}
+
+	displayLog(display:string, obj: any) {
+		console.group(display);
+		console.log(obj);
+		console.groupEnd();
 	}
 
 }

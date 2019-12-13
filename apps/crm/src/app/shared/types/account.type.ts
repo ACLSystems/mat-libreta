@@ -34,6 +34,15 @@ export interface Account {
 			birthDate?: string
 		}
 	},
+	notes: {
+		_id: string,
+		text: string,
+		mod: {
+			by: string,
+			when: string,
+			what: string
+		}[]
+	}[],
 	mainPhone?: string,
 	phone?:string,
 	emails?:string[],

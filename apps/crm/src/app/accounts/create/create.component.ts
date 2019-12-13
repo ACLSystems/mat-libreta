@@ -282,6 +282,9 @@ export class CreateAccountComponent implements OnInit {
 			console.log(data);
 			if(data && Array.isArray(data.colonias) && data.colonias.length > 0) {
 				this.locality.setValue(data.municipio);
+				if(data.ciudad) {
+					this.city.setValue(data.ciudad);
+				}
 				let foundState = this.states.find(({ viewValue }) => viewValue === data.estado);
 				if(foundState) {
 					this.state.setValue(foundState.value);

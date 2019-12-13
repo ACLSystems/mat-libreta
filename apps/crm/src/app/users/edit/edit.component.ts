@@ -199,6 +199,9 @@ export class EditUserComponent implements OnInit {
 		this.userService.getPostalCode(this.postalCode.value).subscribe(data => {
 			if(data && Array.isArray(data.colonias) && data.colonias.length > 0) {
 				this.locality.setValue(data.municipio);
+				if(data.ciudad) {
+					this.city.setValue(data.ciudad);
+				}
 				let foundState = this.states.find(({ viewValue }) => viewValue === data.estado);
 				if(foundState) {
 					this.state.setValue(foundState.value);
@@ -228,6 +231,7 @@ export class EditUserComponent implements OnInit {
 				this.setField('address','state',null,'state');
 				this.setField('address','postalCode',null,'postalCode');
 				this.setField('address','locality',null,'locality');
+				this.setField('address','city',null,'city');
 				if(data.colonias.length > 0) {
 					this.setField('address','suburb',null,'suburb');
 				}
@@ -245,6 +249,12 @@ export class EditUserComponent implements OnInit {
 			}
 		}, error => {
 			console.log(error);
+			Swal.close();
+			Swal.hideLoading();
+			Swal.fire({
+				type: 'info',
+				title: `Código postal ${this.postalCode.value} inválido o no encontrado`
+			});
 		});
 	}
 

@@ -1,0 +1,76 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div class="card-header card-header-danger card-header-icon">
+						<div class="card-icon">
+							<i class="fas fa-dollar-sign fa-2x"></i>
+						</div>
+						<h3 class="card-title">Negocios</h3>
+					</div>
+					<div class="card-body">
+						<div class="toolbar">
+							<button
+								class="btn btn-primary btn-sm"
+								(click)="createBusiness();"
+								>
+								<i class="fas fa-plus-circle"></i>
+							</button>
+						</div>
+						<div class="material-datatables">
+							<table
+								datatable
+								id="businesses"
+								class="table table-stripped table-no-bordered table-hover"
+								cellspacing="0"
+								width="100%"
+								style="width:100%"
+								[dtOptions]="dtOptions"
+								>
+								<thead>
+									<tr>
+										<th *ngFor="let header of tableHeader">
+											{{header}}
+										</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th *ngFor="let footer of tableHeader">
+											{{footer}}
+										</th>
+									</tr>
+								</tfoot>
+								<tbody>
+									<tr *ngFor="let business of businesses">
+										<td><b class="text-primary">{{business.name}}</b></td>
+										<td>{{business.value | currency: business.mainCurrency.symbol:'symbol':'1.2-2' }}</td>
+										<td>{{business.status}}</td>
+										<td>{{business.expectedCloseDate | date: 'mediumDate'}}</td>
+										<td>{{business.owner.person.name}} {{business.owner.person.fatherName}}</td>
+										<td>{{business.org.name}}</td>
+										<td>
+											<a
+												[routerLink]="['/business/edit',business._id]"
+												class="nav-link"
+												>
+												<i class="fas fa-pencil-alt text-danger"></i>
+											</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="card-footer">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

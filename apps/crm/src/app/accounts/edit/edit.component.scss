@@ -1,1 +1,22 @@
- 
+
+.pointme {
+	cursor: pointer;
+}
+
+.scroll {
+    max-height: 490px;
+    overflow-y: auto;
+}
+
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}

@@ -6,7 +6,14 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER, TAB } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeMX from '@angular/common/locales/es-MX';
 import Swal from 'sweetalert2';
+
+registerLocaleData(localeMX);
+
+declare const $: any;
 
 import { UserService } from '@crmshared/services/user.service';
 
@@ -22,9 +29,12 @@ import {
 } from '@crmshared/enums/account.enum';
 
 @Component({
-  selector: 'mat-libreta-edit',
-  templateUrl: './edit.component.html',
-  styleUrls: ['./edit.component.scss']
+	selector: 'mat-libreta-edit',
+	templateUrl: './edit.component.html',
+	styleUrls: ['./edit.component.scss'],
+	providers:[
+		{ provide: LOCALE_ID, useValue: 'es-MX'}
+	]
 })
 export class EditAccountComponent implements OnInit {
 
@@ -34,7 +44,8 @@ export class EditAccountComponent implements OnInit {
 	loading		: boolean = false;
 	accountid	: string;
 	account		: Account;
-	color: string = 'primary';
+	color			: string = 'primary';
+	init 			: boolean = true;
 
 	visible = true;
 	selectableTag = true;
@@ -66,16 +77,31 @@ export class EditAccountComponent implements OnInit {
 	alias			= new FormControl('');
 	type			= new FormControl('');
 	owner			= new FormControl('');
-	notes			= new FormControl('');
+	ownerShow: string = '';
+	newNote		= new FormControl('');
 	accountHappiness = new FormControl('');
+
+	nameControl			: boolean = false;
+	longNameControl	: boolean = false;
+	typesControl			: boolean = false;
+	ownerControl		: boolean = false;
+	happinessControl: boolean = false;
+
+
+	notes			= [];
 
 	// Teléfonos
 	mainPhone			= new FormControl('');
 	phone					= new FormControl('');
 	emails				= [];
+	// control visual de campos
+	mainPhoneControl: boolean = false;
+	phoneControl		: boolean = false;
+	emailsControl		: boolean = false;
 
 	tags					= [];
 	tagsCtrl 			= new FormControl('');
+	tagsControl: boolean = false;
 	suburbs 			= [];
 
 	allTags: string[] = [];
@@ -91,6 +117,13 @@ export class EditAccountComponent implements OnInit {
 	instagram			= new FormControl('');
 	skype					= new FormControl('');
 
+	facebookControl	: boolean = false;
+	twitterControl	: boolean = false;
+	linkedinControl	: boolean = false;
+	googleControl		: boolean = false;
+	instagramControl: boolean = false;
+	skypeControl		: boolean = false;
+
 	// Dirección
 
 	street				= new FormControl('');
@@ -103,7 +136,19 @@ export class EditAccountComponent implements OnInit {
 	state					= new FormControl('');
 	country				= new FormControl('');
 
-  constructor(
+	stateShow: string = '';
+
+	streetControl			: boolean = false;
+	extControl				: boolean = false;
+	intControl				: boolean = false;
+	suburbControl			: boolean = false;
+	postalCodeControl	: boolean = false;
+	localityControl		: boolean = false;
+	cityControl				: boolean = false;
+	stateControl			: boolean = false;
+	countryControl		: boolean = false;
+
+	constructor(
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private userService: UserService
@@ -119,10 +164,29 @@ export class EditAccountComponent implements OnInit {
 			);
 		}
 
-  ngOnInit() {
+	ngOnInit() {
 		this.loading = true;
+		var mainPanel = document.getElementsByClassName('main-panel')[0];
+		$('.modal').on('shown.bs.modal', function () {
+			mainPanel.classList.add('no-scroll');
+		})
+		$('.modal').on('hidden.bs.modal', function () {
+			mainPanel.classList.remove('no-scroll');
+		})
 		this.getAccount();
-  }
+	}
+
+	fieldEnter(field: string) {
+		let controls = Object.keys(this);
+		controls = controls.filter(e => e.includes('Control'));
+		controls = controls.filter(e => !e.includes(field));
+		controls.forEach(c => {this[c] = false});
+		this[field] = true;
+	}
+
+	fieldLeave(field: string) {
+		this[field] = false;
+	}
 
 	getAccount() {
 		if(this.accountid) {
@@ -149,7 +213,8 @@ export class EditAccountComponent implements OnInit {
 							console.log(error.message);
 						});
 					}
-				}, error => {							console.log(error);
+				}, error => {
+					console.log(error.message);
 				});
 			}, error => {
 				this.loading = false;
@@ -163,7 +228,6 @@ export class EditAccountComponent implements OnInit {
 		} else {
 
 		}
-
 	}
 
 	getPostalCode(tempValue?:string) {
@@ -172,6 +236,9 @@ export class EditAccountComponent implements OnInit {
 		this.userService.getPostalCode(this.postalCode.value).subscribe(data => {
 			if(data && Array.isArray(data.colonias) && data.colonias.length > 0) {
 				this.locality.setValue(data.municipio);
+				if(data.ciudad) {
+					this.city.setValue(data.ciudad);
+				}
 				let foundState = this.states.find(({ viewValue }) => viewValue === data.estado);
 				if(foundState) {
 					this.state.setValue(foundState.value);
@@ -200,11 +267,17 @@ export class EditAccountComponent implements OnInit {
 				}
 				this.displayLog('localState',this.state.value);
 				this.displayLog('AccountAddress',this.account.address);
-				this.setField('address','state',null,'state');
-				this.setField('address','postalCode',null,'postalCode');
-				this.setField('address','locality',null,'locality');
+				this.setField('address','state',null,null,'state');
+				this.setField('address','postalCode',null,null,'postalCode');
+				this.setField('address','locality',null,null,'locality');
+				this.setField('address','city',null,null,'city');
 				if(data.colonias.length > 0) {
-					this.setField('address','suburb',null,'suburb');
+					this.setField('address','suburb',null,null,'suburb');
+					if(this.init) {
+						this.init = false;
+					} else {
+						this.fieldEnter('suburbControl');
+					}
 				}
 				Swal.close();
 				Swal.hideLoading();
@@ -250,9 +323,10 @@ export class EditAccountComponent implements OnInit {
 		if(this.account.type && Array.isArray(this.account.type) && this.account.type.length > 0) {
 			this.type.setValue([...this.account.type]);
 		}
- 		// Poblar campo dueño
+		// Poblar campo dueño
 		if(this.account.owner) {
 			this.owner.setValue(this.account.owner._id);
+			this.ownerShow = this.owners.find(o => o.value === this.account.owner._id).viewValue;
 		}
 
 		// Poblar tags
@@ -284,6 +358,8 @@ export class EditAccountComponent implements OnInit {
 			});
 			this.getPostalCode(tempPC);
 		}
+
+		this.notes = [...this.account.notes];
 	}
 
 	cancel(){
@@ -297,10 +373,11 @@ export class EditAccountComponent implements OnInit {
 		this.userService.modifyAccount(this.account).subscribe(() => {
 			Swal.close();
 			Swal.hideLoading();
-			Swal.fire({
-				type: 'info',
-				'title': 'Cuenta modificada'
-			});
+			// Swal.fire({
+			// 	type: 'info',
+			// 	'title': 'Cuenta modificada'
+			// });
+			this.showNotification('Cuenta modificada','bottom','left','success');
 		}, error => {
 			Swal.close();
 			Swal.hideLoading();
@@ -313,11 +390,11 @@ export class EditAccountComponent implements OnInit {
 	}
 
 	setEmail() {
-		this.setField('name','email');
-		this.setField('person','email',null,'email');
+		this.setField('name','email','');
+		this.setField('person','email','',null,'email');
 	}
 
-	setField(userField:string, localField: string, enums?: string, innerUserField?:string) {
+	setField(userField:string, localField: string, controlField: string, enums?: string, innerUserField?:string) {
 		if(!this.account[userField] || (Array.isArray(this.account[userField]) && this.account[userField].length === 0)) {
 			if(userField === 'owner') {
 				this.account.owner = {
@@ -330,7 +407,6 @@ export class EditAccountComponent implements OnInit {
 					}
 				}
 			}
-			console.log('SI ENTRE A CORREGIR')
 			if(userField === 'address') {
 				this.account[userField].push({
 					city: '',
@@ -364,16 +440,26 @@ export class EditAccountComponent implements OnInit {
 				// Aquí hay que arreglar para poder adicionar más direcciones
 				// incluyendo el nombre de la dirección que no existe todavía
 				this.account[userField][0][innerUserField] = this[localField].value;
+				if(localField === 'state') {
+					let findState = this.states.find(e => e.value == this.state.value)
+					this.stateShow = findState.viewValue;
+				}
 				this.displayLog(userField + '.' + innerUserField,this.account[userField][0][innerUserField]);
 			} else {
 				this.account[userField][innerUserField] = this[localField].value;
 				this.displayLog(userField + '.' + innerUserField,this.account[userField][innerUserField]);
+				if(localField === 'owner') {
+					this.ownerShow = this.owners.find(o => o.value === this.account[userField][innerUserField]).viewValue;
+				}
 			}
 		} else {
 			this.account[userField] = this[localField].value;
 			this.displayLog(userField,this.account[userField]);
 		}
 		this.displayLog('Toda la cuenta', this.account);
+		if(controlField) {
+			this.fieldLeave(controlField);
+		}
 	}
 
 	displayLog(display:string, obj: any) {
@@ -407,6 +493,7 @@ export class EditAccountComponent implements OnInit {
 			}
 
 			this.tagsCtrl.setValue(null);
+			this.tagsControl = false;
 		}
 	}
 
@@ -417,6 +504,7 @@ export class EditAccountComponent implements OnInit {
 			this.tags.splice(index, 1);
 			this.account.tags = [...this.tags];
 		}
+		this.tagsControl = false;
 	}
 
 	selectedTag(event: MatAutocompleteSelectedEvent): void {
@@ -431,12 +519,13 @@ export class EditAccountComponent implements OnInit {
 			this.tagInput.nativeElement.value='';
 			return;
 		}
-    this.tags.push(event.option.value);
+		this.tags.push(event.option.value);
 		this.tagInput.nativeElement.value='';
 		this.tagsCtrl.setValue(null);
 		this.account.tags = [...this.tags];
 		this.displayLog('Etiquetas seleccionadas',this.tags);
-  }
+		this.tagsControl = false;
+	}
 
 	private _filter(value:string): string[] {
 		const filterValue = value.toLowerCase();
@@ -491,6 +580,73 @@ export class EditAccountComponent implements OnInit {
 		} else {
 			return false;
 		}
+	}
+
+	async createNote() {
+		// Swal.fire({
+		// 	title: 'Agregar Nota',
+		// 	html: '<div class="form-group">' +
+		// 			'<input id="note-field" type="text" class="form-control" />' +
+		// 			'</div>',
+		// 	showCancelButton: true,
+		// 	confirmButtonClass: 'btn btn-success',
+		// 	cancelButtonClass: 'btn btn-danger',
+		// 	buttonsStyling: false
+		// }).then(function(result) {
+		// 	let note = $('#note-field').val();
+		// 	console.group('nota');
+		// 	console.log(note);
+		// 	console.groupEnd();
+		// 	Swal.fire({
+		// 			type: 'success',
+		// 			html: 'Ingresaste: <strong>' +
+		// 					$('#note-field').val() +
+		// 					'</strong>',
+		// 			confirmButtonClass: 'btn btn-success',
+		// 			buttonsStyling: false
+		// 	})
+		// });
+		const { value: note } = await Swal.fire({
+			title: 'Ingresa una nota',
+			input: 'text',
+			showCancelButton: true,
+			confirmButtonClass: 'btn btn-success',
+			cancelButtonClass: 'btn btn-danger',
+		});
+
+		if(note) {
+			this.displayLog('Nota',note);
+			this.showNotification('Nota creada','bottom','left','success');
+		}
+
+	}
+
+	showNotification(message: string, from: any, align: any, type: string) {
+		// const type = ['', 'info', 'success', 'warning', 'danger', 'rose', 'primary'];
+
+		// const color = Math.floor((Math.random() * 6) + 1);
+
+		$.notify({
+			icon: 'notifications',
+			message: message
+		}, {
+			type: type,
+			timer: 2000,
+			placement: {
+					from: from,
+					align: align
+			},
+			template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0} alert-with-icon" role="alert">' +
+				'<button mat-raised-button type="button" aria-hidden="true" class="close" data-notify="dismiss">  <i class="material-icons">close</i></button>' +
+				'<i class="material-icons" data-notify="icon">notifications</i> ' +
+				'<span data-notify="title">{1}</span> ' +
+				'<span data-notify="message">{2}</span>' +
+				'<div class="progress" data-notify="progressbar">' +
+					'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+				'</div>' +
+				'<a href="{3}" target="{4}" data-notify="url"></a>' +
+			'</div>'
+		});
 	}
 
 }

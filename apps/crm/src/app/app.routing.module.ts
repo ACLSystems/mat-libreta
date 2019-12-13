@@ -52,6 +52,16 @@ const routes: Routes = [
 			}
 		]
 	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'business',
+				loadChildren: () => import('./businesses/businesses.module').then(mod => mod.BusinessesModule)
+			}
+		]
+	},{
 		path: '**',
 		redirectTo: '/pages/error'
 	}

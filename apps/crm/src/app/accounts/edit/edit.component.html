@@ -4,7 +4,7 @@
 	</div>
 	<div class="container-fluid" *ngIf="!loading">
 		<div class="row">
-			<div class="col-9">
+			<div class="col">
 				<div class="card">
 					<div
 						class="card-header card-header-icon"
@@ -43,7 +43,7 @@
 							</i>
 						</div>
 						<h3 class="card-title">
-							<small>Editando Cuenta</small>&nbsp;<b class="text-primary">{{account.name}}</b>
+							<b class="text-primary">{{account.name}}</b>
 							<button
 								class="btn btn-sm btn-secondary float-right"
 								(click)="cancel();"
@@ -52,35 +52,83 @@
 							</button>
 						</h3>
 					</div>
-					<div class="card-body">
+					<div class="card-body scroll">
 						<div class="row">
 							<div class="col">
 								<div class="bg bg-secondary text-white"><b>&nbsp;<i class="far fa-building"></i> Nombre</b></div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-4">
 								<div class="form-group">
 									<label class="bmd-label-floating">Nombre corto (comercial) <span class="text-danger">*</span></label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="name"
-										required
-										(blur)="checkOrgExistence();"
-										>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!nameControl">
+								<div class="form-group">
+										{{name.value}}
+										<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+											(click)="fieldEnter('nameControl');"
+											></i>
+
+								</div>
+							</div>
+							<div class="col" *ngIf="nameControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="name"
+												required
+												(blur)="setField('name','name','nameControl');"
+												(keydown.enter)="setField('name','name','nameControl');"
+												>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('nameControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-4">
 								<div class="form-group">
 									<label class="bmd-label-floating">Nombre largo (razón social) <span class="text-danger">*</span></label>
-									<input
-										#long
-										type="text"
-										class="form-control"
-										[formControl]="longName"
-										required
-										>
+								</div>
+							</div>
+							<div class="col" *ngIf="!longNameControl">
+								<div class="form-group">
+									{{longName.value}}
+									<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('longNameControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="longNameControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												#long
+												type="text"
+												class="form-control"
+												[formControl]="longName"
+												required
+												(blur)="setField('longName','longName','longNameControl');"
+												(keydown.enter)="setField('longName','longName','longNameControl');"
+												>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('longNameControl');"
+											></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -90,29 +138,95 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-4">
 								<div class="form-group">
 									<label class="bmd-label-floating">Teléfono principal</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="mainPhone"
-										required
-										>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!mainPhoneControl">
+								<div class="form-group">
+									{{mainPhone.value}}
+									<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('mainPhoneControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="mainPhoneControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="mainPhone"
+												required
+												(blur)="setField('mainPhone','mainPhone','mainPhoneControl');"
+												(keydown.enter)="setField('mainPhone','mainPhone','mainPhoneControl');"
+												>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('mainPhoneControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-4">
 								<div class="form-group">
 									<label class="bmd-label-floating">Teléfono secundario</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="phone"
-										required
-										>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!phoneControl">
+								<div class="form-group">
+									{{phone.value}}
+									<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('phoneControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="phoneControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="phone"
+												required
+												(blur)="setField('phone','phone','phoneControl');"
+												(keydown.enter)="setField('phone','phone','phoneControl');"
+												>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('phoneControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
+								<div class="form-group">
+									<label class="bmd-label-floating">Emails</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!emailsControl">
+								<div class="form-group">
+									<span *ngFor="let email of emails; last as isLast">
+										{{email}}<br *ngIf="!isLast">
+										<span *ngIf="isLast">&nbsp;</span>
+									</span>
+									<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('emailsControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="emailsControl">
 								<div class="form-group">
 									<mat-form-field class="bmd-label-floating">
 										<mat-chip-list #chipEmailList aria-label="Emails">
@@ -129,7 +243,11 @@
 												[matChipInputFor]="chipEmailList"
 												[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
 												[matChipInputAddOnBlur]="addEmailOnBlur"
-												(matChipInputTokenEnd)="addEmail($event)">
+												(matChipInputTokenEnd)="addEmail($event)"
+												(blur)="fieldLeave('emailsControl');"
+												(keydown.enter)="fieldLeave('emailsControl');"
+												(mouseleave)="fieldLeave('emailsControl');"
+												>
 										</mat-chip-list>
 									</mat-form-field>
 								</div>
@@ -141,42 +259,101 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-2">
 								<div class="form-group">
-									<mat-form-field>
-										<mat-select
-											multiple
-											placeholder="Tipo"
-											[formControl]="type"
-											name="type"
-											ariaLabel="types[0]"
-											(selectionChange)="setField('type','type','types');"
-											>
-											<mat-option *ngFor="let accType of types" [value]="accType.value">
-													{{ accType.viewValue }}
-											</mat-option>
-										</mat-select>
-									</mat-form-field>
+									<label class="bmd-label-floating">Tipo</label>
 								</div>
+							</div>
+							<div class="col" *ngIf="!typesControl">
 								<div class="form-group">
-									<mat-form-field>
-										<mat-select
-											placeholder="Vendedor"
-											[formControl]="owner"
-											name="owner"
-											ariaLabel="owners[0]"
-											(selectionChange)="setField('owner','owner','owners','_id');"
-											>
-												<mat-option *ngFor="let userOwner of owners" [value]="userOwner.value">
-														{{ userOwner.viewValue }}
-												</mat-option>
-										</mat-select>
-									</mat-form-field>
+									<span *ngFor="let accType of type.value; last as isLast">
+										<span *ngIf="accType=='customer'"><i class="fas fa-money-bill text-primary"></i> Cliente</span><span *ngIf="accType=='provider'"><i class="fas fa-truck text-danger"></i> Proveedor</span><span *ngIf="accType=='internal'"><i class="fas fa-home text-success"></i> Interno</span><span *ngIf="accType=='partner'"><i class="fas fa-handshake text-info"></i> Alianza</span><span *ngIf="accType=='support'"><i class="fas fa-wrench text-warning"></i> Soporte</span><br *ngIf="!isLast"><span *ngIf="isLast">&nbsp;</span>
+									</span>
+									<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('typesControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="typesControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-select
+													multiple
+													placeholder="Tipo"
+													[formControl]="type"
+													name="type"
+													ariaLabel="types[0]"
+													(selectionChange)="setField('type','type','typesControl','types');"
+													>
+													<mat-option *ngFor="let accType of types" [value]="accType.value">
+															{{ accType.viewValue }}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('typesControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
+								<div class="form-group">
+									<label class="bmd-label-floating">Vendedor</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!ownerControl">
+								<div class="form-group">
+									<span>
+										{{ownerShow}}
+									</span>
+									<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('ownerControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="ownerControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-select
+													placeholder="Vendedor"
+													[formControl]="owner"
+													name="owner"
+													ariaLabel="owners[0]"
+													(selectionChange)="setField('owner','owner','ownerControl','owners','_id');"
+													>
+														<mat-option *ngFor="let userOwner of owners" [value]="userOwner.value">
+																{{ userOwner.viewValue }}
+														</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('ownerControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
+								<div class="form-group">
+									<label class="bmd-label-floating">Felicidad</label>
 								</div>
 							</div>
 							<div class="col">
 								<div class="row">
-									<div class="col-1">
+									<div class="col-auto">
 										<i
 											class="far fa-meh-blank fa-2x"
 											*ngIf="account.happiness == 'unknown'"
@@ -208,22 +385,76 @@
 											>
 										</i>
 									</div>
-									<div class="col">
+									<div class="col" *ngIf="!happinessControl">
 										<div class="form-group">
-											<mat-form-field>
-												<mat-select placeholder="Felicidad"
-												(selectionChange)="setField('happiness','accountHappiness');"
-												[formControl]="accountHappiness"
-												name="accountHappiness"
-												ariaLabel="happiness[0]">
-														<mat-option *ngFor="let hap of happiness" [value]="hap.value">
-																{{ hap.viewValue }}
-														</mat-option>
-												</mat-select>
-											</mat-form-field>
+											<span *ngIf="account.happiness == 'unknown'">
+												Desconocido
+											</span>
+											<span *ngIf="account.happiness == 'angry'">
+												Enojado
+											</span>
+											<span *ngIf="account.happiness == 'fragile'">
+												Frágil
+											</span>
+											<span *ngIf="account.happiness == 'neutral'">
+												Neutral
+											</span>
+											<span *ngIf="account.happiness == 'happy'">
+												Contento
+											</span>
+											<span *ngIf="account.happiness == 'elated'">
+												Exaltado
+											</span>
+											<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+												(click)="fieldEnter('happinessControl');"
+												></i>
+										</div>
+									</div>
+									<div class="col" *ngIf="happinessControl">
+										<div class="form-group">
+											<div class="row">
+												<div class="col">
+													<mat-form-field>
+														<mat-select placeholder="Felicidad"
+														(selectionChange)="setField('happiness','accountHappiness','happinessControl');"
+														[formControl]="accountHappiness"
+														name="accountHappiness"
+														ariaLabel="happiness[0]">
+																<mat-option *ngFor="let hap of happiness" [value]="hap.value">
+																		{{ hap.viewValue }}
+																</mat-option>
+														</mat-select>
+													</mat-form-field>
+												</div>
+												<div class="col-auto">
+													<i class="fas fa-window-close pointme"
+														(click)="fieldLeave('happinessControl');"
+													></i>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
+								<div class="form-group">
+									<label class="bmd-label-floating">Etiquetas</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!tagsControl">
+								<div class="form-group">
+									<span *ngFor="let tag of tags; last as isLast">
+										{{tag}}<span *ngIf="!isLast">, </span>
+										<span *ngIf="isLast">&nbsp;</span>
+									</span>
+									<i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('tagsControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="tagsControl">
 								<div class="row">
 									<div class="col">
 										<mat-form-field class="bmd-label-floating">
@@ -260,19 +491,11 @@
 											</mat-autocomplete>
 										</mat-form-field>
 									</div>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<div class="form-group">
-									<mat-form-field>
-										<textarea
-											matInput
-											placeholder="Notas"
-											[formControl]="notes"
-										></textarea>
-									</mat-form-field>
+									<div class="col-auto">
+										<i class="fas fa-window-close pointme"
+											(click)="fieldLeave('tagsControl');"
+										></i>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -282,72 +505,206 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-2">
 								<div class="form-group">
 									<label class="bmd-label-floating"><i class="fab fa-twitter"></i> Twitter</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="twitter"
-										(blur)="setField('social','twitter',null,'twitter');"
-									>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!twitterControl">
 								<div class="form-group">
-									<label class="bmd-label-floating"><i class="fab fa-facebook"></i> Facebook</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="facebook"
-										(blur)="setField('social','facebook',null,'facebook');"
-									>
+									{{twitter.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('twitterControl');"
+										></i>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="twitterControl">
 								<div class="form-group">
-									<label class="bmd-label-floating"><i class="fab fa-linkedin"></i> Linkedin</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="linkedin"
-										(blur)="setField('social','linkedin',null,'linkedin');"
-									>
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="twitter"
+												(blur)="setField('social','twitter','twitterControl',null,'twitter');"
+												(keydown.enter)="setField('social','twitter','twitterControl',null,'twitter');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('twitterControl');"
+											></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-2">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-facebook"></i> Facebook</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!facebookControl">
+								<div class="form-group">
+									{{facebook.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('facebookControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="facebookControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="facebook"
+												(blur)="setField('social','facebook','facebookControl',null,'facebook');"
+												(keydown.enter)="setField('social','facebook','facebookControl',null,'facebook');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('facebookControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
+								<div class="form-group">
+									<label class="bmd-label-floating"><i class="fab fa-linkedin"></i> Linkedin</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!linkedinControl">
+								<div class="form-group">
+									{{linkedin.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('linkedinControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="linkedinControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="linkedin"
+												(blur)="setField('social','linkedin',null,'linkedin');"
+												(keydown.enter)="setField('social','linkedin',null,'linkedin');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('linkedinControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
 								<div class="form-group">
 									<label class="bmd-label-floating"><i class="fab fa-google-plus"></i> Google</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="google"
-										(blur)="setField('social','google',null,'google');"
-									>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!googleControl">
+								<div class="form-group">
+									{{google.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('googleControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="googleControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="google"
+												(blur)="setField('social','google','googleControl',null,'google');"
+												(keydown.enter)="setField('social','google','googleControl',null,'google');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('googleControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
 								<div class="form-group">
 									<label class="bmd-label-floating"><i class="fab fa-instagram"></i> Instagram</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="instagram"
-										(blur)="setField('social','instagram',null,'instagram');"
-									>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!instagramControl">
+								<div class="form-group">
+									{{instagram.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('instagramControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="instagramControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="instagram"
+												(blur)="setField('social','instagram','instagramControl',null,'instagram');"
+												(keydown.enter)="setField('social','instagram','instagramControl',null,'instagram');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('instagramControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-2">
 								<div class="form-group">
 									<label class="bmd-label-floating"><i class="fab fa-skype"></i> Skype</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="skype"
-										(blur)="setField('social','skype',null,'skype');"
-									>
+								</div>
+							</div>
+							<div class="col" *ngIf="!skypeControl">
+								<div class="form-group">
+									{{skype.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('skypeControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="skypeControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="skype"
+												(blur)="setField('social','skype','skypeControl',null,'skype');"
+												(keydown.enter)="setField('social','skype','skypeControl',null,'skype');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('skypeControl');"
+											></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -357,120 +714,323 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-3">
 								<div class="form-group">
 									<label class="bmd-label-floating">Código Postal</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="postalCode"
-										(blur)="getPostalCode();"
-									>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!postalCodeControl">
 								<div class="form-group">
-									<mat-form-field>
-										<mat-select
-										placeholder="Colonia"
-										[formControl]="suburb"
-										name="suburb"
-										ariaLabel="suburbs[0]"
-										(selectionChange)="setField('address','suburb',null,'suburb');"
-										>
-												<mat-option *ngFor="let colonia of suburbs" [value]="colonia.value">
-														{{ colonia.viewValue }}
-												</mat-option>
-										</mat-select>
-									</mat-form-field>
+									{{postalCode.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('postalCodeControl');"
+										></i>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="postalCodeControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+													type="text"
+													class="form-control"
+													[formControl]="postalCode"
+													(blur)="getPostalCode();"
+													(keydown.enter)="getPostalCode();"
+												>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('postalCodeControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<div class="form-group">
+									<label class="bmd-label-floating">Colonia</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!suburbControl">
+								<div class="form-group">
+									{{suburb.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('suburbControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="suburbControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-select
+												placeholder="Colonia"
+												[formControl]="suburb"
+												name="suburb"
+												ariaLabel="suburbs[0]"
+												(selectionChange)="setField('address','suburb','suburbControl',suburbs,'suburb');"
+												>
+														<mat-option *ngFor="let colonia of suburbs" [value]="colonia.value">
+																{{ colonia.viewValue }}
+														</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('suburbControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
 								<div class="form-group">
 									<label class="bmd-label-floating">Municipio/Delegación</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="locality"
-										(blur)="setField('address','locality',null,'locality');"
-									>
+								</div>
+							</div>
+							<div class="col" *ngIf="!localityControl">
+								<div class="form-group">
+									{{locality.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('localityControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="localityControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="locality"
+												(blur)="setField('address','locality','localityControl',null,'locality');"
+												(keydown.enter)="setField('address','locality','localityControl',null,'locality');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('localityControl');"
+											></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-3">
 								<div class="form-group">
 									<label class="bmd-label-floating">Calle</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="street"
-										(blur)="setField('address','street',null,'street');"
-									>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="!streetControl">
 								<div class="form-group">
-									<label class="bmd-label-floating">Ext</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="ext"
-										(blur)="setField('address','ext',null,'ext');"
-									>
+									{{street.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('streetControl');"
+										></i>
 								</div>
 							</div>
-							<div class="col">
+							<div class="col" *ngIf="streetControl">
 								<div class="form-group">
-									<label class="bmd-label-floating">Int</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="int"
-										(blur)="setField('address','int',null,'int');"
-									>
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="street"
+												(blur)="setField('address','street','streetControl',null,'street');"
+												(keydown.enter)="setField('address','street','streetControl',null,'street');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('streetControl');"
+											></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 						<div class="row">
-							<div class="col">
+							<div class="col-sm col-md-3">
 								<div class="form-group">
-									<label class="bmd-label-floating">Ciudad</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="city"
-										(blur)="setField('address','city',null,'city');"
-									>
+									<label class="bmd-label-floating">Ext</label>
 								</div>
 							</div>
-							<div class="col">
-								<mat-form-field>
-									<mat-select
-									placeholder="Estado"
-									[formControl]="state"
-									name="state"
-									ariaLabel="states[0]"
-									(selectionChange)="this.setField('address','state',null,'state');"
-									>
-											<mat-option *ngFor="let userState of states" [value]="userState.value">
-													{{ userState.viewValue }}
-											</mat-option>
-									</mat-select>
-								</mat-form-field>
-							</div>
-							<div class="col">
+							<div class="col" *ngIf="!extControl">
 								<div class="form-group">
-									<label class="bmd-label-floating">País</label>
-									<input
-										type="text"
-										class="form-control"
-										[formControl]="country"
-										(blur)="setField('address','country',null,'country');"
-									>
+									{{ext.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('extControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="extControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="ext"
+												(blur)="setField('address','ext','extControl',null,'ext');"
+												(keydown.enter)="setField('address','ext','extControl',null,'ext');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('extControl');"
+											></i>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<div class="form-group">
+									<label class="bmd-label-floating">Int</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!intControl">
+								<div class="form-group">
+									{{int.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('intControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="intControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="int"
+												(blur)="setField('address','int','intControl',null,'int');"
+												(keydown.enter)="setField('address','int','intControl',null,'int');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('intControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<div class="form-group">
+									<label class="bmd-label-floating">Ciudad</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!cityControl">
+								<div class="form-group">
+									{{city.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('cityControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="cityControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="city"
+												(blur)="setField('address','city','cityControl',null,'city');"
+												(keydown.enter)="setField('address','city','cityControl',null,'city');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('cityControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<div class="form-group">
+									<label class="bmd-label-floating">Estado</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!stateControl">
+								<div class="form-group">
+									{{stateShow}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('stateControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="stateControl">
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-select
+											placeholder="Estado"
+											[formControl]="state"
+											name="state"
+											ariaLabel="states[0]"
+											(selectionChange)="this.setField('address','state','stateControl',null,'state');"
+											>
+													<mat-option *ngFor="let userState of states" [value]="userState.value">
+															{{ userState.viewValue }}
+													</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col-auto">
+										<i class="fas fa-window-close pointme"
+											(click)="fieldLeave('stateControl');"
+										></i>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<div class="form-group">
+									<label class="bmd-label-floating">País</label>
+								</div>
+							</div>
+							<div class="col" *ngIf="!countryControl">
+								<div class="form-group">
+									{{country.value}} <i class="fas fa-pencil-alt fa-xs text-muted pointme"
+										(click)="fieldEnter('countryControl');"
+										></i>
+								</div>
+							</div>
+							<div class="col" *ngIf="countryControl">
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<input
+												type="text"
+												class="form-control"
+												[formControl]="country"
+												(blur)="setField('address','country','countryControl',null,'country');"
+												(keydown.enter)="setField('address','country','countryControl',null,'country');"
+											>
+										</div>
+										<div class="col-auto">
+											<i class="fas fa-window-close pointme"
+												(click)="fieldLeave('countryControl');"
+											></i>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
 						<div class="row">
 							<div class="col">
 								<div class="btn-group float-right">
@@ -492,7 +1052,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col">
+			<div class="col-4">
 				<div class="card">
 					<div class="card-body">
 						<div class="btn-group" role="group">
@@ -518,10 +1078,43 @@
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-header">
-						<p class="card-title">Usuarios relacionados a </p><h4 class="text-primary">{{account.name}}</h4>
-					</div>
+					<!-- <div class="card-header">
+						<div class="btn-group" role="group">
+							<button class="btn btn-sm btn-warning">
+								<i class="fas fa-sticky-note"></i>&nbsp;Notas
+							</button>
+							<button class="btn btn-sm btn-primary">
+								+<i class="fas fa-sticky-note"></i>
+							</button>
+						</div>
+					</div> -->
 					<div class="card-body">
+						<h4 class="card-title text-warning">
+							<i class="fas fa-sticky-note"></i>&nbsp;Notas
+							<span
+								class="text-dark float-right pointme"
+								(click)="createNote();"
+								>+</span>
+						</h4>
+						<!-- <mat-form-field>
+							<textarea
+								matInput
+								placeholder="Agregar nota"
+								[formControl]="newNote"
+							></textarea>
+						</mat-form-field>
+						<hr> -->
+						<div class="row" *ngFor="let note of notes">
+							<div class="col">
+								<p>{{note.text}}
+								<small>{{note.mod[note.mod.length-1].by}}<br/><i class="text-muted">{{note.mod[note.mod.length-1].when | date: 'medium'}}</i></small></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title text-info"><i class="fas fa-users"></i>&nbsp;Usuarios</h5>
 						Usuario 1
 					</div>
 				</div>

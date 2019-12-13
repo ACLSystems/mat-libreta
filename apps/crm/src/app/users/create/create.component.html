@@ -346,6 +346,7 @@
 										class="form-control"
 										[formControl]="postalCode"
 										(blur)="getPostalCode();"
+										(keydown.enter)="getPostalCode();"
 									>
 								</div>
 							</div>
