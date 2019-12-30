@@ -1,60 +1,76 @@
+import { TypeAccount } from '@crmshared/types/account.type';
+import { Happy } from '@crmshared/types/happy.type';
+import { Address } from '@crmshared/types/address.type';
+import { Mod } from '@crmshared/types/mod.type';
+import { Social } from '@crmshared/types/social.type';
+
+export interface Person {
+	name: string,
+	email: string,
+	fatherName: string,
+	birthDate?: string,
+	emails?: string[],
+	motherName?: string,
+	mainPhone?: string,
+	phone?: string,
+	cellPhone?: string
+}
+
+export interface Owner {
+	_id: string,
+	person: Person
+}
+
+export type ContactType =
+	'lead'|
+	'contact'|
+	'internal'|
+	'partner'|
+	'reseller'|
+	'other';
+
+export type ContactRole =
+			'Decision Maker'|
+			'Executive Sponsor'|
+			'Admin/Project Manager'|
+			'Finance'|
+			'Legal'|
+			'Purchase'|
+			'Technical'|
+			'Other';
+
+export type Source =
+	'web'|
+	'phone'|
+	'email'|
+	'fresh'|
+	'direct'|
+	'referal'|
+	'social'|
+	'event';
+
+export type TypeOwner = string | Owner;
+
 export interface Contact {
 	name: string,
-	org?: {
-		_id: string,
-		name: string
-	}[],
-	type: string[],
-	contactRole: string[],
-	_id: string,
+	type: ContactType[],
+	org?: TypeAccount[],
+	contactRole?: ContactRole[],
+	_id?: string,
 	char1?: string,
 	char2?: string,
 	flag1?: string,
 	flag2?: string,
-	happiness?: string,
+	happiness?: Happy,
 	hasAuthority?: boolean,
-	source?: string,
+	source?: Source,
 	tags?: string[],
 	unSubscribe?: boolean,
-	person: {
-		birthDate?: string,
-		email: string,
-		emails?: string[],
-		fatherName: string,
-		motherName?: string,
-		name: string,
-		mainPhone: string,
-		phone: string,
-		cellPhone: string
-	},
-	owner?: {
-		_id: string,
-		person?: {
-			name: string,
-			fatherName: string,
-			motherName?: string,
-			emails?: string[],
-			email: string,
-			birthDate?: string
-		}
-	},
-	address?: {
-		city?: string,
-		country?: string,
-		ext?: string,
-		int?: string,
-		locality?: string,
-		postalCode?: string,
-		state?: string,
-		street?: string,
-		suburb?: string
-	}[],
-	social?: {
-		facebook?: string,
-		twitter?: string,
-		linkedin?: string,
-		google?: string,
-		instagram?: string,
-		skype?: string
-	}
+	person?: Person,
+	owner?: TypeOwner,
+	address?: Address[],
+	social?: Social,
+	mod?: Mod[]
 }
+
+export type TypeContact = string | Contact;

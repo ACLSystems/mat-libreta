@@ -8,8 +8,11 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
+/* Importar servicios */
 import { UserService } from '@crmshared/services/user.service';
+import { CommonService } from '@crmshared/services/common.service';
 
+/* Importar tipos */
 import { Account } from '@crmshared/types/account.type';
 import { Display } from '@crmshared/types/display.type';
 
@@ -104,6 +107,7 @@ export class CreateAccountComponent implements OnInit {
 
   constructor(
 		private userService: UserService,
+		private commonService: CommonService,
 		private router: Router
 	) {
 		this.type.setValue([this.types[0].value]);
@@ -132,10 +136,10 @@ export class CreateAccountComponent implements OnInit {
 						viewValue: `${eachOwner.person.name.split(' ')[0]} ${eachOwner.person.fatherName}`
 					});
 				});
-				this.displayLog('Vendedores',this.owners);
+				this.commonService.displayLog('Vendedores',this.owners);
 				this.userService.getTags().subscribe(data => {
 					this.allTags = data;
-					this.displayLog('allTags', this.allTags);
+					this.commonService.displayLog('allTags', this.allTags);
 					this.loading = false;
 				}, error => {
 					console.log(error.message);
@@ -223,7 +227,7 @@ export class CreateAccountComponent implements OnInit {
     this.tags.push(event.option.value);
 		this.tagInput.nativeElement.value='';
 		this.tagsCtrl.setValue(null);
-		this.displayLog('Etiquetas seleccionadas',this.tags);
+		this.commonService.displayLog('Etiquetas seleccionadas',this.tags);
   }
 
 	addEmail(event: MatChipInputEvent): void {
@@ -404,17 +408,9 @@ export class CreateAccountComponent implements OnInit {
 		this.router.navigate(['/accounts/view']);
 	}
 
-	displayLog(display:string, obj: any) {
-		console.group(display);
-		console.log(obj);
-		console.groupEnd();
-	}
-
 	private _filter(value:string): string[] {
 		const filterValue = value.toLowerCase();
 		return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
 	}
-
-
 
 }

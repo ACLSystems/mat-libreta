@@ -262,7 +262,7 @@ export class EditUserComponent implements OnInit {
 		// Poblar campo cuentas
 		let accs = [];
 		this.user.org.forEach(o => {
-			accs.push(o._id);
+			accs.push(o['_id']);
 		});
 		this.account.setValue(accs);
 
@@ -289,7 +289,7 @@ export class EditUserComponent implements OnInit {
 			this.source.setValue(this.user.source);
 		}
  		// Poblar campo dueño
-		this.owner.setValue(this.user.owner._id);
+		this.owner.setValue(this.user.owner['_id']);
 		// Poblar autoridad y Suscrito
 		if(this.user.hasAuthority) {
 			this.hasAuthority.setValue(true);

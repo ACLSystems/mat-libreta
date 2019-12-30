@@ -43,45 +43,60 @@ export const ROUTES: RouteInfo[] = [{
 		},{
 				path: '/users',
 				title: 'Usuarios',
-				type: 'sub',
 				icontype: 'people',
-				collapse: 'usuarios',
-				children: [
-					{path: 'create', title: 'Crear usuario', ab: 'CU'},
-					{path: 'view', title: 'Ver usuarios', ab: 'VU'}
-				]
-		// },{
-		// 		path: '/oportunities',
-		// 		title: 'Oportunidades',
-		// 		type: 'sub',
-		// 		icontype: 'flag',
-		// 		collapse: 'oportunidades',
-		// 		children: [
-		// 			{path: 'create', title: 'Crear oportunidad', ab: 'CO'},
-		// 			{path: 'view', title: 'Ver oportunidades', ab: 'VO'}
-		// 		]
+				type: 'link'
+				// type: 'sub',
+				// collapse: 'usuarios',
+				// children: [
+				// 	{path: 'create', title: 'Crear usuario', ab: 'CU'},
+				// 	{path: 'view', title: 'Ver usuarios', ab: 'VU'}
+				// ]
 		},{
 				path: '/accounts',
 				title: 'Cuentas',
-				type: 'sub',
-				collapse: 'cuentas',
 				icontype: 'apartment',
-				children: [
-					{path: 'create', title: 'Crear cuenta', ab: 'CC'},
-					{path: 'view', title: 'Ver cuentas', ab: 'VC'}
-				]
+				type: 'link'
+				// type: 'sub',
+				// collapse: 'cuentas',
+				// children: [
+				// 	{path: 'create', title: 'Crear cuenta', ab: 'CC'},
+				// 	{path: 'view', title: 'Ver cuentas', ab: 'VC'}
+				// ]
+		},{
+				path: '/quotes',
+				title: 'Cotizaciones',
+				icontype: 'shopping_cart',
+				type: 'link'
+				// type: 'sub',
+				// collapse: 'oportunidades',
+				// children: [
+				// 	{path: 'create', title: 'Crear oportunidad', ab: 'CO'},
+				// 	{path: 'view', title: 'Ver oportunidades', ab: 'VO'}
+				// ]
+		},{
+				path: '/opportunities',
+				title: 'Oportunidades',
+				icontype: 'flag',
+				type: 'link'
+				// type: 'sub',
+				// collapse: 'oportunidades',
+				// children: [
+				// 	{path: 'create', title: 'Crear oportunidad', ab: 'CO'},
+				// 	{path: 'view', title: 'Ver oportunidades', ab: 'VO'}
+				// ]
 		},{
 				path: '/business',
 				title: 'Negocios',
-				type: 'sub',
 				icontype: 'attach_money',
-				collapse: 'negocios',
-				children: [
-					{path: 'create', title: 'Crear negocio', ab: 'CN'},
-					{path: 'view', title: 'Ver negocios', ab: 'VN'}
-				]
+				type: 'link'
+				// type: 'sub',
+				// collapse: 'negocios',
+				// children: [
+				// 	{path: 'create', title: 'Crear negocio', ab: 'CN'},
+				// 	{path: 'view', title: 'Ver negocios', ab: 'VN'}
+				// ]
 		},{
-				path: '/charts',
+				path: '/reports',
 				title: 'Reportes',
 				type: 'link',
 				icontype: 'timeline'

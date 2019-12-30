@@ -57,8 +57,48 @@ const routes: Routes = [
 		canActivate: [AuthGuard],
 		children: [
 			{
+				path: 'quotes',
+				loadChildren: () => import('./quotes/quotes.module').then(mod => mod.QuotesModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'opportunities',
+				loadChildren: () => import('./opportunities/opportunities.module').then(mod => mod.OpportunitiesModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
 				path: 'business',
 				loadChildren: () => import('./businesses/businesses.module').then(mod => mod.BusinessesModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'reports',
+				loadChildren: () => import('./reports/reports.module').then(mod => mod.ReportsModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'admin',
+				loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
 			}
 		]
 	},{

@@ -325,8 +325,8 @@ export class EditAccountComponent implements OnInit {
 		}
 		// Poblar campo dueño
 		if(this.account.owner) {
-			this.owner.setValue(this.account.owner._id);
-			this.ownerShow = this.owners.find(o => o.value === this.account.owner._id).viewValue;
+			this.owner.setValue(this.account.owner['_id']);
+			this.ownerShow = this.owners.find(o => o.value === this.account.owner['_id']).viewValue;
 		}
 
 		// Poblar tags

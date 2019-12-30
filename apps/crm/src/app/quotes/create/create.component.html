@@ -1,0 +1,418 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="row">
+			<div class="col">
+				<div class="card" *ngIf="!enablePhase2">
+					<div class="card-header card-header-icon card-header-danger">
+						<div class="card-icon">
+							<i class="fas fa-shopping-cart fa-2x"></i>
+						</div>
+						<h3 class="card-title">
+							Cotización - Datos generales
+							<button
+								class="btn btn-sm btn-secondary float-right"
+								(click)="cancel();"
+								>
+								Cancelar
+							</button>
+						</h3>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-sm-2 col-form-label">
+								Empresa
+							</div>
+							<div class="col-sm-9">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select
+											placeholder="Selecciona empresa"
+											[formControl]="origin"
+											name="origin"
+											arialabel="accountsInternal[0].viewValue"
+											required
+											>
+											<mat-option
+												*ngFor="let accountData of accountsInternal" [value]="accountData.value"
+												>
+												{{accountData.viewValue}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-2 col-form-label">
+								Vendedor
+							</div>
+							<div class="col-sm-9">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select
+											placeholder="Selecciona vendedor"
+											[formControl]="owner"
+											name="owner"
+											arialabel="owners[0].viewValue"
+											required
+											>
+											<mat-option
+												*ngFor="let ownerData of owners" [value]="ownerData.value"
+												>
+												{{ownerData.viewValue}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-2 col-form-label">
+								Cuenta
+							</div>
+							<div class="col-sm-9">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select
+											placeholder="Selecciona cuenta"
+											[formControl]="account"
+											name="account"
+											arialabel="accounts[0].viewValue"
+											(selectionChange)="setCustomersArray(account.value);"
+											required
+											>
+											<mat-option
+												*ngFor="let accountData of accounts" [value]="accountData.value"
+												>
+												{{accountData.viewValue}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-2 col-form-label">
+								Contacto
+							</div>
+							<div class="col-sm-9">
+								<div class="form-group">
+									<mat-form-field>
+										<mat-select
+											placeholder="Selecciona contacto"
+											[formControl]="contact"
+											name="contact"
+											arialabel="contact[0].viewValue"
+											(selectionChange)="displayWarning();"
+											required
+											>
+											<mat-option
+												*ngFor="let contactData of contacts" [value]="contactData.value"
+												>
+												{{contactData.viewValue}}
+											</mat-option>
+										</mat-select>
+									</mat-form-field>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col">
+									<div class="btn-group float-right">
+										<button
+											class="btn btn-sm btn-secondary"
+											(click)="cancel();"
+											>
+											Cancelar
+										</button>
+										<button
+											class="btn btn-sm btn-primary"
+											(click)="generateQuote();"
+											[disabled]="!enableQuote"
+											>
+											Iniciar cotización
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card" *ngIf="enablePhase2">
+					<div class="card-header card-header-icon card-header-danger">
+						<div class="card-icon">
+							<i class="fas fa-shopping-cart fa-2x"></i>
+						</div>
+						<h3 class="card-title">
+							Cotización <b>{{quote.number}}</b>
+							<button
+								class="btn btn-sm btn-secondary float-right"
+								(click)="cancel();"
+								>
+								Cancelar
+							</button>
+						</h3>
+					</div>
+					<div class="card-body">
+						<div class="alert alert-light">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<small>Estado: </small><span class="badge badge-danger">{{quote.status}}</span>
+									</div>
+									<div class="col">
+										<small>Cotiza: </small><span class="badge badge-primary">{{originDisplay}}</span>
+									</div>
+									<div class="col">
+										<small>Vendedor: </small> <span class="badge badge-primary">{{ownerDisplay}}</span>
+									</div>
+									<div class="col">
+										<small>Cuenta: </small><span class="badge badge-warning">{{accountDisplay}}</span>
+									</div>
+									<div class="col">
+										<small>Contacto: </small><span class="badge badge-warning">{{contactDisplay}}</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="container">
+							<div class="table-responsive">
+								<table class="table fixed">
+									<thead>
+										<tr>
+											<th>Producto</th>
+											<th>Cantidad</th>
+											<th>Descuento</th>
+											<th class="text-right">Total</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let opp of opportunities; index as index">
+											<td>{{opp.product.vendor.name}}</td>
+											<td>{{opp.product.name}} - {{opp.product.plan}}</td>
+											<td class="text-center">{{opp.quantity}}</td>
+											<td class="text-right">{{opp.discount | percent}}</td>
+											<td class="text-right">{{opp.value | currency}}</td>
+										</tr>
+										<tr>
+											<td class="align-top">
+												<mat-form-field>
+													<mat-select
+														placeholder="Marca"
+														[formControl]="vendor"
+														name="vendor"
+														arialabel="vendors[0].viewValue"
+														(selectionChange)="getProductList(vendor.value);"
+														required
+														>
+														<mat-option
+															*ngFor="let vendorData of vendors" [value]="vendorData.value"
+															>
+															{{vendorData.viewValue}}
+														</mat-option>
+													</mat-select>
+												</mat-form-field>
+												<br>
+												<mat-form-field>
+													<mat-select
+														placeholder="Producto"
+														[formControl]="product"
+														name="product"
+														arialabel="products[0].viewValue"
+														(selectionChange)="getPlanList(product.value);"
+														required
+														>
+														<mat-option
+															*ngFor="let prodData of products" [value]="prodData.value"
+															>
+															{{prodData.viewValue}}
+														</mat-option>
+													</mat-select>
+												</mat-form-field>
+												<button
+													mat-raised-button
+													class="btn btn-sm btn-primary btn-raised btn-round"
+													data-toggle="modal"
+													data-target="#planModal"
+													[disabled]="!enablePlan"
+													>
+													Elegir Plan
+												</button>
+												<br>
+												<small>Plan: </small>{{plan.value}}<br>
+												<small>Periodo: </small>{{base.value}}<br>
+												<small>Precio: </small>{{price|currency}}
+												<!-- Plan Modal -->
+												<div class="modal fade" id="planModal" tabindex="-1" role="dialog" aria-labelledby="planModalLabel" aria-hidden="true">
+													<div class="modal-dialog">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h4 class="modal-title">Elegir Plan</h4>
+																<button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+																	<i class="material-icons">clear</i>
+																</button>
+															</div>
+															<div class="modal-body">
+																<div class="form-group bmd-form-group is-filled">
+																	<div class="row">
+																		<div class="col-md-10 col-lg-8 ml-auto mr-auto">
+																			<mat-form-field >
+																				<mat-select
+																					placeholder="Plan"
+																					[formControl]="plan"
+																					name="plan"
+																					arialabel="plans[0].viewValue"
+																					(selectionChange)="getBaseList(plan.value);"
+																					required
+																					>
+																					<mat-option
+																						*ngFor="let planData of plans" [value]="planData.value"
+																						>
+																						{{planData.viewValue}}
+																					</mat-option>
+																				</mat-select>
+																			</mat-form-field>
+																			<mat-form-field >
+																				<mat-select
+																					placeholder="Periodo"
+																					[formControl]="base"
+																					name="base"
+																					arialabel="bases[0].viewValue"
+																					(selectionChange)="setQuantity();"
+																					required
+																					>
+																					<mat-option
+																						*ngFor="let baseData of bases" [value]="baseData.value"
+																						>
+																						{{baseData.viewValue}}
+																					</mat-option>
+																				</mat-select>
+																			</mat-form-field>
+																		</div>
+																	</div>
+																</div>
+																<div class="container-fluid" *ngIf="planData.length > 0">
+																	<table class="table">
+																		<thead>
+																			<tr>
+																				<th scope="col">Nombre</th>
+																				<th scope="col">Descripción</th>
+																				<th scope="col" class="text-right">Precio</th>
+																			</tr>
+																		</thead>
+																		<tbody>
+																			<tr *ngFor="let plan of planData">
+																				<th scope="row" class="align-top tex-center">
+																					{{plan.name}}
+																				</th>
+																				<td class="align-top">
+																					{{plan.description}}
+																				</td>
+																				<td class="align-top text-right">
+																					<table class="table">
+																						<tbody>
+																							<tr *ngFor="let price of plan.price">
+																								<td>{{price.base}}</td>
+																								<td>{{price.price| currency}}</td>
+																							</tr>
+																						</tbody>
+																					</table>
+																					<small>Precios en {{plan.currency.symbol}}</small>
+																				</td>
+																				<td class="align-top">
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+															<div class="modal-footer">
+																<button mat-raised-button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Cerrar</button>
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--  End Plan Modal -->
+											</td>
+											<td class="align-top text-right">
+												<mat-form-field>
+													<input
+														matInput
+														placeholder="Cantidad"
+														[formControl]="quantity"
+														type="number"
+														required
+													>
+												</mat-form-field>
+												<br>
+												<small>{{selectedPlan.priceBase}}</small>
+												<br>
+												<small>MRR: </small>{{mrr|currency}}
+											</td>
+											<td class="align-top text-right">
+												<mat-slider
+													thumbLabel
+													[displayWith]="formalLabelDiscount"
+													tickInterval="1"
+													[formControl]="discount"
+													min="0"
+													max="100"
+												></mat-slider>
+												<br>
+												<small>Descuento: </small>{{discount.value | number:'1.2-2' }}%
+												<br>
+												<small>Valor descontado: </small>{{totalDiscount|currency}}
+											</td>
+											<td class="align-top text-right"><p class="h4">{{subTotal|currency}}</p></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col">
+									<div class="btn-group float-left">
+										<button
+											class="btn btn-sm btn-secondary"
+											(click)="cancel();"
+											>
+											Cancelar
+										</button>
+									</div>
+									<div class="btn-group float-right">
+										<button
+											class="btn btn-sm btn-danger"
+											(click)="generateQuote();"
+											[disabled]="!enableQuote"
+											>
+											+ Partida
+										</button>
+										<button
+											class="btn btn-sm btn-primary"
+											(click)="generateQuote();"
+											[disabled]="!enableQuote"
+											>
+											Guardar
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-1">
+
+			</div>
+		</div>
+	</div>
+</div>

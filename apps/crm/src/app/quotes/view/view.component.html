@@ -1,0 +1,109 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<!-- <div class="card-header card-header-danger card-header-icon">
+						<div class="card-icon">
+							<i class="fas fa-shopping-cart fa-2x"></i>
+						</div>
+						<h3 class="card-title">
+							Cotizaciones
+						</h3>
+					</div> -->
+					<div class="card-body">
+						<div class="toolbar float-right">
+							<button
+								class="btn btn-primary btn-sm"
+								(click)="createQuote();"
+								>
+								<i class="fas fa-plus-circle"></i>
+							</button>
+						</div>
+						<div class="material-tables">
+							<table
+								datatable
+								id="quotes"
+								class="table table-stripped table-no-bordered table-hover"
+								cellspacing="0"
+								width="100%"
+								style="width:100%"
+								[dtOptions]="dtOptions"
+								>
+								<thead>
+									<tr>
+										<th *ngFor="let header of tableHeader">
+											{{header}}
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let quote of quotes">
+										<td>
+											{{quote.number}}
+										</td>
+										<td>
+											<span
+												*ngIf="quote.status=='new'"
+												class="text-warning"
+												>
+												Nueva
+											</span>
+											<span
+												*ngIf="quote.status=='review'"
+												class="text-info"
+												>
+												En revisión
+											</span>
+											<span
+												*ngIf="quote.status=='won'"
+												class="text-success"
+												>
+												Ganada
+											</span>
+											<span
+												*ngIf="quote.status=='lost'"
+												class="text-danger"
+												>
+												Perdida
+											</span>
+										</td>
+										<td>
+											{{quote.customerOrg.longName}}
+										</td>
+										<td>
+											{{quote.owner.person.name.split(' ')[0]}} {{quote.owner.person.fatherName}}
+										</td>
+										<td>
+											Valor TOTAL
+										</td>
+										<td>
+											{{quote.date| date}}
+										</td>
+										<td>
+											<span
+												[ngClass]="{'text-danger': quote.validDate < today}"
+											>
+												{{quote.validDate | date}}
+											</span>
+										</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<th *ngFor="let footer of tableHeader">
+											{{footer}}
+										</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

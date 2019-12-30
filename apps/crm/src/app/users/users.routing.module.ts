@@ -10,6 +10,9 @@ const userRoutes: Routes = [
 		path: '',
 		children: [
 			{
+				path: '',
+				component: ViewUserComponent
+			},{
 				path: 'create',
 				component: CreateUserComponent
 			},{

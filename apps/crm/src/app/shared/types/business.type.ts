@@ -1,3 +1,5 @@
+export type TypeBusiness = string | Business;
+
 export interface Business {
 	_id: string,
 	status: string,

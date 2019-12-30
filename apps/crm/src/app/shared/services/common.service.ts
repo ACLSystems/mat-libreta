@@ -19,7 +19,7 @@ export class CommonService {
 	/*
 	metodo para traer la identidad del usuario autenticado
 	*/
-	getidentity() {
+	getidentity(){
 		const identity = JSON.parse(localStorage.getItem('identity'));
 		if (identity !== 'undefined') {
 			this.identity = identity;
@@ -54,5 +54,14 @@ export class CommonService {
 			this.token = null;
 		}
 		return this.token;
+	}
+
+	/*
+	Método para desplegar logs en consola.
+	*/
+	displayLog(display:string, obj: any) {
+		console.group(display);
+		console.log(obj);
+		console.groupEnd();
 	}
 }

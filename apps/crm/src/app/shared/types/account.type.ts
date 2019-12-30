@@ -1,52 +1,27 @@
+import { Mod } from '@crmshared/types/mod.type';
+import { Address } from '@crmshared/types/address.type';
+import { Social } from '@crmshared/types/social.type';
+import { Note } from '@crmshared/types/notes.type';
+import { TypeOwner } from '@crmshared/types/contact.type';
+import { Happy } from '@crmshared/types/happy.type';
+export type TypeAccount = string | Account;
+
 export interface Account {
 	name: string,
 	longName: string,
+	type: string[],
 	alias?:string[],
 	isActive?: boolean,
-	type: string[],
-	address?: {
-		city?: string,
-		country?: string,
-		ext?: string,
-		int?: string,
-		locality?: string,
-		postalCode?: string,
-		state?: string,
-		street?: string,
-		suburb?: string
-	}[],
-	social?: {
-		facebook?: string,
-		twitter?: string,
-		linkedin?: string,
-		google?: string,
-		instagram?: string,
-		skype?: string
-	},
-	owner?: {
-		_id: string,
-		person: {
-			name: string,
-			fatherName: string,
-			motherName: string,
-			emails?: string[],
-			email: string,
-			birthDate?: string
-		}
-	},
-	notes: {
-		_id: string,
-		text: string,
-		mod: {
-			by: string,
-			when: string,
-			what: string
-		}[]
-	}[],
+	_id?: string,
+	address?: Address[],
+	social?: Social,
+	owner?: TypeOwner,
+	notes?: Note[],
 	mainPhone?: string,
 	phone?:string,
 	emails?:string[],
 	emailDomain?:string,
-	happiness?:string,
+	happiness?:Happy,
 	tags?: string[]
+	mod?:Mod[]
 }

@@ -212,11 +212,11 @@ export class NavbarComponent implements OnInit {
 			} else if (this.listTitles[i].type === "sub") {
 				for (let j = 0; j < this.listTitles[i].children.length; j++) {
 					let subtitle = this.listTitles[i].path + '/' + this.listTitles[i].children[j].path;
-					// console.log(subtitle)
-					// console.log(titlee)
+					console.log(subtitle)
+					console.log(titlee)
 					if (subtitle === titlee) {
 						return this.listTitles[i].children[j].title;
-					} 
+					}
 				}
 			}
 		}

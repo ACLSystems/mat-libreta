@@ -10,10 +10,12 @@ const businessRoutes: Routes = [
 		path: '',
 		children: [
 			{
+				path: '',
+				component: ViewBusinessComponent
+			},{
 				path: 'create',
 				component: CreateBusinessComponent
-			},
-			{
+			},{
 				path: 'view',
 				component: ViewBusinessComponent
 			},{

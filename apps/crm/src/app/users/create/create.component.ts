@@ -10,6 +10,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
 import { UserService } from '@crmshared/services/user.service';
+import { CommonService } from '@crmshared/services/common.service';
 
 import { Display } from '@crmshared/types/display.type';
 
@@ -128,6 +129,7 @@ export class CreateUserComponent implements OnInit {
 
 	constructor(
 		private userService: UserService,
+		private commonService: CommonService,
 		private router: Router
 	) {
 		// setear los defaults
@@ -235,7 +237,7 @@ export class CreateUserComponent implements OnInit {
     this.tags.push(event.option.value);
 		this.tagInput.nativeElement.value='';
 		this.tagsCtrl.setValue(null);
-		this.displayLog('Etiquetas seleccionadas',this.tags);
+		this.commonService.displayLog('Etiquetas seleccionadas',this.tags);
   }
 
 	getPostalCode() {
@@ -390,7 +392,7 @@ export class CreateUserComponent implements OnInit {
 						});
 						this.userService.getTags().subscribe(data => {
 							this.allTags = data;
-							this.displayLog('allTags', this.allTags);
+							this.commonService.displayLog('allTags', this.allTags);
 							this.loading = false;
 						}, error => {
 							console.log(error.message);

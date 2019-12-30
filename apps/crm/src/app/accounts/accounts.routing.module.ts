@@ -10,10 +10,12 @@ const accountRoutes: Routes = [
 		path: '',
 		children: [
 			{
+				path: '',
+				component: ViewAccountsComponent
+			},{
 				path: 'create',
 				component: CreateAccountComponent
-			},
-			{
+			},{
 				path: 'view',
 				component: ViewAccountsComponent
 			},{

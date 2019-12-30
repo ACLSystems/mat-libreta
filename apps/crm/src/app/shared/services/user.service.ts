@@ -236,13 +236,18 @@ export class UserService{
 	Método para traer la lista de usuarios
 	*/
 
-	usersList():Observable<any>{
-		const httpOptions = {
+	usersList(org?:string):Observable<any>{
+		let httpOptions = {
 			headers: JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.getToken()
-			)
-		};
+			),
+			params: null
+		}
+		if(org) {
+			httpOptions.params = new HttpParams()
+					.set('org',org);
+		}
 		const route = this.url+'api/v1/sales/users';
 		return this.http.get(route,httpOptions);
 	}
@@ -320,6 +325,66 @@ export class UserService{
 		return this.http.get(route,httpOptions);
 	}
 
+	/*
+	Método para generar cotización
+	*/
+
+	generateQuote(quote:any):Observable<any>{
+		const params = JSON.stringify(quote);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/sales/quote';
+		return this.http.post(route, params, {headers});
+	}
+
+	/*
+	Método para listar fabricantes
+	*/
+
+	getVendors():Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = this.url+'api/v1/sales/vendors';
+		return this.http.get(route,httpOptions);
+	}
+
+	/*
+	Método para listar fabricantes
+	*/
+
+	getProductList(vendor:string):Observable<any>{
+		const httpOptions = {
+			params: new HttpParams()
+				.set('vendor',vendor),
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		}
+		const route = this.url+'api/v1/sales/products';
+		return this.http.get(route, httpOptions);
+	}
+
+	/*
+	Método para listar oportunidades
+	*/
+
+	getQuoteList():Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		}
+		const route = this.url+'api/v1/sales/quotes';
+		return this.http.get(route, httpOptions);
+}
 	/*
 	Metodo para imprimir los errores que se generen en API
 	*/
