@@ -8,6 +8,8 @@ import { CommonService } from '@crmshared/services/common.service';
 import { JSONHeaders } from '@crmshared/services/httpHeaders';
 import { environment } from '@crmenv/environment';
 
+import { TypeOpp } from '@crmshared/types/opportunity.type';
+
 //permitimos con este decorador inyectar a otras dependencias
 @Injectable()
 export class UserService{
@@ -337,6 +339,34 @@ export class UserService{
 			);
 		const route = this.url+'api/v1/sales/quote';
 		return this.http.post(route, params, {headers});
+	}
+
+	/*
+	Método para generar oportunidad
+	*/
+
+	generateOpp(opp:TypeOpp):Observable<any>{
+		const params: string = JSON.stringify(opp);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route: string = this.url+'api/v1/sales/opportunity';
+		return this.http.post(route, params, {headers});
+	}
+
+	/*
+	Método para modificar propiedades de una cuenta
+	*/
+
+	modifyQuote(quote:any):Observable<any>{
+		const params = JSON.stringify(quote);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/sales/quote';
+		return this.http.patch(route, params, {headers});
 	}
 
 	/*

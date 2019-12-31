@@ -36,6 +36,7 @@ export class CreateQuoteComponent implements OnInit {
 
 	quote: Quote;
 	opportunities: Opportunity[] = [];
+	currentOpp: Opportunity;
 
 	vendor		= new FormControl('');
 	product 	= new FormControl('');
@@ -43,6 +44,7 @@ export class CreateQuoteComponent implements OnInit {
 	base			= new FormControl('');
 	quantity	= new FormControl(1);
 	discount	= new FormControl('0');
+	type			= new FormControl('Venta nueva');
 	subTotal	: number = 0;
 	period		: number;
 	price			: number;
@@ -192,6 +194,15 @@ export class CreateQuoteComponent implements OnInit {
 				});
 			}
 		}, error => {
+			if(error.status == 404) {
+				Swal.close();
+				Swal.hideLoading();
+				Swal.fire({
+					type: 'error',
+					title: 'Error de conexión'
+				});
+				console.log(error);
+			}
 			Swal.close();
 			Swal.hideLoading();
 			Swal.fire({
@@ -279,18 +290,15 @@ export class CreateQuoteComponent implements OnInit {
 		this.quote = {
 			customer: this.contact.value,
 			org: this.origin.value,
-			customerOrg: this.account.value
+			customerOrg: this.account.value,
+			opportunities: []
 		}
 		this.userService.generateQuote(this.quote).subscribe(data => {
 			this.commonService.displayLog('data',data);
 			this.quote.number = data.number;
 			this.quote._id = data.id;
 			this.quote.status = getStatus(data.status);
-			this.product.disable();
-			this.plan.disable();
-			this.base.disable();
-			this.quantity.disable();
-			this.discount.disable();
+			this.resetOppValues();
 			this.userService.getVendors().subscribe(data => {
 				if(data && Array.isArray(data) && data.length > 0) {
 					this.vendors = data.map(entry => {
@@ -335,7 +343,12 @@ export class CreateQuoteComponent implements OnInit {
 		this.commonService.displayLog('vendor',vendor);
 		Swal.fire('Obteniendo lista de productos');
 		Swal.showLoading();
-		this.quantity.setValue(0);
+		this.product.setValue('');
+		this.products = [];
+		this.plan.disable();
+		this.base.disable();
+		this.quantity.disable();
+		this.discount.disable();
 		this.plan.setValue('');
 		this.base.setValue('');
 		this.price = 0;
@@ -365,6 +378,7 @@ export class CreateQuoteComponent implements OnInit {
 					type: 'warning',
 					text: 'No existen productos para la marca seleccionada'
 				});
+				this.resetOppValues();
 			}
 		}, error => {
 			if(error.error && error.error.message && error.error.message === 'No hay productos que listar') {
@@ -372,6 +386,7 @@ export class CreateQuoteComponent implements OnInit {
 					type: 'error',
 					text: 'No hay productos para la marca seleccionada'
 				});
+				this.resetOppValues();
 			} else {
 				Swal.fire({
 					type: 'error',
@@ -383,6 +398,13 @@ export class CreateQuoteComponent implements OnInit {
 	}
 
 	getPlanList(product:string) {
+		if(this.products.length === 0) {
+			Swal.fire({
+				type: 'error',
+				text: 'La marca seleccionada no tiene productos'
+			});
+			return;
+		}
 		let prod = this.productData.find(prod => prod._id === product);
 		if(prod) {
 			this.planData = [...prod.plan];
@@ -432,22 +454,22 @@ export class CreateQuoteComponent implements OnInit {
 		this.calculateSubTotal();
 		this.quantity.valueChanges.subscribe(() => {
 			this.commonService.displayLog('cantidad',this.quantity.value);
-			this.calculateSubTotal();
+			if(this.products.length > 0) {
+				this.calculateSubTotal();
+			}
 		});
 		this.discount.valueChanges.subscribe(() => {
 			this.commonService.displayLog('descuento',this.discount.value);
-			this.calculateSubTotal();
+			if(this.products.length > 0) {
+				this.calculateSubTotal();
+			}
 		});
 	}
 
-	fieldDisabled() {
-		Swal.fire({
-			type: 'info',
-			text: 'El campo está deshabilitado debido a que debes llenar otros campos primero'
-		})
-	}
-
 	calculateSubTotal() {
+		if(this.products.length === 0) {
+			return;
+		}
 		this.period = this.baseData.find(data => data.name === this.base.value).period;
 		this.selectedPlan = this.planData.find(data => data.name === this.plan.value)
 		let prices = [...this.selectedPlan.price];
@@ -458,6 +480,63 @@ export class CreateQuoteComponent implements OnInit {
 	}
 
 	generateOpp() {
+		let findAccount = this.accounts.find(a => a.value === this.account.value);
+		let findProduct = this.products.find(p => p.value === this.product.value);
+		let now = new Date();
+		let fdm = new Date(now.getFullYear(),now.getMonth()+1,1)
+		this.currentOpp = {
+			name: `${findAccount.viewValue}/${findProduct.viewValue}/${this.selectedPlan.name}/${this.base.value}`,
+			closed: false,
+			product: this.product.value,
+			plan: this.selectedPlan.name,
+			base: this.baseData.find(data => data.name === this.base.value).name,
+			quantity: this.quantity.value,
+			owner: this.owner.value,
+			status: 'Nueva',
+			value: this.subTotal,
+			mrr: this.mrr,
+			type: this.type.value,
+			org: this.accounts.find(acc => acc.value === this.account.value).value,
+			mainCurrency: this.planData.find(data => data.name === this.plan.value).currency['_id'],
+			probability: 80,
+			discount: this.discount.value,
+			date: now,
+			expectedCloseDate: new Date(fdm.getTime() - 1),
+			relatedUsers: [this.contact.value]
+		}
+		this.commonService.displayLog('Opp',this.currentOpp);
+		this.userService.generateOpp(this.currentOpp).subscribe(data => {
+			this.commonService.displayLog('Data Opp', data);
+			if(data.id) {
+				this.currentOpp._id = data.id;
+				this.quote.opportunities.push(data.id);
+				this.commonService.displayLog('Quote', this.quote);
+				let quoteModify = {
+					quoteid: this.quote._id,
+					add: true,
+					opportunities: data.id
+				};
+				this.commonService.displayLog('Modift Quote', quoteModify);
+				this.userService.modifyQuote(quoteModify).subscribe(data => {
+					this.commonService.displayLog('Quote data', data);
+				}, error => {
+					Swal.fire({
+						type: 'error',
+						text: error.error.message
+					});
+					console.log(error);
+				})
+			}
+		}, error => {
+			Swal.fire({
+				type: 'error',
+				text: error.error.message
+			});
+			console.log(error);
+		});
+	}
+
+	modifyQuote() {
 
 	}
 
@@ -466,6 +545,22 @@ export class CreateQuoteComponent implements OnInit {
 			return `${value}%`
 		}
 		return value;
+	}
+
+	resetOppValues() {
+		this.product.disable();
+		this.product.setValue('');
+		this.products = [];
+		this.plan.setValue('');
+		this.plans = [];
+		this.plan.disable();
+		this.base.setValue('');
+		this.bases = [];
+		this.base.disable();
+		this.quantity.setValue(0);
+		this.quantity.disable();
+		this.discount.setValue(0);
+		this.discount.disable();
 	}
 }
 

@@ -58,12 +58,22 @@ export class ViewQuotesComponent implements OnInit {
 			}
 			this.loading = false;
 		}, error => {
-			console.log(error);
-			Swal.fire({
-				type: 'error',
-				title: 'Hubo un error',
-				text: error
-			});
+			if(error.status === 0 || error.status == 404) {
+				console.log(error);
+				Swal.fire({
+					type: 'error',
+					title: 'Hubo un error',
+					text: 'No hay comunicación con el servidor'
+				});
+				this.router.navigate(['/']);
+			} else {
+				console.log(error);
+				Swal.fire({
+					type: 'error',
+					title: 'Hubo un error',
+					text: error
+				});
+			}
 		});
 	}
 
