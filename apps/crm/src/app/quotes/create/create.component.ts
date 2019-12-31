@@ -518,7 +518,7 @@ export class CreateQuoteComponent implements OnInit {
 				};
 				this.commonService.displayLog('Modift Quote', quoteModify);
 				this.userService.modifyQuote(quoteModify).subscribe(data => {
-					this.commonService.displayLog('Quote data', data);
+					
 				}, error => {
 					Swal.fire({
 						type: 'error',
