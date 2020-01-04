@@ -6,13 +6,19 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 
-import { UserService } from '@crmshared/services/user.service';
-import { CommonService } from '@crmshared/services/common.service';
+// classes
+import { Opportunity } from '@crmshared/classes/opportunity.class';
+import { Quote } from '@crmshared/classes/quote.class';
+import { Product } from '@crmshared/classes/product.class';
+
+// Types
 import { Display } from '@crmshared/types/display.type';
 import { Identity } from '@crmshared/types/user.type';
-import { Quote } from '@crmshared/types/quote.type';
-import { Opportunity, TypeOpp } from '@crmshared/types/opportunity.type';
-import { Product, Plan, Price, Base } from '@crmshared/types/product.type';
+import { Plan, Price, Base } from '@crmshared/types/product.type';
+
+// services
+import { UserService } from '@crmshared/services/user.service';
+import { CommonService } from '@crmshared/services/common.service';
 
 
 @Component({
@@ -22,22 +28,39 @@ import { Product, Plan, Price, Base } from '@crmshared/types/product.type';
 })
 export class CreateQuoteComponent implements OnInit {
 
-	loading: boolean;
+	loading				: boolean;
+	identity			: Identity;
+	accountDisplay: string;
+	originDisplay	: string;
+	ownerDisplay	: string;
+	contactDisplay: string;
+	quote					: Quote;
+	opportunities	: Opportunity[] = [];
+	currentOpp		: Opportunity;
+	subTotal			: number = 0;
+	period				: number;
+	price					: number;
+	mrr 					: number;
+	totalDiscount	: number;
+	productData		: Product[] = [];
+	planData			: Plan[] 		= [];
+	baseData			: Base[] 		= [];
+	priceData			: Price[] 	= [];
+	selectedPlan	: Plan = {
+		name: '',
+		price: [],
+		priceBase: 2,
+		currency: ''
+	}
+	enablePlan				: boolean = false;
+	showWarningPhase1	: boolean = true;
+	enableQuote				: boolean = false;
+	enablePhase2			: boolean = false;
+
 	account		= new FormControl('');
 	origin		= new FormControl('');
 	owner			= new FormControl('');
 	contact		= new FormControl('');
-	identity: Identity;
-
-	accountDisplay: string;
-	originDisplay: string;
-	ownerDisplay: string;
-	contactDisplay: string;
-
-	quote: Quote;
-	opportunities: Opportunity[] = [];
-	currentOpp: Opportunity;
-
 	vendor		= new FormControl('');
 	product 	= new FormControl('');
 	plan 			= new FormControl('');
@@ -45,27 +68,11 @@ export class CreateQuoteComponent implements OnInit {
 	quantity	= new FormControl(1);
 	discount	= new FormControl('0');
 	type			= new FormControl('Venta nueva');
-	subTotal	: number = 0;
-	period		: number;
-	price			: number;
-	mrr 			: number;
-	totalDiscount: number;
+	tagsCtrl 	= new FormControl('');
 
-	productData	: Product[] = [];
-	planData		: Plan[] 		= [];
-	baseData		: Base[] 		= [];
-	priceData		: Price[] 	= [];
-	selectedPlan: Plan = {
-		name: '',
-		price: [],
-		priceBase: 'Otro',
-		currency: ''
-	}
-
-	enablePlan				: boolean = false;
-	showWarningPhase1	: boolean = true;
-	enableQuote				: boolean = false;
-	enablePhase2			: boolean = false;
+	tags				: string[] = [];
+	allTags			: string[] = [];
+	filteredTags: Observable<string[]>;
 
 	accountsInternal: Display[] = [{
 		value: 'no',
@@ -99,11 +106,6 @@ export class CreateQuoteComponent implements OnInit {
 		value: 'no',
 		viewValue: 'No existen periodos base'
 	}];
-
-	tags					= [];
-	tagsCtrl 			= new FormControl('');
-	allTags: string[] = [];
-	filteredTags: Observable<string[]>;
 
   constructor(
 		private userService: UserService,
@@ -492,7 +494,7 @@ export class CreateQuoteComponent implements OnInit {
 			base: this.baseData.find(data => data.name === this.base.value).name,
 			quantity: this.quantity.value,
 			owner: this.owner.value,
-			status: 'Nueva',
+			status: 0,
 			value: this.subTotal,
 			mrr: this.mrr,
 			type: this.type.value,
@@ -518,7 +520,7 @@ export class CreateQuoteComponent implements OnInit {
 				};
 				this.commonService.displayLog('Modift Quote', quoteModify);
 				this.userService.modifyQuote(quoteModify).subscribe(data => {
-					
+
 				}, error => {
 					Swal.fire({
 						type: 'error',

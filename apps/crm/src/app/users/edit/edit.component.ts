@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 import { UserService } from '@crmshared/services/user.service';
 
-import { Contact } from '@crmshared/types/contact.type';
+import { Contact } from '@crmshared/classes/contact.class';
 import { Display } from '@crmshared/types/display.type';
 
 import {
@@ -142,7 +142,7 @@ export class EditUserComponent implements OnInit {
 		if(this.userid) {
 			this.loading = true;
 			this.userService.getUser(this.userid).subscribe(data => {
-				this.user = data;
+				this.user = new Contact(data);
 				this.displayLog('User',this.user);
 				this.userService.orgList().subscribe(data => {
 					if(data && Array.isArray(data) && data.length > 0) {

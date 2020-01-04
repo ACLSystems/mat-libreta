@@ -1,4 +1,4 @@
-export interface Identity {
+export type Identity = {
 	admin: {
 		isActive: Boolean,
 		isDataVerified: Boolean,

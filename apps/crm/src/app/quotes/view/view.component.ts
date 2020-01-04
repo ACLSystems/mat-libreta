@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import { UserService } from '@crmshared/services/user.service';
 import { CommonService } from '@crmshared/services/common.service';
 import { DtOptions } from '@crmshared/config/config.module';
-import { Quote } from '@crmshared/types/quote.type';
+import { Quote } from '@crmshared/classes/quote.class';
 
 registerLocaleData(localeMX);
 
@@ -50,15 +50,30 @@ export class ViewQuotesComponent implements OnInit {
 
 	ngOnInit() {
 		this.today = new Date();
+		this.loadQuotes();
+	}
+
+	loadQuotes() {
 		this.loading = true;
 		this.userService.getQuoteList().subscribe(data => {
-			if(data && Array.isArray(data) && data.length) {
+			if(data && Array.isArray(data) && data.length > 0) {
+				this.quotes = [];
+				data.forEach(q => {
+					this.quotes.push(new Quote(q));
+				});
 				this.quotes = [...data];
 				this.commonService.displayLog('Quotes',this.quotes);
 			}
 			this.loading = false;
 		}, error => {
-			if(error.status === 0 || error.status == 404) {
+			if(error.status === 404) {
+				console.log(error);
+				this.loading = false;
+				Swal.fire({
+					type: 'info',
+					text: 'No hay datos disponibles que mostrar'
+				});
+			} else if(error.status === 0) {
 				console.log(error);
 				Swal.fire({
 					type: 'error',

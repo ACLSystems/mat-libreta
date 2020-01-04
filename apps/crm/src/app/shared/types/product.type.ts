@@ -1,78 +1,78 @@
 import { Mod } from '@crmshared/types/mod.type';
-import { TypeCurrency } from '@crmshared/types/currency.type';
+import { Currency } from '@crmshared/types/currency.type';
 
-export interface Vendor {
-	name: string,
+export type Vendor = {
+	name		: string,
 	isActive: boolean,
-	mod?: Mod[]
+	mod?		: Mod[]
 }
 
-export type BaseName =
-	'Anual'|
-	'Mensual'|
-	'Trimestral'|
-	'Semestral';
+// export type BaseName =
+// 	'Anual'|
+// 	'Mensual'|
+// 	'Trimestral'|
+// 	'Semestral';
 
-export interface Base {
-	name: string,
+export type Base = {
+	name	: string,
 	period: number
 }
 
-export interface Price {
-	base: string,
-	price: number,
+export type Price = {
+	base		: string,
+	price		: number,
 	discount: number
 }
 
-export type PriceBase =
-	'/agente/mes'|
-	'Único pago'|
-	'Otro';
+// export type PriceBase =
+// 	'/agente/mes'|
+// 	'Único pago'|
+// 	'Otro';
 
-export interface Plan {
-	name: string,
-	price: Price[],
-	priceBase: PriceBase,
-	currency: TypeCurrency,
-	base?: Base[],
-	level?: number,
+export type Plan = {
+	name				: string,
+	price				: Price[],
+	priceBase		: number,
+	currency		: string | Currency,
+	base?				: Base[],
+	level?			: number,
 	description?: string,
 }
 
-export interface Feature {
-	plan: string,
-	text: string,
+export type Feature = {
+	plan				: string,
+	text				: string,
 	description?: string
 }
 
-export interface AddOn {
-	name: string,
+export type AddOn = {
+	name				: string,
 	minPlanLevel: number,
-	price: number,
-	priceBase: PriceBase,
-	currency: TypeCurrency
+	price				: number,
+	priceBase		: number,
+	currency		: string | Currency
 	description?: string,
 }
 
-export type ProductType =
-	'Servicio'|
-	'Producto'|
-	'Otro';
+// export type ProductType =
+// 	'Servicio'|
+// 	'Producto'|
+// 	'Otro';
 
-export interface Product {
-	name: string
-	plan: Plan[],
-	type: ProductType,
-	_id?: string,
-	version?: string,
-	catLevel1?: string,
-	catLevel2?: string,
-	catLevel3?: string,
-	isActive?: boolean,
-	terms?: string[],
-	vendor?: Vendor,
-	features?: Feature[],
-	mod?: Mod[],
-	addOn?: AddOn[],
-	addOnGeneralDescription?: string
-}
+// export interface Product {
+// 	name: string
+// 	plan: Plan[],
+// 	type: number,
+// 	_id?: string,
+// 	version?: string,
+// 	catLevel1?: string,
+// 	catLevel2?: string,
+// 	catLevel3?: string,
+// 	isActive?: boolean,
+// 	terms?: string[],
+// 	vendor?: Vendor,
+// 	features?: Feature[],
+// 	mod?: Mod[],
+// 	addOn?: AddOn[],
+// 	addOnGeneralDescription?: string
+// }

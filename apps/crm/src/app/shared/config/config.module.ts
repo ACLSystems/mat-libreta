@@ -1,8 +1,8 @@
 export const DtOptions = {
 	"pagingType": "full_numbers",
 	"lengthMenu": [
-		[5, 10, 25, 50, -1],
-		[5, 10, 25, 50, "Todos"]
+		[10, 25, 50, -1],
+		[10, 25, 50, "Todos"]
 	],
 	responsive: true,
 	language: {

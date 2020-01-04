@@ -1,10 +1,4 @@
-import { TypeAccount } from '@crmshared/types/account.type';
-import { Happy } from '@crmshared/types/happy.type';
-import { Address } from '@crmshared/types/address.type';
-import { Mod } from '@crmshared/types/mod.type';
-import { Social } from '@crmshared/types/social.type';
-
-export interface Person {
+export type Person = {
 	name: string,
 	email: string,
 	fatherName: string,
@@ -16,61 +10,57 @@ export interface Person {
 	cellPhone?: string
 }
 
-export interface Owner {
+export type Owner = {
 	_id: string,
 	person: Person
 }
 
-export type ContactType =
-	'lead'|
-	'contact'|
-	'internal'|
-	'partner'|
-	'reseller'|
-	'other';
-
-export type ContactRole =
-			'Decision Maker'|
-			'Executive Sponsor'|
-			'Admin/Project Manager'|
-			'Finance'|
-			'Legal'|
-			'Purchase'|
-			'Technical'|
-			'Other';
-
-export type Source =
-	'web'|
-	'phone'|
-	'email'|
-	'fresh'|
-	'direct'|
-	'referal'|
-	'social'|
-	'event';
-
-export type TypeOwner = string | Owner;
-
-export interface Contact {
-	name: string,
-	type: ContactType[],
-	org?: TypeAccount[],
-	contactRole?: ContactRole[],
-	_id?: string,
-	char1?: string,
-	char2?: string,
-	flag1?: string,
-	flag2?: string,
-	happiness?: Happy,
-	hasAuthority?: boolean,
-	source?: Source,
-	tags?: string[],
-	unSubscribe?: boolean,
-	person?: Person,
-	owner?: TypeOwner,
-	address?: Address[],
-	social?: Social,
-	mod?: Mod[]
-}
-
-export type TypeContact = string | Contact;
+// export type ContactType =
+// 	'lead'|
+// 	'contact'|
+// 	'internal'|
+// 	'partner'|
+// 	'reseller'|
+// 	'other';
+//
+// export type ContactRole =
+// 			'Decision Maker'|
+// 			'Executive Sponsor'|
+// 			'Admin/Project Manager'|
+// 			'Finance'|
+// 			'Legal'|
+// 			'Purchase'|
+// 			'Technical'|
+// 			'Other';
+//
+// export type Source =
+// 	'web'|
+// 	'phone'|
+// 	'email'|
+// 	'fresh'|
+// 	'direct'|
+// 	'referal'|
+// 	'social'|
+// 	'event';
+//
+// export interface ContactInterface {
+// 	name: string,
+// 	type: number[],
+// 	org?: TypeAccount[],
+// 	contactRole?: number[],
+// 	_id?: string,
+// 	char1?: string,
+// 	char2?: string,
+// 	flag1?: string,
+// 	flag2?: string,
+// 	happiness?: number,
+// 	hasAuthority?: boolean,
+// 	source?: number,
+// 	tags?: string[],
+// 	unSubscribe?: boolean,
+// 	person?: string | Person,
+// 	owner?: string | Owner,
+// 	address?: Address[],
+// 	social?: Social,
+// 	mod?: Mod[]
+// }

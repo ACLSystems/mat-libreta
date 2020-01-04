@@ -1,4 +1,4 @@
-export interface Display {
+export type Display = {
 	value: string,
 	viewValue: string
 }

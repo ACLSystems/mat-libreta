@@ -30,6 +30,7 @@
 								width="100%"
 								style="width:100%"
 								[dtOptions]="dtOptions"
+								class="row-border"
 								>
 								<thead>
 									<tr>
@@ -55,33 +56,15 @@
 									<tr *ngFor="let user of users">
 										<td>
 											<i
-												class="far fa-meh-blank text-dark"
-												*ngIf="user.happiness == 'unknown'"
-												>
-											</i>
-											<i
-												class="far fa-angry text-danger"
-												*ngIf="user.happiness == 'angry'"
-												>
-											</i>
-											<i
-												class="far fa-frown-open text-danger"
-												*ngIf="user.happiness == 'fragile'"
-												>
-											</i>
-											<i
-												class="far fa-meh text-warning"
-												*ngIf="user.happiness == 'neutral'"
-												>
-											</i>
-											<i
-												class="far fa-smile text-info"
-												*ngIf="user.happiness == 'happy'"
-												>
-											</i>
-											<i
-												class="far fa-laugh-beam text-success"
-												*ngIf="user.happiness == 'elated'"
+												[ngClass]="{
+													'fa-meh-blank text-dark':user.happiness == 0,
+													'fa-angry text-danger':user.happiness == 1,
+													'fa-frown-open text-danger':user.happiness == 2,
+													'fa-meh text-warning':user.happiness == 3,
+													'fa-smile text-info':user.happiness == 4,
+													'fa-laugh-beam text-success':user.happiness == 5
+												}"
+												class="far"
 												>
 											</i>
 										</td>

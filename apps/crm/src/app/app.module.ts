@@ -71,6 +71,7 @@ import { CommonService } from '@crmshared/services/common.service';
 import { UserService } from '@crmshared/services/user.service';
 import { PublicService } from '@crmshared/services/public.service';
 import { WindowService } from '@crmshared/services/windowSize.service';
+import { EnumService } from '@crmshared/services/enum.service';
 
 @NgModule({
 	exports: [
@@ -139,7 +140,8 @@ export class MaterialModule {}
 		PublicService,
 		UserService,
 		WindowService,
-		CommonService
+		CommonService,
+		EnumService
 	],
   bootstrap: [AppComponent]
 })

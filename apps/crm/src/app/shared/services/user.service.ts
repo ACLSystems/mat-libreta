@@ -8,7 +8,7 @@ import { CommonService } from '@crmshared/services/common.service';
 import { JSONHeaders } from '@crmshared/services/httpHeaders';
 import { environment } from '@crmenv/environment';
 
-import { TypeOpp } from '@crmshared/types/opportunity.type';
+import { Opportunity } from '@crmshared/classes/opportunity.class';
 
 //permitimos con este decorador inyectar a otras dependencias
 @Injectable()
@@ -345,7 +345,7 @@ export class UserService{
 	Método para generar oportunidad
 	*/
 
-	generateOpp(opp:TypeOpp):Observable<any>{
+	generateOpp(opp:Opportunity):Observable<any>{
 		const params: string = JSON.stringify(opp);
 		const headers = JSONHeaders.set(
 				'Authorization',

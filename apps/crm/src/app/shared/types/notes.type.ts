@@ -1,7 +1,8 @@
 import { Mod } from '@crmshared/types/mod.type';
 
-export interface Note {
-	_id: string,
+export type Note = {
+	_id?: string,
+	id?	: string,
 	text: string,
-	mod: Mod[]
+	mod?: Mod[]
 }

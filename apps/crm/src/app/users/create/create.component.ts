@@ -11,16 +11,13 @@ import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { UserService } from '@crmshared/services/user.service';
 import { CommonService } from '@crmshared/services/common.service';
+import { EnumService } from '@crmshared/services/enum.service';
+
+import { Contact } from '@crmshared/classes/contact.class';
 
 import { Display } from '@crmshared/types/display.type';
 
-import {
-	TYPES,
-	ROLES,
-	SOURCES,
-	STATES,
-	HAPPINESS
-} from '@crmshared/enums/account.enum';
+import { STATES } from '@crmshared/enums/states.enum';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
 	isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -77,12 +74,11 @@ export class CreateUserComponent implements OnInit {
 	allTags: string[] = [];
 	filteredTags: Observable<string[]>;
 
-	// Enums
-	readonly types			: Display[]=[...TYPES];
-	readonly roles			: Display[]=[...ROLES];
-	readonly sources		: Display[]=[...SOURCES];
-	readonly states			: Display[]=[...STATES];
-	readonly happiness	: Display[]=[...HAPPINESS];
+	types			: Display[]=[];
+	roles			: Display[]=[];
+	sources		: Display[]=[];
+	happiness	: Display[]=[];
+	readonly states	: Display[]=[...STATES];
 
 	accounts: Display[] = [
 		{value: 'no', viewValue: 'Primero crear cuentas'}
@@ -130,14 +126,11 @@ export class CreateUserComponent implements OnInit {
 	constructor(
 		private userService: UserService,
 		private commonService: CommonService,
+		private enumService: EnumService,
 		private router: Router
 	) {
 		// setear los defaults
 		this.loading = true;
-		this.type.setValue([this.types[0].value]);
-		this.source.setValue(this.sources[0].value);
-		this.contactRole.setValue([this.roles[0].value]);
-		// this.owner.setValue(this.owners[0].value);
 		this.state.setValue(this.states[0].value);
 		this.country.setValue('México');
 		this.filteredTags = this.tagsCtrl.valueChanges.pipe(
@@ -148,7 +141,10 @@ export class CreateUserComponent implements OnInit {
 
 	ngOnInit() {
 		this.loading = true;
-
+		this.getEnums('users','type','types','type',true);
+		this.getEnums('users','contactRole','roles','contactRole',true);
+		this.getEnums('users','source','sources','source',false);
+		this.getEnums('users','happiness','happiness');
 		this.populateData();
 	}
 
@@ -270,6 +266,8 @@ export class CreateUserComponent implements OnInit {
 				Swal.close();
 				Swal.hideLoading();
 			} else  {
+				Swal.close();
+				Swal.hideLoading();
 				this.suburbs = [];
 				this.suburb.setValue(null);
 				this.locality.setValue('');
@@ -281,12 +279,22 @@ export class CreateUserComponent implements OnInit {
 			}
 		}, error => {
 			console.log(error);
+			Swal.close();
+			Swal.hideLoading();
+			this.suburbs = [];
+			this.suburb.setValue(null);
+			this.locality.setValue('');
+			this.state.setValue(null);
+			Swal.fire({
+				type: 'info',
+				title: `Código postal ${this.postalCode.value} no encontrado`
+			});
 		});
 	}
 
 	saveUser() {
 		const identity = JSON.parse(localStorage.getItem('identity'));
-		const newUserProfile = {
+		const newUserProfile = new Contact({
 			org: this.account.value,
 			name: this.email.value,
 			person: {
@@ -324,7 +332,7 @@ export class CreateUserComponent implements OnInit {
 				state: this.state.value,
 				country: this.country.value
 			}]
-		};
+		});
 
 		console.log(newUserProfile);
 		Swal.fire('Por favor espera');
@@ -390,6 +398,7 @@ export class CreateUserComponent implements OnInit {
 								viewValue: `${eachOwner.person.name.split(' ')[0]} ${eachOwner.person.fatherName}`
 							});
 						});
+						this.owner.setValue(this.owners[0].value);
 						this.userService.getTags().subscribe(data => {
 							this.allTags = data;
 							this.commonService.displayLog('allTags', this.allTags);
@@ -398,8 +407,6 @@ export class CreateUserComponent implements OnInit {
 							console.log(error.message);
 							this.loading = false;
 						});
-						// console.log(this.accounts);
-						// console.log(this.owners);
 					}
 				}, error => {
 					console.log(error);
@@ -415,6 +422,34 @@ export class CreateUserComponent implements OnInit {
 	private _filter(value:string): string[] {
 		const filterValue = value.toLowerCase();
 		return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+	}
+
+	private getEnums(schemaName: string, field: string, localField: string, setValue?: string, isArray?: boolean) {
+		this.enumService.getEnum(schemaName,field).subscribe((data: string[]) => {
+			if(data && Array.isArray(data) && data.length > 0) {
+				let dataTemp = [];
+				for(var i=0; i < data.length; i++) {
+					dataTemp.push({
+						value: i,
+						viewValue: data[i]['text']
+					})
+				}
+				this[localField] = [...dataTemp];
+				this.commonService.displayLog(`Enum ${localField}`,this[localField]);
+				// this.type.setValue([this.types[0].value]);
+				if(setValue) {
+					if(isArray){
+						this[setValue].setValue([this[localField][0].value]);
+					} else {
+						this[setValue].setValue(this[localField][0].value);
+					}
+					this.commonService.displayLog('setValue',[this[localField][0].value]);
+				}
+			}
+		}, () => {
+			this[localField] = [];
+			this.commonService.displayLog(`Enum ${localField}`,`No hay ${localField}`);
+		})
 	}
 
 }

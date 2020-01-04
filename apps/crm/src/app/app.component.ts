@@ -3,6 +3,8 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import { PublicService } from '@crmshared/services/public.service';
+
 @Component({
 	selector: 'mat-crm-root',
 	templateUrl: './app.component.html',
@@ -11,7 +13,10 @@ import { filter } from 'rxjs/operators';
 export class AppComponent {
 	private _router: Subscription;
 
-	constructor( private router: Router ) {
+	constructor(
+		private router: Router,
+		private publicService: PublicService
+	) {
 }
 
 	ngOnInit() {
@@ -25,5 +30,20 @@ export class AppComponent {
 				modalBackdrop.remove();
 			}
 		});
+		this.getLanguages();
+	}
+
+	getLanguages() {
+		this.publicService.getLanguages().subscribe(data => {
+			localStorage.setItem('languages',JSON.stringify(data));
+			const defaultLanguage: string = localStorage.getItem('defaultLanguage');
+			if(!defaultLanguage) {
+				let findDefaultLanguage = data.find(lang => lang.default === true);
+				if(findDefaultLanguage) {
+					localStorage.setItem('defaultLanguage',JSON.stringify(findDefaultLanguage));
+				}
+			}
+		});
+
 	}
 }

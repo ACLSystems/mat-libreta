@@ -6,7 +6,7 @@ import { registerLocaleData } from '@angular/common';
 import localeMX from '@angular/common/locales/es-MX';
 
 import { UserService } from '@crmshared/services/user.service';
-import { Business } from '@crmshared/types/business.type';
+import { Business } from '@crmshared/classes/business.class';
 
 registerLocaleData(localeMX);
 
@@ -71,7 +71,11 @@ export class ViewBusinessComponent implements OnInit {
 	ngOnInit() {
 		this.loading = true;
 		this.userService.businessList().subscribe(data => {
-			this.businesses = data;
+			if(data && Array.isArray(data) && data.length > 0) {
+				data.forEach(d => {
+					this.businesses.push(new Business(d));
+				});
+			}
 			this.displayLog('Negocios', this.businesses);
 			this.loading = false;
 		}, error => {

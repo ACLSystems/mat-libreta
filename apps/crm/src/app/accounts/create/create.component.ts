@@ -11,18 +11,17 @@ import Swal from 'sweetalert2';
 /* Importar servicios */
 import { UserService } from '@crmshared/services/user.service';
 import { CommonService } from '@crmshared/services/common.service';
+import { EnumService } from '@crmshared/services/enum.service';
+
+/* Importar clases */
+import { Account } from '@crmshared/classes/account.class';
 
 /* Importar tipos */
-import { Account } from '@crmshared/types/account.type';
+import { Note } from '@crmshared/types/notes.type';
 import { Display } from '@crmshared/types/display.type';
 
-import {
-	TYPES,
-	ROLES,
-	SOURCES,
-	STATES,
-	HAPPINESS
-} from '@crmshared/enums/account.enum';
+
+import { STATES } from '@crmshared/enums/states.enum';
 
 @Component({
   selector: 'mat-libreta-create',
@@ -88,12 +87,13 @@ export class CreateAccountComponent implements OnInit {
 	orgExists: boolean = false;
 	orgExistsMessage: string = '';
 
-	// Enums
-	readonly types			: Display[]=[...TYPES];
-	readonly roles			: Display[]=[...ROLES];
-	readonly sources		: Display[]=[...SOURCES];
-	readonly states			: Display[]=[...STATES];
-	readonly happiness	: Display[]=[...HAPPINESS];
+	// // Enums
+	// types			: Display[]=[...TYPES];
+	states		: Display[]=[...STATES];
+	// happiness	: Display[]=[...HAPPINESS];
+	types			: Display[]=[];
+	happiness : Display[]=[];
+
 
 	owners		: Display[] = [{
 		value: 'no',
@@ -108,10 +108,9 @@ export class CreateAccountComponent implements OnInit {
   constructor(
 		private userService: UserService,
 		private commonService: CommonService,
+		private enumService: EnumService,
 		private router: Router
 	) {
-		this.type.setValue([this.types[0].value]);
-		this.owner.setValue(this.owners[0].value);
 		this.state.setValue(this.states[0].value);
 		this.country.setValue('México');
 		this.color='primary';
@@ -123,6 +122,8 @@ export class CreateAccountComponent implements OnInit {
 
   ngOnInit() {
 		this.loading = true;
+		this.getEnums('orgs','type','types','type');
+		this.getEnums('orgs','happiness','happiness');
 		this.getData();
   }
 
@@ -136,6 +137,7 @@ export class CreateAccountComponent implements OnInit {
 						viewValue: `${eachOwner.person.name.split(' ')[0]} ${eachOwner.person.fatherName}`
 					});
 				});
+				this.owner.setValue(this.owners[0].value);
 				this.commonService.displayLog('Vendedores',this.owners);
 				this.userService.getTags().subscribe(data => {
 					this.allTags = data;
@@ -329,7 +331,7 @@ export class CreateAccountComponent implements OnInit {
 	saveAccount() {
 		const identity = JSON.parse(localStorage.getItem('identity'));
 		console.log(this.emails)
-		var newAccount = {
+		var newAccount = new Account({
 			longName: this.longName.value,
 			name: this.name.value,
 			type: this.type.value,
@@ -356,21 +358,20 @@ export class CreateAccountComponent implements OnInit {
 				state: this.state.value,
 				country: this.country.value
 			}]
-		};
+		});
 		if(this.mainPhone.value) {
-			newAccount.phone.push(this.mainPhone.value);
+			newAccount.addPhone(this.mainPhone.value);
 		}
 		if(this.phone.value) {
-			newAccount.phone.push(this.phone.value);
+			newAccount.addPhone(this.phone.value);
 		}
 
-		console.log(newAccount);
 		Swal.fire('Por favor espera');
 		Swal.showLoading();
 		this.userService.createAccount(newAccount).subscribe(data => {
-			console.log(data);
+			this.commonService.displayLog('New Account', data);
 			if(this.notes) {
-				const note = {
+				const note: Note = {
 					text: this.notes.value,
 					id: data.id
 				};
@@ -411,6 +412,30 @@ export class CreateAccountComponent implements OnInit {
 	private _filter(value:string): string[] {
 		const filterValue = value.toLowerCase();
 		return this.allTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+	}
+
+	private getEnums(schemaName: string, field: string, localField: string, setValue?: string) {
+		this.enumService.getEnum(schemaName,field).subscribe((data: string[]) => {
+			if(data && Array.isArray(data) && data.length > 0) {
+				let dataTemp = [];
+				for(var i=0; i < data.length; i++) {
+					dataTemp.push({
+						value: i,
+						viewValue: data[i]['text']
+					})
+				}
+				this[localField] = [...dataTemp];
+				this.commonService.displayLog(`Enum ${localField}`,this[localField]);
+				// this.type.setValue([this.types[0].value]);
+				if(setValue) {
+					this[setValue].setValue([this[localField][0].value]);
+					this.commonService.displayLog('setValue',[this[localField][0].value]);
+				}
+			}
+		}, () => {
+			this[localField] = [];
+			this.commonService.displayLog(`Enum ${localField}`,`No hay ${localField}`);
+		})
 	}
 
 }

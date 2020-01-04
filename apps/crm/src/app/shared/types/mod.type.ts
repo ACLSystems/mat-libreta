@@ -1,5 +1,5 @@
 export type Mod = {
-	by: string,
+	by	: string,
 	when: string,
 	what: string
 };

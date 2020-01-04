@@ -26,6 +26,11 @@ export class PublicService {
 		return this.http.post(route, body, {headers: JSONHeaders});
 	}
 
+	getLanguages(): Observable<any> {
+		const route = this.url+'languages';
+		return this.http.get(route);
+	}
+
 	/*
 	método para extraer los datos generales del usuario
 	*/

@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 import { UserService } from '@crmshared/services/user.service';
 import { DtOptions } from '@crmshared/config/config.module';
-import { Account } from '@crmshared/types/account.type';
+import { Account } from '@crmshared/classes/account.class';
 
 // declare const $: any;
 
@@ -38,19 +38,24 @@ export class ViewAccountsComponent implements OnInit {
 		this.userService.orgList().subscribe(data => {
 			// console.log(data);
 			this.accounts = data;
-			this.accounts.forEach(acc => {
-				if(!acc.owner) {
-					acc.owner = {
-						_id: '',
-						person: {
-							name: '',
-							fatherName: '',
-							motherName: '',
-							email: ''
-						}
-					};
-				}
-			});
+			if(data && Array.isArray(data) && data.length > 0) {
+				data.forEach(d => {
+					this.accounts.push(new Account(d));
+				});
+				this.accounts.forEach(acc => {
+					if(!acc.owner) {
+						acc.owner = {
+							_id: '',
+							person: {
+								name: '',
+								fatherName: '',
+								motherName: '',
+								email: ''
+							}
+						};
+					}
+				});
+			}
 			this.loading = false;
 		}, error => {
 			console.log(error);

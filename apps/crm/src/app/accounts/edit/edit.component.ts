@@ -17,7 +17,7 @@ declare const $: any;
 
 import { UserService } from '@crmshared/services/user.service';
 
-import { Account } from '@crmshared/types/account.type';
+import { Account } from '@crmshared/classes/account.class';
 import { Display } from '@crmshared/types/display.type';
 
 import {

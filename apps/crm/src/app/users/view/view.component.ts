@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { UserService } from '@crmshared/services/user.service';
-import { Contact } from '@crmshared/types/contact.type';
+import { CommonService } from '@crmshared/services/common.service';
+import { DtOptions } from '@crmshared/config/config.module';
+import { Contact } from '@crmshared/classes/contact.class';
+import { Account } from '@crmshared/classes/account.class';
 
 @Component({
   selector: 'mat-libreta-view',
@@ -16,37 +19,11 @@ export class ViewUserComponent implements OnInit {
 
 	tableHeader: string[];
 	loading: boolean;
-	dtOptions = {
-		"pagingType": "full_numbers",
-		"lengthMenu": [
-			[5, 10, 25, 50, -1],
-			[5, 10, 25, 50, "Todos"]
-		],
-		responsive: true,
-		language: {
-			search: "_INPUT_",
-			searchPlaceholder: "Buscar",
-			emptyTable: 'No hay datos disponibles en la tabla',
-			lengthMenu: 'Mostrar _MENU_ registros',
-			info: 'Mostrando _START_ a _END_ de _TOTAL_ registros',
-			infoEmpty: 'No hay registros para mostrar',
-			loadingRecords: 'Cargando registros',
-			infoFiltered: '(filtrando _MAX_ en total)',
-			paginate: {
-				first: 'Primero',
-				previous: 'Anterior',
-				next: 'Siguiente',
-				last: 'Último'
-			},
-			aria: {
-				sortAscending: ': active para ordenar la columna en orden ascendente',
-				sortDescending: ': active para ordenar la columna en orden descendente'
-			}
-		}
-	}
+	dtOptions = DtOptions;
 
   constructor(
 		private userService: UserService,
+		private commonService: CommonService,
 		private router: Router
 	) {
 		this.tableHeader = [
@@ -61,21 +38,39 @@ export class ViewUserComponent implements OnInit {
   ngOnInit() {
 		this.loading = true;
 		this.userService.usersList().subscribe(data => {
-			// console.log(data);
-			this.users = data;
-			this.users.forEach(user => {
-				if(!user.owner) {
-					user.owner = {
-						_id: '',
-						person: {
-							name: '',
-							fatherName: '',
-							motherName: '',
-							email: ''
+			if(data && Array.isArray(data) && data.length > 0 ){
+				this.commonService.displayLog('data', data);
+				data.forEach(d => {
+					if(!d.org) {
+						d.org = [];
+						d.org.push(new Account({}));
+					} else {
+						if(d.org && Array.isArray(d.org) && d.org.length > 0) {
+							let dTemp = [];
+							d.org.forEach((o:Account) => {
+								dTemp.push(new Account(o));
+							})
+							d.org = [...dTemp];
 						}
-					};
-				}
-			});
+					}
+					if(!d.owner) {
+						d.owner = {
+							_id: '',
+							person: {
+								name: '',
+								fatherName: '',
+								motherName: '',
+								email: ''
+							}
+						};
+					}
+					if(!d.happiness) {
+						d.happiness = 0;
+					}
+					this.users.push(new Contact(d));
+				});
+				this.commonService.displayLog('Usuarios', this.users);
+			}
 			this.loading = false;
 		}, error => {
 			Swal.fire({
