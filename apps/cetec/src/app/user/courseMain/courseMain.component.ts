@@ -75,7 +75,7 @@ export class CourseMainComponent implements OnInit {
 				this.router.navigate(['/dashboard']);
 			} else {
 				this.group = data.message;
-				// console.log(this.group);
+				console.log(this.group);
 				this.sections = getUniques(this.group.blocks);
 				// console.log(this.sections);
 				this.track = parseInt(this.group.track.split('%')[0]);
