@@ -10,9 +10,13 @@ import { CookieService } from 'ngx-cookie-service';
 import { CurrentCourse } from '@cetecshared/types/course.type';
 import { Identity } from '@cetecshared/types/user.type';
 
-import { UserService } from '@cetecshared/services/user.service';
-import { UserCourseService } from '@cetecshared/services/userCourse.service';
-import { CurrentCourseService } from '@cetecshared/services/currentcourse.service';
+// import { UserService } from '@cetecshared/services/user.service';
+// import { UserCourseService } from '@cetecshared/services/userCourse.service';
+// import { CurrentCourseService } from '@cetecshared/services/currentcourse.service';
+
+import { UserService } from '@mat-libreta/shared';
+import { UserCourseService } from '@mat-libreta/shared';
+import { CurrentCourseService } from '@mat-libreta/shared';
 
 import { environment } from '@cetecenv/environment';
 
