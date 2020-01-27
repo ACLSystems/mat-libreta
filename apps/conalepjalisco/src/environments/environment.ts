@@ -15,7 +15,7 @@ export const environment = {
 	instanceTitle: 'Conalep JAlisco',
 	siteName: 'conalepjalisco.superatemexico.com',
 	footer:'CETEC',
-	captchaSiteKey: '6LczNrUUAAAAAMxj3XKiG9Nv7wOwBVpZiecKqiFX',
+	captchaSiteKey: '6LctRtIUAAAAAPMCpI8Ogk6-2_4SM8o0GmP0DU5F',
 	publicKey: 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZ3d0RRWUpLb1pJaHZjTkFRRUJCUUFEU3dBd1NBSkJBTldjcE5ZQlhjN2tEK3dNZC9HOGlGU0xIc1lJWlZuOQp0SWE1WjB2RDVxNFVwUG8wdDQwS21XVXZqVlVQWHZtM2FydUJOcjI3dmtoTHpvUmgrUDU0eElNQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=',
 	logo: '/assets/img/logoCOnalep.png',
 	color: 'primary',
