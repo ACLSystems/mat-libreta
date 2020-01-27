@@ -10,7 +10,7 @@ export const environment = {
 	instanceTitle: 'Conalep Jalisco',
 	siteName: 'conalepjalisco.superatemexico.com',
 	footer: 'Conalep Jalisco',
-	captchaSiteKey: '6Lez87YUAAAAANDE-5nE5G29sE74pm4wezy-nO4j',
+	captchaSiteKey: '6LctRtIUAAAAAPMCpI8Ogk6-2_4SM8o0GmP0DU5F',
 	publicKey: 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZ3d0RRWUpLb1pJaHZjTkFRRUJCUUFEU3dBd1NBSkJBTldjcE5ZQlhjN2tEK3dNZC9HOGlGU0xIc1lJWlZuOQp0SWE1WjB2RDVxNFVwUG8wdDQwS21XVXZqVlVQWHZtM2FydUJOcjI3dmtoTHpvUmgrUDU0eElNQ0F3RUFBUT09Ci0tLS0tRU5EIFBVQkxJQyBLRVktLS0tLQo=',
 	logo: '/assets/img/conalep_brand.jpg',
 	color: 'info',
