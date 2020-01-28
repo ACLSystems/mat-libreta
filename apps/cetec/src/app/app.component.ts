@@ -25,7 +25,7 @@ export class AppComponent {
 			footerLink: environment.footerLink,
 			colorEvents: environment.colorEvents
 		});
-}
+	}
 
 	ngOnInit() {
 		this._router = this.router.events.pipe(

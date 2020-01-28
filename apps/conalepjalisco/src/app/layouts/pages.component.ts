@@ -3,7 +3,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { UserService } from '@cjashared/services/user.service';
+import { UserService } from '@mat-libreta/shared';
 
 @Component({
 	selector: 'app-layout',

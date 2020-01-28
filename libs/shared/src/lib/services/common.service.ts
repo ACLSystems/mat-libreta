@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Identity } from '../types/user.type';
 import { Environment } from '../types/env.type';
-// import { environment } from '@cetecenv/environment';
 
 @Injectable({
 	providedIn: 'root'

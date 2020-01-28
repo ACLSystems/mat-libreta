@@ -2,12 +2,6 @@ import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 
-// import { Identity } from '@cjashared/types/user.type';
-//
-// import { PagesService } from '../pages.service';
-// import { UserService } from '@cjashared/services/user.service';
-// import { environment } from '@cjaenv/environment';
-
 @Component({
 	selector: 'app-univ',
 	templateUrl: './univ.component.html',

@@ -3,6 +3,9 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import { CommonService, Environment } from '@mat-libreta/shared';
+import { environment } from '@cjaenv/environment';
+
 @Component({
   selector: 'mat-cjal-root',
   templateUrl: './app.component.html',
@@ -11,8 +14,20 @@ import { filter } from 'rxjs/operators';
 export class AppComponent {
 	private _router: Subscription;
 
-	constructor( private router: Router ) {
-}
+	constructor(
+		private router: Router,
+		private commonService: CommonService
+	) {
+		const localEnv: Environment = this.commonService.getEnvironment();
+		if(localEnv) {
+			if(localEnv.instanceName !== environment.instanceName) {
+				localStorage.removeItem('environment');
+				this.setEnvironment();
+			}
+		} else {
+			this.setEnvironment();
+		}
+	}
 
 	ngOnInit() {
 		this._router = this.router.events.pipe(
@@ -24,6 +39,16 @@ export class AppComponent {
 				body.classList.remove('modal-open');
 				modalBackdrop.remove();
 			}
+		});
+	}
+
+	setEnvironment() {
+		this.commonService.setEnvironment({
+			instanceName: environment.instanceName,
+			url: environment.url,
+			footerName: environment.footerName,
+			footerLink: environment.footerLink,
+			colorEvents: environment.colorEvents
 		});
 	}
 }

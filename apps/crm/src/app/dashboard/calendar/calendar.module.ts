@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { CalendarRoutingModule } from './calendar.routing';
-import { MaterialModule } from '@cetecapp/app.module';
-import { AccesoriesModule } from '@cetecshared/accesories/accesories.module';
+import { MaterialModule } from '@crmapp/app.module';
+import { AccesoriesModule } from '@mat-libreta/shared';
 
 import { CalendarComponent } from './calendar/calendar.component';
 

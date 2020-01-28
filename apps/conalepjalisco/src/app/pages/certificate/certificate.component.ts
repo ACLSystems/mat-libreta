@@ -8,10 +8,9 @@ import localeMx from '@angular/common/locales/es-MX';
 
 registerLocaleData(localeMx, 'es-Mx');
 
-import { Identity } from '@cjashared/types/user.type';
+import { Identity, UserService } from '@mat-libreta/shared';
 
 import { PagesService } from '../pages.service';
-import { UserService } from '@cjashared/services/user.service';
 
 import { environment } from '@cjaenv/environment';
 

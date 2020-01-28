@@ -2,9 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Identity } from '@cjashared/types/user.type';
+import { Identity, JSONHeaders } from '@mat-libreta/shared';
 
-import { JSONHeaders } from '@cjashared/services/httpHeaders';
 import { environment } from '@cjaenv/environment';
 
 @Injectable()

@@ -2,10 +2,9 @@ import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-import { Identity } from '@cjashared/types/user.type';
+import { Identity, UserService } from '@mat-libreta/shared';
 
 import { PagesService } from '../pages.service';
-import { UserService } from '@cjashared/services/user.service';
 import { environment } from '@cjaenv/environment';
 
 @Component({

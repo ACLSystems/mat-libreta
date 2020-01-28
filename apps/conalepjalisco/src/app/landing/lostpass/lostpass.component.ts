@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Login } from '../classes/login';
 import { PasswordRecovery } from '../classes/passrecovery';
-import { PublicService } from '@cjashared/services/public.service';
-import { UserService } from '@cjashared/services/user.service';
+import { UserService, PublicService } from '@mat-libreta/shared';
 
 @Component({
   selector: 'app-lostpass',

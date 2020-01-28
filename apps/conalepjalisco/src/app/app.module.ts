@@ -54,7 +54,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FixedpluginModule } from '@cjaapp/fixedplugin/fixedplugin.module';
 import { SidebarModule } from '@cjasidebar/sidebar.module';
 import { NavbarModule } from '@cjanavbar/navbar.module';
-import { AccesoriesModule } from '@cjashared/accesories/accesories.module';
 
 //  Import Directivas
 
@@ -66,10 +65,15 @@ import { LandingComponent } from '@cjalayouts/landing.component';
 import { FooterComponent } from '@cjalayouts/footer/footer.component';
 import { LoggedComponent } from '@cjalayouts/logged.component';
 
-import { CommonService } from '@cjashared/services/common.service';
-import { UserService} from '@cjashared/services/user.service';
-import { PublicService } from '@cjashared/services/public.service';
-import { WindowService } from '@cjashared/services/windowSize.service';
+import {
+	CommonService,
+	UserService,
+	UserCourseService,
+	PublicService,
+	WindowService,
+	AccesoriesModule
+} from '@mat-libreta/shared';
+
 
 @NgModule({
 	exports: [
@@ -136,6 +140,7 @@ export class MaterialModule {}
 	providers: [
 		PublicService,
 		UserService,
+		UserCourseService,
 		WindowService,
 		CommonService
 	],

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable ,  of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { environment } from '@cetecenv/environment';
+import { environment } from '@crmenv/environment';
 import { UserService, JSONHeaders } from '@mat-libreta/shared';
 
 

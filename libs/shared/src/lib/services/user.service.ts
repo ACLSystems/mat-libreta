@@ -6,7 +6,6 @@ import { Identity } from '../types/user.type';
 
 import { CommonService } from './common.service';
 import { JSONHeaders } from './httpHeaders';
-// import { environment } from '@cetecenv/environment';
 
 //permitimos con este decorador inyectar a otras dependencias
 @Injectable({

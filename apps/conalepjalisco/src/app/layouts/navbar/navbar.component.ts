@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Location } from '@angular/common';
 
 import { ROUTES } from '@cjasidebar/sidebar.component';
-import { UserService } from '@cjashared/services/user.service';
+import { UserService } from '@mat-libreta/shared';
 
 const misc: any = {
 		navbar_menu_visible: 0,

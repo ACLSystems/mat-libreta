@@ -54,7 +54,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FixedpluginModule } from '@cetecapp/fixedplugin/fixedplugin.module';
 import { SidebarModule } from '@cetecsidebar/sidebar.module';
 import { NavbarModule } from '@cetecnavbar/navbar.module';
-import { AccesoriesModule } from '@mat-libreta/shared';
 
 //  Import Directivas
 
@@ -72,7 +71,8 @@ import {
 	UserService,
 	UserCourseService,
 	PublicService,
-	WindowService
+	WindowService,
+	AccesoriesModule
 } from '@mat-libreta/shared';
 
 

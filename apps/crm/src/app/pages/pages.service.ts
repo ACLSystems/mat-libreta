@@ -2,9 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Identity } from '@cetecshared/types/user.type';
-
-import { JSONHeaders } from '@crmshared/services/httpHeaders';
+import { JSONHeaders, Identity } from '@mat-libreta/shared';
 import { environment } from '@crmenv/environment';
 
 @Injectable()

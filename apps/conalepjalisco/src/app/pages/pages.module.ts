@@ -20,7 +20,7 @@ import { OfflineComponent } from './offline/offline.component';
 import { UnivComponent } from './univ/univ.component';
 
 import { PagesService } from './pages.service';
-import { UserService } from '@cjashared/services/user.service';
+import { UserService } from '@mat-libreta/shared';
 import { RecoverPassService } from './recoverpass/recoverpass.service';
 import { LogoutComponent } from './logout/logout.component';
 

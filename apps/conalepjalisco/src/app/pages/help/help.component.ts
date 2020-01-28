@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 
-import { WindowService } from '@cjashared/services/windowSize.service';
+import { WindowService } from '@mat-libreta/shared';
 
 @Component({
   selector: 'app-help',
