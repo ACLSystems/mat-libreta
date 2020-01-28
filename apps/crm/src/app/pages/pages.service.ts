@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { Identity } from '@cetecshared/types/user.type';
 
-import { JSONHeaders } from '@cetecshared/services/httpHeaders';
-import { environment } from '@cetecenv/environment';
+import { JSONHeaders } from '@crmshared/services/httpHeaders';
+import { environment } from '@crmenv/environment';
 
 @Injectable()
 export class PagesService {
@@ -17,7 +17,6 @@ export class PagesService {
 
 	constructor(private http: HttpClient) {
 		this.url = environment.url;
-		this.org = environment.instanceName;
 	}
 
 	/*

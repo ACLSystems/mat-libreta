@@ -2,11 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Identity } from '@cetecshared/types/user.type';
+import { Identity } from '../types/user.type';
 
-import { CommonService } from '@cetecshared/services/common.service';
-import { JSONHeaders } from '@cetecshared/services/httpHeaders';
-import { environment } from '@cetecenv/environment';
+import { CommonService } from './common.service';
+import { JSONHeaders } from './httpHeaders';
+// import { environment } from '@cetecenv/environment';
 
 //permitimos con este decorador inyectar a otras dependencias
 @Injectable({
@@ -25,7 +25,7 @@ export class UserService{
 		private http: HttpClient,
 		private commonService: CommonService
 	) {
-		this.url = environment.url;
+		this.url = this.commonService.getEnvironment().url;
 	}
 
 	/*

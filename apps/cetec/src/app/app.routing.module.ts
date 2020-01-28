@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 
-import { AuthGuard } from '@cetecshared/guards/auth.guard';
+import { AuthGuard } from '@mat-libreta/shared';
 
 import { PagesComponent } from '@ceteclayouts/pages.component';
 import { LandingComponent } from '@ceteclayouts/landing.component';
@@ -49,7 +49,7 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'dashboard',
-				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
+				loadChildren: () => import('@mat-libreta/dashboard').then(mod => mod.DashboardModule)
 			}
 		]
 	},{
@@ -59,7 +59,7 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'user',
-				loadChildren: () => import('./user/user.module').then(mod => mod.UserModule)
+				loadChildren: () => import('@mat-libreta/user').then(mod => mod.UserModule)
 			}
 		]
 	},{
@@ -69,7 +69,7 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'calendar',
-				loadChildren: () => import('./dashboard/calendar/calendar.module').then(mod => mod.CalendarModule)
+				loadChildren: () => import('@mat-libreta/calendar').then(mod => mod.CalendarModule)
 			}
 		]
 	},{
@@ -78,7 +78,7 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'exam',
-				loadChildren: () => import('./exam/exam.module').then(mod => mod.ExamModule)
+				loadChildren: () => import('@mat-libreta/exam').then(mod => mod.ExamModule)
 			}
 		]
 	},{

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { Person } from '../classes/person';
-import { PublicService } from '@cetecshared/services/public.service';
+import { PublicService } from '@mat-libreta/shared';
 import { LandingService } from '../landing.service';
 import { environment } from '@cetecenv/environment';
 

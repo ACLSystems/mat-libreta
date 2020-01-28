@@ -93,7 +93,7 @@
 								</li>
 							</ul>
 						</div>
-						<div class="alert alert-warning text-center" *ngIf="(!identity.admin.isVerified || !identity.admin.isDataVerified) && !loading && route!== '/user/profile'">
+						<div class="alert alert-warning text-center" *ngIf="(!identity.admin.isVerified || !identity.admin.isDataVerified)  && route!== '/user/profile'">
 							Tus datos no han sido validados.
 							<button class="btn btn-sm btn-primary" (click)="goValidate();">Validar</button>
 						</div>

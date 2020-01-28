@@ -7,11 +7,11 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import esLocale from '@fullcalendar/core/locales/es';
 
-import { Identity } from '@cetecshared/types/user.type';
+import { Identity } from '@crmshared/types/user.type';
 
-import { environment } from '@cetecenv/environment';
+import { environment } from '@crmenv/environment';
 
-import { UserService } from '@cetecshared/services/user.service';
+import { UserService } from '@mat-libreta/shared';
 import { EventService } from '../event.service';
 
 

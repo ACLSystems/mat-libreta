@@ -28,6 +28,18 @@
     },
     "shared": {
       "tags": []
+    },
+    "calendar": {
+      "tags": []
+    },
+    "dashboard": {
+      "tags": []
+    },
+    "user": {
+      "tags": []
+    },
+    "exam": {
+      "tags": []
     }
   }
 }

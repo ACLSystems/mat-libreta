@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Location } from '@angular/common';
 
 import { ROUTES } from '@cetecsidebar/sidebar.component';
-import { UserService } from '@cetecshared/services/user.service';
+import { UserService } from '@mat-libreta/shared';
 
 const misc: any = {
 		navbar_menu_visible: 0,

@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { environment } from '@cetecenv/environment';
-import { JSONHeaders } from '@cetecshared/services/httpHeaders';
+import { CommonService } from './common.service';
+import { JSONHeaders } from './httpHeaders';
 
 @Injectable()
 export class PublicService {
@@ -11,9 +11,10 @@ export class PublicService {
 	public url: string;
 
 	constructor(
-		private http: HttpClient
+		private http: HttpClient,
+		private commonService: CommonService
 	) {
-		this.url = environment.url;
+		this.url = this.commonService.getEnvironment().url;
 	}
 
 	/*

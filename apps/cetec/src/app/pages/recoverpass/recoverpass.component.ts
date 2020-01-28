@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
-import { PublicService } from '@cetecshared/services/public.service';
+import { PublicService } from '@mat-libreta/shared';
 import { RecoverPassService } from './recoverpass.service';
 
 @Component({

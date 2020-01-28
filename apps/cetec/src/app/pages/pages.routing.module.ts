@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { HomeGuard } from '@cetecshared/guards/home.guard';
+import { HomeGuard } from '@mat-libreta/shared';
 
 import { HomeComponent } from './home/home.component';
 import { ErrorPageComponent } from './error/error-page.component';

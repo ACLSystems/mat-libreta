@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { CurrentCourse } from '@cetecshared/types/course.type';
+import { CurrentCourse } from '../types/course.type';
 
 @Injectable()
 export class CurrentCourseService {

@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
 
-import { Identity } from '@cetecshared/types/user.type';
-import { environment } from '@cetecenv/environment';
+import { Identity } from '../types/user.type';
+import { Environment } from '../types/env.type';
+// import { environment } from '@cetecenv/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class CommonService {
 
-	public url: string;
-	public identity: Identity;
-	public token: string;
-	public tokenVersion: string;
-	public roles: any;
+	environment : Environment;
+	identity		: Identity;
+	token				: string;
+	tokenVersion: string;
+	roles				: any;
 
-	constructor() {
-		this.url = environment.url;
-	}
+	constructor() {}
 
 	/*
 	metodo para traer la identidad del usuario autenticado
@@ -57,4 +56,25 @@ export class CommonService {
 		}
 		return this.token;
 	}
-}
+
+	/*
+	metodo para extraer el nombre de la instancia (instanceName)
+	*/
+	getEnvironment() {
+		const environment = localStorage.getItem('environment');
+		if(environment !== 'undefined') {
+			this.environment = JSON.parse(environment);
+		} else {
+			this.environment = null;
+		}
+		return this.environment;
+	}
+
+	/*
+	metodo para setear el url del api
+	*/
+	setEnvironment(environment: Environment) {
+		localStorage.setItem('environment',JSON.stringify(environment));
+	}
+
+ }

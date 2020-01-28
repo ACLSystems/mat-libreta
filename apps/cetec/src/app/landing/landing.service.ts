@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { environment } from '@cetecenv/environment';
-import { JSONHeaders } from '@cetecshared/services/httpHeaders';
+import { JSONHeaders } from '@mat-libreta/shared';
 
 @Injectable()
 export class LandingService {

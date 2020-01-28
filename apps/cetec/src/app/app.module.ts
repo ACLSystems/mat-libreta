@@ -54,7 +54,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FixedpluginModule } from '@cetecapp/fixedplugin/fixedplugin.module';
 import { SidebarModule } from '@cetecsidebar/sidebar.module';
 import { NavbarModule } from '@cetecnavbar/navbar.module';
-import { AccesoriesModule } from '@cetecshared/accesories/accesories.module';
+import { AccesoriesModule } from '@mat-libreta/shared';
 
 //  Import Directivas
 
@@ -67,12 +67,14 @@ import { FooterComponent } from '@ceteclayouts/footer/footer.component';
 import { LoggedComponent } from '@ceteclayouts/logged.component';
 // import { LoadingSpinnerComponent } from '@shared/spinners/loading.component';
 
-// import { CommonService } from '@cetecshared/services/common.service';
-// import { UserService } from '@cetecshared/services/user.service';
-// import { PublicService } from '@cetecshared/services/public.service';
-// import { WindowService } from '@cetecshared/services/windowSize.service';
+import {
+	CommonService,
+	UserService,
+	UserCourseService,
+	PublicService,
+	WindowService
+} from '@mat-libreta/shared';
 
-import { SharedModule } from '@mat-libreta/shared';
 
 @NgModule({
 	exports: [
@@ -123,7 +125,6 @@ export class MaterialModule {}
 	],
   imports: [
 		CommonModule,
-		SharedModule,
 		BrowserAnimationsModule,
 		RouterModule,
 		MaterialModule,
@@ -137,12 +138,13 @@ export class MaterialModule {}
 		AccesoriesModule,
 		SocketIoModule.forRoot(config)
   ],
-	// providers: [
-	// 	PublicService,
-	// 	UserService,
-	// 	WindowService,
-	// 	CommonService
-	// ],
+	providers: [
+		PublicService,
+		UserService,
+		UserCourseService,
+		WindowService,
+		CommonService
+	],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

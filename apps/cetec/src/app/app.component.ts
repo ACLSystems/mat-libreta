@@ -3,6 +3,9 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+import { CommonService } from '@mat-libreta/shared';
+import { environment } from '@cetecenv/environment';
+
 @Component({
 	selector: 'mat-cetec-root',
 	templateUrl: './app.component.html',
@@ -11,7 +14,17 @@ import { filter } from 'rxjs/operators';
 export class AppComponent {
 	private _router: Subscription;
 
-	constructor( private router: Router ) {
+	constructor(
+		private router: Router,
+		private commonService: CommonService
+	) {
+		this.commonService.setEnvironment({
+			instanceName: environment.instanceName,
+			url: environment.url,
+			footerName: environment.footerName,
+			footerLink: environment.footerLink,
+			colorEvents: environment.colorEvents
+		});
 }
 
 	ngOnInit() {

@@ -4,8 +4,7 @@ import { Observable ,  of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { environment } from '@cetecenv/environment';
-import { JSONHeaders } from '@cetecshared/services/httpHeaders';
-import { UserService } from '@cetecshared/services/user.service';
+import { UserService, JSONHeaders } from '@mat-libreta/shared';
 
 
 export interface EventSchedule {

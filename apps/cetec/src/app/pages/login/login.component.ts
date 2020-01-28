@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 
-import { Identity } from '@cetecshared/types/user.type';
+import { Identity } from '@mat-libreta/shared';
 
-import { UserService } from '@cetecshared/services/user.service';
-import { PublicService } from '@cetecshared/services/public.service';
+import { UserService, PublicService } from '@mat-libreta/shared';
 import { Login } from './login';
 
 @Component({

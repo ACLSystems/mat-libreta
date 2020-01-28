@@ -2,9 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Identity } from '@cetecshared/types/user.type';
+import { Identity, JSONHeaders } from '@mat-libreta/shared';
 
-import { JSONHeaders } from '@cetecshared/services/httpHeaders';
 import { environment } from '@cetecenv/environment';
 
 @Injectable()

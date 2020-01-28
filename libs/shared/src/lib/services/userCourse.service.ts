@@ -3,26 +3,28 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { UserService } from './user.service';
-import { CommonService } from '@cetecshared/services/common.service';
-import { JSONHeaders } from '@cetecshared/services/httpHeaders';
-import { environment } from '@cetecenv/environment';
+import { CommonService } from './common.service';
+import { JSONHeaders } from './httpHeaders';
+// import { environment } from '@cetecenv/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class UserCourseService {
 
-	public url: string;
-	public token: string;
-	public resultQueryCours: any[];
-	public idRQ: string;
+	url							: string;
+	instanceName		: string;
+	token						: string;
+	resultQueryCours: any[];
+	idRQ						: string;
 
 	constructor(
 		public http: HttpClient,
 		private userService: UserService,
 		private commonService: CommonService
 	) {
-		this.url = environment.url;
+		this.url = this.commonService.getEnvironment().url;
+		this.instanceName = this.commonService.getEnvironment().instanceName;
 		this.token = this.userService.getToken();
 	}
 
@@ -40,7 +42,7 @@ export class UserCourseService {
 	getCoursesOrg():Observable<any>{
 		const httpOptions = {
 			params: new HttpParams().set(
-				'org', environment.instanceName
+				'org', this.instanceName
 			)
 		}
 		const route = this.url+'api/course/list';

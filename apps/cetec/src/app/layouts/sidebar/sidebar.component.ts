@@ -4,11 +4,10 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
 
-import { CurrentCourse } from '@cetecshared/types/course.type';
-import { Identity } from '@cetecshared/types/user.type';
+import { CurrentCourse } from '@mat-libreta/shared';
+import { Identity } from '@mat-libreta/shared';
 
-import { CurrentCourseService } from '@cetecshared/services/currentcourse.service';
-import { UserService } from '@cetecshared/services/user.service';
+import { UserService, CurrentCourseService } from '@mat-libreta/shared';
 
 declare const $: any;
 

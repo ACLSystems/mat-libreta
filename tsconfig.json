@@ -46,7 +46,11 @@
       "@crmmd/*": ["apps/crm/src/app/md/*"],
       "@crmenv/*": ["apps/crm/src/environments/*"],
       "@crmassets/*": ["apps/crm/src/assets/*"],
-      "@mat-libreta/shared": ["libs/shared/src/index.ts"]
+      "@mat-libreta/shared": ["libs/shared/src/index.ts"],
+      "@mat-libreta/calendar": ["libs/calendar/src/index.ts"],
+      "@mat-libreta/dashboard": ["libs/dashboard/src/index.ts"],
+      "@mat-libreta/user": ["libs/user/src/index.ts"],
+      "@mat-libreta/exam": ["libs/exam/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

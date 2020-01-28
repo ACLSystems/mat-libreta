@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
-import { Response } from '@cetecshared/types/block.type';
+import { Response } from '../types/block.type';
 
 @Injectable()
 export class QuestionService {

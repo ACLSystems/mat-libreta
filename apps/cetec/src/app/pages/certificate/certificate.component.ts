@@ -8,10 +8,10 @@ import localeMx from '@angular/common/locales/es-MX';
 
 registerLocaleData(localeMx, 'es-Mx');
 
-import { Identity } from '@cetecshared/types/user.type';
+import { Identity } from '@mat-libreta/shared';
 
 import { PagesService } from '../pages.service';
-import { UserService } from '@cetecshared/services/user.service';
+import { UserService } from '@mat-libreta/shared';
 
 import { environment } from '@cetecenv/environment';
 
