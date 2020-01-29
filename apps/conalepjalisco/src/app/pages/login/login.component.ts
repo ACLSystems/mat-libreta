@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 
-import { Identity, UserService, PublicService } from '@mat-libreta/shared';
+import { Identity, UserService, PublicService, CommonService } from '@mat-libreta/shared';
+import { environment } from '@cjaenv/environment';
 
 import { Login } from './login';
 
@@ -31,7 +32,8 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private userService: UserService,
-		private publicService: PublicService
+		private publicService: PublicService,
+		private commonService: CommonService
 	) {
 		this.login = new Login('', '');
 	}
@@ -42,6 +44,13 @@ export class LoginComponent implements OnInit {
 		this.tokenVersion = this.userService.getTokenVersion();
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
+			this.commonService.setEnvironment({
+				instanceName: environment.instanceName,
+				url: environment.url,
+				footerName: environment.footerName,
+				footerLink: environment.footerLink,
+				colorEvents: environment.colorEvents
+			});
 		}
 		const card = document.getElementsByClassName('card')[0];
 		setTimeout(function() {

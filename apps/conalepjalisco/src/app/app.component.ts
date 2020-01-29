@@ -23,6 +23,8 @@ export class AppComponent {
 			if(localEnv.instanceName !== environment.instanceName) {
 				localStorage.removeItem('environment');
 				this.setEnvironment();
+			} else {
+				// console.log('Ambiente persiste');
 			}
 		} else {
 			this.setEnvironment();
