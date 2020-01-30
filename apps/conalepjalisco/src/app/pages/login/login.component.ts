@@ -44,13 +44,7 @@ export class LoginComponent implements OnInit {
 		this.tokenVersion = this.userService.getTokenVersion();
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
-			this.commonService.setEnvironment({
-				instanceName: environment.instanceName,
-				url: environment.url,
-				footerName: environment.footerName,
-				footerLink: environment.footerLink,
-				colorEvents: environment.colorEvents
-			});
+			this.setEnvironment();
 		}
 		const card = document.getElementsByClassName('card')[0];
 		setTimeout(function() {
@@ -135,6 +129,16 @@ export class LoginComponent implements OnInit {
 		} catch (err)  {
 			return null;
 		}
+	}
+
+	setEnvironment() {
+		this.commonService.setEnvironment({
+			instanceName: environment.instanceName,
+			url: environment.url,
+			footerName: environment.footerName,
+			footerLink: environment.footerLink,
+			colorEvents: environment.colorEvents
+		});
 	}
 
 }

@@ -3,7 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { UserService } from '@mat-libreta/shared';
+import { UserService, CommonService } from '@mat-libreta/shared';
+import { environment } from '@cetecenv/environment';
 
 @Component({
 	selector: 'app-layout',
@@ -19,7 +20,8 @@ export class PagesComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private element: ElementRef,
-		private userService: UserService
+		private userService: UserService,
+		private commonService: CommonService
 	){
 		this.sidebarVisible = false;
 		this.token = this.userService.getToken();
@@ -114,5 +116,16 @@ export class PagesComponent implements OnInit {
 	}
 	logout() {
 		this.userService.destroySession();
+		this.setEnvironment();
+	}
+
+	setEnvironment() {
+		this.commonService.setEnvironment({
+			instanceName: environment.instanceName,
+			url: environment.url,
+			footerName: environment.footerName,
+			footerLink: environment.footerLink,
+			colorEvents: environment.colorEvents
+		});
 	}
 }

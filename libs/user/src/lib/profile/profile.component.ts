@@ -53,7 +53,7 @@ export class ProfileComponent implements OnInit {
 		});
 		this.details = this.userService.getUser(this.identity.name).subscribe(data => {
 			this.details = data;
-			console.log(this.details);
+			// console.log(this.details);
 			this.loading = false;
 			if(!this.details.admin.isDataVerified) {
 				this.name = this.details.person.name;

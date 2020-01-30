@@ -5,8 +5,13 @@ import Swal from 'sweetalert2';
 
 import { Identity } from '@mat-libreta/shared';
 
-import { UserService, PublicService } from '@mat-libreta/shared';
+import {
+	UserService,
+	PublicService,
+	CommonService
+} from '@mat-libreta/shared';
 import { Login } from './login';
+import { environment } from '@cetecenv/environment';
 
 @Component({
 	selector: 'app-login',
@@ -32,7 +37,8 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private userService: UserService,
-		private publicService: PublicService
+		private publicService: PublicService,
+		private commonService: CommonService
 	) {
 		this.login = new Login('', '');
 	}
@@ -43,6 +49,7 @@ export class LoginComponent implements OnInit {
 		this.tokenVersion = this.userService.getTokenVersion();
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
+			this.setEnvironment();
 		}
 		const card = document.getElementsByClassName('card')[0];
 		setTimeout(function() {
@@ -127,6 +134,16 @@ export class LoginComponent implements OnInit {
 		} catch (err)  {
 			return null;
 		}
+	}
+
+	setEnvironment() {
+		this.commonService.setEnvironment({
+			instanceName: environment.instanceName,
+			url: environment.url,
+			footerName: environment.footerName,
+			footerLink: environment.footerLink,
+			colorEvents: environment.colorEvents
+		});
 	}
 
 }

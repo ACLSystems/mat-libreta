@@ -24,7 +24,10 @@ export class UserService{
 		private http: HttpClient,
 		private commonService: CommonService
 	) {
-		this.url = this.commonService.getEnvironment().url;
+		const environment = this.commonService.getEnvironment();
+		if(environment && environment.url) {
+			this.url = environment.url;
+		}
 	}
 
 	/*

@@ -88,21 +88,17 @@
 								</button>
 							</div>
 						</div>
-						<div class="row">
+						<!-- <div class="row">
 							<div class="col">
 								<hr>
 							</div>
-						</div>
-						<div class="row">
+						</div> -->
+						<!-- <div class="row">
 							<div class="col" *ngIf="details.person.birthDate && !changeBirthDate">
 								<h6>Fecha de nacimiento</h6>
 								<h4>{{details.person.birthDate | date: 'mediumDate'}} <i class="material-icons pointme md-18" (click)="doChangeBirthDate()">create</i></h4>
 							</div>
 							<div class="col mr-auto" *ngIf="!details.person.birthDate || changeBirthDate">
-								<!-- <div class="form-group">
-									<label class="bmd-label-floating">Fecha de nacimiento</label>
-									<input type="text" class="form-control">
-								</div> -->
 								<legend>Fecha de nacimiento</legend>
 								<mat-form-field color="accent">
 									<input matInput #input [matDatepicker]="picker" placeholder="Elige la fecha" (dateInput)="setBirthDate('input',$event);"
@@ -127,13 +123,8 @@
 									>
 								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-
-							</div>
-						</div>
-						<div class="row">
+						</div> -->
+						<!-- <div class="row">
 							<div class="col">
 								<label>Acerca de mí</label>
 								<div class="form-group">
@@ -143,7 +134,7 @@
 									<textarea class="form-control" rows="5"></textarea>
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
@@ -158,13 +149,13 @@
 						</ngx-avatar>
 					</div>
 					<div class="card-body">
-						<h6 class="card-category text-gray">
+						<!-- <h6 class="card-category text-gray">
 							Alias
-						</h6>
+						</h6> -->
 						<h4 class="card-title">{{identity.person.name}}  {{identity.person.fatherName}}</h4>
-						<p class="card-description">
+						<!-- <p class="card-description">
 							Bio
-						</p>
+						</p> -->
 					</div>
 				</div>
 			</div>

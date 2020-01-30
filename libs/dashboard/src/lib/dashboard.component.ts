@@ -5,7 +5,6 @@ import { registerLocaleData } from '@angular/common';
 import localeMX from '@angular/common/locales/es-MX';
 //import * as Chartist from 'chartist';
 import Swal from 'sweetalert2';
-import { CookieService } from 'ngx-cookie-service';
 
 import {
 	UserService,
@@ -32,7 +31,6 @@ interface dashEvent {
 		UserService,
 		UserCourseService,
 		CurrentCourseService,
-		CookieService,
 		{ provide: LOCALE_ID, useValue: 'es-MX'}
 	]
 })
@@ -52,8 +50,7 @@ export class DashboardComponent implements OnInit {
 		private router: Router,
 		private userService: UserService,
 		private userCourseService: UserCourseService,
-		private currentCourseService: CurrentCourseService,
-		private cookieService: CookieService
+		private currentCourseService: CurrentCourseService
 	) {
 		this.identity = this.userService.getidentity();
 		this.token = this.userService.getToken();
@@ -61,21 +58,9 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.loading = true;
-		console.log(this.identity);
 		this.identity = this.userService.getidentity();
 		this.getCourseUser();
 		this.currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
-		const now = new Date();
-		const expire = new Date(now.setMonth(now.getMonth()+12));
-		this.cookieService.set(
-			'miSession',
-			'hola',
-			expire,
-			'/',
-			'.dropbox.com',
-			false,
-			'Lax'
-		);
 	}
 	//
 	// Para prevenir copia y descarga
