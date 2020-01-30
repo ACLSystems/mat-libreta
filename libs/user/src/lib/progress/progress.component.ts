@@ -91,16 +91,24 @@ export class ProgressComponent implements OnInit {
 	}
 
 	getGrades() {
+		console.group('Iniciando getGrades');
+		console.log(this.display);
+		console.groupEnd();
 		this.userCourseService.getMyGrades(this.groupid).subscribe(data => {
 			this.grade = data.message;
+			console.group('Data');
+			console.log(data);
+			console.groupEnd();
 			this.track = +this.grade.track.replace('%','');
 			this.grade = this.generateDisplayValues(this.grade);
 			this.loading = false;
+			console.group('Grade');
 			console.log(this.grade);
+			console.groupEnd();
 			if(this.width > 768){
 				setTimeout(() => {
 					this.displayChart();
-				}, 100);
+				}, 300);
 			}
 		}, error => {
 			Swal.fire({
@@ -123,10 +131,14 @@ export class ProgressComponent implements OnInit {
 			series: []
 		};
 		var grades: BlockGrade[] = (this.grade.blocks && this.grade.blocks.length > 0) ? this.grade.blocks : [];
+		console.group('grades for charting');
+		console.log(grades);
+		console.groupEnd();
 		if(grades.length > 0) {
 			grades.forEach(grade => {
 				if(grade.blockNumber === 0) {
-					dataChartGrades.labels.push(grade.blockTitle);
+					// console.log(grade);
+					dataChartGrades.labels.push(grade.blockSection + '.-' + grade.blockTitle);
 					dataChartRubric.labels.push(grade.blockSection + '');
 					dataChartGrades.series.push(grade.grade);
 					dataChartRubric.series.push(grade.blockW);
@@ -210,15 +222,17 @@ export class ProgressComponent implements OnInit {
 			}]
 		];
 
-		// console.log(dataChartGrades);
+		console.group('DatachartGrades');
+		console.log(dataChartGrades);
+		console.groupEnd();
 		const chartGrades = new Chartist.Bar('#chart-grades', dataChartGrades,optionsChart,responsiveOptions);
 		this.startAnimationForBarChart(chartGrades);
-		new Chartist.Pie('#chart-rubric',dataChartRubric,
-			{
-				startAngle: 180,
-				height: '230px',
-				showLabel: true
-			});
+		// new Chartist.Pie('#chart-rubric',dataChartRubric,
+		// 	{
+		// 		startAngle: 180,
+		// 		height: '230px',
+		// 		showLabel: true
+		// 	});
 
 		// setTimeout(() => {
 		// 	const pie = document.getElementsByClassName('ct-label');
@@ -241,6 +255,9 @@ export class ProgressComponent implements OnInit {
 	}
 
 	private generateDisplayValues(grades: any) {
+		console.group('Iniciando display Values');
+		console.log(this.display);
+		console.groupEnd();
 		this.totalW = 0;
 		this.totalPercentage = 0;
 		this.finalGrade = 0;
@@ -305,7 +322,9 @@ export class ProgressComponent implements OnInit {
 			grade.wSection = wSection;
 			grade.grade = grade.lessons.reduce((acc:any,curr:any) => acc + (curr.grade * curr.w / grade.wSection),0);
 		});
-		// console.log(this.display);
+		console.group('Display');
+		console.log(this.display);
+		console.groupEnd();
 		grades.blocks.forEach((value: any) => {
 			if(value.blockNumber === 0) {
 				this.totalPercentage += value.blockW / this.totalW;
