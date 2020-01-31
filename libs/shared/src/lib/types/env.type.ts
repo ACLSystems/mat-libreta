@@ -3,5 +3,8 @@ export interface Environment {
 	url: string,
 	footerName: string,
 	footerLink: string,
-	colorEvents: string[]
+	colorEvents: string[],
+	bank: string,
+	bankAccount: string,
+	bankCLABE: string,
 }

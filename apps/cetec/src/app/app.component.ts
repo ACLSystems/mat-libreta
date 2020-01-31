@@ -23,8 +23,6 @@ export class AppComponent {
 			if(localEnv.instanceName !== environment.instanceName) {
 				localStorage.removeItem('environment');
 				this.setEnvironment();
-			} else {
-				// console.log('Ambiente persiste');
 			}
 		} else {
 			this.setEnvironment();
@@ -50,7 +48,10 @@ export class AppComponent {
 			url: environment.url,
 			footerName: environment.footerName,
 			footerLink: environment.footerLink,
-			colorEvents: environment.colorEvents
+			colorEvents: environment.colorEvents,
+			bank: environment.bank,
+			bankAccount: environment.bankAccount,
+			bankCLABE: environment.bankCLABE
 		});
 	}
 }

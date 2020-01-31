@@ -31,6 +31,7 @@ export class ProgressComponent implements OnInit {
 	groupid: string;
 	grade: Grade;
 	track: number;
+	minTrack: number;
 	rubricData: dataChart;
 	totalW: number;
 	totalPercentage: number;
@@ -91,16 +92,25 @@ export class ProgressComponent implements OnInit {
 	}
 
 	getGrades() {
+		console.group('Iniciando getGrades');
+		console.log(this.display);
+		console.groupEnd();
 		this.userCourseService.getMyGrades(this.groupid).subscribe(data => {
 			this.grade = data.message;
+			console.group('Data');
+			console.log(data);
+			console.groupEnd();
 			this.track = +this.grade.track.replace('%','');
+			this.minTrack = +this.grade.minTrack.replace('%','');
 			this.grade = this.generateDisplayValues(this.grade);
 			this.loading = false;
+			console.group('Grade');
 			console.log(this.grade);
+			console.groupEnd();
 			if(this.width > 768){
 				setTimeout(() => {
 					this.displayChart();
-				}, 100);
+				}, 300);
 			}
 		}, error => {
 			Swal.fire({
@@ -123,14 +133,36 @@ export class ProgressComponent implements OnInit {
 			series: []
 		};
 		var grades: BlockGrade[] = (this.grade.blocks && this.grade.blocks.length > 0) ? this.grade.blocks : [];
+		console.group('grades for charting');
+		console.log(grades);
+		console.groupEnd();
+		var rubricTotal = 0;
 		if(grades.length > 0) {
 			grades.forEach(grade => {
 				if(grade.blockNumber === 0) {
-					dataChartGrades.labels.push(grade.blockTitle);
-					dataChartRubric.labels.push(grade.blockSection + '');
+					rubricTotal += grade.blockW;
+				}
+			});
+		}
+		if(grades.length > 0) {
+			var i = 0;
+			grades.forEach(grade => {
+				if(grade.blockNumber === 0) {
+					// console.log(grade);
+					dataChartGrades.labels.push(grade.blockSection + '.-' + grade.blockTitle);
+					if(rubricTotal > 0 ) {
+						if(grades.length > 4) {
+							dataChartRubric.labels.push('U'+ grade.blockSection + ': ' + (grade.blockW/rubricTotal)*100 + '%');
+						} else {
+							dataChartRubric.labels.push('Unidad '+ grade.blockSection + ': ' + (grade.blockW/rubricTotal)*100 + '%');
+						}
+					} else {
+						dataChartRubric.labels.push('Unidad '+ grade.blockSection);
+					}
 					dataChartGrades.series.push(grade.grade);
 					dataChartRubric.series.push(grade.blockW);
 				}
+				i++;
 			});
 		}
 		var counts = [];
@@ -210,7 +242,12 @@ export class ProgressComponent implements OnInit {
 			}]
 		];
 
-		// console.log(dataChartGrades);
+		console.group('DatachartGrades');
+		console.log(dataChartGrades);
+		console.groupEnd();
+		console.group('DatachartRubric');
+		console.log(dataChartRubric);
+		console.groupEnd();
 		const chartGrades = new Chartist.Bar('#chart-grades', dataChartGrades,optionsChart,responsiveOptions);
 		this.startAnimationForBarChart(chartGrades);
 		new Chartist.Pie('#chart-rubric',dataChartRubric,
@@ -241,6 +278,9 @@ export class ProgressComponent implements OnInit {
 	}
 
 	private generateDisplayValues(grades: any) {
+		console.group('Iniciando display Values');
+		console.log(this.display);
+		console.groupEnd();
 		this.totalW = 0;
 		this.totalPercentage = 0;
 		this.finalGrade = 0;
@@ -305,7 +345,9 @@ export class ProgressComponent implements OnInit {
 			grade.wSection = wSection;
 			grade.grade = grade.lessons.reduce((acc:any,curr:any) => acc + (curr.grade * curr.w / grade.wSection),0);
 		});
-		// console.log(this.display);
+		console.group('Display');
+		console.log(this.display);
+		console.groupEnd();
 		grades.blocks.forEach((value: any) => {
 			if(value.blockNumber === 0) {
 				this.totalPercentage += value.blockW / this.totalW;
