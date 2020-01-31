@@ -20,7 +20,7 @@
 							Calificación final:
 						</div>
 						<div class="card-body">
-							<p class="h1"
+							<p class="h2"
 							[ngClass]="{'text-success':grade.finalGrade>=grade.minGrade,'text-danger':grade.finalGrade<grade.minGrade}"
 							>
 								{{grade.finalGrade | number: '1.2-2'}}
@@ -39,9 +39,9 @@
 							Avance:
 						</div>
 						<div class="card-body">
-							<h1
+							<h2
 							[ngClass]="{'text-success':track>=60,'text-warning':track>=30 && track<60,'text-danger':track<30}"
-							>{{track | number: '1.2-2'}}%</h1>
+							>{{track | number: '1.2-2'}}%</h2>
 							<div class="progress">
 								<div class="progress-bar"
 								[ngClass]="{'progress-bar-success bg-success':track>=60,'progress-bar-warning bg-warning':track>=30 && track<60,'progress-bar-danger bg-danger':track<30}"
@@ -51,6 +51,34 @@
 								aria-valuemax="100"
 								[ngStyle]="{width:track+'%'}"
 								></div>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							Constancia
+						</div>
+						<div class="card-body">
+							<div *ngIf="grade.status == 'active'">
+								Estatus: <span class="text-success">Activo</span>
+								<button
+									*ngIf="grade.finalGrade >= grade.minGrade && track >= minTrack"
+									class="btn btn-sm btn-primary btn-block"
+									>
+									Obtener constancia
+								</button>
+								<div
+									*ngIf="grade.finalGrade < grade.minGrade || track < minTrack"
+									class="alert alert-warning"
+								>
+									Necesitas una calificación mínima de <b>{{grade.minGrade}}</b> y un avance mínimo de <b>{{minTrack}}%</b> para obtener constancia
+								</div>
+							</div>
+							<div *ngIf="grade.status == 'pending'">
+								Estatus: <span class="text-danger">Pendiente de pago</span>
+								<button mat-raised-button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#certificateModal">
+									Cómo obtener constancia
+								</button>
 							</div>
 						</div>
 					</div>
@@ -76,28 +104,26 @@
 				<h4 class="card-title">Ponderación y detalle de la calificación</h4>
 			</div>
 			<div class="card-body">
-				<!-- <div class="container pb-4">
+				<div class="container pb-4">
 					<div class="row">
 						<div class="col">
 							<span class="text-primary">{{grade.course}}</span><br>
 							<span class="h4">{{grade.name}}</span><br>
-							<div *ngIf="grade.status == 'active'">Estatus: <span class="text-success">Activo</span></div>
-							<div *ngIf="grade.status == 'pending'">Estatus: <span class="text-danger">Pendiente de pago</span></div>
 							Inicio: {{grade.beginDate | date}}<br>
-							Fin: {{grade.endDate | date}}<br>
+							Fin: {{grade.endDate | date}}
 						</div>
 						<div class="col text-center">
 							<span class="h4">Ponderación de las unidades</span>
 							<div class="ct-chart" id="chart-rubric" *ngIf="width >= 768"></div>
 						</div>
 					</div>
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col">
 							<p>La calificación final está compuesta de las calificaciones ponderadas de cada unidad. Esto es, que la calificación obtenida en la unidad se pondera y se suma con las calificaciones ponderadas de las otras unidades. No todas las unidades tienen ponderación (unidades con 0%). En esta lista de calificaciones solo aparecen las unidades con ponderación.</p>
 							<p>Las unidades, a su vez, tienen calificaciones ponderadas de cada lección. Solo las lecciones con examenes/quizes o actividades/tareas pueden ponderarse.</p>
 						</div>
-					</div>
-				</div> -->
+					</div> -->
+				</div>
 				<div class="container">
 					<div class="row text-primary font-weight-bold">
 						<div class="col">Unidad</div>
@@ -207,3 +233,31 @@
 		</div>
 	</div>
 </div>
+
+
+<!-- Modal para constancia-->
+<div class="modal fade printable" id="certificateModal" tabindex="-1" role="dialog" aria-labelledby="certificateModal" aria-hidden="true" *ngIf="!loading">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Obtener Constancia</h4>
+				<button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="material-icons">clear</i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p>Para obtener tu constancia realiza un pago por la cantidad de </p>
+				<div class="alert alert-primary">
+					<h2 style="text-align:center">$360.00 MXN</h2>
+				</div>
+				<p>En Efectivo: en cualquier sucursal de BBVA a la cuenta: <b>1234567890</b><br><br>Transferencia electrónica: BBVA con CLABE interbancaria: <b>1234567890123456</b><br><br><span class="text-danger" style="text-justify: auto">IMPORTANTE: Utiliza el siguiente número de folio como <b>CONCEPTO DE PAGO</b> en tu depósito o transferencia. De no seguir estas instrucciones no será posible rastrear tu pago.</span></p>
+				<div class="alert alert-primary">
+					<h3 style="text-align:center">{{grade.folio}}</h3>
+				</div>
+				<p style="text-justify: auto">Tu pago se verá reflejado en un máximo de 3 días laborales. Cuando el pago esté validado se te enviará un correo para notificarte. El estado se verá reflejado como <span class="text-success">Activo</span> y podrás generar tu constancia.
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+<!--  Fin modal para constancia -->

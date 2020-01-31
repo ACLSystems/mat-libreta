@@ -31,6 +31,7 @@ export class ProgressComponent implements OnInit {
 	groupid: string;
 	grade: Grade;
 	track: number;
+	minTrack: number;
 	rubricData: dataChart;
 	totalW: number;
 	totalPercentage: number;
@@ -100,6 +101,7 @@ export class ProgressComponent implements OnInit {
 			console.log(data);
 			console.groupEnd();
 			this.track = +this.grade.track.replace('%','');
+			this.minTrack = +this.grade.minTrack.replace('%','');
 			this.grade = this.generateDisplayValues(this.grade);
 			this.loading = false;
 			console.group('Grade');
@@ -134,15 +136,33 @@ export class ProgressComponent implements OnInit {
 		console.group('grades for charting');
 		console.log(grades);
 		console.groupEnd();
+		var rubricTotal = 0;
 		if(grades.length > 0) {
+			grades.forEach(grade => {
+				if(grade.blockNumber === 0) {
+					rubricTotal += grade.blockW;
+				}
+			});
+		}
+		if(grades.length > 0) {
+			var i = 0;
 			grades.forEach(grade => {
 				if(grade.blockNumber === 0) {
 					// console.log(grade);
 					dataChartGrades.labels.push(grade.blockSection + '.-' + grade.blockTitle);
-					dataChartRubric.labels.push(grade.blockSection + '');
+					if(rubricTotal > 0 ) {
+						if(grades.length > 4) {
+							dataChartRubric.labels.push('U'+ grade.blockSection + ': ' + (grade.blockW/rubricTotal)*100 + '%');
+						} else {
+							dataChartRubric.labels.push('Unidad '+ grade.blockSection + ': ' + (grade.blockW/rubricTotal)*100 + '%');
+						}
+					} else {
+						dataChartRubric.labels.push('Unidad '+ grade.blockSection);
+					}
 					dataChartGrades.series.push(grade.grade);
 					dataChartRubric.series.push(grade.blockW);
 				}
+				i++;
 			});
 		}
 		var counts = [];
@@ -225,14 +245,17 @@ export class ProgressComponent implements OnInit {
 		console.group('DatachartGrades');
 		console.log(dataChartGrades);
 		console.groupEnd();
+		console.group('DatachartRubric');
+		console.log(dataChartRubric);
+		console.groupEnd();
 		const chartGrades = new Chartist.Bar('#chart-grades', dataChartGrades,optionsChart,responsiveOptions);
 		this.startAnimationForBarChart(chartGrades);
-		// new Chartist.Pie('#chart-rubric',dataChartRubric,
-		// 	{
-		// 		startAngle: 180,
-		// 		height: '230px',
-		// 		showLabel: true
-		// 	});
+		new Chartist.Pie('#chart-rubric',dataChartRubric,
+			{
+				startAngle: 180,
+				height: '230px',
+				showLabel: true
+			});
 
 		// setTimeout(() => {
 		// 	const pie = document.getElementsByClassName('ct-label');
