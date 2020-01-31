@@ -7,4 +7,5 @@ export interface Environment {
 	bank: string,
 	bankAccount: string,
 	bankCLABE: string,
+	mocAmount?: string
 }

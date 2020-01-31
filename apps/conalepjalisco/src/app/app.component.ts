@@ -53,7 +53,8 @@ export class AppComponent {
 			colorEvents: environment.colorEvents,
 			bank: environment.bank,
 			bankAccount: environment.bankAccount,
-			bankCLABE: environment.bankCLABE
+			bankCLABE: environment.bankCLABE,
+			mocAmount: environment.mocAmount
 		});
 	}
 }

@@ -10,6 +10,7 @@ import {
 	UserCourseService,
 	WindowService,
 	CommService,
+	CommonService,
 	Section
 } from '@mat-libreta/shared';
 import { DocsService } from './docs.service';
@@ -38,18 +39,27 @@ export class CourseMainComponent implements OnInit {
 	courseStarted: boolean = false;
 	track: number = 0;
 	finalGrade: number;
+	bank: string;
+	bankAccount: string;
+	bankCLABE: string;
+	mocAmount: string;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private userCourseService: UserCourseService,
-		private commService: CommService
+		private commService: CommService,
+		private commonService: CommonService
 	) {
 		this.loading = true;
 		this.activatedRoute.params.subscribe(params => {
 				this.groupid = params.groupid;
 			}
 		)
+		this.bank = this.commonService.getEnvironment().bank;
+		this.bankAccount = this.commonService.getEnvironment().bankAccount;
+		this.bankCLABE = this.commonService.getEnvironment().bankCLABE;
+		this.mocAmount = this.commonService.getEnvironment().mocAmount;
 	}
 
 	ngOnInit() {

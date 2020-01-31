@@ -2,7 +2,7 @@
 	<div *ngIf="loading" class="text-center">
 		<app-loading-spinner></app-loading-spinner>
 	</div>
-	<div class="container-fluid" *ngIf="!loading">
+	<div class="container-fluid non-printable" *ngIf="!loading">
 		<div class="row">
 			<div class="col">
 				<div class="card">
@@ -65,15 +65,19 @@
 										<div
 										*ngIf="group.myStatus === 'pending'"
 										>
-											<button mat-raised-button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#certificateModal">
-												Obtener Constancia
+											Cuenta <span class="text-danger">Pendiente</span><br />
+											<button mat-raised-button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#certificateModal">
+												Cómo obtener constancia
 											</button>
 										</div>
-										<span class="text-success"
+										<div
 										*ngIf="group.myStatus === 'active'"
 										>
-										Cuenta Activa
-										</span>
+											Cuenta <span class="text-success">Activa</span><br />
+											<button mat-raised-button class="btn btn-success btn-sm">
+												Obtener constancia
+											</button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -222,25 +226,79 @@
 
 <!-- Modal para constancia-->
 <div class="modal fade printable" id="certificateModal" tabindex="-1" role="dialog" aria-labelledby="certificateModal" aria-hidden="true" *ngIf="!loading">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Obtener Constancia</h4>
 				<button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					<i class="material-icons">clear</i>
+					<i class="material-icons non-printable">clear</i>
 				</button>
 			</div>
 			<div class="modal-body">
-				<p>Para obtener tu constancia realiza un pago por la cantidad de </p>
-				<div class="alert alert-primary">
-					<h2 style="text-align:center">$360.00 MXN</h2>
+				<button mat-button (click)="print();" class="btn btn-sm btn-primary float-right non-printable">Imprimir</button>
+				<div class="card">
+					<div class="card-header alert alert-primary">
+						Para obtener tu constancia realiza un pago por la cantidad de:
+					</div>
+					<h2 class="card-body text-center">
+						{{mocAmount}}
+					</h2>
 				</div>
-				<p>En Efectivo: en cualquier sucursal de BBVA a la cuenta: <b>1234567890</b><br><br>Transferencia electrónica: BBVA con CLABE interbancaria: <b>1234567890123456</b><br><br><span class="text-danger" style="text-justify: auto">IMPORTANTE: Utiliza el siguiente número de folio como <b>CONCEPTO DE PAGO</b> en tu depósito o transferencia. De no seguir estas instrucciones no será posible rastrear tu pago.</span></p>
-				<div class="alert alert-primary">
-					<h3 style="text-align:center">{{group.folio}}</h3>
+				<div class="card">
+					<h4 class="card-header alert alert-primary printable">
+						En Efectivo
+					</h4>
+					<div class="card-body">
+						En cualquier sucursal de <b>{{bank}}</b> a la cuenta <i><b>{{bankAccount}}</b></i>
+					</div>
 				</div>
-				<p style="text-justify: auto">Tu pago se verá reflejado en un máximo de 3 días laborales. Cuando el pago esté validado se te enviará un correo para notificarte. El estado se verá reflejado como <span class="text-success">Activo</span> y podrás generar tu constancia.
-				</p>
+				<div class="card">
+					<h4 class="card-header alert alert-primary">
+						Transferencia electrónica
+					</h4>
+					<div class="card-body">
+						Banco <b>{{bank}}</b> con CLABE interbancaria <i><b>{{bankCLABE}}</b></i>
+					</div>
+				</div>
+				<div class="card">
+					<h4 class="card-header alert alert-danger">
+						Importante
+					</h4>
+					<div class="card-body text-justify">
+						Utiliza el siguiente número de <b>FOLIO</b> como <b><u>CONCEPTO DE PAGO</u></b> en tu depósito o transferencia. De no seguir estas instrucciones no será posible rastrear tu pago.
+					</div>
+				</div>
+				<div class="card">
+					<h4 class="card-header alert alert-primary">
+						Folio
+					</h4>
+					<div class="card-body text-center">
+						<h3>{{group.folio}}</h3>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">Notas:</div>
+					<div class="card-body text-justify">
+						<ul>
+							<li>
+								Tu pago se verá reflejado en un tiempo aproximado de 3 días laborales.
+							</li>
+							<li>
+								Cuando el pago esté validado se te enviará un correo para notificarte.
+							</li>
+							<li>
+								El estado de la cuenta se verá reflejado como <span class="text-success">Activo</span> y podrás generar tu constancia.
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="btn-group float-right">
+					<button mat-button (click)="print();" class="btn btn-sm btn-primary  non-printable">Imprimir</button>
+					<button mat-button type="button" class="btn btn-sm non-printable" data-dismiss="modal" aria-hidden="true">
+						Cerrar
+					</button>
+				</div>
+
 			</div>
 		</div>
 	</div>

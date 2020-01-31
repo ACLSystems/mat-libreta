@@ -7,6 +7,7 @@ import { Grade, BlockGrade } from '@mat-libreta/shared';
 
 import {
 	UserCourseService,
+	CommonService,
 	WindowService
 } from '@mat-libreta/shared';
 
@@ -38,6 +39,10 @@ export class ProgressComponent implements OnInit {
 	finalGrade: number;
 	width: number;
 	display: any[] = [];
+	bank: string;
+	bankAccount: string;
+	bankCLABE: string;
+	mocAmount: string;
 
 	startAnimationForBarChart(chart: any) {
 			let seq2: any, delays2: any, durations2: any;
@@ -66,12 +71,17 @@ export class ProgressComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private userCourseService: UserCourseService,
-		private windowService: WindowService
+		private windowService: WindowService,
+		private commonService: CommonService
 	) {
 		this.activatedRoute.params.subscribe(params => {
 				this.groupid = params.groupid;
 			}
 		);
+		this.bank = this.commonService.getEnvironment().bank;
+		this.bankAccount = this.commonService.getEnvironment().bankAccount;
+		this.bankCLABE = this.commonService.getEnvironment().bankCLABE;
+		this.mocAmount = this.commonService.getEnvironment().mocAmount;
 	}
 
 	ngOnInit() {
