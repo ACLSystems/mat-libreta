@@ -137,7 +137,10 @@ export class LoginComponent implements OnInit {
 			url: environment.url,
 			footerName: environment.footerName,
 			footerLink: environment.footerLink,
-			colorEvents: environment.colorEvents
+			colorEvents: environment.colorEvents,
+			bank: environment.bank,
+			bankAccount: environment.bankAccount,
+			bankCLABE: environment.bankCLABE
 		});
 	}
 
