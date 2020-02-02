@@ -16,3 +16,13 @@
 	fill: white;
 	color: white;
 }
+
+@media print
+{
+	.non-printable {
+		display: none;
+	}
+	.printable {
+		display: block;
+	}
+}

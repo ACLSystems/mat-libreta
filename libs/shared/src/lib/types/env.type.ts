@@ -1,5 +1,6 @@
 export interface Environment {
 	instanceName: string,
+	instanceRef: string,
 	url: string,
 	footerName: string,
 	footerLink: string,

@@ -74,6 +74,16 @@ const routes: Routes = [
 		]
 	},{
 		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'cert',
+				loadChildren: () => import('@cetecapp/cert/cert.module').then(mod => mod.CertModule)
+			}
+		]
+	},{
+		path: '',
 		canActivate: [AuthGuard],
 		children: [
 			{

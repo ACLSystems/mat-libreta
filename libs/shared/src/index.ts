@@ -10,6 +10,7 @@ export { SafePipe } from './lib/pipes/video.pipe';
 
 export { AuthGuard } from './lib/guards/auth.guard';
 export { HomeGuard } from './lib/guards/home.guard';
+export { CertGuard } from './lib/guards/cert.guard';
 
 // Export services
 

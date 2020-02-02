@@ -370,4 +370,17 @@ export class ProgressComponent implements OnInit {
 		return grades;
 	}
 
+	print() {
+		window.print();
+	}
+
+	getCert() {
+		const cert = {
+			groupid: this.grade.groupid,
+			status: this.grade.status
+		}
+		localStorage.setItem('cert', JSON.stringify(cert)),
+		this.router.navigate(['/cert',this.grade.groupid]);
+	}
+
 }

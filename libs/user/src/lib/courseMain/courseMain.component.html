@@ -74,7 +74,11 @@
 										*ngIf="group.myStatus === 'active'"
 										>
 											Cuenta <span class="text-success">Activa</span><br />
-											<button mat-raised-button class="btn btn-success btn-sm">
+											<button
+												mat-raised-button
+												class="btn btn-success btn-sm"
+												(click)="getCert();"
+											>
 												Obtener constancia
 											</button>
 										</div>

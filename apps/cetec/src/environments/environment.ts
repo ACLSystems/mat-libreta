@@ -13,6 +13,7 @@ export const environment = {
 	versionCheckURL: 'version.json',
 	instanceName: 'cetec',
 	instanceTitle: 'CETEC',
+	instanceRef: '@cetec',
 	siteName: 'cetec.superatemexico.com',
 	footer:'CETEC',
 	footerName: 'Grupo Cetec',

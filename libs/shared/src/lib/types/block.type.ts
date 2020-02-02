@@ -160,5 +160,6 @@ export interface Grade {
 	passDateSpa: string,
 	rosterid: string,
 	status: string,
-	track: string
+	track: string,
+	tookCertificate: boolean
 }

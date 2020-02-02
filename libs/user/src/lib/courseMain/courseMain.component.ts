@@ -13,7 +13,8 @@ import {
 	CommonService,
 	Section
 } from '@mat-libreta/shared';
-import { DocsService } from './docs.service';
+
+
 
 registerLocaleData(localeMX);
 
@@ -24,7 +25,6 @@ registerLocaleData(localeMX);
 	providers: [
 		UserService,
 		UserCourseService,
-		DocsService,
 		WindowService,
 		CommService,
 		{ provide: LOCALE_ID, useValue: 'es-MX'}
@@ -168,6 +168,15 @@ export class CourseMainComponent implements OnInit {
 
 	goGrades() {
 		this.router.navigate(['/user/progress', this.group.groupid]);
+	}
+
+	getCert() {
+		const cert = {
+			groupid: this.group.groupid,
+			status: this.group.myStatus
+		}
+		localStorage.setItem('cert', JSON.stringify(cert)),
+		this.router.navigate(['/cert',this.group.groupid]);
 	}
 }
 

@@ -122,6 +122,7 @@ export class PagesComponent implements OnInit {
 	setEnvironment() {
 		this.commonService.setEnvironment({
 			instanceName: environment.instanceName,
+			instanceRef: environment.instanceRef,
 			url: environment.url,
 			footerName: environment.footerName,
 			footerLink: environment.footerLink,
