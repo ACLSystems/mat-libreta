@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { UserRoutingModule } from './user.routing.module';
-import { AccesoriesModule, SafePipe } from '@mat-libreta/shared';
+import { AccesoriesModule, SafePipe, DateAgoPipe } from '@mat-libreta/shared';
 
 import { ExamModule } from '@mat-libreta/exam';
 
@@ -20,12 +20,14 @@ import { BlockTasksComponent } from './block-tasks/block-tasks.component';
 import { ProgressComponent } from './progress/progress.component';
 import { SupportComponent } from './support/support.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NotificationComponent } from './notification/notification.component';
 
 registerLocaleData(localeMX);
 
 @NgModule({
 	declarations: [
 		SafePipe,
+		DateAgoPipe,
 		CourseMainComponent,
 		BlockComponent,
 		BlockLessonComponent,
@@ -33,7 +35,8 @@ registerLocaleData(localeMX);
 		BlockTasksComponent,
 		ProgressComponent,
 		SupportComponent,
-		ProfileComponent
+		ProfileComponent,
+		NotificationComponent
 	],
   imports: [
 		CommonModule,

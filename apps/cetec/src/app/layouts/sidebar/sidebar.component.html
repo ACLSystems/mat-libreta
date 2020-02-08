@@ -59,28 +59,39 @@
 								</div></span>
 							</form> -->
 							<ul class="nav navbar-nav nav-mobile-menu">
-								<li class="nav-item">
+								<!-- <li class="nav-item">
 									<a class="nav-link" [routerLink]="['/pages/home']">
 										<i class="material-icons">home</i>
 										<p>
 											<span class="d-lg-none d-md-block">Inicio</span>
 										</p>
 									</a>
-								</li>
+								</li> -->
 								<li class="nav-item dropdown">
 									<a class="nav-link" href="#pablo" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 										<i class="material-icons">notifications</i>
-										<span class="notification">50</span>
+										<span
+											*ngIf="notificationNumber > 0"
+											class="notification">{{notificationNumber}}</span>
 										<p>
-											<span class="d-lg-none d-md-block">notificaciones</span>
+											<span
+											*ngIf="notificationNumber > 0"
+											class="d-lg-none d-md-block">notificaciones</span>
 										</p>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-										<a class="dropdown-item" href="#">Has sido enrolado</a>
+										<!-- <a class="dropdown-item" href="#">Has sido enrolado</a>
 										<a class="dropdown-item" href="#">Tu tutor ha respondido</a>
 										<a class="dropdown-item" href="#">Tienes un mensaje</a>
 										<a class="dropdown-item" href="#">Otra notificación</a>
-										<a class="dropdown-item" href="#">Otras 46</a>
+										<a class="dropdown-item" href="#">Otras 46</a> -->
+										<a 
+											class="dropdown-item"
+											*ngFor="let not of notifications"
+											[routerLink]="['/user/notification',not.notificationid]"
+											>
+											{{not.message}}
+										</a>
 									</div>
 								</li>
 								<li class="nav-item">

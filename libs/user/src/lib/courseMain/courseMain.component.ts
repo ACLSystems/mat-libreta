@@ -34,6 +34,7 @@ export class CourseMainComponent implements OnInit {
 
 	loading: boolean = true;
 	groupid: string;
+	userid: string;
 	group: any;
 	sections: Section[] = [];
 	courseStarted: boolean = false;
@@ -43,6 +44,7 @@ export class CourseMainComponent implements OnInit {
 	bankAccount: string;
 	bankCLABE: string;
 	mocAmount: string;
+	notification: any;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -56,6 +58,7 @@ export class CourseMainComponent implements OnInit {
 				this.groupid = params.groupid;
 			}
 		)
+		this.userid = this.commonService.getidentity().userid;
 		this.bank = this.commonService.getEnvironment().bank;
 		this.bankAccount = this.commonService.getEnvironment().bankAccount;
 		this.bankCLABE = this.commonService.getEnvironment().bankCLABE;
@@ -65,11 +68,15 @@ export class CourseMainComponent implements OnInit {
 	ngOnInit() {
 		this.loading = true;
 		this.getGroup();
-		this.commService.sendMessage('hola');
-		this.commService.getMessage().subscribe(data => {
-			console.log(data);
-			this.commService.sendMessage('Cómo estás?');
-		});
+		// const that = this;
+		// setTimeout(function() {
+		// 	that.commService.sendMessage(that.userid,'Conectado');
+		// 	that.commService.getMessage(that.userid).subscribe(data => {
+		// 		console.log(data);
+		// 		const now = new Date();
+		// 		that.commService.sendMessage(that.userid,now);
+		// 	});
+		// }, 801);
 	}
 
 	getGroup() {

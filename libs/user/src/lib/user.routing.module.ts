@@ -6,6 +6,7 @@ import { ProgressComponent } from './progress/progress.component';
 import { BlockComponent } from './block/block.component';
 import { SupportComponent } from './support/support.component';
 import { ProfileComponent } from './profile/profile.component';
+import { NotificationComponent } from './notification/notification.component';
 
 const userRoutes: Routes = [
 	{
@@ -38,6 +39,14 @@ const userRoutes: Routes = [
 			{
 				path: 'block/:courseid/:groupid/:blockid',
 				component: BlockComponent
+			}
+		]
+	},{
+		path: '',
+		children: [
+			{
+				path: 'notification/:notificationid',
+				component: NotificationComponent
 			}
 		]
 	},{

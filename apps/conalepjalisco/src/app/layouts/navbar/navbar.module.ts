@@ -6,9 +6,17 @@ import { MatButtonModule } from '@angular/material';
 import { NavbarComponent } from './navbar.component';
 
 @NgModule({
-		imports: [ RouterModule, CommonModule, MatButtonModule ],
-		declarations: [ NavbarComponent],
-		exports: [ NavbarComponent ]
+		imports: [
+			RouterModule,
+			CommonModule,
+			MatButtonModule
+		],
+		declarations: [
+			NavbarComponent
+		],
+		exports: [
+			NavbarComponent
+		]
 })
 
 export class NavbarModule {}

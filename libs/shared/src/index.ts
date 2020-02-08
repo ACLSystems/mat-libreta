@@ -5,6 +5,7 @@ export { AccesoriesModule } from './lib/accesories/accesories.module';
 // Export pipes
 
 export { SafePipe } from './lib/pipes/video.pipe';
+export { DateAgoPipe } from './lib/pipes/dateago.pipe';
 
 // Export Guards
 
@@ -23,6 +24,7 @@ export { WindowService } from './lib/services/windowSize.service';
 export { CommService } from './lib/services/comm.service';
 export { QuestionService } from './lib/services/question.service';
 export { JSONHeaders } from './lib/services/httpHeaders';
+export { NotElemService } from './lib/services/notificationElements.service';
 
 // Export Types/Classes
 
@@ -54,3 +56,9 @@ export {
 export {
 	Environment
 } from './lib/types/env.type';
+
+export {
+	Bell,
+	Notification,
+	Command
+} from './lib/types/notifications.type';

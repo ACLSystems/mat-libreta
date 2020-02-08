@@ -8,10 +8,10 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
-// import { environment } from '@env/environment';
+import { environment } from '@cjaenv/environment';
 
 const config: SocketIoConfig = {
-	url: 'https://apiadminconjalisco.sloppy.zone',
+	url: environment.url,
 	options: {}
 }
 
@@ -69,11 +69,13 @@ import {
 	CommonService,
 	UserService,
 	UserCourseService,
+	CurrentCourseService,
 	PublicService,
 	WindowService,
 	AccesoriesModule
 } from '@mat-libreta/shared';
 
+import { ShareService } from '@cetecshared/services/share.service';
 
 @NgModule({
 	exports: [
@@ -142,7 +144,9 @@ export class MaterialModule {}
 		UserService,
 		UserCourseService,
 		WindowService,
-		CommonService
+		CommonService,
+		ShareService,
+		CurrentCourseService
 	],
   bootstrap: [AppComponent]
 })

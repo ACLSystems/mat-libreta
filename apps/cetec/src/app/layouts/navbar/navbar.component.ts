@@ -4,8 +4,12 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Location } from '@angular/common';
 
-import { ROUTES } from '@cetecsidebar/sidebar.component';
-import { UserService } from '@mat-libreta/shared';
+// import { ROUTES } from '@cetecsidebar/sidebar.component';
+import { UserService, CommonService, CommService, Bell, Notification, Command } from '@mat-libreta/shared';
+
+import { MenuService } from '@cetecshared/services/menu.service';
+
+import { ShareService } from '@cetecshared/services/share.service';
 
 const misc: any = {
 		navbar_menu_visible: 0,
@@ -18,7 +22,11 @@ declare var $: any;
 @Component({
 	selector: 'app-navbar-cmp',
 	templateUrl: './navbar.component.html',
-	styleUrls: ['./navbar.component.scss']
+	styleUrls: ['./navbar.component.scss'],
+	providers: [
+		MenuService,
+		CommService
+	]
 })
 export class NavbarComponent implements OnInit {
 
@@ -29,6 +37,9 @@ export class NavbarComponent implements OnInit {
 	private toggleButton: any;
 	private sidebarVisible: boolean;
 	private _router: Subscription;
+	private userid: string;
+	notificationNumber: number = 0;
+	notifications:  Notification[];
 
 	@ViewChild('app-navbar-cmp', {static: false}) button: any;
 
@@ -37,11 +48,16 @@ export class NavbarComponent implements OnInit {
 		private renderer: Renderer,
 		private element: ElementRef,
 		private router: Router,
-		private userService: UserService
+		private commonService: CommonService,
+		private userService: UserService,
+		private commService: CommService,
+		private menuService: MenuService,
+		private shareService: ShareService
 	) {
 		this.location = location;
 		this.nativeElement = element.nativeElement;
 		this.sidebarVisible = false;
+		this.userid = this.commonService.getidentity().userid;
 	}
 
 	minimizeSidebar(){
@@ -102,7 +118,8 @@ export class NavbarComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.listTitles = ROUTES.filter(listTitle => listTitle);
+		// this.listTitles = ROUTES.filter(listTitle => listTitle);
+		this.listTitles = [...this.menuService.refreshMenu()];
 		const navbar: HTMLElement = this.element.nativeElement;
 		const body = document.getElementsByTagName('body')[0];
 		this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
@@ -122,6 +139,14 @@ export class NavbarComponent implements OnInit {
 				$layer.remove();
 			}
 		});
+		this.commService.getMessage(this.userid).subscribe(data => {
+			console.log(data);
+			// Falta agregar la funcionalidad de refrescar las noticiaciones.
+		});
+		setTimeout(() => {
+			this.commService.sendMessage('init',this.userid);
+		}, 801);
+		this.bell();
 	}
 
 	onResize(event) {
@@ -246,6 +271,41 @@ export class NavbarComponent implements OnInit {
 			return this.location.prepareExternalUrl(`/user/content/${currentCourse.groupid}`);
 		} else {
 		return this.location.prepareExternalUrl(this.location.path());
+		}
+	}
+
+	bell() {
+		this.userService.bell().subscribe((data:Bell) => {
+			// console.group('Bell');
+			// console.log(data);
+			// console.groupEnd();
+			this.notificationNumber = data.newNotifications;
+			this.myNotifications();
+		});
+	}
+
+	myNotifications() {
+		this.userService.getMyNotifications().subscribe(data => {
+			if(data.message && Array.isArray(data.message) && data.message.length > 0) {
+				this.notifications = [...data.message];
+				// console.group('Noti');
+				// console.log(this.notifications);
+				// console.groupEnd();
+				this.shareService.sendEvent(this.notifications);
+			}
+		});
+	}
+
+	runCommand(object:Command) {
+		switch (object.command) {
+			case 'message':
+
+				break;
+			case 'notification':
+				if(object.message === 'reload') {
+
+				}
+				break;
 		}
 	}
 

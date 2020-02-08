@@ -3,5 +3,6 @@ export interface CurrentCourse {
 	course: string,
 	courseCode: string,
 	courseid: string,
-	groupid: string
+	groupid: string,
+	notification?: boolean
 }

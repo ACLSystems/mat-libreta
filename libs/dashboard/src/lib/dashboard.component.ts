@@ -30,7 +30,6 @@ interface dashEvent {
 	providers: [
 		UserService,
 		UserCourseService,
-		CurrentCourseService,
 		{ provide: LOCALE_ID, useValue: 'es-MX'}
 	]
 })
@@ -102,6 +101,9 @@ export class DashboardComponent implements OnInit {
 		var diff = 0;
 		await this.userCourseService.getCourses().subscribe(data => {
 			const mycursos = data.message.groups;
+			// console.group('mycursos')
+			// console.log(mycursos)
+			// console.groupEnd()
 			this.userCourseService.getCoursesOrg().subscribe(res => {
 				for (const idcr of res.message.courses) {
 					for (const idmg of mycursos) {

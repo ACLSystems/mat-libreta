@@ -149,13 +149,31 @@ export class UserService{
 	/*
 	metodo para devolver el total de notificaciones nuevas
 	*/
-	getNotifications():Observable<any>{
+	bell():Observable<any>{
 		const headers = JSONHeaders.set(
 			'Authorization',
 			'Bearer ' + this.getToken()
 		);
+
 		const route = this.url+'api/v1/user/message/new';
 		return this.http.get(route, {headers});
+	}
+
+	/*
+	metodo para devolver el total de notificaciones nuevas
+	*/
+	getNotification(notificationid: string):Observable<any>{
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			),
+			params: new HttpParams().set(
+				'notificationid', notificationid
+			)
+		};
+		const route = this.url+'api/v1/user/message';
+		return this.http.get(route, httpOptions);
 	}
 
 	/*
@@ -186,22 +204,6 @@ export class UserService{
 	/*
 	metodo para obtener mis notificaciones
 	*/
-	getMyNotificationsBell(): Observable<any> {
-		const httpOptions = {
-			params: new HttpParams()
-				.set('read','false'),
-			headers: JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-			)
-		}
-		const route = this.url+'api/v1/user/message/my';
-		return this.http.get(route, httpOptions);
-	}
-
-	/*
-	metodo para obtener mis notificaciones
-	*/
 	getMyNotifications():Observable<any>{
 		const headers = JSONHeaders.set(
 			'Authorization',
@@ -227,8 +229,8 @@ export class UserService{
 	/*
 	metodo para cerrar notificaciones
 	*/
-	closeNotification(notificationid:any):Observable<any>{
-		const params = JSON.stringify(notificationid);
+	closeNotification(notificationid:string):Observable<any>{
+		const params = JSON.stringify({notificationid});
 		const headers = JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.getToken()

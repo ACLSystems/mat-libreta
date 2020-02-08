@@ -4,107 +4,48 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
 
-import { CurrentCourse, CurrentCourseService, Identity, UserService } from '@mat-libreta/shared';
+import {
+	UserService,
+	CurrentCourseService,
+	NotElemService,
+	Identity,
+	Notification
+} from '@mat-libreta/shared';
+
+import {
+	RouteInfo
+} from '@cetecshared/menus/routes';
+
+import {
+	MenuService
+} from '@cetecshared/services/menu.service';
+
+import {
+	ShareService
+} from '@cetecshared/services/share.service';
 
 declare const $: any;
-
-//Metadata
-export interface RouteInfo {
-		path: string;
-		title: string;
-		type: string;
-		icontype: string;
-		collapse?: string;
-		children?: ChildrenItems[];
-}
-
-export interface ChildrenItems {
-		path: string;
-		subpath?: string;
-		title: string;
-		ab: string;
-		type?: string;
-}
-
-
-
-//Menu Items
-const ROUTES_1: RouteInfo[] = [{
-				path: '/dashboard',
-				title: 'Panel',
-				type: 'link',
-				icontype: 'dashboard'
-		},{
-				path: '/calendar',
-				title: 'Calendario',
-				type: 'link',
-				icontype: 'date_range'
-		}
-];
-
-const myCurrentCourseData = JSON.parse(localStorage.getItem('currentCourse'));
-
-export const myCurrentCourse: RouteInfo = {
-	path: myCurrentCourseData ? '/user' : '',
-	title: myCurrentCourseData ? `Curso ${myCurrentCourseData.courseCode}` : '',
-	type: myCurrentCourseData ? 'sub' : 'link',
-	icontype: 'library_books',
-	collapse: myCurrentCourseData ? 'user' : '',
-	children: myCurrentCourseData ? [
-		{path: 'content', title: 'Temario', ab: 'TM'},
-		{path: 'progress', title: 'Mi progreso', ab: 'MP'},
-		{path: 'support', title: 'Material de apoyo', ab: 'MA'},
-		{path: 'forum', title: 'Foro de discusión', ab: 'FD'},
-		{path: 'announcements', title: 'Avisos del curso', ab: 'AC'},
-		{path: 'events', title: 'Eventos del curso', ab: 'EC'}
-	] : null
-}
-		// {
-		// 		path: '/user/course',
-		// 		title: 'Curso Actual',
-		// 		type: 'link',
-		// 		icontype: 'library_books'
-		// },
-
-const ROUTES_2: RouteInfo[] = [{
-				path: '/editor',
-				title: 'Editor',
-				type: 'link',
-				icontype: 'content_paste'
-		},{
-				path: '/admin',
-				title: 'Administrador',
-				type: 'link',
-				icontype: 'settings_applications'
-		},{
-				path: '/charts',
-				title: 'Reportes',
-				type: 'link',
-				icontype: 'timeline'
-		}
-];
-
-export const ROUTES: RouteInfo [] = myCurrentCourseData ?
-	// [...ROUTES_1, myCurrentCourse, ...ROUTES_2] :
-	// [...ROUTES_1, ...ROUTES_2]
-	[...ROUTES_1, myCurrentCourse] :
-	[...ROUTES_1]
-
 
 @Component({
 	selector: 'app-sidebar-cmp',
 	templateUrl: './sidebar.component.html',
 	styleUrls: ['./sidebar.component.scss'],
 	providers: [
-		CurrentCourseService
+		MenuService,
+		NotElemService
 	]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
 	subscription: Subscription;
+	subsNotData: Subscription;
 	identity: Identity;
 	image: any;
 	route: string;
+	ROUTES: RouteInfo[];
+	courseSelected: boolean;
+	notificationNumber: number;
+	notifications:  Notification[];
 
 	public menuItems: any[];
 	ps: any;
@@ -116,8 +57,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 	};
 
 	constructor(
+		private menuService: MenuService,
 		private currentCourseService: CurrentCourseService,
 		private userService: UserService,
+		private notElementService: NotElemService,
+		private shareService: ShareService,
 		private router: Router
 	) {
 		this.router.events.pipe(
@@ -125,19 +69,31 @@ export class SidebarComponent implements OnInit, OnDestroy {
 			.subscribe((event: NavigationEnd) => {
 			this.route = event.url;
 		});
+		const course = localStorage.getItem('currentCourse');
+		this.courseSelected = !!course;
 	}
 
 	ngOnInit() {
 		const body = document.getElementsByTagName('body')[0];
 		body.classList.remove('off-canvas-sidebar');
-		this.menuItems = ROUTES.filter(menuItem => menuItem);
+		this.menuItems = [...this.menuService.refreshMenu()];
+		// console.group('Menu Items');
+		// console.log(this.menuItems);
+		// console.groupEnd();
 		if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
 				const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
 				this.ps = new PerfectScrollbar(elemSidebar);
 		}
-		this.refreshCourseData(null);
-		this.subscription = this.currentCourseService.getCurrentCourse.subscribe((data: CurrentCourse) => {
-				this.refreshCourseData(data);
+		this.subscription = this.currentCourseService.getCurrentCourse.subscribe(() => {
+				this.menuItems = [...this.menuService.refreshMenu()];
+			}
+		);
+		this.subsNotData = this.shareService.getNotifData.subscribe((data: Notification[]) => {
+				// console.group('Datos')
+				// console.log(data)
+				// console.groupEnd()
+				this.notificationNumber = data.length;
+				this.notifications = [...data];
 			}
 		);
 		this.identity = this.userService.getidentity();
@@ -146,10 +102,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		}, err => {
 			console.log(err);
 		});
+		if(!this.courseSelected) {
+			this.notElementService.showNotification(
+				'bottom',
+				'left',
+				'warning',
+				'Selecciona tu curso en el panel'
+			);
+		}
 	}
 
 	ngOnDestroy() {
 		this.subscription.unsubscribe();
+		this.subsNotData.unsubscribe();
 	}
 
 	updatePS(): void  {
@@ -163,49 +128,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 					bool = true;
 			}
 			return bool;
-	}
-
-	refreshCourseData(data:CurrentCourse) {
-		if(!data) {
-			data = JSON.parse(localStorage.getItem('currentCourse'));
-		}
-		if(data) {
-			const myCurrentCourseData = data;
-			// let contentPath = `content/${myCurrentCourseData.groupid}`;
-			// console.log(contentPath);
-			const myCurrentCourse: RouteInfo = {
-				path: myCurrentCourseData ? '/user' : '',
-				title: myCurrentCourseData ? `Curso ${myCurrentCourseData.courseCode}` : '',
-				type: myCurrentCourseData ? 'sub' : 'link',
-				icontype: 'library_books',
-				collapse: myCurrentCourseData ? 'user' : '',
-				children: myCurrentCourseData ? [
-					{
-						path: 'content',
-						subpath: myCurrentCourseData.groupid,
-						title: 'Temario',
-						ab: 'TM'
-					},{
-						path: 'progress',
-						subpath: myCurrentCourseData.groupid,
-						title: 'Mi progreso',
-						ab: 'MP'
-					},{
-						path: 'support',
-						title: 'Material de apoyo',
-						subpath: myCurrentCourseData.groupid,
-						ab: 'MA'
-					},
-					{path: 'forum', title: 'Foro de discusión', ab: 'FD'},
-					{path: 'announcements', title: 'Avisos del curso', ab: 'AC'},
-					{path: 'events', title: 'Eventos del curso', ab: 'EC'}
-				] : null
-			}
-			var foundIndex = this.menuItems.findIndex(item => item.path == myCurrentCourse.path);
-			if(foundIndex > 0) {
-				this.menuItems[foundIndex] = myCurrentCourse;
-			}
-		}
 	}
 
 	createImageFromBlob(image: Blob) {

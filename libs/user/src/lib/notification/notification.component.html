@@ -1,0 +1,67 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="row">
+			<div class="col">
+				<div class="card">
+					<div
+						class="card-header card-header-text "
+						[ngClass]="(notificationPresent && notification.read)?'card-header-warning':'card-header-primary'"
+						>
+						<div class="card-text">
+							<div
+								*ngIf="notificationPresent && notification.type === 'system'"
+								>
+								<h4
+								 class="card-title"
+								>
+									Notificación del sistema
+								</h4>
+								<p
+									*ngIf="notificationPresent && notification.read"
+									class="card-category"
+								>
+									Notificación leída
+								</p>
+							</div>
+							<h4
+								*ngIf="!notificationPresent"
+								>
+								No existe notificación
+							</h4>
+						</div>
+					</div>
+					<div class="card-body">
+						<div class="container">
+							<div class="row">
+								<div class="col">
+									<p class="h5" *ngIf="notificationPresent">
+										{{notification.message}}
+									</p>
+								</div>
+							</div>
+							<div class="row"
+								*ngIf="notificationPresent && courseEnrollment"
+								>
+								<div class="col">
+									<a [routerLink]="['/dashboard']">Revisar mis cursos</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<hr>
+						<div
+							class="stats"
+							*ngIf="notificationPresent"
+							>
+							{{notification.date | dateAgo}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
