@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { PagesService } from '../pages.service';
@@ -10,7 +10,7 @@ import { environment } from '@cjaenv/environment';
   styleUrls: ['./course.component.scss'],
 	providers: [PagesService]
 })
-export class CourseComponent implements OnInit {
+export class CourseComponent implements OnInit, AfterViewInit {
 
   loading: boolean;
   costo: number;
@@ -41,6 +41,13 @@ export class CourseComponent implements OnInit {
   ngOnInit() {
 		this.getCourse(this.idc);
   }
+
+	ngAfterViewInit() {
+		let $navbar = document.getElementsByClassName('navbar')[0];
+		$navbar.classList.remove('navbar-transparent');
+		// $navbar.classList.remove('bg-primary');
+		// $navbar.classList.add('bg-white');
+	}
 
 	public getCourse(id:string){
     this.loading = true;

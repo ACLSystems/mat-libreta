@@ -17,7 +17,7 @@ export const environment = {
 	siteName: 'cetec.superatemexico.com',
 	footer:'CETEC',
 	footerName: 'Grupo Cetec',
-	footerLink: 'https://aclsystems.mx',
+	footerLink: 'https://grupocetec.com',
 	bank: 'BBVA',
 	bankAccount: '0153584585',
 	bankCLABE: '012540001535845850',
@@ -30,7 +30,7 @@ export const environment = {
 	colorEvents: ['#16A2B8', '#04B45F', '#BE1C1F', '#E6E6E6'],
 	textColor: '#FFFFFF',
 	selfRegister: true,
-	emailSupport: 'soporte@superatemexico.com'
+	emailSupport: 'support@cetec.freshdesk.com'
 };
 
 /*

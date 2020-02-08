@@ -9,7 +9,7 @@ export const environment = {
 	instanceName: 'cetec',
 	instanceTitle: 'CETEC',
 	instanceRef: '@cetec',
-	siteName: 'matcetec.superatemexico.com',
+	siteName: 'cetec.superatemexico.com',
 	footer: 'CETEC',
 	footerName: 'Grupo Cetec',
 	footerLink: 'https://www.grupocetec.com',
@@ -25,5 +25,5 @@ export const environment = {
 	colorEvents: ['#16A2B8', '#04B45F', '#BE1C1F', '#E6E6E6'],
 	textColor: '#FFFFFF',
 	selfRegister: true,
-	emailSupport: 'soporte@superatemexico.com'
+	emailSupport: 'support@cetec.freshdesk.com'
 };
