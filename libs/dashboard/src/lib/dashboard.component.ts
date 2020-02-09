@@ -100,51 +100,56 @@ export class DashboardComponent implements OnInit {
 		this.loading = true;
 		var diff = 0;
 		await this.userCourseService.getCourses().subscribe(data => {
-			const mycursos = data.message.groups;
-			// console.group('mycursos')
-			// console.log(mycursos)
-			// console.groupEnd()
-			this.userCourseService.getCoursesOrg().subscribe(res => {
-				for (const idcr of res.message.courses) {
-					for (const idmg of mycursos) {
-						if (idcr.id === idmg.courseid ) {
-							if (idmg.status === 'active') {
-								this.courseList.push({
-									curso: idmg,
-									imagen: idcr.image
-								});
-								diff = this.dateDiff(new Date(idmg.beginDate),today);
-								if(diff >= 0 && diff <= minDays){
-									this.events.push({
-										title: `Inicio del curso ${idmg.course }`,
-										start: idmg.beginDate,
-										end: idmg.endDate
+			if(data &&
+				data.message &&
+				data.message.groups &&
+				Array.isArray(data.message.groups)
+			) {
+				const mycursos = data.message.groups;
+				this.userCourseService.getCoursesOrg().subscribe(res => {
+					for (const idcr of res.message.courses) {
+						for (const idmg of mycursos) {
+							if (idcr.id === idmg.courseid ) {
+								if (idmg.status === 'active') {
+									this.courseList.push({
+										curso: idmg,
+										imagen: idcr.image
 									});
-								}
-							} else if (idmg.status === 'closed') {
-								this.inActiveCourses.push({
-									curso: idmg,
-									imagen: idcr.image
-								});
-							} else if (idmg.status === 'coming') {
-								this.courseNext.push({
-									curso: idmg,
-									imagen: idcr.image
-								});
-								diff = this.dateDiff(new Date(idmg.beginDate),today);
-								if(diff >= 0 && diff <= minDays){
-									this.events.push({
-										title: `Inicio del Curso ${idmg.course }`,
-										start: idmg.beginDate,
-										end: idmg.endDate
+									diff = this.dateDiff(new Date(idmg.beginDate),today);
+									if(diff >= 0 && diff <= minDays){
+										this.events.push({
+											title: `Inicio del curso ${idmg.course }`,
+											start: idmg.beginDate,
+											end: idmg.endDate
+										});
+									}
+								} else if (idmg.status === 'closed') {
+									this.inActiveCourses.push({
+										curso: idmg,
+										imagen: idcr.image
 									});
+								} else if (idmg.status === 'coming') {
+									this.courseNext.push({
+										curso: idmg,
+										imagen: idcr.image
+									});
+									diff = this.dateDiff(new Date(idmg.beginDate),today);
+									if(diff >= 0 && diff <= minDays){
+										this.events.push({
+											title: `Inicio del Curso ${idmg.course }`,
+											start: idmg.beginDate,
+											end: idmg.endDate
+										});
+									}
 								}
 							}
 						}
 					}
-				}
-			});
-			this.messageNewUser = false;
+				});
+				this.messageNewUser = false;
+			} else if(data && data.message && data.message === 'No groups found'){
+				this.messageNewUser = data.message;
+			}
 			this.loading = false;
 			// console.log(this.courseList)
 			// this.drawPieCourses();

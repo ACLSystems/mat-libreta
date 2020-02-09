@@ -28,7 +28,7 @@ export class CertService {
 			format: [800,619]
 		});
 
-		doc.addImage(document,'jpg',0,1,600,464);
+		// doc.addImage(document,'jpg',0,1,600,464);
 
 		//Seccion de los folios
 		doc.setFont("Helvetica");
@@ -41,20 +41,20 @@ export class CertService {
 		doc.setFontType('bold');
 		doc.setFontSize(40);
 		doc.setTextColor(100);
-		doc.text(380,270,nameStudent,null,null,'center');
+		doc.text(300,270,nameStudent,null,null,'center');
 
 		//Seccion del nombre del curso
 		doc.setFont("Helvetica");
 		doc.setFontType('regular');
 		doc.setFontSize(14);
 		doc.setTextColor(100);
-		doc.text(380,295,'Por su participación en el curso:',null,null,'center');
+		doc.text(300,295,'Por su participación en el curso:',null,null,'center');
 
 		doc.setFont("Helvetica");
 		doc.setFontType('bold');
 		doc.setFontSize(16);
 		doc.setTextColor(100);
-		doc.text(380,320,'"'+course+'"',null,null,'center');
+		doc.text(300,320,'"'+course+'"',null,null,'center');
 
 		//Seccion de la calificacion final del estudiante
 		// doc.setFont("Helvetica");
@@ -68,26 +68,26 @@ export class CertService {
 		doc.setFontType('regular');
 		doc.setFontSize(14);
 		doc.setTextColor(100);
-		doc.text(320,341,'Con una duración de '+time+' '+units);
+		doc.text(300,341,'Con una duración de '+time+' '+units,null,null,'center');
 
 
 		//fecha de termino del curso por parte del alumno
 		doc.setFont("Helvetica");
 		doc.setFontType('regular');
 		doc.setFontSize(16);
-		doc.text(275,385,'Cuernavaca, Morelos a '+passDate,null,null);
+		doc.text(300,385,'Zapopan, Jalisco a '+passDate,null,null,'center');
 
 		//fecha de termino del curso por parte del alumno
 		doc.setFont("Helvetica");
 		doc.setFontType('regular');
 		doc.setFontSize(12);
-		doc.text(300,440,'El presente documento se puede validar en',null,null);
+		doc.text(300,440,'El presente documento se puede validar en',null,null,'center');
 
 		//fecha de termino del curso por parte del alumno
 		doc.setFont("Helvetica");
 		doc.setFontType('bold');
 		doc.setFontSize(12);
-		doc.text(306,450,'https://cetec.superatemexico.com',null,null);
+		doc.text(300,450,'https://conalepjalisco.superatemexico.com',null,null,'center');
 
 		const qr = new qrious();
 		qr.background = 'white';
@@ -96,7 +96,7 @@ export class CertService {
 		qr.foregroundAlpha = 1;
 		qr.level = 'H';
 		qr.size = 75;
-		qr.value = 'https://cetec.superatemexico.com';
+		qr.value = 'https://conalepjalisco.superatemexico.com';
 
 		doc.addImage(qr.toDataURL('image/jpg'),'jpg',515,380,75,75);
 
