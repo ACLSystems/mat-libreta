@@ -107,7 +107,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 				'bottom',
 				'left',
 				'warning',
-				'Selecciona tu curso en el panel'
+				'<i class="fas fa-book-open text-white"></i> Selecciona tu curso en el panel'
 			);
 		}
 	}

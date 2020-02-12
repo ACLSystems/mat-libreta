@@ -4,8 +4,8 @@
 
 export const environment = {
 	production: false,
-  url: 'https://apiadmincja.sloppy.zone/',
-	// url: 'http://localhost:3050/',
+  // url: 'https://apiadmincja.sloppy.zone/',
+	url: 'http://localhost:3050/',
   urlLibreta: 'http://localhost:4200/',
 	libreta_URI: 'http://conalepjalisco.superatemexico.com/#',
 	vendor: 'ACL Systems SA de CV',

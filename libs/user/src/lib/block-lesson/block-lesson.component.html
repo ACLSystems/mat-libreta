@@ -16,18 +16,19 @@
 		<div class="card-title">
 			<div class="row">
 				<div class="col">
-					<i class="material-icons text-success" *ngIf="blockData.track">visibility</i>
+					<i class="material-icons text-success icon-ok" *ngIf="blockData.track">visibility</i>
 					<span
 						*ngIf="blockData.blockNumber==0"
 						[ngClass]="{'text-success': blockData.track}"
 						>
-						Unidad {{blockData.blockSection}}
+						Unidad {{blockData.blockSection}}:
 					</span>
 					<span *ngIf="blockData.blockNumber!=0"
 						[ngClass]="{'text-success': blockData.track}"
 						>
-						Lección {{blockData.blockSection}}.{{blockData.blockNumber}}
+						Lección {{blockData.blockSection}}.{{blockData.blockNumber}}: 
 					</span>
+					<span class="h3">{{blockData.blockTitle}}</span>
 				</div>
 				<div class="col-auto">
 					<div class="row">
@@ -55,44 +56,46 @@
 		</div>
 	</div>
 	<div class="card-body">
-		<h3>{{blockData.blockTitle}}</h3>
-		<div
-			class="video-container"
-			*ngIf="blockData.blockMedia.length > 0 && blockData.blockBegin">
-			<iframe
-				[src]="blockData.blockMedia | safe "
-				frameborder="0"
-				allow="autoplay; encrypted-media"
-				width="853"
-				height="480"
-				allowfullscreen
-				></iframe>
-		</div>
-		<div [innerHtml]="blockData.blockContent">
-		</div>
-		<div *ngIf="blockData.questionnarie">
-			<app-block-questionnarie
-				[blockData]="blockData"
-				[groupid]="groupid"
-				[blockid]="blockid"
-			>
-			</app-block-questionnarie>
-		</div>
-		<div *ngIf="blockData.tasks">
-			<app-block-tasks [tasks]="blockData.tasks">
-			</app-block-tasks>
-		</div>
-		<div
-			class="video-container"
-			*ngIf="blockData.blockMedia.length > 0 && !blockData.blockBegin">
-			<iframe
-				[src]="blockData.blockMedia | safe"
-				frameborder="0"
-				allow="autoplay; encrypted-media"
-				width="853"
-				height="480"
-				allowfullscreen
-				></iframe>
+
+		<div class="scrollable">
+			<div
+				class="video-container"
+				*ngIf="blockData.blockMedia.length > 0 && blockData.blockBegin">
+				<iframe
+					[src]="blockData.blockMedia | safe "
+					frameborder="0"
+					allow="autoplay; encrypted-media"
+					width="853"
+					height="480"
+					allowfullscreen
+					></iframe>
+			</div>
+			<div [innerHtml]="blockData.blockContent">
+			</div>
+			<div *ngIf="blockData.questionnarie">
+				<app-block-questionnarie
+					[blockData]="blockData"
+					[groupid]="groupid"
+					[blockid]="blockid"
+				>
+				</app-block-questionnarie>
+			</div>
+			<div *ngIf="blockData.tasks">
+				<app-block-tasks [tasks]="blockData.tasks">
+				</app-block-tasks>
+			</div>
+			<div
+				class="video-container"
+				*ngIf="blockData.blockMedia.length > 0 && !blockData.blockBegin">
+				<iframe
+					[src]="blockData.blockMedia | safe"
+					frameborder="0"
+					allow="autoplay; encrypted-media"
+					width="853"
+					height="480"
+					allowfullscreen
+					></iframe>
+			</div>
 		</div>
 	</div>
 </div>

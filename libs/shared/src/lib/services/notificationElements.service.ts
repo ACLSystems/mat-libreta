@@ -11,7 +11,7 @@ export class NotElemService {
 
 	showNotification(from: string, align: string, color: string, message: string) {
     $.notify({
-      icon: 'notifications',
+      // icon: 'notifications',
       message: message
     }, {
       type: color,
@@ -20,7 +20,7 @@ export class NotElemService {
           from: from,
           align: align
       },
-      template: '<div data-notify="container" class="col-xs-11 col-sm-3 col-md-4 alert alert-{0} alert-with-icon" role="alert">' +
+      template: '<div data-notify="container" class="col-xs-11 col-sm-3 col-md-4 alert alert-{0}" role="alert">' +
     		'<button mat-raised-button type="button" aria-hidden="true" class="close" data-notify="dismiss">  <i class="material-icons">close</i></button>' +
     		'<span data-notify="title">{1}</span> ' +
     		'<span data-notify="message">{2}</span>' +

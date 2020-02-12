@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Location } from '@angular/common';
 
 // import { ROUTES } from '@cjasidebar/sidebar.component';
-import { UserService, CommonService, CommService, Bell, Notification, Command } from '@mat-libreta/shared';
+import { UserService, CommonService, CommService, Bell, Notification, Command, NotElemService } from '@mat-libreta/shared';
 
 import { MenuService } from '@cjashared/services/menu.service';
 
@@ -25,7 +25,8 @@ declare var $: any;
 	styleUrls: ['./navbar.component.scss'],
 	providers: [
 		MenuService,
-		CommService
+		CommService,
+		NotElemService
 	]
 })
 export class NavbarComponent implements OnInit {
@@ -52,7 +53,8 @@ export class NavbarComponent implements OnInit {
 		private userService: UserService,
 		private commService: CommService,
 		private menuService: MenuService,
-		private shareService: ShareService
+		private shareService: ShareService,
+		private notElementService: NotElemService
 	) {
 		this.location = location;
 		this.nativeElement = element.nativeElement;
@@ -139,9 +141,23 @@ export class NavbarComponent implements OnInit {
 				$layer.remove();
 			}
 		});
-		this.commService.getMessage(this.userid).subscribe(data => {
+		this.commService.getMessage(this.userid).subscribe((data:any) => {
 			console.log(data);
-			// Falta agregar la funcionalidad de refrescar las noticiaciones.
+			// Falta agregar la funcionalidad de refrescar las notificaciones.
+			if(data && data.command) {
+				if(data.command === 'reload') {
+					location.reload(true);
+				} else if(data.command === 'notification') {
+					this.bell();
+					this.notElementService.showNotification(
+						'top',
+						'right',
+						'danger',
+						'<i class="far fa-bell text-white"></i> Tienes un nuevo mensaje'
+					);
+				}
+			}
+
 		});
 		setTimeout(() => {
 			this.commService.sendMessage('init',this.userid);
