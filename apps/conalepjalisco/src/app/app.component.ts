@@ -3,8 +3,8 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { CommonService, Environment } from '@mat-libreta/shared';
-import { environment } from '@cjaenv/environment';
+
+import { EnvService } from '@cjashared/services/setEnv.service';
 
 @Component({
   selector: 'mat-cjal-root',
@@ -16,19 +16,9 @@ export class AppComponent {
 
 	constructor(
 		private router: Router,
-		private commonService: CommonService
+		private envService: EnvService
 	) {
-		const localEnv: Environment = this.commonService.getEnvironment();
-		if(localEnv) {
-			if(localEnv.instanceName !== environment.instanceName) {
-				localStorage.removeItem('environment');
-				this.setEnvironment();
-			} else {
-				// console.log('Ambiente persiste');
-			}
-		} else {
-			this.setEnvironment();
-		}
+		this.envService.validateEnvironment();
 	}
 
 	ngOnInit() {
@@ -41,21 +31,6 @@ export class AppComponent {
 				body.classList.remove('modal-open');
 				modalBackdrop.remove();
 			}
-		});
-	}
-
-	setEnvironment() {
-		this.commonService.setEnvironment({
-			instanceName: environment.instanceName,
-			instanceRef: environment.instanceRef,
-			url: environment.url,
-			footerName: environment.footerName,
-			footerLink: environment.footerLink,
-			colorEvents: environment.colorEvents,
-			bank: environment.bank,
-			bankAccount: environment.bankAccount,
-			bankCLABE: environment.bankCLABE,
-			mocAmount: environment.mocAmount
 		});
 	}
 }

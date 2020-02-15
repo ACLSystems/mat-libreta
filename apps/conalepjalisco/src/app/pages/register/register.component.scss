@@ -8,3 +8,7 @@
 .ng-dirty.ng-invalid:not(form), .ng-touched.ng-invalid:not(form) {
 	border-bottom: 2px solid #ff0000; /* rojo */
 }
+
+.card-hidden{
+		opacity: 0;
+}

@@ -27,16 +27,39 @@
 		<div *ngFor="let crs of cursoslist, let id=index" class="card w-300" style="max-width:400px;">
 			<img class="card-img-top" [src]="crs.image" alt="Card image cap">
 			<div class="card-body">
-	<div class="container">
-	<h5>{{crs.title}}</h5>
-	<h6 class="card-subtitle">{{crs.code}}</h6>
-	</div>
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<h5>{{crs.title}}</h5>
+							<h6 class="card-subtitle">{{crs.code}}</h6>
+						</div>
+					</div>
+					<!-- <div class="row" *ngIf="crs.categories && crs.categories.length > 0">
+						<div class="col">
+							Categorías:
+							<ul class="unstyled">
+								<li *ngFor="let cat of crs.categories">
+									{{cat}}
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div *ngIf="crs.duration">
+						<div class="row">
+							<div class="col">
+								Duración: {{crs.duration}}
+							</div>
+						</div>
+					</div> -->
+				</div>
 			</div>
-	<div class="card-footer">
-	<button type="button" class="btn btn-{{color}} blockquote" (click)="verCurso(crs.id)">
-	<i class="far fa-arrow-alt-circle-right"></i> Ver detalles
-	</button>
-	</div>
+			<div class="card-footer">
+				<button
+					mat-raised-button
+					class="btn btn-primary btn-block" (click)="verCurso(crs.id)">
+					<i class="far fa-arrow-alt-circle-right"></i> Ver detalles
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

@@ -27,6 +27,25 @@ export class PublicService {
 	}
 
 	/*
+	metodo register
+	*/
+	register(register: any): Observable<any> {
+		const body = JSON.stringify(register);
+		const route = this.url + 'api/user';
+		return this.http.post(route, body, {headers: JSONHeaders});
+	}
+
+	/*
+	metodo confirm
+	*/
+	confirm(confirm: any): Observable<any> {
+		const body = JSON.stringify(confirm);
+		const route = this.url + 'api/user/confirm';
+		return this.http.post(route, body, {headers: JSONHeaders});
+	}
+
+
+	/*
 	método para extraer los datos generales del usuario
 	*/
 	getUserDetails(username: any): Observable<any> {

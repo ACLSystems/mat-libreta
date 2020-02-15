@@ -76,4 +76,26 @@ export class CommonService {
 		localStorage.setItem('environment',JSON.stringify(environment));
 	}
 
+	compareObjects(a:any, b:any): boolean {
+		if(typeof a !== 'object' || typeof b !== 'object') {
+			return false;
+		}
+
+		const keys = Object.keys(a);
+		var same = true;
+		for (var key of keys) {
+			if(typeof a[key] === 'string' && a[key] !== b[key]) {
+				same = false;
+				break;
+			}
+			if(typeof a[key] === 'object' && Array.isArray(a[key])) {
+				if(!a[key].every((e:any) => b[key].includes(e))) {
+					same = false;
+					break;
+				}
+			}
+		}
+		return same;
+	}
+
  }

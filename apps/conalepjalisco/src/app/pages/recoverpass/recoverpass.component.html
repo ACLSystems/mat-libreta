@@ -12,35 +12,62 @@
 								<p class="h3">Recuperar Contraseña</p>
 							</div>
 			        <div class="card-body">
-			          <form class="was-validated">
-									<label class="form-inline"><b>*Ingresa tu correo electrónico : </b></label>
-									<input
-									type="text"
-									class="form-control"
-									#username (blur)="getusername(username.value)"
-									placeholder="Email" required
-									>
+			          <form class="form" [formGroup]="recoverForm">
+									<div class="input-group text-center">
+										<input
+										type="text"
+										class="form-control"
+										placeholder="Ingresa tu correo electrónico"
+										required
+										formControlName="username"
+										>
+									</div>
+									<div
+										class="text-danger"
+										*ngIf="(username.dirty || username.touched) && username.invalid && username.errors.required">
+										<small>* Coloca tu cuenta de correo</small>
+									</div>
+									<div
+										class="text-danger"
+										*ngIf="username.errors?.pattern">
+										<small>* La cuenta debe ser un correo válido y en minúsculas</small>
+									</div>
 									<!-- <span *ngIf="!dataIsOk" class="text-danger">Ingresa tu correo electrónico</span> -->
 			          </form>
-			          <div class="form-group">
+			          <div
+									*ngIf="!useRegister"
+									class="form-group text-center">
 									<button
-										*ngIf="!dataIsOk"
 										type="button"
 										class="btn btn-success"
-										disabled
+										(click)="submitRequest();"
 										>
 										<i class="far fa-window-restore"></i>
 										Recuperar contraseña
 									</button>
-									<button
-										*ngIf="dataIsOk && !pushed"
-										type="button"
-										class="btn btn-success"
-										(click)="requestPasswordRecovery(username.value)"
-										>
-										<i class="far fa-window-restore"></i>
-										Recuperar contraseña
-									</button>
+			          </div>
+								<div
+									*ngIf="useRegister"
+									class="form-group text-center">
+									<div class="btn-group" role="group">
+										<button
+											type="button"
+											class="btn btn-success"
+											(click)="submitRequest();"
+											>
+											<i class="far fa-window-restore"></i>
+											Recuperar contraseña
+										</button>
+										<button
+											type="button"
+											class="btn btn-rose"
+											(click)="goRegister();"
+											>
+											<i class="far fa-window-restore"></i>
+											Registrarme
+										</button>
+									</div>
+
 			          </div>
 			        </div>
 			      </div>

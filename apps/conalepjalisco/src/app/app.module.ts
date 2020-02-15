@@ -75,7 +75,8 @@ import {
 	AccesoriesModule
 } from '@mat-libreta/shared';
 
-import { ShareService } from '@cetecshared/services/share.service';
+import { ShareService } from '@cjashared/services/share.service';
+import { EnvService } from '@cjashared/services/setEnv.service';
 
 @NgModule({
 	exports: [
@@ -140,6 +141,7 @@ export class MaterialModule {}
 		SocketIoModule.forRoot(config)
   ],
 	providers: [
+		EnvService,
 		PublicService,
 		UserService,
 		UserCourseService,

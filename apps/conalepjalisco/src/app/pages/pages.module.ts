@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RECAPTCHA_LANGUAGE, RecaptchaModule } from 'ng-recaptcha';
 //import { TimeagoModule } from 'ngx-timeago';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '@cjaapp/app.module';
 import { PageRoutingModule } from './pages.routing.module';
@@ -20,9 +20,10 @@ import { OfflineComponent } from './offline/offline.component';
 import { UnivComponent } from './univ/univ.component';
 
 import { PagesService } from './pages.service';
-import { UserService } from '@mat-libreta/shared';
+import { UserService, PublicService } from '@mat-libreta/shared';
 import { RecoverPassService } from './recoverpass/recoverpass.service';
 import { LogoutComponent } from './logout/logout.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -38,19 +39,22 @@ import { LogoutComponent } from './logout/logout.component';
 		RecoverPassComponent,
 		OfflineComponent,
 		LogoutComponent,
-		UnivComponent
+		UnivComponent,
+		RegisterComponent
 	],
   imports: [
 		MaterialModule,
     CommonModule,
 		PageRoutingModule,
 		FormsModule,
+		ReactiveFormsModule,
 		RecaptchaModule.forRoot()
   ],
 	providers: [
 		PagesService,
 		UserService,
 		RecoverPassService,
+		PublicService,
 		{
 			provide: RECAPTCHA_LANGUAGE,
 			useValue: 'es-419'

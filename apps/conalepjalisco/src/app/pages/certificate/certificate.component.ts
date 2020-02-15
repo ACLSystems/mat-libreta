@@ -75,6 +75,7 @@ export class CertificateComponent implements OnInit {
   }
 
 	searchCertificate(folio:number) {
+		console.log('Hola');
 		this.secondsDisable = 10000; // 10 segundos
 		this.segundos = 10; // 10 veces
 		const secondsCounter = interval(this.secondsDisable / this.segundos); // Intervalo que va a contar con intervalos de un segundo
@@ -121,7 +122,7 @@ export class CertificateComponent implements OnInit {
 	}
 
 	resolved(captchaResponse: string) {
-		//console.log(`Resolved captcha with response ${captchaResponse}`);
+		// console.log(`Resolved captcha with response ${captchaResponse}`);
 		if(captchaResponse){
 			this.pagesService.captcha(captchaResponse).subscribe((res:any) => {
 				if(res && res.success) {

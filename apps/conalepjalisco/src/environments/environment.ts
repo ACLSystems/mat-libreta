@@ -4,14 +4,15 @@
 
 export const environment = {
 	production: false,
-  // url: 'https://apiadmincja.sloppy.zone/',
-	url: 'http://localhost:3050/',
+  url: 'https://apicja.superatemexico.com/',
+	// url: 'http://localhost:3050/',
   urlLibreta: 'http://localhost:4200/',
 	libreta_URI: 'http://conalepjalisco.superatemexico.com/#',
 	vendor: 'ACL Systems SA de CV',
   idTutor: '5ab47313007ce400a8ef4248',
 	versionCheckURL: 'version.json',
 	instanceName: 'conalep',
+	orgUnitName: '702',
 	instanceTitle: 'Conalep Jalisco',
 	instanceRef: '@cja',
 	siteName: 'conalepjalisco.superatemexico.com',

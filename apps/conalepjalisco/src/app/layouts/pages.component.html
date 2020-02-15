@@ -27,37 +27,81 @@
 			<ul class="navbar-nav">
 				<li class="nav-item" routerLinkActive="active" *ngIf="token">
 					<a class="nav-link" [routerLink]="['/dashboard']">
-						<i class="material-icons">dashboard</i> Panel
+						<!-- <i class="material-icons">dashboard</i>  -->
+						Panel
 					</a>
 				</li>
 				<li class="nav-item" routerLinkActive="active">
 					<a class="nav-link" [routerLink]="['/pages/catalog']">
-						<i class="fas fa-book"></i> Cursos
+						<!-- <i class="fas fa-book"></i>  -->
+						Cursos
 					</a>
 				</li>
 				<li class="nav-item" routerLinkActive="active">
 					<a class="nav-link" [routerLink]="['/pages/certificate']">
-						<i class="fas fa-certificate"></i> Constancias
+						<!-- <i class="fas fa-certificate"></i>  -->
+						Constancias
 					</a>
 				</li>
 				<li class="nav-item" routerLinkActive="active">
 					<a class="nav-link" [routerLink]="['/pages/univ']">
-						<i class="fas fa-university"></i> Universidad en línea
+						<!-- <i class="fas fa-university"></i>  -->
+						Universidad en línea
+					</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-togle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Acceso
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" [routerLink]="['/pages/login']">
+							<i class="material-icons">fingerprint</i> Login
+						</a>
+					</div>
+				</li> -->
+				<li class="nav-item" routerLinkActive="active" *ngIf="!token">
+					<a class="nav-link" [routerLink]="['/pages/login']">
+						<!-- <i class="fas fa-university"></i>  -->
+						Ingresa
 					</a>
 				</li>
 				<li class="nav-item" routerLinkActive="active" *ngIf="!token">
-					<a class="nav-link" [routerLink]="['/pages/login']">
-						<i class="material-icons">fingerprint</i> Login
+					<a class="nav-link" [routerLink]="['/pages/register']">
+						<!-- <i class="fas fa-university"></i>  -->
+						Regístrate
 					</a>
+				</li>
+				<!-- <li class="nav-item dropdown"  *ngIf="!token">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="material-icons">bookmark</i>
+						Acceso
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" [routerLink]="['/pages/login']">
+							<i class="material-icons">fingerprint</i>
+							Login
+						</a>
+						<a class="dropdown-item" [routerLink]="['/pages/reqrecoverpass']">
+							<i class="material-icons">person</i>
+							Recuperar acceso
+						</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" [routerLink]="['/pages/register']">
+							<i class="material-icons">person</i>
+							Registro
+						</a>
+					</div>
 				</li>
 				<li class="nav-item" routerLinkActive="active">
 					<a class="nav-link" [routerLink]="['/pages/help']">
-						<i class="fas fa-question-circle"></i> Ayuda
+						<i class="fas fa-question-circle"></i>
+						Ayuda
 					</a>
-				</li>
+				</li> -->
 				<li class="nav-item" routerLinkActive="active" *ngIf="token">
 					<a class="nav-link" [routerLink]="['/pages/logout']">
-						<i class="material-icons">power_settings_new</i> Salir
+						<!-- <i class="material-icons">power_settings_new</i> -->
+						Salir
 					</a>
 				</li>
 			</ul>

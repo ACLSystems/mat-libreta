@@ -15,6 +15,7 @@ import { RecoverPassComponent} from './recoverpass/recoverpass.component';
 import { OfflineComponent } from './offline/offline.component';
 import { LogoutComponent } from './logout/logout.component';
 import { UnivComponent } from './univ/univ.component';
+import { RegisterComponent } from './register/register.component';
 
 const pageRoutes: Routes = [
 	{
@@ -43,6 +44,9 @@ const pageRoutes: Routes = [
 			},{
 				path: 'login',
 				component: LoginComponent
+			},{
+				path: 'register',
+				component: RegisterComponent
 			},{
 				path: 'reqrecoverpass',
 				component: RecoverPassComponent

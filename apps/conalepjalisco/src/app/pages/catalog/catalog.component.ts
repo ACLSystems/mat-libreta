@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { PagesService } from '../pages.service';
 import { environment } from '@cjaenv/environment';
 
-export class Areas {
-	constructor(
-		public area: string
-	) {}
-}
+// export class Areas {
+// 	constructor(
+// 		public area: string
+// 	) {}
+// }
 
 @Component({
 	selector: 'app-catalog',
@@ -17,24 +17,24 @@ export class Areas {
 })
 export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 
-	public loading:boolean;
-	public isFindOk:boolean;
-	public org:string;
-	public query1:any;
-	public ar:Areas;
-	public messageNotFound:string;
+	loading:boolean;
+	isFindOk:boolean;
+	org:string;
+	query1:any;
+	// ar:Areas;
+	messageNotFound:string;
 
-	public typesdata:any[]=[];
-	public carrerasList:any[]=[];
-	public areadata:any[]=[];
-	public cursoslist:any[]=[];
-	public course:any[]=[];
-	public keywords:any[]=[];
-	public instanceName:string;
-	public instanceTitle:string;
-	public instanceNameCase:string;
-	public logo:string;
-	public color:string;
+	typesdata:any[]=[];
+	carrerasList:any[]=[];
+	areadata:any[]=[];
+	cursoslist:any[]=[];
+	course:any[]=[];
+	keywords:any[]=[];
+	instanceName:string;
+	instanceTitle:string;
+	instanceNameCase:string;
+	logo:string;
+	color:string;
 
 	constructor(
 		private pagesService: PagesService,
@@ -45,9 +45,9 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.instanceNameCase = environment.instanceName.toUpperCase();
 		this.logo = environment.logo;
 		this.color = environment.color;
-		this.ar = new Areas('');
-		this.getAreas();
-		this.verGrados();
+		// this.ar = new Areas('');
+		// this.getAreas();
+		// this.verGrados();
 		this.getCourseList();
 	}
 
@@ -61,51 +61,55 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 		// $navbar.classList.add('bg-white');
 	}
 
-	public getCourseList(){
+	getCourseList(){
 		this.loading = true;
 		this.pagesService.getCoursesOrg().subscribe(data =>{
-			this.cursoslist = data.body.message.courses;
-			this.loading = false;
+			if(data && data.body && data.body.message && data.body.message.courses) {
+				this.cursoslist = data.body.message.courses;
+				this.loading = false;
+				console.log(this.cursoslist);
+			}
 		},error=>{
 			console.log(error.message);
 			this.loading = false;
 		});
 	}
 	//
-	public getAreas(){
-		this.pagesService.getAreas(this.org).subscribe(data=>{
-			if(data && data.body && data.body.message && data.body.message.details){
-				this.areadata = data.body.message.details;
-			}
-		},error=>{
-			console.log(error);
-		});
-	}
-	//
-	public verCarrera(){
-		this.query1={
-			area:this.ar.area
-		};
-		this.pagesService.getCarreras(this.org, this.query1).subscribe(data=>{
-			this.carrerasList = data.body.message.results;
-		},error=>{
-			console.log(error);
-		});
-	}
-	//
-	public verGrados(){
-		var type = "semester"
-		this.query1={
-			type:type
-		};
-		this.pagesService.getTerms(this.org,this.query1).subscribe(data=>{
-			this.typesdata = data.body.message.results;;
-		},error=>{
-			console.log(error);
-		});
-	}
+	// getAreas(){
+	// 	this.pagesService.getAreas(this.org).subscribe(data=>{
+	// 		console.log(data);
+	// 		if(data && data.body && data.body.message && data.body.message.details){
+	// 			this.areadata = data.body.message.details;
+	// 		}
+	// 	},error=>{
+	// 		console.log(error);
+	// 	});
+	// }
+	// //
+	// verCarrera(){
+	// 	this.query1={
+	// 		area:this.ar.area
+	// 	};
+	// 	this.pagesService.getCarreras(this.org, this.query1).subscribe(data=>{
+	// 		this.carrerasList = data.body.message.results;
+	// 	},error=>{
+	// 		console.log(error);
+	// 	});
+	// }
+	// //
+	// verGrados(){
+	// 	var type = "semester"
+	// 	this.query1={
+	// 		type:type
+	// 	};
+	// 	this.pagesService.getTerms(this.org,this.query1).subscribe(data=>{
+	// 		this.typesdata = data.body.message.results;;
+	// 	},error=>{
+	// 		console.log(error);
+	// 	});
+	// }
 
-	public verCurso(curso:any){
+	verCurso(curso:any){
 		this.router.navigate(['/pages/course',curso]);
 	}
 

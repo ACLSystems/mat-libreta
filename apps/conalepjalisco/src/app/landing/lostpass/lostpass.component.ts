@@ -73,7 +73,7 @@ export class LostPassComponent implements OnInit {
           this.userService.getUser(this.login.username).subscribe( resdata => {
             const identity = resdata;
             localStorage.setItem('identity', JSON.stringify(identity));
-            this.router.navigate(['/consoleuser']);
+            this.router.navigate(['/pages/login']);
           });
         });
       }, error => {

@@ -20,7 +20,7 @@ export class AppComponent {
 	) {
 		const localEnv: Environment = this.commonService.getEnvironment();
 		if(localEnv) {
-			if(localEnv.instanceName !== environment.instanceName) {
+			if(!this.commonService.compareObjects(localEnv, environment)) {
 				localStorage.removeItem('environment');
 				this.setEnvironment();
 			}
