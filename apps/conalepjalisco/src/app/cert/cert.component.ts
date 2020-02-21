@@ -18,7 +18,8 @@ import { Certificates } from './docs';
 export class CertComponent implements OnInit {
 
 	loading: boolean;
-	groupid: string;
+	rosterType: string;
+	id: string;
 	grade: Grade;
 	track: number;
 	minTrack: number;
@@ -31,7 +32,8 @@ export class CertComponent implements OnInit {
 		private router: Router
 	) {
 		this.activatedRoute.params.subscribe(params => {
-				this.groupid = params.groupid;
+				this.rosterType = params.rostertype;
+				this.id = params.id;
 			}
 		);
 		this.poll = false;
@@ -43,7 +45,7 @@ export class CertComponent implements OnInit {
   }
 
 	getGrades() {
-		this.userCourseService.getMyGrades(this.groupid).subscribe(data => {
+		this.userCourseService.getMyGrades(this.rosterType,this.id).subscribe(data => {
 			this.grade = data.message;
 			this.track = +this.grade.track.replace('%','');
 			this.minTrack = +this.grade.minTrack.replace('%','');
@@ -88,7 +90,7 @@ export class CertComponent implements OnInit {
 	}
 
 	getCert() {
- 		this.userCourseService.getUserConst(this.groupid).subscribe(data => {
+ 		this.userCourseService.getUserConst(this.rosterType, this.id).subscribe(data => {
 			if(data.message === 'Roster saved') {
 				if(this.grade.finalGrade >= this.grade.minGrade) {
 					this.certService.printCertificate(

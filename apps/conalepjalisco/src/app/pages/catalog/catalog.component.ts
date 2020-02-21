@@ -35,6 +35,7 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 	instanceNameCase:string;
 	logo:string;
 	color:string;
+	categories:string[]=[];
 
 	constructor(
 		private pagesService: PagesService,
@@ -67,7 +68,15 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 			if(data && data.body && data.body.message && data.body.message.courses) {
 				this.cursoslist = data.body.message.courses;
 				this.loading = false;
-				console.log(this.cursoslist);
+				// console.log(this.cursoslist);
+				this.categories = [];
+				this.cursoslist.forEach(course => {
+					if(course.categories && Array.isArray(course.categories) && course.categories.length > 0) {
+						this.categories = this.categories.concat(course.categories);
+					}
+				});
+				this.categories = [...new Set(this.categories)];
+				// console.log(this.categories);
 			}
 		},error=>{
 			console.log(error.message);

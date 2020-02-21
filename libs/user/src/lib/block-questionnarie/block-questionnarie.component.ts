@@ -21,8 +21,9 @@ import {
 export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 
 	@Input() blockData:Block;
-	@Input() groupid: string;
+	@Input() id: string;
 	@Input() blockid: string;
+	@Input() rosterType: string;
 	attempts: number;
 	questionnarie: Questionnarie;
 	responses: Response[] = [];
@@ -110,11 +111,15 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 			cancelButtonColor: '#d33'
 		}).then((result) => {
 			if(result.value) {
+				Swal.fire('Espera...');
+				Swal.showLoading();
 				let now = new Date();
 				let grade = this.totalAnswered / this.totalPoints * 100;
 				grade = Math.round((grade + 0.00001) * 100) / 100;
-				this.userCourseService.setAttempt(this.groupid, this.blockid, this.responses, grade).subscribe(data => {
-					console.log(data);
+				this.userCourseService.setAttempt(this.rosterType,this.id, this.blockid, this.responses, grade).subscribe(data => {
+					// console.log(data);
+					Swal.hideLoading();
+					Swal.close();
 					let identity = JSON.parse(localStorage.getItem('identity'));
 					let responseHeader = '<h2>Calificación</h1><hr>' +
 					`Participante: <span class=text-primary>${identity.person.name} ${identity.person.fatherName} ${identity.person.motherName}</span><br>`;
@@ -137,7 +142,7 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 						'Noviembre',
 						'Diciembre'
 					];
-					let responseFooter = `${now.getDate()} de ${months[now.getMonth()]} del ${now.getFullYear()} &nbsp;  ${now.getHours()}:${now.getMinutes()}`
+					let responseFooter = `<small>${now.getDate()} de ${months[now.getMonth()]} del ${now.getFullYear()} &nbsp;  ${now.getHours()}:${now.getMinutes()} horas (Hora de la Cd. de México)</small>`
 					Swal.fire({
 						html: responseHeader +
 						responseBody +

@@ -97,6 +97,8 @@ export class UserConfirmComponent implements OnInit {
 								fatherName: this.fathername,
 								motherName: this.mothername
 							};
+							// console.log(record);
+							// return;
 							this.publicService.confirm(record).subscribe(data => {
 								if(data && data.message && data.message == `User -${this.emailuser}- verified`) {
 									this.message = 'Cuenta verificada. Gracias'

@@ -5,8 +5,9 @@
 	<div *ngIf="!loading">
 		<!-- Bloque para la lección -->
 		<app-block-lesson
+			[rosterType]="rosterType"
 			[blockData]="blockData"
-			[groupid]="groupid"
+			[id]="id"
 			[blockid]="blockid"
 		>
 		</app-block-lesson>
@@ -18,7 +19,7 @@
 						mat-raised-button
 						class="btn btn-sm float-left"
 						[ngClass]="{'btn-primary' : blockData.blockPrevId, 'btn-secondary': !blockData.blockPrevId}"
-						(click)="getNextBlock(groupid,blockData.blockPrevId)"
+						(click)="getNextBlock(rosterType,id,blockData.blockPrevId)"
 						[disabled]="!blockData.blockPrevId"
 						>
 						<i class="material-icons">chevron_left</i> Anterior
@@ -26,7 +27,7 @@
 					<button
 						mat-raised-button
 						class="btn btn-sm btn-rose float-none"
-						(click)="goGroup(groupid)"
+						(click)="goGroup(rosterType,id)"
 						>
 						<i class="material-icons">replay</i> Regresar al temario
 					</button>
@@ -34,13 +35,13 @@
 						mat-raised-button
 						class="btn btn-sm float-right"
 						[ngClass]="{'btn-primary' : blockData.blockNextId, 'btn-secondary': !blockData.blockNextId}"
-						(click)="getNextBlock(groupid,blockData.blockNextId, blockData.blockCurrentId)"
+						(click)="getNextBlock(rosterType,id,blockData.blockNextId, blockData.blockCurrentId)"
 						[disabled]="!blockData.blockNextId"
 						>
 						Siguiente <i class="material-icons">chevron_right</i>
 					</button>
 					<div *ngIf="!blockData.blockNextId">
-						<h3>¡Enhorabuena! Has terminado tu curso</h3>
+						<h3>El curso ha terminado</h3>
 					</div>
 					<!-- <div class="btn-toolbar" role="toolbar">
 

@@ -100,6 +100,9 @@ export class DashboardComponent implements OnInit {
 		this.loading = true;
 		var diff = 0;
 		await this.userCourseService.getCourses().subscribe(data => {
+			// console.group('data');
+			// console.log(data);
+			// console.groupEnd();
 			if(data &&
 				data.message &&
 				data.message.groups &&
@@ -107,14 +110,19 @@ export class DashboardComponent implements OnInit {
 			) {
 				const mycursos = data.message.groups;
 				this.userCourseService.getCoursesOrg().subscribe(res => {
+					// console.group('res');
+					// console.log(res);
+					// console.groupEnd();
 					for (const idcr of res.message.courses) {
 						for (const idmg of mycursos) {
 							if (idcr.id === idmg.courseid ) {
 								if (idmg.status === 'active') {
-									this.courseList.push({
+									let curso = {
 										curso: idmg,
 										imagen: idcr.image
-									});
+									};
+									curso.curso.id = (curso.curso.rosterType && curso.curso.rosterType === 'public') ? curso.curso.rosterid : curso.curso.groupid;
+									this.courseList.push(curso);
 									diff = this.dateDiff(new Date(idmg.beginDate),today);
 									if(diff >= 0 && diff <= minDays){
 										this.events.push({
@@ -146,9 +154,16 @@ export class DashboardComponent implements OnInit {
 						}
 					}
 				});
+				// console.group('courseList');
+				// console.log(this.courseList);
+				// console.groupEnd();
 				this.messageNewUser = false;
+				var courses = +localStorage.getItem('courses');
+				courses ++;
+				localStorage.setItem('courses',courses+'');
 			} else if(data && data.message && data.message === 'No groups found'){
 				this.messageNewUser = data.message;
+				localStorage.setItem('courses','0');
 			}
 			this.loading = false;
 			// console.log(this.courseList)
@@ -173,13 +188,21 @@ export class DashboardComponent implements OnInit {
 	/*
 	Metodo para redireccionar al usuario al curso que seleccionó
 	*/
-	public getMyCourse(course: string, courseCode: string, groupid: string, courseid: string, lastSeenBlock: string, firstBlock: string) {
+	public getMyCourse(
+		rosterType: string,
+		course: string,
+		courseCode: string,
+		id: string,
+		courseid: string,
+		lastSeenBlock: string,
+		firstBlock: string) {
 		var currentCourse: CurrentCourse = {
 			course: course,
 			courseCode: courseCode,
-			groupid: groupid,
+			id: id,
 			courseid: courseid,
-			block: ''
+			block: '',
+			rosterType: rosterType
 		}
 		currentCourse.block = lastSeenBlock ? lastSeenBlock : firstBlock;
 		localStorage.setItem('currentCourse', JSON.stringify(currentCourse));
@@ -195,7 +218,7 @@ export class DashboardComponent implements OnInit {
 		// this.router.navigate(navigate);
 		this.currentCourse = currentCourse;
 		this.router.navigate([
-			'/user/content', groupid
+			'/user/content', rosterType, id
 		]);
 
 	}

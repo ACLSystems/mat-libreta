@@ -9,7 +9,8 @@ import { Block } from '@mat-libreta/shared';
 export class BlockLessonComponent implements OnInit, AfterViewInit {
 
 	@Input() blockData:Block;
-	@Input() groupid: string;
+	@Input() id: string;
+	@Input() rosterType: string;
 	@Input() blockid: string;
 	// track: number;
 

@@ -13,7 +13,7 @@ const userRoutes: Routes = [
 		path: '',
 		children: [
 			{
-				path: 'progress/:groupid',
+				path: 'progress/:rostertype/:id',
 				component: ProgressComponent
 			}
 		]
@@ -21,7 +21,7 @@ const userRoutes: Routes = [
 		path: '',
 		children: [
 			{
-				path: 'content/:groupid',
+				path: 'content/:rostertype/:id',
 				component: CourseMainComponent
 			}
 		]
@@ -29,7 +29,7 @@ const userRoutes: Routes = [
 		path: '',
 		children: [
 			{
-				path: 'support/:groupid',
+				path: 'support/:rostertype/:id',
 				component: SupportComponent
 			}
 		]
@@ -37,7 +37,7 @@ const userRoutes: Routes = [
 		path: '',
 		children: [
 			{
-				path: 'block/:courseid/:groupid/:blockid',
+				path: 'block/:rostertype/:id/:blockid',
 				component: BlockComponent
 			}
 		]

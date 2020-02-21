@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RECAPTCHA_LANGUAGE, RecaptchaModule } from 'ng-recaptcha';
 //import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ import { RegisterComponent } from './register/register.component';
 	],
   imports: [
 		MaterialModule,
+		MatTooltipModule,
     CommonModule,
 		PageRoutingModule,
 		FormsModule,

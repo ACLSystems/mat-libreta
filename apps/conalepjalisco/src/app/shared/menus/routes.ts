@@ -17,15 +17,20 @@ export interface ChildrenItems {
 }
 
 export const ROUTES_1: RouteInfo[] = [{
-				path: '/dashboard',
-				title: 'Panel',
-				type: 'link',
-				icontype: 'dashboard'
+			path: '/pages/catalog',
+			title: 'Catálogo de cursos',
+			type: 'link',
+			icontype: 'view_column'
 		},{
-				path: '/calendar',
-				title: 'Calendario',
-				type: 'link',
-				icontype: 'date_range'
+			path: '/dashboard',
+			title: 'Panel',
+			type: 'link',
+			icontype: 'dashboard'
+		},{
+			path: '/calendar',
+			title: 'Calendario',
+			type: 'link',
+			icontype: 'date_range'
 		}
 ];
 

@@ -68,6 +68,13 @@
 									<div class="col-md" [innerHTML]="curso.description">
 									</div>
 								</div>
+								<div class="row" *ngIf="curso.type == 'tutor'" >
+									<div class="col">
+										<b class="text-danger">
+											*Espera las fechas de este curso para poder tomarlo
+										</b>
+									</div>
+								</div>
 							</div>
 							<div class="tab-pane" id="data">
 								<div class="row">
@@ -109,9 +116,9 @@
 													<span *ngIf="curso.type == 'tutor'">
 														Tutorado
 													</span>
-													<span *ngIf="curso.type == 'tutor'" class="text-danger">
+													<!-- <span *ngIf="curso.type == 'tutor'" class="text-danger">
 														*Espera las fechas de este curso para poder tomarlo
-													</span>
+													</span> -->
 													<span *ngIf="curso.type == 'self-paced'">
 														A tu ritmo
 													</span>
@@ -163,19 +170,19 @@
 						</div>
 					</div>
 					<div class="card-footer">
-						<div class="btn-group" role="group">
-							<button
-								class="btn btn-success"
-								[routerLink]="['/pages/catalog']">
-								<i class="fas fa-reply"></i>
-							</button>
-							<button
-								class="btn btn-rose"
-								>
-								Inscribirme
-							</button>
-						</div>
-
+						<button
+							class="btn btn-success float-left"
+							[routerLink]="['/pages/catalog']">
+							<i class="fas fa-reply"></i>
+						</button>
+						<button
+							mat-raised-button
+							class="btn btn-rose float-right"
+							(click)="goEnroll(curso._id, curso.title);"
+							[disabled]="curso.type == 'tutor'"
+							>
+							Inscribirme
+						</button>
 					</div>
 				</div>
 			</div>

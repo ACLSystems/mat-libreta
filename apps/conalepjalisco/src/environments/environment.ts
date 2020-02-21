@@ -4,7 +4,7 @@
 
 export const environment = {
 	production: false,
-  url: 'https://apicja.superatemexico.com/',
+  url: 'https://apiadmincja.superatemexico.com/',
 	// url: 'http://localhost:3050/',
   urlLibreta: 'http://localhost:4200/',
 	libreta_URI: 'http://conalepjalisco.superatemexico.com/#',

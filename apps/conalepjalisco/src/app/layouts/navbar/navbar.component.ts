@@ -142,7 +142,7 @@ export class NavbarComponent implements OnInit {
 			}
 		});
 		this.commService.getMessage(this.userid).subscribe((data:any) => {
-			console.log(data);
+			// console.log(data);
 			// Falta agregar la funcionalidad de refrescar las notificaciones.
 			if(data && data.command) {
 				if(data.command === 'reload') {

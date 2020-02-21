@@ -26,7 +26,7 @@
 					<span *ngIf="blockData.blockNumber!=0"
 						[ngClass]="{'text-success': blockData.track}"
 						>
-						Lección {{blockData.blockSection}}.{{blockData.blockNumber}}: 
+						Lección {{blockData.blockSection}}.{{blockData.blockNumber}}:
 					</span>
 					<span class="h3">{{blockData.blockTitle}}</span>
 				</div>
@@ -74,8 +74,9 @@
 			</div>
 			<div *ngIf="blockData.questionnarie">
 				<app-block-questionnarie
+					[rosterType]="rosterType"
 					[blockData]="blockData"
-					[groupid]="groupid"
+					[id]="id"
 					[blockid]="blockid"
 				>
 				</app-block-questionnarie>

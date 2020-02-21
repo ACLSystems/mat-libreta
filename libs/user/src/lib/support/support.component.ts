@@ -20,7 +20,8 @@ export interface Resource {
 export class SupportComponent implements OnInit {
 
 	loading: boolean;
-	groupid: string;
+	rosterType: string;
+	id: string;
 	resources: Resource[] = [];
 	myGroup: any;
 
@@ -30,7 +31,8 @@ export class SupportComponent implements OnInit {
 		private userCourseService: UserCourseService
 	) {
 		this.activatedRoute.params.subscribe(params => {
-				this.groupid = params.groupid;
+				this.rosterType = params.rostertype;
+				this.id = params.id;
 			}
 		);
 		this.loading = true;
@@ -38,11 +40,11 @@ export class SupportComponent implements OnInit {
 
   ngOnInit() {
 		this.loading = true;
-		this.userCourseService.myGroup(this.groupid).subscribe(group => {
+		this.userCourseService.myGroup(this.id, this.rosterType).subscribe(group => {
 			if(group && group.message) {
 				this.myGroup = group.message;
 				// console.log(this.myGroup);
-				this.userCourseService.getResources(this.groupid).subscribe(data => {
+				this.userCourseService.getResources(this.rosterType, this.id).subscribe(data => {
 					// console.log(data)
 					if(data && data.message && data.message.length > 0 && Array.isArray(data.message)) {
 						this.resources = data.message;

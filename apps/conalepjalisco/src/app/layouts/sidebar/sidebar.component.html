@@ -1,12 +1,12 @@
 				<div class="logo">
 					<a class="simple-text logo-mini">
 						<div class="logo-img">
-								<img src="/assets/img/conalep_logo_blanco_simple.png"/>
+								<img style="vertical-align:middle" src="/assets/img/conalep_logo_blanco.png"/>
 						</div>
 					</a>
-						<a [routerLink]="['/dashboard']" class="simple-text logo-normal">
-							CONALEP
-						</a>
+					<a [routerLink]="['/dashboard']" class="simple-text logo-normal">
+						<small>CONALEP Jalisco</small>
+					</a>
 				</div>
 				<div class="sidebar-wrapper">
 						<div class="user">
@@ -125,7 +125,7 @@
 										<div id="{{menuitem.collapse}}" class="collapse" *ngIf="menuitem.type === 'sub'">
 												<ul class="nav">
 														<li routerLinkActive="active" *ngFor="let childitem of menuitem.children" class="nav-item">
-																<a [routerLink]="[menuitem.path, childitem.path, childitem.subpath]" class="nav-link" *ngIf="childitem.subpath"
+																<a [routerLink]="childitem.link" class="nav-link" *ngIf="childitem.subpath"
 																>
 																		<span class="sidebar-mini">{{childitem.ab}}</span>
 																		<span class="sidebar-normal">{{childitem.title}}</span>

@@ -22,6 +22,7 @@ export class MenuService {
 		// console.group('myCurrentCourseData');
 		// console.log(myCurrentCourseData);
 		// console.groupEnd();
+		const url = myCurrentCourseData ?  JSON.stringify([myCurrentCourseData.rosterType,myCurrentCourseData.id]) : null;
 		var myCurrentCourse: RouteInfo;
 		myCurrentCourse = {
 			path: myCurrentCourseData ? '/user' : '',
@@ -32,23 +33,23 @@ export class MenuService {
 			children: myCurrentCourseData ? [
 				{
 					path: 'content',
-					subpath: myCurrentCourseData.groupid,
+					subpath: url,
 					title: 'Temario',
 					ab: 'TM'
 				},{
 					path: 'progress',
-					subpath: myCurrentCourseData.groupid,
+					subpath: url,
 					title: 'Mi progreso',
 					ab: 'MP'
 				},{
 					path: 'support',
 					title: 'Material de apoyo',
-					subpath: myCurrentCourseData.groupid,
+					subpath: url,
 					ab: 'MA'
 				},
-				{path: 'forum', title: 'Foro de discusión', ab: 'FD'},
-				{path: 'announcements', title: 'Avisos del curso', ab: 'AC'},
-				{path: 'events', title: 'Eventos del curso', ab: 'EC'}
+				// {path: 'forum', title: 'Foro de discusión', ab: 'FD'},
+				// {path: 'announcements', title: 'Avisos del curso', ab: 'AC'},
+				// {path: 'events', title: 'Eventos del curso', ab: 'EC'}
 			] : null
 		}
 		// return myCurrentCourseData ?

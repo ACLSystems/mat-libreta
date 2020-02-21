@@ -48,18 +48,31 @@ export class UserCourseService {
 		return this.http.get(route,httpOptions);
 	}
 
+	enroll(courseid:string):Observable<any>{
+		const params = JSON.stringify({
+			courseid
+		});
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.commonService.getToken()
+			);
+		const route = this.url+'api/v1/user/enroll';
+		return this.http.post(route, params, {headers});
+	}
+
 	/*
 	funcion para mostrar el listado del temario en base al track
 	*/
 
-	myGroup(id:string):Observable<any>{
+	myGroup(id:string,rosterType?:string):Observable<any>{
+		var param = (!rosterType || rosterType === 'group') ? 'groupid' : 'rosterid';
 		const httpOptions = {
 			headers: JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.commonService.getToken()
 			),
 			params: new HttpParams().set(
-				'groupid', id
+				param, id
 			)
 		};
 		const route = this.url+'api/v1/user/mygroup';
@@ -70,11 +83,16 @@ export class UserCourseService {
 	Método para traer información del bloque (nextBlock)
 	*/
 
-	getNextBlock(groupid:string,blockid:string,lastid?:string):Observable<any> {
+	getNextBlock(
+		rosterType: string,
+		id:string,
+		blockid:string,
+		lastid?:string):Observable<any> {
+		var param = (!rosterType || rosterType === 'group') ? 'groupid' : 'rosterid';
 		var params = {};
 		if(lastid) {
 			params = new HttpParams().set(
-				'groupid', groupid
+				param, id
 			).set(
 				'blockid', blockid
 			).set(
@@ -82,7 +100,7 @@ export class UserCourseService {
 			)
 		} else {
 			params = new HttpParams().set(
-				'groupid', groupid
+				param, id
 			).set(
 				'blockid', blockid
 			)
@@ -102,13 +120,21 @@ export class UserCourseService {
   guardar las calificaciones del alumno en el mongodb
   */
   setAttempt(
-		groupid: string,
+		rosterType: string,
+		id: string,
 		blockid: string,
 		answers: any[],
 		grade: number
 	):Observable<any>{
-		const params = JSON.stringify({
-			groupid: groupid,
+		const params = rosterType=='group' ?
+		JSON.stringify({
+			groupid: id,
+			blockid: blockid,
+			answers: answers,
+			grade: grade
+		}) :
+		JSON.stringify({
+			rosterid: id,
 			blockid: blockid,
 			answers: answers,
 			grade: grade
@@ -124,14 +150,15 @@ export class UserCourseService {
 	/*
 	Metodo para obtener los recursos de un curso
 	*/
-	getResources(groupid:string):Observable<any>{
+	getResources(rosterType: string,id:string):Observable<any>{
+		const param = (rosterType == 'group') ? 'groupid' : 'rosterid';
 		const httpOptions = {
 			headers: JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.commonService.getToken()
 			),
 			params: new HttpParams().set(
-				'groupid', groupid
+				param, id
 			)
 		};
 		const route = this.url+'api/v1/user/getresource';
@@ -237,14 +264,15 @@ export class UserCourseService {
 	/*
   Mostrar la información de avance en el curso al alumno
   */
-  getMyGrades(groupid:string):Observable<any>{
+  getMyGrades(rostertype: string,id:string):Observable<any>{
+		const param = rostertype == 'group' ? 'groupid' : 'rosterid';
 		const httpOptions = {
 			headers: JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.commonService.getToken()
 			),
 			params: new HttpParams().set(
-				'groupid', groupid
+				param, id
 			)
 		};
 		const route = this.url+'api/v1/user/mygrades';
@@ -254,14 +282,15 @@ export class UserCourseService {
 	/*
   Metodo para obtener los datos de los usuario que obtuvieron su constancia
   */
-  public getUserConst(groupid:string):Observable<any>{
+  public getUserConst(rostertype: string,id:string):Observable<any>{
+		const param = rostertype == 'group' ? 'groupid' : 'rosterid';
 		const httpOptions = {
 			headers: JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.commonService.getToken()
 			),
 			params: new HttpParams().set(
-				'groupid', groupid
+				param, id
 			)
 		};
 		const route = this.url+'api/v1/user/tookcert';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { UserCourseService, Block } from '@mat-libreta/shared';
+import { UserCourseService, NotElemService, Block } from '@mat-libreta/shared';
 
 @Component({
   selector: 'app-block',
@@ -13,7 +13,8 @@ import { UserCourseService, Block } from '@mat-libreta/shared';
 })
 export class BlockComponent implements OnInit {
 
-	groupid: string;
+	id: string;
+	rosterType: string;
 	blockid: string;
 	loading: boolean;
 	blockData: Block;
@@ -22,23 +23,28 @@ export class BlockComponent implements OnInit {
   constructor(
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
-		private userCourseService: UserCourseService
+		private userCourseService: UserCourseService,
+		private notElementService: NotElemService
 	) {
 		this.loading = true;
 		this.activatedRoute.params.subscribe(params => {
-				this.groupid = params.groupid;
-				this.blockid = params.blockid;
-			}
-		)
+			this.rosterType = params.rostertype;
+			this.id = params.id;
+			this.blockid = params.blockid;
+		})
 	}
 
   ngOnInit() {
 		this.loading = true;
-		this.getNextBlock(this.groupid,this.blockid);
+		this.getNextBlock(this.rosterType,this.id,this.blockid);
   }
 
-	getNextBlock(groupid:string, blockid:string, lastid?:string) {
-		this.userCourseService.getNextBlock(groupid,blockid,lastid)
+	getNextBlock(
+		rosterType:string,
+		id:string,
+		blockid:string,
+		lastid?:string) {
+		this.userCourseService.getNextBlock(rosterType,id,blockid,lastid)
 		.subscribe(data => {
 			if(data) {
 				this.blockData = data.message;
@@ -50,14 +56,22 @@ export class BlockComponent implements OnInit {
 				}
 				// console.log('block')
 				// console.log(this.blockData);
+				if(!this.blockData.blockNextId || this.blockData.blockNextId === '') {
+					this.notElementService.showNotification(
+						'bottom',
+						'left',
+						'warning',
+						'<i class="fas fa-stop text-white"></i> Has llegado al final del curso. Si ya realizaste tus evaluaciones, revisa tu progreso y descarga tu constancia'
+					);
+				}
 				window.scroll(0,0);
 				this.loading = false;
 			}
 		})
 	}
 
-	goGroup(groupid:string) {
-		this.router.navigate(['/user/content', groupid])
+	goGroup(rosterType: string, id:string) {
+		this.router.navigate(['/user/content', rosterType, id])
 	}
 
 }

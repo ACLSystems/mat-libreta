@@ -3,6 +3,7 @@ export interface CurrentCourse {
 	course: string,
 	courseCode: string,
 	courseid: string,
-	groupid: string,
+	id: string,
+	rosterType: string,
 	notification?: boolean
 }

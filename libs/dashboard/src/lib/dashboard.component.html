@@ -56,12 +56,13 @@
 													<div class="card" *ngFor="let crs of courseList">
 														<a
 														(click)="getMyCourse(
+															crs.curso.rosterType,
 															crs.curso.course,
 															crs.curso.courseCode,
-															crs.curso.groupid,
+															crs.curso.id,
 															crs.curso.courseid,
 															crs.curso.lastSeenBlock,
-															crs.curso.firstBlock)"
+															crs.curso.firstBlock);"
 														>
 															<img
 																[src]="crs.imagen"
@@ -73,12 +74,13 @@
 														<div class="card-body">
 															<a
 															(click)="getMyCourse(
+																crs.curso.rosterType,
 																crs.curso.course,
 																crs.curso.courseCode,
-																crs.curso.groupid,
+																crs.curso.id,
 																crs.curso.courseid,
 																crs.curso.lastSeenBlock,
-																crs.curso.firstBlock)"
+																crs.curso.firstBlock);"
 															><span class="text-primary pointme">{{crs.curso.course}}</span></a><br>
 															{{crs.curso.code}} <br>
 															<div class="progress">
@@ -102,11 +104,13 @@
 															</b>
 															<hr>
 															<small>
-																<div *ngIf="crs.curso.instructor != 'Sin Instructor'">
-																	<i class="material-icons">person</i> {{crs.curso.instructor}}<br>
-																</div>
-																<div *ngIf="crs.curso.instructor == 'Sin Instructor'">
-																	Sin Instructor<br>
+																<div *ngIf="crs.curso.rosterType && crs.curso.rosterType == 'group'">
+																	<div *ngIf="crs.curso.instructor && crs.curso.instructor != 'Sin Instructor'">
+																		<i class="material-icons">person</i> {{crs.curso.instructor}}<br>
+																	</div>
+																	<div *ngIf="!crs.curso.instructor || crs.curso.instructor == 'Sin Instructor'">
+																		Sin Instructor<br>
+																	</div>
 																</div>
 																Inició el {{crs.curso.beginDate | date}}<br>
 																Termina el {{crs.curso.endDate | date}}

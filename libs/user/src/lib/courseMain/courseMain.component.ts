@@ -33,9 +33,10 @@ registerLocaleData(localeMX);
 export class CourseMainComponent implements OnInit {
 
 	loading: boolean = true;
-	groupid: string;
+	id: string;
+	rosterType: string;
 	userid: string;
-	group: any;
+	content: any;
 	sections: Section[] = [];
 	courseStarted: boolean = false;
 	track: number = 0;
@@ -50,13 +51,14 @@ export class CourseMainComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private userCourseService: UserCourseService,
-		private commService: CommService,
+		// private commService: CommService,
 		private commonService: CommonService
 	) {
 		this.loading = true;
 		this.activatedRoute.params.subscribe(params => {
-				this.groupid = params.groupid;
-			}
+			this.rosterType = params.rostertype;
+			this.id = params.id;
+		}
 		)
 		this.userid = this.commonService.getidentity().userid;
 		this.bank = this.commonService.getEnvironment().bank;
@@ -80,8 +82,8 @@ export class CourseMainComponent implements OnInit {
 	}
 
 	getGroup() {
-		this.userCourseService.myGroup(this.groupid).subscribe(data => {
-			const notFoundMessage = `Group with id -${this.groupid}- not found`;
+		this.userCourseService.myGroup(this.id, this.rosterType).subscribe(data => {
+			const notFoundMessage = `Group with id -${this.id}- not found`;
 			if(data.message && data.message == notFoundMessage) {
 				Swal.fire({
 					title: 'Curso/Grupo no encontrado',
@@ -92,13 +94,13 @@ export class CourseMainComponent implements OnInit {
 				});
 				this.router.navigate(['/dashboard']);
 			} else {
-				this.group = data.message;
-				// console.log(this.group);
-				this.sections = getUniques(this.group.blocks);
+				this.content = data.message;
+				// console.log(this.content);
+				this.sections = getUniques(this.content.blocks);
 				// console.log(this.sections);
-				this.track = parseInt(this.group.track.split('%')[0]);
+				this.track = parseInt(this.content.track.split('%')[0]);
 				//console.log(this.track);
-				this.finalGrade = this.group.finalGrade ? this.group.finalGrade : 0;
+				this.finalGrade = this.content.finalGrade ? this.content.finalGrade : 0;
 				this.loading = false;
 			}
 		}, error => {
@@ -113,10 +115,8 @@ export class CourseMainComponent implements OnInit {
 	}
 
 	getBlock(blockid: string, force?: boolean) {
-		const courseid = this.group.courseid;
-		const groupid = this.groupid;
 		if(this.track || force) {
-			this.router.navigate(['/user/block', courseid, groupid, blockid]);
+			this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
 		}
 	}
 
@@ -174,16 +174,17 @@ export class CourseMainComponent implements OnInit {
 	}
 
 	goGrades() {
-		this.router.navigate(['/user/progress', this.group.groupid]);
+
+		this.router.navigate(['/user/progress', this.rosterType, this.id]);
 	}
 
 	getCert() {
 		const cert = {
-			groupid: this.group.groupid,
-			status: this.group.myStatus
+			id: this.content.id,
+			status: this.content.myStatus
 		}
 		localStorage.setItem('cert', JSON.stringify(cert)),
-		this.router.navigate(['/cert',this.group.groupid]);
+		this.router.navigate(['/cert', this.rosterType, this.id]);
 	}
 }
 

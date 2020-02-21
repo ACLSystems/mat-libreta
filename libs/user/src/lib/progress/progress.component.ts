@@ -29,7 +29,8 @@ interface dataChart {
 export class ProgressComponent implements OnInit {
 
 	loading: boolean;
-	groupid: string;
+	rosterType: string;
+	id: string;
 	grade: Grade;
 	track: number;
 	minTrack: number;
@@ -75,7 +76,8 @@ export class ProgressComponent implements OnInit {
 		private commonService: CommonService
 	) {
 		this.activatedRoute.params.subscribe(params => {
-				this.groupid = params.groupid;
+				this.rosterType = params.rostertype;
+				this.id = params.id;
 			}
 		);
 		this.bank = this.commonService.getEnvironment().bank;
@@ -102,21 +104,21 @@ export class ProgressComponent implements OnInit {
 	}
 
 	getGrades() {
-		console.group('Iniciando getGrades');
-		console.log(this.display);
-		console.groupEnd();
-		this.userCourseService.getMyGrades(this.groupid).subscribe(data => {
+		// console.group('Iniciando getGrades');
+		// console.log(this.display);
+		// console.groupEnd();
+		this.userCourseService.getMyGrades(this.rosterType,this.id).subscribe(data => {
 			this.grade = data.message;
-			console.group('Data');
-			console.log(data);
-			console.groupEnd();
+			// console.group('Data');
+			// console.log(data);
+			// console.groupEnd();
 			this.track = +this.grade.track.replace('%','');
 			this.minTrack = +this.grade.minTrack.replace('%','');
 			this.grade = this.generateDisplayValues(this.grade);
 			this.loading = false;
-			console.group('Grade');
-			console.log(this.grade);
-			console.groupEnd();
+			// console.group('Grade');
+			// console.log(this.grade);
+			// console.groupEnd();
 			if(this.width > 768){
 				setTimeout(() => {
 					this.displayChart();
@@ -143,9 +145,9 @@ export class ProgressComponent implements OnInit {
 			series: []
 		};
 		var grades: BlockGrade[] = (this.grade.blocks && this.grade.blocks.length > 0) ? this.grade.blocks : [];
-		console.group('grades for charting');
-		console.log(grades);
-		console.groupEnd();
+		// console.group('grades for charting');
+		// console.log(grades);
+		// console.groupEnd();
 		var rubricTotal = 0;
 		if(grades.length > 0) {
 			grades.forEach(grade => {
@@ -252,12 +254,12 @@ export class ProgressComponent implements OnInit {
 			}]
 		];
 
-		console.group('DatachartGrades');
-		console.log(dataChartGrades);
-		console.groupEnd();
-		console.group('DatachartRubric');
-		console.log(dataChartRubric);
-		console.groupEnd();
+		// console.group('DatachartGrades');
+		// console.log(dataChartGrades);
+		// console.groupEnd();
+		// console.group('DatachartRubric');
+		// console.log(dataChartRubric);
+		// console.groupEnd();
 		const chartGrades = new Chartist.Bar('#chart-grades', dataChartGrades,optionsChart,responsiveOptions);
 		this.startAnimationForBarChart(chartGrades);
 		new Chartist.Pie('#chart-rubric',dataChartRubric,
@@ -280,17 +282,16 @@ export class ProgressComponent implements OnInit {
 	}
 
 	getBlock(blockid: string, track?: boolean, force?: boolean) {
-		const courseid = this.grade.courseId;
-		const groupid = this.groupid;
 		if(track || force) {
-			this.router.navigate(['/user/block', courseid, groupid, blockid]);
+			// this.router.navigate(['/user/block', courseid, groupid, blockid]);
+			this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
 		}
 	}
 
 	private generateDisplayValues(grades: any) {
-		console.group('Iniciando display Values');
-		console.log(this.display);
-		console.groupEnd();
+		// console.group('Iniciando display Values');
+		// console.log(this.display);
+		// console.groupEnd();
 		this.totalW = 0;
 		this.totalPercentage = 0;
 		this.finalGrade = 0;
@@ -355,9 +356,9 @@ export class ProgressComponent implements OnInit {
 			grade.wSection = wSection;
 			grade.grade = grade.lessons.reduce((acc:any,curr:any) => acc + (curr.grade * curr.w / grade.wSection),0);
 		});
-		console.group('Display');
-		console.log(this.display);
-		console.groupEnd();
+		// console.group('Display');
+		// console.log(this.display);
+		// console.groupEnd();
 		grades.blocks.forEach((value: any) => {
 			if(value.blockNumber === 0) {
 				this.totalPercentage += value.blockW / this.totalW;

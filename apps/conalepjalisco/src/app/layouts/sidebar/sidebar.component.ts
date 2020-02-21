@@ -14,15 +14,15 @@ import {
 
 import {
 	RouteInfo
-} from '@cetecshared/menus/routes';
+} from '@cjashared/menus/routes';
 
 import {
 	MenuService
-} from '@cetecshared/services/menu.service';
+} from '@cjashared/services/menu.service';
 
 import {
 	ShareService
-} from '@cetecshared/services/share.service';
+} from '@cjashared/services/share.service';
 
 declare const $: any;
 
@@ -46,6 +46,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 	courseSelected: boolean;
 	notificationNumber: number;
 	notifications:  Notification[];
+	coursesNumber: number;
 
 	public menuItems: any[];
 	ps: any;
@@ -70,6 +71,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 			this.route = event.url;
 		});
 		const course = localStorage.getItem('currentCourse');
+		this.coursesNumber = JSON.parse(localStorage.getItem('courses'));
 		this.courseSelected = !!course;
 	}
 
@@ -80,12 +82,37 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		// console.group('Menu Items');
 		// console.log(this.menuItems);
 		// console.groupEnd();
+		this.menuItems.forEach(mi => {
+			if(mi.type == 'sub') {
+				mi.children.forEach(child => {
+					if(child.subpath) {
+						const review = JSON.parse(child.subpath);
+						if(Array.isArray(review)) {
+							child.subpath = [...review];
+						}
+						let link = [...child.subpath];
+						link.unshift(mi.path,child.path);
+						child.link = [...link];
+					}
+				});
+			}
+		});
 		if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
 				const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
 				this.ps = new PerfectScrollbar(elemSidebar);
 		}
 		this.subscription = this.currentCourseService.getCurrentCourse.subscribe(() => {
 				this.menuItems = [...this.menuService.refreshMenu()];
+				this.menuItems.forEach(mi => {
+					if(mi.type == 'sub') {
+						mi.children.forEach(child => {
+							const review = JSON.parse(child.subpath);
+							if(Array.isArray(review)) {
+								child.subpath = [...review];
+							}
+						});
+					}
+				});
 			}
 		);
 		this.subsNotData = this.shareService.getNotifData.subscribe((data: Notification[]) => {
@@ -98,16 +125,26 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		);
 		this.identity = this.userService.getidentity();
 		this.image = this.userService.getUserImage().subscribe(data => {
-			this.createImageFromBlob(data);
+			// this.createImageFromBlob(data);
 		}, err => {
-			console.log(err);
+			// console.log(err);
 		});
-		if(!this.courseSelected) {
+		if(!this.courseSelected && this.coursesNumber > 0) {
 			this.notElementService.showNotification(
 				'bottom',
 				'left',
 				'warning',
 				'<i class="fas fa-book-open text-white"></i> Selecciona tu curso en el panel'
+			);
+		}
+		if(!this.coursesNumber || this.coursesNumber === 0) {
+			this.notElementService.showNotification(
+				'top',
+				'left',
+				'info',
+				'<div class="text-center"><i class="fas fa-book-open text-white"></i> Busca algún curso de tu interés en el catálogo de cursos.<br><b>Da click aquí<br><b></div>',
+				'/#/pages/catalog',
+				'_self'
 			);
 		}
 	}
@@ -142,5 +179,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
 	goValidate() {
 		this.router.navigate(['/user/profile']);
+	}
+
+	goCatalog() {
+		this.router.navigate(['/pages/catalog']);
 	}
 }

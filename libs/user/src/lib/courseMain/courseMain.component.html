@@ -11,14 +11,14 @@
 							<div class="col-sm col-md-4 col-lg-3">
 								<br>
 								<img
-									[src]="group.course.image"
-									alt="{{group.course.title}}"
+									[src]="content.course.image"
+									alt="{{content.course.title}}"
 									width="250px"
 									class="img-fluid rounded"
 									>
 							</div>
 							<div class="col">
-								<h3>{{group.course.title}} <small>({{group.course.code}})</small></h3>
+								<h3>{{content.course.title}} <small>({{content.course.code}})</small></h3>
 								<div class="progress">
 									<div class="progress-bar"
 									[ngClass]="{'progress-bar-success bg-success':track>=60,'progress-bar-warning bg-warning':track>=30 && track<60,'progress-bar-danger bg-danger':track<30}"
@@ -29,19 +29,30 @@
 									[ngStyle]="{width:track+'%'}"
 									></div>
 								</div>
-								<div [innerHTML]="group.course.description"></div>
+								<div [innerHTML]="content.course.description"></div>
 							</div>
 						</div>
 					</div>
 					<div class="card-body">
 						<div class="row">
-							<div [class]="track ? 'col-sm-6 col-md-4' : 'col-sm-5 col-md-4'">
-								Grupo: <span class="text-primary">{{group.groupCode}}</span><br>
-								Autor: <span class="text-primary">{{group.course.author}}</span>
-								<div *ngIf="group.groupType=='self-paced'" class="text-primary">Curso sin tutor</div>
-								<div *ngIf="group.groupType!='self-paced'" class="text-primary">Instructor: {{group.instructor.person.name}} {{group.instructor.person.fatherName}}</div>
-								Categorías: <span class="text-primary">{{group.course.categories.join(', ')}}</span><br>
-								Palabras de Búsqueda: <span class="text-primary">{{group.course.keywords.join(', ')}}</span><br>
+							<div
+								[class]="track ? 'col-sm-6 col-md-4' : 'col-sm-5 col-md-4'"
+								*ngIf="rosterType == 'group'"
+								>
+								Grupo: <span class="text-primary">{{content.groupCode}}</span><br>
+								Autor: <span class="text-primary">{{content.course.author}}</span>
+								<div *ngIf="content.groupType=='self-paced'" class="text-primary">Curso sin tutor</div>
+								<div *ngIf="content.groupType!='self-paced'" class="text-primary">Instructor: {{content.instructor.person.name}} {{content.instructor.person.fatherName}}</div>
+								Categorías: <span class="text-primary">{{content.course.categories.join(', ')}}</span><br>
+								Palabras de Búsqueda: <span class="text-primary">{{content.course.keywords.join(', ')}}</span><br>
+							</div>
+							<div
+								[class]="track ? 'col-sm-6 col-md-4' : 'col-sm-5 col-md-4'"
+								*ngIf="rosterType == 'public'"
+								>
+								Autor: <span class="text-primary">{{content.course.author}}</span><br />
+								Categorías: <span class="text-primary">{{content.course.categories.join(', ')}}</span><br>
+								Palabras de Búsqueda: <span class="text-primary">{{content.course.keywords.join(', ')}}</span><br>
 							</div>
 							<div [class]="track ? 'col-sm-6 col-md-6' : 'col-sm-5 col-md-6'">
 								<div class="row bg-light">
@@ -50,7 +61,7 @@
 										{{track}}%</span></div>
 									<div class="col">
 										Calificación: <span
-										[ngClass]="{'text-success':finalGrade>=group.minGrade,'text-danger':finalGrade<group.minGrade}">
+										[ngClass]="{'text-success':finalGrade>=content.minGrade,'text-danger':finalGrade<content.minGrade}">
 										{{finalGrade | number: '1.2-2'}}</span><br>
 										<small
 											class="text-primary pointme"
@@ -63,7 +74,7 @@
 								<div class="row">
 									<div class="col">
 										<div
-										*ngIf="group.myStatus === 'pending'"
+										*ngIf="content.myStatus === 'pending'"
 										>
 											Cuenta <span class="text-danger">Pendiente</span><br />
 											<button mat-raised-button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#certificateModal">
@@ -71,7 +82,7 @@
 											</button>
 										</div>
 										<div
-										*ngIf="group.myStatus === 'active'"
+										*ngIf="content.myStatus === 'active'"
 										>
 											Cuenta <span class="text-success">Activa</span><br />
 											<button
@@ -89,7 +100,7 @@
 								<button
 									type="button"
 									class="btn btn-primary btn-sm"
-									(click)="getBlock(group.blocks[0].id, true)"
+									(click)="getBlock(content.blocks[0].id, true)"
 									>
 									Iniciar curso
 								</button>
@@ -97,7 +108,7 @@
 						</div>
 					</div>
 					<div class="card-footer">
-						Inicia: <span class="text-primary">{{group.beginDate | date}}</span> Finaliza: <span class="text-primary">{{group.endDate | date}}</span>
+						Inicia: <span class="text-primary">{{content.beginDate | date}}</span> Finaliza: <span class="text-primary">{{content.endDate | date}}</span>
 					</div>
 				</div>
 			</div>
@@ -109,7 +120,7 @@
 				<div>
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title">Temario <small class="description">- {{group.course.title}} - {{group.course.code}}</small></h3>
+							<h3 class="card-title">Temario <small class="description">- {{content.course.title}} - {{content.course.code}}</small></h3>
 						</div>
 						<div class="card-body">
 							<div class="row">
@@ -124,9 +135,9 @@
 									<div class="tab-content">
 										<div *ngFor="let section of sections; let firstSection = first;" class="tab-pane" [class.active]="firstSection" id="{{section.name}}" >
 											<h3 class="text-primary" *ngIf="track==0">
-												{{group.blocks[section.number].title}}</h3>
-											<h3 class="text-primary pointme" (click)="getBlock(group.blocks[section.number].id)" *ngIf="track>0">
-												{{group.blocks[section.number].title}}</h3>
+												{{content.blocks[section.number].title}}</h3>
+											<h3 class="text-primary pointme" (click)="getBlock(content.blocks[section.number].id)" *ngIf="track>0">
+												{{content.blocks[section.number].title}}</h3>
 											<table class="table table-hover">
 												<thead>
 													<th>
@@ -160,13 +171,13 @@
 															<button
 																type="button"
 																class="btn btn-primary btn-sm"
-																(click)="getBlock(group.blocks[0].id, true)"
+																(click)="getBlock(content.blocks[0].id, true)"
 																>
 																Iniciar curso
 															</button>
 														</td>
 													</tr>
-													<tr *ngFor="let block of group.blocks | slice:section.number + 1:section.last; let i of index; let firstBlock = first;" (click)="getBlock(block.id)" [class.pointme]="track">
+													<tr *ngFor="let block of content.blocks | slice:section.number + 1:section.last; let i of index; let firstBlock = first;" (click)="getBlock(block.id)" [class.pointme]="track">
 														<!-- Número de sección/lección -->
 														<td *ngIf="block.section == section.section && block.number != 0">
 															<span [class.text-success]="block.track">{{block.section}}.{{block.number}}</span>
@@ -277,7 +288,7 @@
 						Folio
 					</h4>
 					<div class="card-body text-center">
-						<h3>{{group.folio}}</h3>
+						<h3>{{content.folio}}</h3>
 					</div>
 				</div>
 				<div class="card">
