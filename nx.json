@@ -40,6 +40,13 @@
     },
     "exam": {
       "tags": []
+    },
+    "webquid": {
+      "tags": []
+    },
+    "webquid-e2e": {
+      "tags": [],
+      "implicitDependencies": ["webquid"]
     }
   }
 }

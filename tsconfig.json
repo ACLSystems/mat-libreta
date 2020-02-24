@@ -50,7 +50,17 @@
       "@mat-libreta/calendar": ["libs/calendar/src/index.ts"],
       "@mat-libreta/dashboard": ["libs/dashboard/src/index.ts"],
       "@mat-libreta/user": ["libs/user/src/index.ts"],
-      "@mat-libreta/exam": ["libs/exam/src/index.ts"]
+      "@mat-libreta/exam": ["libs/exam/src/index.ts"],
+			"@wqapp/*": ["apps/webquid/src/app/*"],
+			"@wqnavbar/*": ["apps/webquid/src/app/layouts/navbar/*"],
+      "@wqsidebar/*": ["apps/webquid/src/app/layouts/sidebar/*"],
+      "@wqlanding/*": ["apps/webquid/src/app/landing/*"],
+      "@wqlayouts/*": ["apps/webquid/src/app/layouts/*"],
+      "@wqpages/*": ["apps/webquid/src/app/pages/*"],
+      "@wqshared/*": ["apps/webquid/src/app/shared/*"],
+      "@wqmd/*": ["apps/webquid/src/app/md/*"],
+      "@wqenv/*": ["apps/webquid/src/environments/*"],
+      "@wqassets/*": ["apps/webquid/src/assets/*"],
     }
   },
   "exclude": ["node_modules", "tmp"]

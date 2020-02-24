@@ -59,6 +59,7 @@
     "bootstrap-rtl": "^3.3.4",
     "bootstrap-select": "^1.13.12",
     "bootstrap-tagsinput": "^0.7.1",
+    "bootstrap-v4-rtl": "^4.4.1-1",
     "chartist": "^0.9.8",
     "chartist-plugin-zoom": "^0.5.1",
     "core-js": "^2.5.4",

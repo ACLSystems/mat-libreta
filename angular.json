@@ -654,6 +654,162 @@
           "styleext": "scss"
         }
       }
+    },
+    "webquid": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/webquid",
+      "sourceRoot": "apps/webquid/src",
+      "prefix": "mat-libreta",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/webquid",
+            "index": "apps/webquid/src/index.html",
+            "main": "apps/webquid/src/main.ts",
+            "polyfills": "apps/webquid/src/polyfills.ts",
+            "tsConfig": "apps/webquid/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "apps/webquid/src/favicon.ico",
+              "apps/webquid/src/assets"
+            ],
+            "styles": [
+							"node_modules/bootstrap/dist/css/bootstrap.min.css",
+							"node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "node_modules/datatables.net-bs4/css/datatables.bootstrap4.css",
+							"apps/webquid/src/styles.scss",
+							"apps/webquid/src/assets/fontawesome/css/fontawesome.min.css",
+							"apps/webquid/src/assets/fontawesome/css/all.css",
+              "apps/webquid/src/assets/scss/material-dashboard.scss",
+						],
+            "scripts": [
+							"node_modules/jquery/dist/jquery.js",
+              "node_modules/popper.js/dist/umd/popper.js",
+              "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js",
+              "node_modules/sweetalert2/dist/sweetalert2.all.min.js",
+              "node_modules/moment/moment.js",
+              "node_modules/arrive/src/arrive.js",
+              "node_modules/hammerjs/hammer.min.js",
+              "node_modules/web-animations-js/web-animations.min.js",
+              "node_modules/chartist/dist/chartist.js",
+              "node_modules/chartist-plugin-zoom/dist/chartist-plugin-zoom.js",
+              "node_modules/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js",
+              "node_modules/bootstrap-notify/bootstrap-notify.js",
+              "node_modules/nouislider/distribute/nouislider.min.js",
+              "node_modules/bootstrap-select/dist/js/bootstrap-select.js",
+              "node_modules/datatables/media/js/jquery.dataTables.js",
+              "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
+              "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
+              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
+              "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
+              "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
+              "node_modules/jqvmap/dist/jquery.vmap.min.js",
+              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
+              "node_modules/jquery-validation/dist/jquery.validate.min.js"
+						]
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/webquid/src/environments/environment.ts",
+                  "with": "apps/webquid/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "webquid:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "webquid:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "webquid:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/webquid/tsconfig.app.json",
+              "apps/webquid/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/webquid/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/webquid/jest.config.js",
+            "tsConfig": "apps/webquid/tsconfig.spec.json",
+            "setupFile": "apps/webquid/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "webquid-e2e": {
+      "root": "apps/webquid-e2e",
+      "sourceRoot": "apps/webquid-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/webquid-e2e/cypress.json",
+            "tsConfig": "apps/webquid-e2e/tsconfig.e2e.json",
+            "devServerTarget": "webquid:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "webquid:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/webquid-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/webquid-e2e/**"]
+          }
+        }
+      }
     }
   },
   "cli": {
