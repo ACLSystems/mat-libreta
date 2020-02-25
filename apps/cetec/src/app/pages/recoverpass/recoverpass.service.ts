@@ -19,7 +19,8 @@ export class RecoverPassService {
 		let headers = new HttpHeaders({
 			'Content-Type': 'application/json'
 		});
+		let body = {email};
 		const route: string = this.url + 'api/user/validateemail?email' + email;
-		return this.http.post(route,{headers})
+		return this.http.post(route,body,{headers})
 	}
 }

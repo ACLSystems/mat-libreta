@@ -3,7 +3,10 @@ import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 
-import { Identity, UserService, PublicService, CommonService } from '@mat-libreta/shared';
+import {
+	Identity,
+	UserService,
+	PublicService } from '@mat-libreta/shared';
 import { EnvService } from '@cjashared/services/setEnv.service';
 
 import { Login } from './login';

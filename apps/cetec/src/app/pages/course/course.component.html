@@ -11,7 +11,7 @@
 	</div>
 </div>
 
-<div *ngIf="!loading" class="container rounded" style="background: linear-gradient(to right, white, gray);">
+<div *ngIf="!loading" >
 	<h1>&nbsp;</h1>
 	<h5>&nbsp;</h5>
 </div>
@@ -27,7 +27,7 @@
 						</h4>
 					</div>
 					<div class="card-body">
-						<ul class="nav nav-pills nav-pills-{{color}}" role="tablist">
+						<ul class="nav nav-pills nav-pills-primary" role="tablist">
 							<li class="nav-item">
 								<a href="#description"
 									class="nav-link active"
@@ -68,13 +68,83 @@
 									<div class="col-md" [innerHTML]="curso.description">
 									</div>
 								</div>
+								<div class="row" *ngIf="curso.type == 'tutor'" >
+									<div class="col">
+										<b class="text-danger">
+											*Espera las fechas de este curso para poder tomarlo
+										</b>
+									</div>
+								</div>
 							</div>
 							<div class="tab-pane active" id="data">
 								<div class="row">
 									<div class="col-md-3">
 										<img class="img-fluid rounded" [src]="curso.image" alt="{{curso.code}}">
 									</div>
-									<div class="col-md" [innerHTML]="curso.description">
+									<div class="col">
+										<div class="row">
+											<div class="col">
+												<span *ngIf="curso.level == 'basic'">
+													Nivel: <b>Básico</b>
+												</span>
+												<span *ngIf="curso.level == 'intermediate'">
+													Nivel: <b>Intermedio</b>
+												</span>
+												<span *ngIf="curso.level == 'advanced'">
+													Nivel: <b>Avanzado</b>
+												</span>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												Duración: <b>{{curso.duration}}
+												<span *ngIf="curso.durationUnits == 'h'">
+													Horas
+												</span>
+												<span *ngIf="curso.durationUnits == 'd'">
+													Días
+												</span>
+												<span *ngIf="curso.durationUnits == 'w'">
+													Semanas
+												</span>
+												</b>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												Tipo: <b>
+													<span *ngIf="curso.type == 'tutor'">
+														Tutorado
+													</span>
+													<!-- <span *ngIf="curso.type == 'tutor'" class="text-danger">
+														*Espera las fechas de este curso para poder tomarlo
+													</span> -->
+													<span *ngIf="curso.type == 'self-paced'">
+														A tu ritmo
+													</span>
+												</b>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												{{curso.details}}
+											</div>
+										</div>
+										<!-- <div class="row" *ngIf="curso.discount == 0">
+											<div class="col">
+												Precio: {{curso.duration * margin | currency: 'MXN'}}
+											</div>
+										</div>
+										<div class="row" *ngIf="curso.discount > 0">
+											<div class="col">
+												<s class="text-muted">Precio: {{curso.duration * margin | currency: 'MXN'}}</s>
+											</div>
+										</div>
+										<div class="row" *ngIf="curso.discount > 0">
+											<div class="col text-danger">
+												<b>Precio: {{curso.duration * margin * (1 - (curso.discount/100)) | currency: 'MXN'}}</b>
+											</div>
+										</div> -->
 									</div>
 								</div>
 							</div>

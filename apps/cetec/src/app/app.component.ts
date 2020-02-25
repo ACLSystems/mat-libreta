@@ -3,8 +3,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { CommonService, Environment } from '@mat-libreta/shared';
-import { environment } from '@cetecenv/environment';
+import { EnvService } from '@cetecshared/services/setEnv.service';
 
 @Component({
 	selector: 'mat-cetec-root',
@@ -16,17 +15,9 @@ export class AppComponent {
 
 	constructor(
 		private router: Router,
-		private commonService: CommonService
+		private envService: EnvService
 	) {
-		const localEnv: Environment = this.commonService.getEnvironment();
-		if(localEnv) {
-			if(!this.commonService.compareObjects(localEnv, environment)) {
-				localStorage.removeItem('environment');
-				this.setEnvironment();
-			}
-		} else {
-			this.setEnvironment();
-		}
+		this.envService.validateEnvironment();
 	}
 
 	ngOnInit() {
@@ -39,21 +30,6 @@ export class AppComponent {
 				body.classList.remove('modal-open');
 				modalBackdrop.remove();
 			}
-		});
-	}
-
-	setEnvironment() {
-		this.commonService.setEnvironment({
-			instanceName: environment.instanceName,
-			instanceRef: environment.instanceRef,
-			url: environment.url,
-			footerName: environment.footerName,
-			footerLink: environment.footerLink,
-			colorEvents: environment.colorEvents,
-			bank: environment.bank,
-			bankAccount: environment.bankAccount,
-			bankCLABE: environment.bankCLABE,
-			mocAmount: environment.mocAmount
 		});
 	}
 }

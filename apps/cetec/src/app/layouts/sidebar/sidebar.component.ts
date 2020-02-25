@@ -80,12 +80,37 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		// console.group('Menu Items');
 		// console.log(this.menuItems);
 		// console.groupEnd();
+		this.menuItems.forEach(mi => {
+			if(mi.type == 'sub') {
+				mi.children.forEach(child => {
+					if(child.subpath) {
+						const review = JSON.parse(child.subpath);
+						if(Array.isArray(review)) {
+							child.subpath = [...review];
+						}
+						let link = [...child.subpath];
+						link.unshift(mi.path,child.path);
+						child.link = [...link];
+					}
+				});
+			}
+		});
 		if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
 				const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
 				this.ps = new PerfectScrollbar(elemSidebar);
 		}
 		this.subscription = this.currentCourseService.getCurrentCourse.subscribe(() => {
 				this.menuItems = [...this.menuService.refreshMenu()];
+				this.menuItems.forEach(mi => {
+					if(mi.type == 'sub') {
+						mi.children.forEach(child => {
+							const review = JSON.parse(child.subpath);
+							if(Array.isArray(review)) {
+								child.subpath = [...review];
+							}
+						});
+					}
+				});
 			}
 		);
 		this.subsNotData = this.shareService.getNotifData.subscribe((data: Notification[]) => {
@@ -107,7 +132,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 				'bottom',
 				'left',
 				'warning',
-				'Selecciona tu curso en el panel'
+				'<i class="fas fa-book-open text-white"></i> Selecciona tu curso en el panel'
 			);
 		}
 	}

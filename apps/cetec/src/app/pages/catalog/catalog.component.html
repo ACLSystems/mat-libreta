@@ -27,16 +27,22 @@
 		<div *ngFor="let crs of cursoslist, let id=index" class="card w-300" style="max-width:400px;">
 			<img class="card-img-top" [src]="crs.image" alt="Card image cap">
 			<div class="card-body">
-	<div class="container">
-	<h5>{{crs.title}}</h5>
-	<h6 class="card-subtitle">{{crs.code}}</h6>
-	</div>
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<h5>{{crs.title}}</h5>
+							<h6 class="card-subtitle">{{crs.code}}</h6>
+						</div>
+					</div>
+				</div>
 			</div>
-	<div class="card-footer">
-	<button type="button" class="btn btn-{{color}} blockquote" (click)="verCurso(crs.id)">
-	<i class="far fa-arrow-alt-circle-right"></i> Ver detalles
-	</button>
-	</div>
+			<div class="card-footer">
+				<button
+					mat-rised-button
+					class="btn btn-{{color}} blockquote" (click)="verCurso(crs.id)">
+				<i class="far fa-arrow-alt-circle-right"></i> Ver detalles
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

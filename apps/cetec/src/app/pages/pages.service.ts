@@ -48,6 +48,18 @@ export class PagesService {
 	}
 
 	/*
+	Metodo para traer los cursos de la organizacion
+	*/
+	getCourse(id: string): Observable<any> {
+		const httpOptions = {
+			params: new HttpParams()
+				.set('id', id)
+		}
+		const route = this.url + 'api/course/get';
+		return this.http.get(route, httpOptions);
+	}
+
+	/*
 	Metodo para mostrar el contenido del temario del curso al usuario final
 	*/
 	showBlocks(id: string): Observable<any> {

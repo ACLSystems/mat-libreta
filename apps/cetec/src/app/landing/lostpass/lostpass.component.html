@@ -1,6 +1,7 @@
 <div class="container">
 	<div class="alert alert-warning" role="alert">
-		<p class="text-justify"><i class="fas fa-exclamation-circle"></i> Los campos marcados con asterisco (*) son oblitagorios</p>
+		<p class="text-justify">&nbsp;</p>
+		<p class="text-justify">&nbsp;</p>
 	</div>
 
 	<div *ngIf="messageSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -20,7 +21,7 @@
 	<div class="card">
 		<div class="card-body">
 			<h3>
-				Recuperar contraseña
+				Recuperación de contraseña
 			</h3>
 			<form>
 				<div class="form-group">
@@ -29,8 +30,6 @@
 
 					<label class="form-inline"><b>*Confirmar contraseña; </b></label>
 					<input type="{{type}}" class="form-control" #passTwo (blur)="getPassword(passOne.value, passTwo.value)" required>
-
-					<hr>
 					<div class="form-check">
 						<input class="form-check-input" type="checkbox" id="validacion1" (change)="showPass()">
 						<label class="form-check-label" for="validacion1"> <i class="fas fa-eye"></i> Mostrar contraseñas</label>

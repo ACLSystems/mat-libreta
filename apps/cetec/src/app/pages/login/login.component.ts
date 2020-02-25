@@ -3,15 +3,13 @@ import { Router } from '@angular/router';
 import * as jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 
-import { Identity } from '@mat-libreta/shared';
-
 import {
+	Identity,
 	UserService,
-	PublicService,
-	CommonService
-} from '@mat-libreta/shared';
+	PublicService } from '@mat-libreta/shared';
+import { EnvService } from '@cetecshared/services/setEnv.service';
+
 import { Login } from './login';
-import { environment } from '@cetecenv/environment';
 
 @Component({
 	selector: 'app-login',
@@ -38,7 +36,7 @@ export class LoginComponent implements OnInit {
 		private router: Router,
 		private userService: UserService,
 		private publicService: PublicService,
-		private commonService: CommonService
+		private envService: EnvService
 	) {
 		this.login = new Login('', '');
 	}
@@ -49,7 +47,7 @@ export class LoginComponent implements OnInit {
 		this.tokenVersion = this.userService.getTokenVersion();
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
-			this.setEnvironment();
+			this.envService.setEnvironment();
 		}
 		const card = document.getElementsByClassName('card')[0];
 		setTimeout(function() {
@@ -134,21 +132,6 @@ export class LoginComponent implements OnInit {
 		} catch (err)  {
 			return null;
 		}
-	}
-
-	setEnvironment() {
-		this.commonService.setEnvironment({
-			instanceName: environment.instanceName,
-			instanceRef: environment.instanceRef,
-			url: environment.url,
-			footerName: environment.footerName,
-			footerLink: environment.footerLink,
-			colorEvents: environment.colorEvents,
-			bank: environment.bank,
-			bankAccount: environment.bankAccount,
-			bankCLABE: environment.bankCLABE,
-			mocAmount: environment.mocAmount
-		});
 	}
 
 }

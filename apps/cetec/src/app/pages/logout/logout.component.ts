@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserService, CommonService } from '@mat-libreta/shared';
-import { environment } from '@cetecenv/environment';
+import { UserService } from '@mat-libreta/shared';
+import { EnvService } from '@cetecshared/services/setEnv.service';
 
 @Component({
   selector: 'app-logout',
@@ -13,31 +13,16 @@ export class LogoutComponent implements OnInit {
 
   constructor(
 		private userService: UserService,
-		private commonService: CommonService,
+		private envService: EnvService,
 		private router: Router
 	) { }
 
   ngOnInit() {
 		this.userService.destroySession();
-		this.setEnvironment();
+		this.envService.setEnvironment();
 		const ruta = this.router;
 		setTimeout(function(){
 				ruta.navigate(['/pages/home']);
 		}, 3501);
   }
-
-	setEnvironment() {
-		this.commonService.setEnvironment({
-			instanceName: environment.instanceName,
-			instanceRef: environment.instanceRef,
-			url: environment.url,
-			footerName: environment.footerName,
-			footerLink: environment.footerLink,
-			colorEvents: environment.colorEvents,
-			bank: environment.bank,
-			bankAccount: environment.bankAccount,
-			bankCLABE: environment.bankCLABE,
-			mocAmount: environment.mocAmount
-		});
-	}
 }

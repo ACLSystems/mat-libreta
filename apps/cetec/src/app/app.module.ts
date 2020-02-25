@@ -77,6 +77,7 @@ import {
 } from '@mat-libreta/shared';
 
 import { ShareService } from '@cetecshared/services/share.service';
+import { EnvService } from '@cetecshared/services/setEnv.service';
 
 
 @NgModule({
@@ -142,6 +143,7 @@ export class MaterialModule {}
 		SocketIoModule.forRoot(config)
   ],
 	providers: [
+		EnvService,
 		PublicService,
 		UserService,
 		UserCourseService,
