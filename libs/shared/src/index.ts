@@ -25,6 +25,7 @@ export { CommService } from './lib/services/comm.service';
 export { QuestionService } from './lib/services/question.service';
 export { JSONHeaders } from './lib/services/httpHeaders';
 export { NotElemService } from './lib/services/notificationElements.service';
+export { SuperService } from './lib/services/supervisor.service';
 
 // Export Types/Classes
 
@@ -50,7 +51,8 @@ export {
 } from './lib/types/section.type';
 
 export {
-	Identity
+	Identity,
+	Roles
 } from './lib/types/user.type';
 
 export {

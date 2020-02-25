@@ -20,3 +20,15 @@ export interface Identity {
 	},
 	userid: string
 }
+
+export interface Roles {
+	isAdmin: Boolean,
+	isBusines: Boolean,
+	isOrg: Boolean,
+	isOrgContent: Boolean,
+	isAuthor: Boolean,
+	isSupervisor: Boolean,
+	isInstructor: Boolean,
+	isRequester: Boolean,
+	isUser: Boolean,
+}

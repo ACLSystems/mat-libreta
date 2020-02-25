@@ -5,13 +5,16 @@ import { registerLocaleData } from '@angular/common';
 import localeMX from '@angular/common/locales/es-MX';
 //import * as Chartist from 'chartist';
 import Swal from 'sweetalert2';
+import * as Chartist from 'chartist';
 
 import {
 	UserService,
 	UserCourseService,
 	CurrentCourseService,
 	CurrentCourse,
-	Identity
+	SuperService,
+	Identity,
+	Roles
 } from '@mat-libreta/shared';
 
 
@@ -40,16 +43,31 @@ export class DashboardComponent implements OnInit {
 	courseList: any[] = [];
 	inActiveCourses: any[] = [];
 	courseNext: any[] = [];
-	loading = false;
+	loading: boolean = false;
+	loadingPublicData: boolean = false;
 	messageNewUser = false;
 	events: dashEvent[] = [];
 	currentCourse: any = null;
+	myRoles: Roles = {
+		isAdmin: false,
+		isBusines: false,
+		isOrg: false,
+		isOrgContent: false,
+		isAuthor: false,
+		isSupervisor: false,
+		isInstructor: false,
+		isRequester: false,
+		isUser: false
+	};
+	totalCount: number;
+	reportDate: Date;
 
 	constructor(
 		private router: Router,
 		private userService: UserService,
 		private userCourseService: UserCourseService,
-		private currentCourseService: CurrentCourseService
+		private currentCourseService: CurrentCourseService,
+		private superService: SuperService
 	) {
 		this.identity = this.userService.getidentity();
 		this.token = this.userService.getToken();
@@ -57,9 +75,12 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.loading = true;
+		this.loadingPublicData = true;
 		this.identity = this.userService.getidentity();
+		this.getMyRoles();
 		this.getCourseUser();
 		this.currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
+		this.getPublicData();
 	}
 	//
 	// Para prevenir copia y descarga
@@ -93,6 +114,74 @@ export class DashboardComponent implements OnInit {
 	// 	e.preventDefault();
 	// 	console.log('No puedes usar el botón secundario!!!')
 	// }
+
+	async getMyRoles() {
+		await this.userService.getRoles().subscribe(data => {
+			const message = data.message;
+			this.myRoles = {
+				isAdmin: message.isAdmin,
+				isBusines: message.isBusines,
+				isOrg: message.isOrg,
+				isOrgContent: message.isOrgContent,
+				isAuthor: message.isAuthor,
+				isSupervisor: message.isSupervisor,
+				isInstructor: message.isInstructor,
+				isRequester: message.isRequester,
+				isUser: message.isUser
+			};
+			// console.log(this.myRoles);
+		}, error =>{
+			console.log(error);
+		});
+	}
+
+	async getPublicData() {
+		await this.superService.getPublicData().subscribe(data => {
+			if(data) {
+				this.reportDate = data.firstDate;
+				if(data.totalCount) {
+					this.totalCount = data.totalCount;
+				}
+				const series = [...data.totalByCourse.series];
+				var max = 0;
+				series.forEach(s => {
+					max = (s > max) ? s : max;
+				});
+				if(data.totalByCourse) {
+					this.loadingPublicData = false;
+					setTimeout(() => {
+						const barOptions = {
+							// seriesBarDistance: 10,
+							// reverseData: true,
+							distributeSeries: true,
+							horizontalBars: true,
+							high: (max < 3) ? 3 : max,
+							axisX: {
+								offset: 50,
+								onlyInteger: true
+							},
+							axisY: {
+								offset: 100
+							}
+						};
+						const pieOptions = {
+							donut: false,
+							showLabel: true
+						};
+						const totalByCourseBarChart = new Chartist.Bar('#totalByCourseBarChart',{labels: data.totalByCourse.labels2, series},barOptions);
+						this.startAnimationForBarChart(totalByCourseBarChart);
+						// const totalByCoursePieChart = new Chartist.Pie('#totalByCoursePieChart',{series},pieOptions);
+					}, 300);
+				}
+			}
+
+			// console.log(data);
+
+		},
+		error => {
+			console.log(error);
+		})
+	}
 
 	async getCourseUser() {
 		const minDays = 14;
@@ -185,6 +274,28 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
+	startAnimationForBarChart(chart: any) {
+		let seq2: number, delays2: number, durations2: number;
+		seq2 = 0;
+		delays2 = 80;
+		durations2 = 500;
+		chart.on('draw', function(data: any) {
+			if (data.type === 'bar') {
+				seq2++;
+				data.element.animate({
+					opacity: {
+						begin: seq2 * delays2,
+						dur: durations2,
+						from: 0,
+						to: 1,
+						easing: 'ease'
+					}
+				});
+			}
+		});
+		seq2 = 0;
+	}
+
 	/*
 	Metodo para redireccionar al usuario al curso que seleccionó
 	*/
@@ -220,7 +331,6 @@ export class DashboardComponent implements OnInit {
 		this.router.navigate([
 			'/user/content', rosterType, id
 		]);
-
 	}
 
 	dateDiff(date1: Date, date2: Date) {
@@ -232,6 +342,7 @@ export class DashboardComponent implements OnInit {
 
 		return Math.round(diff_ms/day);
 	}
+
 
 	// drawPieCourses() {
 	// 	const courses: number[] = [

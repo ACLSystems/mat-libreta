@@ -125,9 +125,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		);
 		this.identity = this.userService.getidentity();
 		this.image = this.userService.getUserImage().subscribe(data => {
-			// this.createImageFromBlob(data);
+			if(data) {
+				this.createImageFromBlob(data);
+			}
 		}, err => {
-			// console.log(err);
+			console.log(err);
 		});
 		if(!this.courseSelected && this.coursesNumber > 0) {
 			this.notElementService.showNotification(
