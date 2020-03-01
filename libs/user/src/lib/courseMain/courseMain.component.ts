@@ -46,6 +46,7 @@ export class CourseMainComponent implements OnInit {
 	bankCLABE: string;
 	mocAmount: string;
 	notification: any;
+	today: Date = new Date();
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -95,7 +96,11 @@ export class CourseMainComponent implements OnInit {
 				this.router.navigate(['/dashboard']);
 			} else {
 				this.content = data.message;
-				// console.log(this.content);
+				this.content.bd = new Date(this.content.beginDate);
+				this.content.ed = new Date(this.content.endDate);
+				console.group('content');
+				console.log(this.content);
+				console.groupEnd();
 				this.sections = getUniques(this.content.blocks);
 				// console.log(this.sections);
 				this.track = parseInt(this.content.track.split('%')[0]);
@@ -115,8 +120,15 @@ export class CourseMainComponent implements OnInit {
 	}
 
 	getBlock(blockid: string, force?: boolean) {
-		if(this.track || force) {
-			this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
+		if(this.content.openStatus !== 'closed') {
+			if(this.track || force) {
+				this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
+			}
+		} else {
+			Swal.fire({
+				type: 'info',
+				text: 'El curso se encuentra cerrado'
+			});
 		}
 	}
 
@@ -179,12 +191,25 @@ export class CourseMainComponent implements OnInit {
 	}
 
 	getCert() {
-		const cert = {
-			id: this.content.id,
-			status: this.content.myStatus
+		const cert = (this.rosterType == 'group') ? {
+			id: this.content.groupid,
+			status: this.content.myStatus,
+			rosterType : this.rosterType
+		} :
+		{
+			id: this.content.rosterid,
+			status: this.content.myStatus,
+			rosterType : this.rosterType
 		}
+		// console.group('cert');
+		// console.log(cert);
+		// console.groupEnd();
+		const id = (this.rosterType == 'group') ? this.content.groupid : this.content.rosterid;
+		// console.group('id');
+		// console.log(id)
+		// console.groupEnd();
 		localStorage.setItem('cert', JSON.stringify(cert)),
-		this.router.navigate(['/cert', this.rosterType, this.id]);
+		this.router.navigate(['/cert',id]);
 	}
 }
 

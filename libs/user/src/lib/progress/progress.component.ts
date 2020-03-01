@@ -90,6 +90,15 @@ export class ProgressComponent implements OnInit {
 		this.loading = true;
 		this.width = this.windowService.windowRef.innerWidth;
 		this.getGrades();
+		const certAttempt = JSON.parse(localStorage.getItem('certAttempt'));
+		if(certAttempt) {
+			Swal.fire({
+				type: 'info',
+				title: 'Obten tu constancia',
+				text: 'Revisa aquí los requisitos para obtener tu constancia'
+			});
+			localStorage.removeItem('certAttempt');
+		}
 	}
 
 	@HostListener('window:resize', ['$event'])
@@ -282,9 +291,16 @@ export class ProgressComponent implements OnInit {
 	}
 
 	getBlock(blockid: string, track?: boolean, force?: boolean) {
-		if(track || force) {
-			// this.router.navigate(['/user/block', courseid, groupid, blockid]);
-			this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
+		if(this.grade.openStatus !== 'closed') {
+			if(track || force) {
+				// this.router.navigate(['/user/block', courseid, groupid, blockid]);
+				this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
+			}
+		} else {
+			Swal.fire({
+				type: 'info',
+				text: 'El curso se encuentra cerrado'
+			});
 		}
 	}
 
@@ -376,12 +392,25 @@ export class ProgressComponent implements OnInit {
 	}
 
 	getCert() {
-		const cert = {
-			groupid: this.grade.groupid,
-			status: this.grade.status
+		const cert = (this.rosterType == 'group') ? {
+			id: this.grade.groupid,
+			status: this.grade.status,
+			rosterType : this.rosterType
+		} :
+		{
+			id: this.grade.rosterid,
+			status: this.grade.status,
+			rosterType : this.rosterType
 		}
+		console.group('cert');
+		console.log(cert);
+		console.groupEnd();
+		const id = (this.rosterType == 'group') ? this.grade.groupid : this.grade.rosterid;
+		console.group('id');
+		console.log(id)
+		console.groupEnd();
 		localStorage.setItem('cert', JSON.stringify(cert)),
-		this.router.navigate(['/cert',this.grade.groupid]);
+		this.router.navigate(['/cert',id]);
 	}
 
 }

@@ -3,7 +3,7 @@
 		<app-loading-spinner></app-loading-spinner>
 	</div>
 	<div *ngIf="!loading" class="container">
-		<div class="row" *ngIf="myRoles.isSupervisor && !loadingPublicData">
+		<div class="row" *ngIf="myRoles.isSupervisor && !loadingPublicData && (platform && platform == 'mooc')">
 			<div class="col-sm-6 col-lg-4 m-0">
 				<div class="card card-stats m-0">
 					<div class="card-header card-header-rose card-header-icon">
@@ -242,7 +242,7 @@
 								id="collapsePast"
 								class="collapse"
 								role="tabpanel"
-								aria-labelledby="next"
+								aria-labelledby="past"
 								data-parent="#accordion"
 								style=""
 								>
@@ -287,6 +287,24 @@
 													</div>
 													<b>Inició el {{crs.curso.beginDate | date}}<br>
 													Terminó el {{crs.curso.endDate | date}}</b>
+												</div>
+												<div class="card-footer" *ngIf="crs.curso.myStatus=='active' && crs.curso.pass">
+													<button
+														mat-raised-button
+														class="btn btn-sm btn-primary"
+														(click)="getCert(crs.curso);"
+													>
+														Obtener constancia
+													</button>
+												</div>
+												<div class="card-footer" *ngIf="crs.curso.myStatus=='pending' && crs.curso.pass">
+													<button
+														mat-raised-button
+														class="btn btn-sm btn-warning"
+														(click)="getCert(crs.curso);"
+													>
+														Solicitar constancia
+													</button>
 												</div>
 											</div>
 										</div>

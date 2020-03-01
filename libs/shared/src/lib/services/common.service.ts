@@ -98,4 +98,22 @@ export class CommonService {
 		return same;
 	}
 
+	/*
+	Método para desplegar logs en consola.
+	*/
+	displayLog(display:string, obj: any) {
+		const environment = this.getEnvironment();
+		if(!environment.production) {
+			console.group(display);
+			console.log(obj);
+			console.groupEnd();
+		}
+	}
+
+	displayError(display:string, obj: any) {
+		console.group(`Error: ${display}`);
+		console.log(obj);
+		console.groupEnd();
+	}
+
  }

@@ -59,8 +59,8 @@
 							Constancia
 						</div>
 						<div class="card-body">
-							<div *ngIf="grade.status == 'active'">
-								Estatus: <span class="text-success">Activo</span>
+							<div *ngIf="grade.status != 'pending'">
+								Estatus: <span class="text-success" *ngIf="grade.status == 'active'">Activo</span><span class="text-info" *ngIf="grade.status == 'finished'">Cerrado</span>
 								<button
 									mat-raised-button
 									*ngIf="grade.finalGrade >= grade.minGrade && track >= minTrack"

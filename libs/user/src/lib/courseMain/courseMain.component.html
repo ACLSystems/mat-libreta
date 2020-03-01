@@ -34,6 +34,11 @@
 						</div>
 					</div>
 					<div class="card-body">
+						<div class="row alert alert-danger" *ngIf="content.openStatus=='closed'">
+							<div class="col text-center">
+								<h4>CURSO CERRADO</h4>
+							</div>
+						</div>
 						<div class="row">
 							<div
 								[class]="track ? 'col-sm-6 col-md-4' : 'col-sm-5 col-md-4'"
@@ -58,7 +63,8 @@
 								<div class="row bg-light">
 									<div class="col">Avance del curso: <span
 										[ngClass]="{'text-success':track>=60,'text-warning':track>=30 && track<60,'text-danger':track<30}">
-										{{track}}%</span></div>
+										{{track}}%</span>
+									</div>
 									<div class="col">
 										Calificación: <span
 										[ngClass]="{'text-success':finalGrade>=content.minGrade,'text-danger':finalGrade<content.minGrade}">
@@ -94,6 +100,21 @@
 											</button>
 										</div>
 									</div>
+									<div class="col">
+										<div *ngIf="content.openStatus == 'active'">
+											Curso <span class="text-success">abierto</span>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<span *ngIf="content.bd < today">Inició: </span><span *ngIf="content.bd >= today">Inicia: </span>
+										<span class="text-primary">{{content.beginDate | date}}</span><br />
+									</div>
+									<div class="col">
+										<span *ngIf="content.ed < today">Finalizó: </span>
+										<span *ngIf="content.ed >= today">Finaliza: </span><span class="text-primary">{{content.endDate | date}}</span>
+									</div>
 								</div>
 							</div>
 							<div class="col-sm-2" *ngIf="!track">
@@ -106,9 +127,6 @@
 								</button>
 							</div>
 						</div>
-					</div>
-					<div class="card-footer">
-						Inicia: <span class="text-primary">{{content.beginDate | date}}</span> Finaliza: <span class="text-primary">{{content.endDate | date}}</span>
 					</div>
 				</div>
 			</div>

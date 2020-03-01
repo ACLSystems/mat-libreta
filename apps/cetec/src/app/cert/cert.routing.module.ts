@@ -9,7 +9,7 @@ const certRoutes: Routes = [
 		path: '',
 		children:[
 			{
-				path: ':groupid',
+				path: ':id',
 				component: CertComponent,
 				canActivate: [CertGuard]
 			}

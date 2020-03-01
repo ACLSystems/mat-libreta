@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RECAPTCHA_LANGUAGE, RecaptchaModule } from 'ng-recaptcha';
 //import { TimeagoModule } from 'ngx-timeago';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MaterialModule } from '@cetecapp/app.module';
 import { PageRoutingModule } from './pages.routing.module';
@@ -43,6 +43,7 @@ import { LogoutComponent } from './logout/logout.component';
     CommonModule,
 		PageRoutingModule,
 		FormsModule,
+		ReactiveFormsModule,
 		RecaptchaModule.forRoot()
   ],
 	providers: [

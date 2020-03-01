@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { CertService } from './cert.service';
-import { UserCourseService, Grade, BlockGrade } from '@mat-libreta/shared';
+import { UserCourseService, Grade } from '@mat-libreta/shared';
 import { Certificates } from './docs';
+
+const rosterType = 'group';
 
 @Component({
   selector: 'mat-libreta-cert',
@@ -18,7 +20,8 @@ import { Certificates } from './docs';
 export class CertComponent implements OnInit {
 
 	loading: boolean;
-	groupid: string;
+	rosterType: string;
+	id: string;
 	grade: Grade;
 	track: number;
 	minTrack: number;
@@ -31,7 +34,8 @@ export class CertComponent implements OnInit {
 		private router: Router
 	) {
 		this.activatedRoute.params.subscribe(params => {
-				this.groupid = params.groupid;
+				this.rosterType = params.rostertype;
+				this.id = params.id;
 			}
 		);
 		this.poll = false;
@@ -43,7 +47,7 @@ export class CertComponent implements OnInit {
   }
 
 	getGrades() {
-		this.userCourseService.getMyGrades(this.groupid).subscribe(data => {
+		this.userCourseService.getMyGrades(rosterType, this.id).subscribe(data => {
 			this.grade = data.message;
 			this.track = +this.grade.track.replace('%','');
 			this.minTrack = +this.grade.minTrack.replace('%','');
@@ -56,9 +60,9 @@ export class CertComponent implements OnInit {
 			// 	});
 			// 	this.router.navigate(['/user/progress', this.groupid]);
 			// }
-			console.group('Grade');
-			console.log(this.grade);
-			console.groupEnd();
+			// console.group('Grade');
+			// console.log(this.grade);
+			// console.groupEnd();
 		}, error => {
 			Swal.fire({
 				type: 'error',
@@ -82,13 +86,13 @@ export class CertComponent implements OnInit {
 			if(result.value) {
 				this.poll = true;
 				this.router.navigate([]).then(() =>
-					{window.open('https://aclsystems.mx', '_blank')});
+					{window.open('https://forms.gle/TBb4B44zxZFbg7hK9', '_blank')});
 			}
 		});
 	}
 
 	getCert() {
- 		this.userCourseService.getUserConst(this.groupid).subscribe(data => {
+ 		this.userCourseService.getUserConst(rosterType,this.id).subscribe(data => {
 			if(data.message === 'Roster saved') {
 				if(this.grade.finalGrade >= this.grade.minGrade) {
 					this.certService.printCertificate(
@@ -103,6 +107,6 @@ export class CertComponent implements OnInit {
 				}
 			}
 		});
-
+		localStorage.removeItem('cert');
 	}
 }

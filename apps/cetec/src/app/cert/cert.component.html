@@ -19,7 +19,7 @@
 							<h4>{{grade.name}}</h4>
 						</div>
 						<div class="col">
-							Folio <span class="text-danger h4" *ngIf="grade.certificateActive && grade.finalGrade >= grade.minGrade && track >= minTrack">{{grade.certificateNumber}}</span> <span class="text-danger h4" *ngIf="!grade.certificateActive || !grade.finalGrade >= grade.minGrade || !track >= minTrack">
+							Folio de la constancia <span class="text-danger h4" *ngIf="grade.certificateActive && grade.finalGrade >= grade.minGrade && track >= minTrack">{{grade.certificateNumber}}</span> <span class="text-danger h4" *ngIf="!grade.certificateActive || !grade.finalGrade >= grade.minGrade || !track >= minTrack">
 								XXXXXXX
 							</span>
 						</div>
@@ -37,7 +37,7 @@
 							Duración: {{grade.courseDuration}} {{grade.courseDurUnits}}
 						</div>
 						<div class="col">
-							Fecha: <b>{{grade.passDateSpa}}</b>
+							Fecha de término de curso: <b>{{grade.passDateSpa}}</b>
 						</div>
 					</div>
 					<div class="row">

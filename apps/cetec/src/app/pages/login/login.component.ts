@@ -117,6 +117,14 @@ export class LoginComponent implements OnInit {
 		});
 	}
 
+	noPassword() {
+		Swal.fire({
+			title: 'Próximamente',
+			html: 'Esta funcionalidad estará disponible próximamente',
+			type: 'info'
+		});
+	}
+
 	showPass() {
 		this.show = !this.show;
 		if (this.show) {

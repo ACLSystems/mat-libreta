@@ -29,7 +29,7 @@ export class NotificationComponent implements OnInit {
 				this.userService.getNotification(this.notificationId).subscribe(data => {
 					this.notificationPresent = true;
 					this.notification = data;
-					console.log(this.notification);
+					// console.log(this.notification);
 					if(this.notification && this.notification.message && this.notification.message.includes('Has sido enrolado al curso')) {
 						this.courseEnrollment = true;
 					} else {

@@ -12,6 +12,7 @@ import {
 	UserCourseService,
 	CurrentCourseService,
 	CurrentCourse,
+	CommonService,
 	SuperService,
 	Identity,
 	Roles
@@ -61,16 +62,19 @@ export class DashboardComponent implements OnInit {
 	};
 	totalCount: number;
 	reportDate: Date;
+	platform: string;
 
 	constructor(
 		private router: Router,
 		private userService: UserService,
 		private userCourseService: UserCourseService,
 		private currentCourseService: CurrentCourseService,
-		private superService: SuperService
+		private superService: SuperService,
+		private commonService: CommonService
 	) {
 		this.identity = this.userService.getidentity();
 		this.token = this.userService.getToken();
+		this.platform = this.commonService.getEnvironment().platform;
 	}
 
 	ngOnInit() {
@@ -80,7 +84,9 @@ export class DashboardComponent implements OnInit {
 		this.getMyRoles();
 		this.getCourseUser();
 		this.currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
-		this.getPublicData();
+		if(this.platform == 'mooc') {
+			this.getPublicData();
+		}
 	}
 	//
 	// Para prevenir copia y descarga
@@ -198,17 +204,20 @@ export class DashboardComponent implements OnInit {
 				Array.isArray(data.message.groups)
 			) {
 				const mycursos = data.message.groups;
-				this.userCourseService.getCoursesOrg().subscribe(res => {
+				console.group('mycursos');
+				console.log(mycursos);
+				console.groupEnd();
+				// this.userCourseService.getCoursesOrg().subscribe(res => {
 					// console.group('res');
 					// console.log(res);
 					// console.groupEnd();
-					for (const idcr of res.message.courses) {
+					// for (const idcr of res.message.courses) {
 						for (const idmg of mycursos) {
-							if (idcr.id === idmg.courseid ) {
+							// if (idcr.id === idmg.courseid ) {
 								if (idmg.status === 'active') {
 									let curso = {
 										curso: idmg,
-										imagen: idcr.image
+										imagen: idmg.courseImage
 									};
 									curso.curso.id = (curso.curso.rosterType && curso.curso.rosterType === 'public') ? curso.curso.rosterid : curso.curso.groupid;
 									this.courseList.push(curso);
@@ -223,12 +232,12 @@ export class DashboardComponent implements OnInit {
 								} else if (idmg.status === 'closed') {
 									this.inActiveCourses.push({
 										curso: idmg,
-										imagen: idcr.image
+										imagen: idmg.courseImage
 									});
 								} else if (idmg.status === 'coming') {
 									this.courseNext.push({
 										curso: idmg,
-										imagen: idcr.image
+										imagen: idmg.courseImage
 									});
 									diff = this.dateDiff(new Date(idmg.beginDate),today);
 									if(diff >= 0 && diff <= minDays){
@@ -239,13 +248,16 @@ export class DashboardComponent implements OnInit {
 										});
 									}
 								}
-							}
+							// }
 						}
-					}
-				});
+					// }
+				// });
 				// console.group('courseList');
 				// console.log(this.courseList);
 				// console.groupEnd();
+				console.group('inActiveCourses');
+				console.log(this.inActiveCourses);
+				console.groupEnd();
 				this.messageNewUser = false;
 				var courses = +localStorage.getItem('courses');
 				courses ++;
@@ -341,6 +353,28 @@ export class DashboardComponent implements OnInit {
 		var diff_ms = date2_ms - date1_ms;
 
 		return Math.round(diff_ms/day);
+	}
+
+	getCert(course:any) {
+		const cert = (course.rosterType == 'group') ? {
+			id: course.groupid,
+			status: course.myStatus,
+			rosterType : course.rosterType
+		} :
+		{
+			id: course.rosterid,
+			status: course.myStatus,
+			rosterType : course.rosterType
+		}
+		// console.group('cert');
+		// console.log(cert);
+		// console.groupEnd();
+		const id = (course.rosterType == 'group') ? course.groupid : course.rosterid;
+		// console.group('id');
+		// console.log(id)
+		// console.groupEnd();
+		localStorage.setItem('cert', JSON.stringify(cert)),
+		this.router.navigate(['/cert',id]);
 	}
 
 

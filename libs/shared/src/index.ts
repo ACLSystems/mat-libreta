@@ -26,6 +26,7 @@ export { QuestionService } from './lib/services/question.service';
 export { JSONHeaders } from './lib/services/httpHeaders';
 export { NotElemService } from './lib/services/notificationElements.service';
 export { SuperService } from './lib/services/supervisor.service';
+export { BrowerService } from './lib/services/browser.service';
 
 // Export Types/Classes
 

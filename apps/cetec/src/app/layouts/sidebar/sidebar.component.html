@@ -85,7 +85,7 @@
 										<a class="dropdown-item" href="#">Tienes un mensaje</a>
 										<a class="dropdown-item" href="#">Otra notificación</a>
 										<a class="dropdown-item" href="#">Otras 46</a> -->
-										<a 
+										<a
 											class="dropdown-item"
 											*ngFor="let not of notifications"
 											[routerLink]="['/user/notification',not.notificationid]"
@@ -125,7 +125,7 @@
 										<div id="{{menuitem.collapse}}" class="collapse" *ngIf="menuitem.type === 'sub'">
 												<ul class="nav">
 														<li routerLinkActive="active" *ngFor="let childitem of menuitem.children" class="nav-item">
-																<a [routerLink]="[menuitem.path, childitem.path, childitem.subpath]" class="nav-link" *ngIf="childitem.subpath"
+																<a [routerLink]="childitem.link" class="nav-link" *ngIf="childitem.subpath"
 																>
 																		<span class="sidebar-mini">{{childitem.ab}}</span>
 																		<span class="sidebar-normal">{{childitem.title}}</span>

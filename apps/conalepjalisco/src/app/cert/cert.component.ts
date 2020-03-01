@@ -58,9 +58,9 @@ export class CertComponent implements OnInit {
 			// 	});
 			// 	this.router.navigate(['/user/progress', this.groupid]);
 			// }
-			console.group('Grade');
-			console.log(this.grade);
-			console.groupEnd();
+			// console.group('Grade');
+			// console.log(this.grade);
+			// console.groupEnd();
 		}, error => {
 			Swal.fire({
 				type: 'error',
@@ -84,7 +84,7 @@ export class CertComponent implements OnInit {
 			if(result.value) {
 				this.poll = true;
 				this.router.navigate([]).then(() =>
-					{window.open('https://aclsystems.mx', '_blank')});
+					{window.open('https://forms.gle/cuTZHJ12amgcExTx8', '_blank')});
 			}
 		});
 	}
@@ -105,6 +105,6 @@ export class CertComponent implements OnInit {
 				}
 			}
 		});
-
+		localStorage.removeItem('cert');
 	}
 }

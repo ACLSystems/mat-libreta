@@ -161,5 +161,6 @@ export interface Grade {
 	rosterid: string,
 	status: string,
 	track: string,
-	tookCertificate: boolean
+	tookCertificate: boolean,
+	openStatus: string
 }

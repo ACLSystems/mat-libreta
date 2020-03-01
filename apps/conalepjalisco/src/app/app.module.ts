@@ -1,11 +1,12 @@
 // Import librerías Angular
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { environment } from '@cjaenv/environment';
@@ -72,7 +73,8 @@ import {
 	CurrentCourseService,
 	PublicService,
 	WindowService,
-	AccesoriesModule
+	AccesoriesModule,
+	BrowerService,
 } from '@mat-libreta/shared';
 
 import { ShareService } from '@cjashared/services/share.service';
@@ -138,6 +140,7 @@ export class MaterialModule {}
 		FixedpluginModule,
 		NavbarModule,
 		AccesoriesModule,
+		DeviceDetectorModule.forRoot(),
 		SocketIoModule.forRoot(config)
   ],
 	providers: [
@@ -148,7 +151,8 @@ export class MaterialModule {}
 		WindowService,
 		CommonService,
 		ShareService,
-		CurrentCourseService
+		CurrentCourseService,
+		BrowerService
 	],
   bootstrap: [AppComponent]
 })

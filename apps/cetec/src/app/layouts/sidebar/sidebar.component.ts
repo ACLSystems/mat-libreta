@@ -46,6 +46,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 	courseSelected: boolean;
 	notificationNumber: number;
 	notifications:  Notification[];
+	coursesNumber: number;
 
 	public menuItems: any[];
 	ps: any;
@@ -70,6 +71,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 			this.route = event.url;
 		});
 		const course = localStorage.getItem('currentCourse');
+		this.coursesNumber = JSON.parse(localStorage.getItem('courses'));
 		this.courseSelected = !!course;
 	}
 
@@ -89,8 +91,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 							child.subpath = [...review];
 						}
 						let link = [...child.subpath];
+						// console.log(link);
+						// console.log(mi.path);
 						link.unshift(mi.path,child.path);
 						child.link = [...link];
+						// console.log(child.link);
 					}
 				});
 			}
@@ -123,11 +128,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		);
 		this.identity = this.userService.getidentity();
 		this.image = this.userService.getUserImage().subscribe(data => {
-			this.createImageFromBlob(data);
+			if(data) {
+				this.createImageFromBlob(data);
+			}
 		}, err => {
 			console.log(err);
 		});
-		if(!this.courseSelected) {
+		if(!this.courseSelected && this.coursesNumber > 0) {
 			this.notElementService.showNotification(
 				'bottom',
 				'left',
