@@ -20,7 +20,7 @@
             "main": "apps/cetec/src/main.ts",
             "polyfills": "apps/cetec/src/polyfills.ts",
             "tsConfig": "apps/cetec/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": ["apps/cetec/src/favicon.ico", "apps/cetec/src/assets"],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
@@ -68,7 +68,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -209,7 +208,7 @@
             "main": "apps/conalepjalisco/src/main.ts",
             "polyfills": "apps/conalepjalisco/src/polyfills.ts",
             "tsConfig": "apps/conalepjalisco/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/conalepjalisco/src/favicon.ico",
               "apps/conalepjalisco/src/assets"
@@ -260,7 +259,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -369,7 +367,7 @@
             "main": "apps/crm/src/main.ts",
             "polyfills": "apps/crm/src/polyfills.ts",
             "tsConfig": "apps/crm/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": ["apps/crm/src/favicon.ico", "apps/crm/src/assets"],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
@@ -417,7 +415,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -674,7 +671,7 @@
             "main": "apps/webquid/src/main.ts",
             "polyfills": "apps/webquid/src/polyfills.ts",
             "tsConfig": "apps/webquid/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/webquid/src/favicon.ico",
               "apps/webquid/src/assets"
@@ -728,7 +725,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
