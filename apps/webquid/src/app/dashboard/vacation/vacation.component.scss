@@ -1,0 +1,20 @@
+// .ng-dirty.ng-valid[required],
+// .ng-dirty.ng-valid.required,
+// .ng-touched.ng-valid[required],
+// .ng-touched.ng-valid.required  {
+// 	border-bottom: 1px solid #42A948; /* verde */
+// }
+//
+// .ng-dirty.ng-invalid:not(form),
+// .ng-touched.ng-invalid:not(form) {
+// 	border-bottom: 1px solid #ff0000; /* rojo */
+// }
+
+.md-input.ng-invalid.ng-dirty {
+    border-color: #ff0000;
+
+}
+.md-input.ng-valid.ng-dirty {
+    border-color: #42A948;
+
+}

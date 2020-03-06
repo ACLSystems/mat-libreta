@@ -128,6 +128,9 @@ export class CourseComponent implements OnInit, AfterViewInit {
 					this.router.navigate(['/dashboard']);
 					return;
 				}
+				console.group('data');
+				console.log(data);
+				console.groupEnd();
 				Swal.fire({
 					type: 'warning',
 					text: data.message

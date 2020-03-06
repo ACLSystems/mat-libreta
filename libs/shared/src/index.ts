@@ -27,6 +27,7 @@ export { JSONHeaders } from './lib/services/httpHeaders';
 export { NotElemService } from './lib/services/notificationElements.service';
 export { SuperService } from './lib/services/supervisor.service';
 export { BrowerService } from './lib/services/browser.service';
+export { HTTPService } from './lib/services/http.service';
 
 // Export Types/Classes
 

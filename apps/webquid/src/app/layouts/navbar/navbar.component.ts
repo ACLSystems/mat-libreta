@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Location } from '@angular/common';
 
 import { ROUTES } from '@wqsidebar/sidebar.component';
-import { UserService } from '@wqshared/services/user.service';
+// import { UserService } from '@wqshared/services/user.service';
 
 const misc: any = {
 		navbar_menu_visible: 0,
@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
 		private renderer: Renderer,
 		private element: ElementRef,
 		private router: Router,
-		private userService: UserService
+		// private userService: UserService
 	) {
 		this.location = location;
 		this.nativeElement = element.nativeElement;

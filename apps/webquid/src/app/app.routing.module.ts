@@ -5,7 +5,7 @@ import { RouterModule, Routes} from '@angular/router';
 //
 import { PagesComponent } from '@wqlayouts/pages.component';
 // import { LandingComponent } from '@wqlayouts/landing.component';
-// import { LoggedComponent } from '@wqlayouts/logged.component';
+import { LoggedComponent } from '@wqlayouts/logged.component';
 
 const routes: Routes = [
 	{
@@ -21,16 +21,16 @@ const routes: Routes = [
 				loadChildren: () => import('./pages/pages.module').then(mod => mod.PagesModule)
 			}
 		]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'dashboard',
-	// 			loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
-	// 		}
-	// 	]
+	},{
+		path: '',
+		component: LoggedComponent,
+		// canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'services',
+				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
+			}
+		]
 	// },{
 	// 	path: '',
 	// 	component: LoggedComponent,

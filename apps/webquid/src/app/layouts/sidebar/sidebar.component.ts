@@ -3,9 +3,9 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
 
-import { Identity } from '@wqshared/types/user.type';
-
-import { UserService } from '@wqshared/services/user.service';
+// import { Identity } from '@wqshared/types/user.type';
+//
+// import { UserService } from '@wqshared/services/user.service';
 
 declare const $: any;
 
@@ -31,81 +31,107 @@ export interface ChildrenItems {
 
 //Menu Items
 export const ROUTES: RouteInfo[] = [{
-				path: '/dashboard',
-				title: 'Panel',
-				type: 'link',
-				icontype: 'dashboard'
+			path: '/services',
+			title: 'Servicios',
+			type: 'link',
+			icontype: 'arrow_forward_ios'
 		},{
-				path: '/calendar',
-				title: 'Calendario',
-				type: 'link',
-				icontype: 'date_range'
+			path: '/services/payroll',
+			title: 'Recibos de nómina',
+			type: 'link',
+			icontype: 'double_arrow'
 		},{
-				path: '/users',
-				title: 'Usuarios',
-				icontype: 'people',
-				type: 'link'
+			path: '/services/imss',
+			title: 'Altas de IMSS',
+			type: 'link',
+			icontype: 'double_arrow'
+		},{
+			path: '/services/vacation',
+			title: 'Vacaciones',
+			type: 'link',
+			icontype: 'double_arrow'
+		},{
+			path: '/services/certificates',
+			title: 'Solicitud de constancias',
+			type: 'link',
+			icontype: 'double_arrow'
+		},{
+			path: '/services/other',
+			title: 'Otros servicios',
+			type: 'link',
+			icontype: 'double_arrow'
+		}
+		// {
+		// 		path: '/calendar',
+		// 		title: 'Calendario',
+		// 		type: 'link',
+		// 		icontype: 'date_range'
+		// },{
+		// 		path: '/users',
+		// 		title: 'Usuarios',
+		// 		icontype: 'people',
+		// 		type: 'link'
 				// type: 'sub',
 				// collapse: 'usuarios',
 				// children: [
 				// 	{path: 'create', title: 'Crear usuario', ab: 'CU'},
 				// 	{path: 'view', title: 'Ver usuarios', ab: 'VU'}
 				// ]
-		},{
-				path: '/accounts',
-				title: 'Cuentas',
-				icontype: 'apartment',
-				type: 'link'
+		// },{
+		// 		path: '/accounts',
+		// 		title: 'Cuentas',
+		// 		icontype: 'apartment',
+		// 		type: 'link'
 				// type: 'sub',
 				// collapse: 'cuentas',
 				// children: [
 				// 	{path: 'create', title: 'Crear cuenta', ab: 'CC'},
 				// 	{path: 'view', title: 'Ver cuentas', ab: 'VC'}
 				// ]
-		},{
-				path: '/quotes',
-				title: 'Cotizaciones',
-				icontype: 'shopping_cart',
-				type: 'link'
+		// },{
+		// 		path: '/quotes',
+		// 		title: 'Cotizaciones',
+		// 		icontype: 'shopping_cart',
+		// 		type: 'link'
 				// type: 'sub',
 				// collapse: 'oportunidades',
 				// children: [
 				// 	{path: 'create', title: 'Crear oportunidad', ab: 'CO'},
 				// 	{path: 'view', title: 'Ver oportunidades', ab: 'VO'}
 				// ]
-		},{
-				path: '/opportunities',
-				title: 'Oportunidades',
-				icontype: 'flag',
-				type: 'link'
+		// },{
+		// 		path: '/opportunities',
+		// 		title: 'Oportunidades',
+		// 		icontype: 'flag',
+		// 		type: 'link'
 				// type: 'sub',
 				// collapse: 'oportunidades',
 				// children: [
 				// 	{path: 'create', title: 'Crear oportunidad', ab: 'CO'},
 				// 	{path: 'view', title: 'Ver oportunidades', ab: 'VO'}
 				// ]
-		},{
-				path: '/business',
-				title: 'Negocios',
-				icontype: 'attach_money',
-				type: 'link'
+		// },{
+		// 		path: '/business',
+		// 		title: 'Negocios',
+		// 		icontype: 'attach_money',
+		// 		type: 'link'
 				// type: 'sub',
 				// collapse: 'negocios',
 				// children: [
 				// 	{path: 'create', title: 'Crear negocio', ab: 'CN'},
 				// 	{path: 'view', title: 'Ver negocios', ab: 'VN'}
 				// ]
-		},{
-				path: '/reports',
-				title: 'Reportes',
-				type: 'link',
-				icontype: 'timeline'
-		},{
-			path: '/admin',
-			title: 'Administrador',
-			type: 'link',
-			icontype: 'settings_applications'
-		}
+		// },{
+		// 		path: '/reports',
+		// 		title: 'Reportes',
+		// 		type: 'link',
+		// 		icontype: 'timeline'
+		// },{
+		// 	path: '/admin',
+		// 	title: 'Administrador',
+		// 	type: 'link',
+		// 	icontype: 'settings_applications'
+		// }
 ];
 
 
@@ -116,7 +142,13 @@ export const ROUTES: RouteInfo[] = [{
 })
 export class SidebarComponent implements OnInit {
 
-	identity: Identity;
+	// identity: Identity;
+	identity = {
+		person: {
+			name: 'Roberto',
+			fatherName: 'Jiménez'
+		}
+	}
 	image: any;
 	route: string;
 
@@ -130,7 +162,7 @@ export class SidebarComponent implements OnInit {
 	};
 
 	constructor(
-		private userService: UserService,
+		// private userService: UserService,
 		private router: Router
 	) {
 		this.router.events.pipe(
@@ -148,12 +180,12 @@ export class SidebarComponent implements OnInit {
 				const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
 				this.ps = new PerfectScrollbar(elemSidebar);
 		}
-		this.identity = this.userService.getidentity();
-		this.image = this.userService.getUserImage().subscribe(data => {
-			this.createImageFromBlob(data);
-		}, err => {
-			console.log(err);
-		});
+		// this.identity = this.userService.getidentity();
+		// this.image = this.userService.getUserImage().subscribe(data => {
+		// 	this.createImageFromBlob(data);
+		// }, err => {
+		// 	console.log(err);
+		// });
 	}
 
 	updatePS(): void  {
