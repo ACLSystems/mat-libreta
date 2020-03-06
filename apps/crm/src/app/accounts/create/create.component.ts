@@ -30,8 +30,8 @@ import { STATES } from '@crmshared/enums/states.enum';
 })
 export class CreateAccountComponent implements OnInit {
 
-	@ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
-	@ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>
+	@ViewChild('auto') matAutocomplete: MatAutocomplete;
+	@ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>
 
 	loading		: boolean = false;
 	color: string = 'primary';
@@ -100,7 +100,7 @@ export class CreateAccountComponent implements OnInit {
 		viewValue: 'Primero crear usuarios'
 	}];
 
-	@ViewChild("long", {static: false}) longNameField: ElementRef;
+	@ViewChild("long") longNameField: ElementRef;
 	focusLongName(): void {
 		this.longNameField.nativeElement.focus();
 	}

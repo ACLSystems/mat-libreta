@@ -24,8 +24,8 @@ export class LoggedComponent implements OnInit, AfterViewInit {
 	url: string;
 	location: Location;
 
-	@ViewChild('sidebar', {static: false}) sidebar: any;
-	@ViewChild(NavbarComponent, {static: false}) navbar: NavbarComponent;
+	@ViewChild('sidebar') sidebar: any;
+	@ViewChild(NavbarComponent) navbar: NavbarComponent;
 
 	constructor(
 		private router: Router,

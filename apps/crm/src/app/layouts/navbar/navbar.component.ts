@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
 	private sidebarVisible: boolean;
 	private _router: Subscription;
 
-	@ViewChild('app-navbar-cmp', {static: false}) button: any;
+	@ViewChild('app-navbar-cmp') button: any;
 
 	constructor(
 		location: Location,

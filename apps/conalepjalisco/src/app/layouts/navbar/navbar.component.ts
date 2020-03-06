@@ -42,7 +42,7 @@ export class NavbarComponent implements OnInit {
 	notificationNumber: number = 0;
 	notifications:  Notification[];
 
-	@ViewChild('app-navbar-cmp', {static: false}) button: any;
+	@ViewChild('app-navbar-cmp') button: any;
 
 	constructor(
 		location: Location,

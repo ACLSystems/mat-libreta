@@ -38,8 +38,8 @@ import {
 })
 export class EditAccountComponent implements OnInit {
 
-	@ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
-	@ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>
+	@ViewChild('auto') matAutocomplete: MatAutocomplete;
+	@ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement>
 
 	loading		: boolean = false;
 	accountid	: string;
