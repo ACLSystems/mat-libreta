@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -46,7 +46,7 @@ export class NavbarComponent implements OnInit {
 
 	constructor(
 		location: Location,
-		private renderer: Renderer,
+		private renderer: Renderer2,
 		private element: ElementRef,
 		private router: Router,
 		private commonService: CommonService,
