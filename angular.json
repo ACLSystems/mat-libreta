@@ -684,7 +684,7 @@
 							"apps/webquid/src/styles.scss",
 							"apps/webquid/src/assets/fontawesome/css/fontawesome.min.css",
 							"apps/webquid/src/assets/fontawesome/css/all.css",
-              "apps/webquid/src/assets/scss/material-dashboard.scss",
+              "apps/webquid/src/assets/scss/material-dashboard.scss"
 						],
             "scripts": [
 							"node_modules/jquery/dist/jquery.js",
