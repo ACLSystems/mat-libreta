@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DateAdapter } from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 import Swal from 'sweetalert2';
