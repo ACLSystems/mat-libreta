@@ -44,7 +44,8 @@ import { LogoutComponent } from './logout/logout.component';
 		PageRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		RecaptchaModule.forRoot()
+		// RecaptchaModule.forRoot()
+		RecaptchaModule
   ],
 	providers: [
 		PagesService,
