@@ -47,6 +47,13 @@
     "webquid-e2e": {
       "tags": [],
       "implicitDependencies": ["webquid"]
+    },
+    "acl": {
+      "tags": []
+    },
+    "acl-e2e": {
+      "tags": [],
+      "implicitDependencies": ["acl"]
     }
   }
 }

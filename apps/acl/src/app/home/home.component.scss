@@ -1,0 +1,40 @@
+.img-src{
+    position:fixed;
+    width:100%;
+    height:540px;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position: center center;
+}
+
+.big-white{
+	color: #FFFFFF;
+	font-size: 63px;
+	font-weight: 600;
+
+	text-align: center;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.33);
+	text-transform: uppercase;
+	z-index: 3;
+	top: 144px;
+}
+
+.med-white{
+	color: #FFFFFF;
+	font-size: 45px;
+	font-weight: 600;
+
+	text-align: center;
+	text-shadow: 0 0 10px rgba(0, 0, 0, 0.33);
+	text-transform: uppercase;
+
+	top: 144px;
+}
+
+.border{
+	border-width: 3px !important;
+}
+
+.social{
+	letter-spacing: 12px;
+}
