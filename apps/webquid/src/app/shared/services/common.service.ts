@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SimpleGlobal } from 'ng2-simple-global';
 
 import { Identity } from '@crmshared/types/user.type';
 import { environment } from '@crmenv/environment';
@@ -12,7 +13,9 @@ export class CommonService {
 	public tokenVersion: string;
 	public roles: any;
 
-	constructor() {
+	constructor(
+		private sg: SimpleGlobal
+	) {
 		this.url = environment.url;
 	}
 
@@ -20,7 +23,15 @@ export class CommonService {
 	metodo para traer la identidad del usuario autenticado
 	*/
 	getidentity(){
-		const identity = JSON.parse(localStorage.getItem('identity'));
+		// const identity = JSON.parse(localStorage.getItem('identity'));
+		const keys = Object.keys(this.sg);
+		if(keys.length === 0) {
+			return null;
+		}
+		if(!keys.includes('identity')){
+			return null;
+		};
+		const identity = JSON.parse(this.sg['identity']);
 		if (identity !== 'undefined') {
 			this.identity = identity;
 		} else {
@@ -33,7 +44,8 @@ export class CommonService {
 	metodo para traer la identidad del usuario autenticado
 	*/
 	updateIdentity(data: Identity) {
-		localStorage.setItem('identity',JSON.stringify(data));
+		// localStorage.setItem('identity',JSON.stringify(data));
+		this.sg['identity'] = JSON.stringify(data);
 		var identity = JSON.parse(localStorage.getItem('identity'));
 		if (identity !== 'undefined') {
 			this.identity = identity;
@@ -47,7 +59,15 @@ export class CommonService {
 	metodo para poner el token del usuario logueado donde el api lo requiera
 	*/
 	getToken() {
-		const token = localStorage.getItem('token');
+		// const token = localStorage.getItem('token');
+		const keys = Object.keys(this.sg);
+		if(keys.length === 0) {
+			return null;
+		}
+		if(!keys.includes('token')){
+			return null;
+		};
+		const token = this.sg['token'];
 		if (token !== 'undefined') {
 			this.token = token;
 		} else {

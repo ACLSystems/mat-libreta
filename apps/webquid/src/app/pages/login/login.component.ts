@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormControl } from '@angular/forms';
 import * as jwt_decode from 'jwt-decode';
+import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
 
 import { Identity } from '@wqshared/types/user.type';
@@ -8,6 +10,8 @@ import { Identity } from '@wqshared/types/user.type';
 import { UserService } from '@wqshared/services/user.service';
 import { PublicService } from '@wqshared/services/public.service';
 import { Login } from './login';
+
+import { environment } from '@wqenv/environment';
 
 @Component({
 	selector: 'webquid-login',
@@ -17,7 +21,7 @@ import { Login } from './login';
 })
 export class LoginComponent implements OnInit {
 
-	emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+	RFCRegex = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
 	type = 'password';
 	dataIsOk = false;
 	loading = false;
@@ -33,7 +37,8 @@ export class LoginComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private userService: UserService,
-		private publicService: PublicService
+		private publicService: PublicService,
+		private sg: SimpleGlobal
 	) {
 		this.login = new Login('', '');
 	}
@@ -53,12 +58,12 @@ export class LoginComponent implements OnInit {
 	}
 
 	getCredentials(){
-		if (this.emailRegex.test(this.login.username)) {
+		if (this.RFCRegex.test(this.login.username)) {
 			this.messageErroremail = null;
 		} else {
-			this.messageErroremail = 'Proporciona una dirección de correo válida (<cuenta>@<dominio>.<raiz>)';
+			this.messageErroremail = 'Proporciona un RFC válido';
 		}
-		if (this.login.username !== '' && this.login.password !== '' && this.emailRegex.test(this.login.username)) {
+		if (this.login.username !== '' && this.login.password !== '' && this.RFCRegex.test(this.login.username)) {
 			this.dataIsOk = true;
 		} else {
 			this.dataIsOk = false;
@@ -73,22 +78,22 @@ export class LoginComponent implements OnInit {
 			.subscribe(data => {
 				console.log(data)
 				this.token = data.token;
-				localStorage.setItem('token', this.token);
-				localStorage.setItem('tokenVersion', '2');
+				this.sg['token'] = this.token;
+				this.sg['tokenVersion'] = environment.tokenVersion;
+				this.sg['tokenExp'] = new Date(this.token.exp);
+				// localStorage.setItem('token', this.token);
+				// localStorage.setItem('tokenVersion', '2');
 				let decodedToken = this.getDecodedAccessToken(this.token);
-				localStorage.setItem('identity', JSON.stringify({
-					admin: decodedToken.admin,
-					attachedToWShift: decodedToken.attachedToWShift,
-					name: decodedToken.sub,
-					org: decodedToken.org.name,
-					orgUnit: decodedToken.orgUnit ? decodedToken.orgUnit.name : undefined,
-					orgid: decodedToken.org._id,
-					ouid: decodedToken.orgUnit ? decodedToken.orgUnit._id : undefined,
+				console.log(decodedToken);
+				this.sg['identity'] = JSON.stringify({
+				// localStorage.setItem('identity', JSON.stringify({
+					identifier: decodedToken.sub,
+					companies: decodedToken.companies,
 					person: decodedToken.person,
-					preferences: decodedToken.preferences,
 					userid: decodedToken.userid
-				}));
-				this.router.navigate(['/dashboard']);
+				// }));
+				});
+				this.router.navigate(['/services']);
 				this.loading = false;
 		}, error => {
 			console.log(error)

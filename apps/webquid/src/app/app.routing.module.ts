@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 
-// import { AuthGuard } from '@wqshared/guards/auth.guard';
+import { AuthGuard } from '@wqshared/guards/auth.guard';
 //
 import { PagesComponent } from '@wqlayouts/pages.component';
 // import { LandingComponent } from '@wqlayouts/landing.component';
@@ -24,7 +24,7 @@ const routes: Routes = [
 	},{
 		path: '',
 		component: LoggedComponent,
-		// canActivate: [AuthGuard],
+		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'services',

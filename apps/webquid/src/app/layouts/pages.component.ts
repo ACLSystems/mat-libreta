@@ -3,7 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { UserService } from '@mat-libreta/shared';
+import { UserService } from '@wqshared/services/user.service';
+import { CommonService } from '@wqshared/services/common.service';
 
 @Component({
 	selector: 'webquid-layout',
@@ -19,10 +20,12 @@ export class PagesComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private element: ElementRef,
-		private userService: UserService
+		private userService: UserService,
+		private commonService: CommonService
 	){
 		this.sidebarVisible = false;
 		this.token = this.userService.getToken();
+		this.commonService.displayLog('token',this.token);
 	}
 	ngOnInit(){
 		const navbar: HTMLElement = this.element.nativeElement;

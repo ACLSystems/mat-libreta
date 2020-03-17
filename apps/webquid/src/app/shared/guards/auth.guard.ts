@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as jwt from 'jwt-decode';
 
-import { UserService } from '@crmshared/services/user.service';
+import { UserService } from '@wqshared/services/user.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {

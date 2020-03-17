@@ -19,7 +19,7 @@ import { LoginComponent } from './login/login.component';
 // import { OfflineComponent } from './offline/offline.component';
 
 import { PagesService } from './pages.service';
-import { UserService } from '@mat-libreta/shared';
+// import { UserService } from '@wqshared/services/user.service';
 // import { RecoverPassService } from './recoverpass/recoverpass.service';
 import { LogoutComponent } from './logout/logout.component';
 
@@ -47,7 +47,6 @@ import { LogoutComponent } from './logout/logout.component';
   ],
 	providers: [
 		PagesService,
-		UserService,
 		// RecoverPassService,
 		{
 			provide: RECAPTCHA_LANGUAGE,

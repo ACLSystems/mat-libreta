@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { UserService } from '@mat-libreta/shared';
+import { UserService } from '@wqshared/services/user.service';
 
 @Component({
   selector: 'webquid-logout',

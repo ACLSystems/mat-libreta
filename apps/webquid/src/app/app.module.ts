@@ -7,6 +7,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 // import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { SimpleGlobal } from 'ng2-simple-global';
 
 import { environment } from '@wqenv/environment';
 
@@ -61,12 +62,17 @@ import { LoggedComponent } from '@wqlayouts/logged.component';
 
 import { EnumService } from '@wqshared/services/enum.service';
 
-import {
-	UserService,
-	CommonService,
-	PublicService,
-	WindowService
-} from '@mat-libreta/shared';
+// import {
+// 	UserService,
+// 	CommonService,
+// 	PublicService,
+// 	WindowService
+// } from '@mat-libreta/shared';
+
+import { UserService } from '@wqshared/services/user.service';
+import { CommonService } from '@wqshared/services/common.service';
+import { PublicService } from '@wqshared/services/public.service';
+import { WindowService } from '@mat-libreta/shared';
 
 @NgModule({
 	exports: [
@@ -136,7 +142,8 @@ export class MaterialModule {}
 		UserService,
 		WindowService,
 		CommonService,
-		EnumService
+		EnumService,
+		SimpleGlobal
 	],
   bootstrap: [AppComponent]
 })

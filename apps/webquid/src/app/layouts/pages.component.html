@@ -33,9 +33,8 @@
 				<li
 					class="nav-item"
 					routerLinkActive="active"
-					*ngIf="token"
 					>
-					<a class="nav-link" [routerLink]="['/pages/login']">
+					<a class="nav-link" [routerLink]="['/pages/login']" *ngIf="!token">
 						<i class="material-icons">fingerprint</i> Login
 					</a>
 				</li>

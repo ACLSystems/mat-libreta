@@ -1,11 +1,33 @@
 <div class="wrapper">
-		<div class="sidebar" data-color="white" data-background-color="blue" data-image="./assets/img/sidebar-1.jpg">
-				<webquid-sidebar-cmp></webquid-sidebar-cmp>
-				<div class="sidebar-background" style="background-image: url(./assets/img/sidebar-1.jpg)"></div>
+	<div class="sidebar" data-color="white" data-background-color="blue" data-image="./assets/img/sidebar-1.jpg">
+		<webquid-sidebar-cmp></webquid-sidebar-cmp>
+		<div class="sidebar-background" style="background-image: url(./assets/img/sidebar-1.jpg)"></div>
+	</div>
+	<div class="main-panel">
+		<webquid-navbar-cmp></webquid-navbar-cmp>
+		<div class="container-fluid">
+			<div class="row mb-0 pb-0">
+				<div class="col">
+					<div class="publicidad">
+						<div class="card mt-4 mb-0 pb-0">
+							<div class="card-body">
+								<h4>Publicidad</h4>
+								<p>Espacio para publicidad</p>
+								<p>
+									Más publicidad
+									</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-0 pt-0">
+				<div class="col">
+					<div class="contenido">
+						<router-outlet></router-outlet>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="main-panel">
-				<webquid-navbar-cmp></webquid-navbar-cmp>
-				<router-outlet></router-outlet>
-		</div>
-		<webquid-fixedplugin></webquid-fixedplugin>
+	</div>
 </div>

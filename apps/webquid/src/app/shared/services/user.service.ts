@@ -1,14 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SimpleGlobal } from 'ng2-simple-global';
 
-import { Identity } from '@crmshared/types/user.type';
+import { Identity } from '@wqshared/types/user.type';
 
-import { CommonService } from '@crmshared/services/common.service';
-import { JSONHeaders } from '@crmshared/services/httpHeaders';
-import { environment } from '@crmenv/environment';
-
-import { Opportunity } from '@crmshared/classes/opportunity.class';
+import { CommonService } from '@wqshared/services/common.service';
+import { JSONHeaders } from '@mat-libreta/shared';
+import { environment } from '@wqenv/environment';
 
 //permitimos con este decorador inyectar a otras dependencias
 @Injectable()
@@ -23,7 +22,8 @@ export class UserService{
 
 	constructor(
 		private http: HttpClient,
-		private commonService: CommonService
+		private commonService: CommonService,
+		private sg: SimpleGlobal
 	) {
 		this.url = environment.url;
 	}
@@ -64,10 +64,13 @@ export class UserService{
 	método para eliminar datos de la sesión
 	*/
 	destroySession() {
-		localStorage.removeItem('identity');
-		localStorage.removeItem('token');
-		localStorage.removeItem('tokenVersion');
-		localStorage.clear();
+		delete this.sg['identity'];
+		delete this.sg['token'];
+		delete this.sg['tokenVersion'];
+		// localStorage.removeItem('identity');
+		// localStorage.removeItem('token');
+		// localStorage.removeItem('tokenVersion');
+		// localStorage.clear();
 		return;
 	}
 
@@ -75,7 +78,8 @@ export class UserService{
 	metodo para poner el token del usuario logueado donde el api lo requiera
 	*/
 	getTokenVersion() {
-		const tokenVersion = localStorage.getItem('tokenVersion');
+		const tokenVersion = this.sg['tokenVersion'];
+		// const tokenVersion = localStorage.getItem('tokenVersion');
 		if (tokenVersion !== 'undefined') {
 			this.tokenVersion = this.tokenVersion;
 		} else {
@@ -341,19 +345,7 @@ export class UserService{
 		return this.http.post(route, params, {headers});
 	}
 
-	/*
-	Método para generar oportunidad
-	*/
 
-	generateOpp(opp:Opportunity):Observable<any>{
-		const params: string = JSON.stringify(opp);
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-			);
-		const route: string = this.url+'api/v1/sales/opportunity';
-		return this.http.post(route, params, {headers});
-	}
 
 	/*
 	Método para modificar propiedades de una cuenta

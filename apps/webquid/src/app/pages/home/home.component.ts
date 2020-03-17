@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 
 import { Identity } from '@wqshared/types/user.type';
 
-import { PagesService } from '../pages.service';
+// import { PagesService } from '../pages.service';
 // import { UserService } from '@wqshared/services/user.service';
-import { environment } from '@wqenv/environment';
+// import { environment } from '@wqenv/environment';
 
 @Component({
 	selector: 'webquid-home',
@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
 	constructor(
 		private _router:Router,
 		private Meta:Meta,
-		private pagesService:PagesService,
+		// private pagesService:PagesService,
 		// private userService: UserService
 	) {
 		this.Meta.addTag(
