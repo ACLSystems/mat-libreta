@@ -59,7 +59,7 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 		let $navbar = document.getElementsByClassName('navbar')[0];
 		$navbar.classList.remove('navbar-transparent');
 		// $navbar.classList.remove('bg-primary');
-		// $navbar.classList.add('bg-white');
+		$navbar.classList.add('bg-primary');
 	}
 
 	getCourseList(){
@@ -152,8 +152,9 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngOnDestroy() {
 		let $navbar = document.getElementsByClassName('navbar')[0];
 		$navbar.classList.add('navbar-transparent');
-		$navbar.classList.remove('bg-white');
+		// $navbar.classList.remove('bg-white');
 		$navbar.classList.add('bg-primary');
+		// console.log($navbar.classList);
 	}
 
 }

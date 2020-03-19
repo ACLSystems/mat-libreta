@@ -128,6 +128,9 @@ export class ProgressComponent implements OnInit {
 			// console.group('Grade');
 			// console.log(this.grade);
 			// console.groupEnd();
+			if(this.grade.moocPrice) {
+				this.mocAmount = `$ ${this.grade.moocPrice} MXN`
+			}
 			if(this.width > 768){
 				setTimeout(() => {
 					this.displayChart();
@@ -402,15 +405,15 @@ export class ProgressComponent implements OnInit {
 			status: this.grade.status,
 			rosterType : this.rosterType
 		}
-		console.group('cert');
-		console.log(cert);
-		console.groupEnd();
+		// console.group('cert');
+		// console.log(cert);
+		// console.groupEnd();
 		const id = (this.rosterType == 'group') ? this.grade.groupid : this.grade.rosterid;
-		console.group('id');
-		console.log(id)
-		console.groupEnd();
+		// console.group('id');
+		// console.log(id)
+		// console.groupEnd();
 		localStorage.setItem('cert', JSON.stringify(cert)),
-		this.router.navigate(['/cert',id]);
+		this.router.navigate(['/cert', cert.rosterType, id]);
 	}
 
 }

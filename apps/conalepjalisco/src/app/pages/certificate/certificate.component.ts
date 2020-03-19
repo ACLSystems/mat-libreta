@@ -4,6 +4,7 @@ import { interval, Subscription, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 //import { TimeagoIntl } from 'ngx-timeago';
 import localeMx from '@angular/common/locales/es-MX';
+import Swal from 'sweetalert2';
 //import { strings as spanishStrings } from 'ngx-timeago/language-strings/es';
 
 registerLocaleData(localeMx, 'es-Mx');
@@ -75,7 +76,6 @@ export class CertificateComponent implements OnInit {
   }
 
 	searchCertificate(folio:number) {
-		console.log('Hola');
 		this.secondsDisable = 10000; // 10 segundos
 		this.segundos = 10; // 10 veces
 		const secondsCounter = interval(this.secondsDisable / this.segundos); // Intervalo que va a contar con intervalos de un segundo
@@ -117,14 +117,22 @@ export class CertificateComponent implements OnInit {
 			this.buscando = false;
 			this.busqueda = true;
 		}, error => {
-			console.log(error);
+			this.buscando = false;
+			this.certificateFound = false;
+			this.updateDisable = false;
+			this.messageError = 'La busqueda arrojó un error';
+			Swal.fire({
+				type: 'error',
+				text: this.messageError
+			});
+			this.messageError = '';
 		});
 	}
 
 	resolved(captchaResponse: string) {
-		// console.log(`Resolved captcha with response ${captchaResponse}`);
 		if(captchaResponse){
 			this.pagesService.captcha(captchaResponse).subscribe((res:any) => {
+				// console.log(res);
 				if(res && res.success) {
 					this.captchaValidated = true;
 				} else {

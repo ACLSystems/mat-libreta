@@ -52,7 +52,7 @@ export class UnivComponent implements OnInit, AfterViewInit {
 	info() {
 		Swal.fire({
 			'type': 'info',
-			'text': 'Mándanos un correo a correo@correo.com indicando la carrera de interés y en menos de 48 horas te daremos más información.'
+			'html': 'Mándanos un correo a <br><b>licenciaturas@superatemexico.com</b><br> e indícanos la carrera de tu interés y en menos de 48 horas te daremos más información.'
 		});
 	}
 }

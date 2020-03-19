@@ -50,7 +50,7 @@ import { RegisterComponent } from './register/register.component';
 		PageRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		RecaptchaModule.forRoot()
+		RecaptchaModule
   ],
 	providers: [
 		PagesService,

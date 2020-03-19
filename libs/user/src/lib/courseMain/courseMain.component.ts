@@ -98,14 +98,17 @@ export class CourseMainComponent implements OnInit {
 				this.content = data.message;
 				this.content.bd = new Date(this.content.beginDate);
 				this.content.ed = new Date(this.content.endDate);
-				console.group('content');
-				console.log(this.content);
-				console.groupEnd();
+				// console.group('content');
+				// console.log(this.content);
+				// console.groupEnd();
 				this.sections = getUniques(this.content.blocks);
 				// console.log(this.sections);
 				this.track = parseInt(this.content.track.split('%')[0]);
 				//console.log(this.track);
 				this.finalGrade = this.content.finalGrade ? this.content.finalGrade : 0;
+				if(this.content && this.content.course && this.content.course.moocPrice) {
+					this.mocAmount = `$ ${this.content.course.moocPrice} MXN`
+				}
 				this.loading = false;
 			}
 		}, error => {
@@ -209,7 +212,7 @@ export class CourseMainComponent implements OnInit {
 		// console.log(id)
 		// console.groupEnd();
 		localStorage.setItem('cert', JSON.stringify(cert)),
-		this.router.navigate(['/cert',id]);
+		this.router.navigate(['/cert', cert.rosterType, id]);
 	}
 }
 

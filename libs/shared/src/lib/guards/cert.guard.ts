@@ -20,12 +20,16 @@ export class CertGuard implements CanActivate {
 			console.groupEnd();
 			if(id) {
 				const cert = JSON.parse(localStorage.getItem('cert'));
+				console.group('Cert');
+				console.log(cert);
+				console.groupEnd();
 				if(cert && cert.id && cert.id === id && cert.status && cert.status == 'active') {
 					return true;
 				} else {
 					localStorage.removeItem('cert');
 					localStorage.setItem('certAttempt',JSON.stringify(true));
-					return this.router.createUrlTree(['/user/progress', cert.rosterType, id]);
+					// return this.router.createUrlTree(['/user/progress', cert.rosterType, id]);
+					return this.router.createUrlTree(['/dashboard']);
 				}
 			} else {
 				return this.router.createUrlTree(['/dashboard']);

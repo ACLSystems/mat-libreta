@@ -162,5 +162,6 @@ export interface Grade {
 	status: string,
 	track: string,
 	tookCertificate: boolean,
-	openStatus: string
+	openStatus: string,
+	moocPrice?:string
 }

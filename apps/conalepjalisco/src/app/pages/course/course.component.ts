@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { PagesService } from '../pages.service';
-import { UserCourseService, CommonService } from '@mat-libreta/shared';
+import { UserCourseService, CommonService, WindowService } from '@mat-libreta/shared';
 import { environment } from '@cjaenv/environment';
 
 @Component({
@@ -27,13 +27,15 @@ export class CourseComponent implements OnInit, AfterViewInit {
   maxmembers: number [] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 	color: string;
 	margin: number = 20;
+	width: number;
 
   constructor(
 		private activeRoute: ActivatedRoute,
 		private router: Router,
 		private pagesService: PagesService,
 		private userCourseService: UserCourseService,
-		private commonService: CommonService
+		private commonService: CommonService,
+		private windowService: WindowService
 	) {
 		this.color = environment.color;
     this.activeRoute.params.subscribe( params =>{
@@ -46,6 +48,24 @@ export class CourseComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 		this.getCourse(this.idc);
   }
+
+	@HostListener('window:resize', ['$event'])
+	onResize(event?:any) {
+		this.width = this.windowService.windowRef.innerWidth;
+		var divs = document.getElementsByClassName('children');
+		if(this.width < 768) {
+			for(let i=0; i< divs.length; i++) {
+				divs[i].classList.remove('border-top');
+				divs[i].classList.remove('border-success');
+			}
+		}
+		if(this.width > 768) {
+			for(let i=0; i< divs.length; i++) {
+				divs[i].classList.add('border-top');
+				divs[i].classList.add('border-success');
+			}
+		}
+	}
 
 	ngAfterViewInit() {
 		let $navbar = document.getElementsByClassName('navbar')[0];
@@ -62,6 +82,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 			if(!this.curso.discount) {
 				this.curso.discount = 10;
 			}
+			console.log(this.curso);
 		}, error => {
 			Swal.fire({
 				type: 'error',

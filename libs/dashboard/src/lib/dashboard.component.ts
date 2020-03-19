@@ -121,8 +121,8 @@ export class DashboardComponent implements OnInit {
 	// 	console.log('No puedes usar el botón secundario!!!')
 	// }
 
-	async getMyRoles() {
-		await this.userService.getRoles().subscribe(data => {
+	getMyRoles() {
+		this.userService.getRoles().subscribe(data => {
 			const message = data.message;
 			this.myRoles = {
 				isAdmin: message.isAdmin,
@@ -141,8 +141,8 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
-	async getPublicData() {
-		await this.superService.getPublicData().subscribe(data => {
+	getPublicData() {
+		this.superService.getPublicData().subscribe(data => {
 			if(data) {
 				this.reportDate = data.firstDate;
 				if(data.totalCount) {
@@ -189,12 +189,12 @@ export class DashboardComponent implements OnInit {
 		})
 	}
 
-	async getCourseUser() {
+	getCourseUser() {
 		const minDays = 14;
 		const today = new Date();
 		this.loading = true;
 		var diff = 0;
-		await this.userCourseService.getCourses().subscribe(data => {
+		this.userCourseService.getCourses().subscribe(data => {
 			// console.group('data');
 			// console.log(data);
 			// console.groupEnd();
@@ -204,9 +204,9 @@ export class DashboardComponent implements OnInit {
 				Array.isArray(data.message.groups)
 			) {
 				const mycursos = data.message.groups;
-				console.group('mycursos');
-				console.log(mycursos);
-				console.groupEnd();
+				// console.group('mycursos');
+				// console.log(mycursos);
+				// console.groupEnd();
 				// this.userCourseService.getCoursesOrg().subscribe(res => {
 					// console.group('res');
 					// console.log(res);
@@ -255,9 +255,9 @@ export class DashboardComponent implements OnInit {
 				// console.group('courseList');
 				// console.log(this.courseList);
 				// console.groupEnd();
-				console.group('inActiveCourses');
-				console.log(this.inActiveCourses);
-				console.groupEnd();
+				// console.group('inActiveCourses');
+				// console.log(this.inActiveCourses);
+				// console.groupEnd();
 				this.messageNewUser = false;
 				var courses = +localStorage.getItem('courses');
 				courses ++;

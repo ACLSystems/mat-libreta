@@ -13,45 +13,54 @@
 								<div class="row">
 									<div class="col-sm-1"></div>
 									<div class="col-sm">
-										<div>
-											<re-captcha (resolved)="resolved($event)" siteKey="{{captchaSiteKey}}"></re-captcha>
+										<div class="container">
+											<div class="row">
+												<div class="col">
+													<re-captcha (resolved)="resolved($event)" siteKey="{{captchaSiteKey}}"></re-captcha>
+												</div>
+											</div>
 										</div>
 										<div class="input-group mb-3">
-						          <input type="text" class="form-control text-white" #folio  placeholder="Folio de la constancia">
-						          <div class="input-group-append">
-						            <button *ngIf="updateDisable"
-													class="btn btn-secondary"
-													type="button" disabled>
-						              <i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
-						              Espera {{segundos}} segundos
-						            </button>
-												<button *ngIf="!updateDisable && folio.value && captchaValidated"
-													class="btn btn-{{color}}"
-													type="button"
-													(click)="searchCertificate(folio.value)">
-						              <i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
-						              <span *ngIf="!buscando">Buscar</span>
-						              <span *ngIf="buscando">Buscando</span>
-						            </button>
-												<button *ngIf="!updateDisable && !folio.value"
-													class="btn btn-{{color}}"
-													placement="bottom"
-													ngbTooltip="Ingresa el folio de la constancia antes de proceder"
-													type="button" disable>
-													<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
-													<span *ngIf="!buscando">Buscar</span>
-						              <span *ngIf="buscando">Buscando</span>
-						            </button>
-												<button *ngIf="!updateDisable && folio.value && !captchaValidated"
-													class="btn btn-{{color}}"
-													placement="bottom"
-													ngbTooltip="Procede primero con el reCaptcha para validar que eres humano"
-													type="button" disable>
-													<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
-													<span *ngIf="!buscando">Buscar</span>
-						              <span *ngIf="buscando">Buscando</span>
-						            </button>
-						          </div>
+											<div class="container">
+												<div class="row">
+													<div class="col">
+														<div>
+															<input type="text" class="form-control text-white" #folio  placeholder="Ingresa el folio de la constancia">
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col">
+														<div class="input-group-append">
+															<button
+																*ngIf="updateDisable"
+																class="btn btn-secondary"
+																type="button" disabled>
+																<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
+																Espera {{segundos}} segundos
+															</button>
+															<button
+																*ngIf="!updateDisable && captchaValidated"
+																class="btn btn-{{color}}"
+																type="button"
+																(click)="searchCertificate(folio.value)">
+																<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
+																<span *ngIf="!buscando">Buscar</span>
+																<span *ngIf="buscando">Buscando</span>
+															</button>
+															<button
+																*ngIf="!updateDisable && !captchaValidated"
+																class="btn btn-{{color}}"
+																placement="bottom"
+																type="button" disable>
+																<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
+																<span *ngIf="!buscando">Buscar</span>
+																<span *ngIf="buscando">Buscando</span>
+															</button>
+														</div>
+													</div>
+												</div>
+											</div>
 						        </div>
 										<div *ngIf='captchaError' class="alert alert-danger">
 											{{captchaError}}

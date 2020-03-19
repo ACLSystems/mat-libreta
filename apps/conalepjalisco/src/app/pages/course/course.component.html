@@ -1,3 +1,5 @@
+<br><br><br><br>
+
 <div *ngIf="loading">
 	<div class="row text-center animated fadeIn">
 		<div class="col ">
@@ -9,11 +11,6 @@
 			<h1>Cargando componentes ... </h1>
 		</div>
 	</div>
-</div>
-
-<div *ngIf="!loading">
-	<h1>&nbsp;</h1>
-	<h5>&nbsp;</h5>
 </div>
 
 <div *ngIf="!loading" class="main-content">
@@ -83,36 +80,45 @@
 									</div>
 									<div class="col">
 										<div class="row">
-											<div class="col">
+											<div class="col-sm-6 col-md-3 border-top border-success children">
+												Nivel
+											</div>
+											<div class="col-sm-6 col-md border-top border-success children">
 												<span *ngIf="curso.level == 'basic'">
-													Nivel: <b>Básico</b>
+													<b>Básico</b>
 												</span>
 												<span *ngIf="curso.level == 'intermediate'">
-													Nivel: <b>Intermedio</b>
+													<b>Intermedio</b>
 												</span>
 												<span *ngIf="curso.level == 'advanced'">
-													Nivel: <b>Avanzado</b>
+													<b>Avanzado</b>
 												</span>
 											</div>
 										</div>
 										<div class="row">
-											<div class="col">
-												Duración: <b>{{curso.duration}}
-												<span *ngIf="curso.durationUnits == 'h'">
-													Horas
-												</span>
-												<span *ngIf="curso.durationUnits == 'd'">
-													Días
-												</span>
-												<span *ngIf="curso.durationUnits == 'w'">
-													Semanas
-												</span>
-												</b>
+											<div class="col-sm-6 col-md-3 border-top border-success children">
+												Duración
+											</div>
+											<div class="col-sm-6 col-md border-top border-success children">
+													<b>{{curso.duration}}
+ 												<span *ngIf="curso.durationUnits == 'h'">
+ 													Horas
+ 												</span>
+ 												<span *ngIf="curso.durationUnits == 'd'">
+ 													Días
+ 												</span>
+ 												<span *ngIf="curso.durationUnits == 'w'">
+ 													Semanas
+ 												</span>
+ 												</b>
 											</div>
 										</div>
 										<div class="row">
-											<div class="col">
-												Tipo: <b>
+											<div class="col-sm-6 col-md-3 border-top border-success children">
+												Tipo
+											</div>
+											<div class="col-sm-6 col-md border-top border-success children">
+												<b>
 													<span *ngIf="curso.type == 'tutor'">
 														Tutorado
 													</span>
@@ -125,9 +131,24 @@
 												</b>
 											</div>
 										</div>
-										<div class="row">
-											<div class="col">
-												{{curso.details}}
+										<div class="row" *ngIf="curso.moocPrice">
+											<div class="col-sm-6 col-md-3 border-top border-success children">
+												Costo de inversión
+											</div>
+											<div class="col-sm-6 col-md border-top border-success children">
+												<b>
+													Gratuito
+												</b><br />
+												Al finalizar el curso podrás obtener una constancia oficial de acreditación verificada, que comprueba tus conocimientos y habilidades adquiridas
+											</div>
+										</div>
+										<div class="row" *ngIf="curso.details">
+											<div class="col-sm-6 col-md-3 border-top border-success children">
+												Detalle
+											</div>
+											<div class="col-sm-6 col-md border-top border-success children">
+												<div [innerHTML]="curso.details">
+												</div>
 											</div>
 										</div>
 										<!-- <div class="row" *ngIf="curso.discount == 0">

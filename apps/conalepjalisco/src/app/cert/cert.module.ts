@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common'
+import { CommonModule, DecimalPipe } from '@angular/common'
 
 import { CertRoutingModule } from './cert.routing.module';
 import { CertComponent } from './cert.component';
@@ -17,7 +17,8 @@ import { AccesoriesModule } from '@mat-libreta/shared';
 		AccesoriesModule
   ],
 	providers: [
-		CertService
+		CertService,
+		DecimalPipe
 	]
 })
 export class CertModule { }
