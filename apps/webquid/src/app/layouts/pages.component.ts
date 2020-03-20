@@ -25,7 +25,7 @@ export class PagesComponent implements OnInit {
 	){
 		this.sidebarVisible = false;
 		this.token = this.userService.getToken();
-		this.commonService.displayLog('token',this.token);
+		// this.commonService.displayLog('token',this.token);
 	}
 	ngOnInit(){
 		const navbar: HTMLElement = this.element.nativeElement;

@@ -4,11 +4,15 @@ import { Location, LocationStrategy, PathLocationStrategy, PopStateEvent } from 
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
+import Swal from 'sweetalert2';
 
 import { NavItem, NavItemType} from '@wqmd/md.module';
 import { NavbarComponent } from '@wqnavbar/navbar.component';
+import { UserService } from '@wqshared/services/user.service';
+import { Publicity } from '@wqshared/types/publicity.type';
 
 declare const $: any;
+
 
 @Component({
 	selector: 'webquid-logged-layout',
@@ -23,13 +27,17 @@ export class LoggedComponent implements OnInit, AfterViewInit {
 	private yScrollStack: number[] = [];
 	url: string;
 	location: Location;
+	loading: boolean = false;
+	publicity: Publicity[] = [];
 
 	@ViewChild('sidebar') sidebar: any;
 	@ViewChild(NavbarComponent) navbar: NavbarComponent;
 
 	constructor(
 		private router: Router,
-		location: Location) {
+		private userService: UserService,
+		location: Location
+	) {
 		this.location = location;
 	}
 
@@ -123,6 +131,7 @@ export class LoggedComponent implements OnInit, AfterViewInit {
 			},
 			{ type: NavItemType.NavbarLeft, title: 'Log out' }
 		];
+		this.loadPublicity();
 	}
 	ngAfterViewInit() {
 		this.runOnRouteChange();
@@ -149,6 +158,19 @@ export class LoggedComponent implements OnInit, AfterViewInit {
 				bool = true;
 		}
 		return bool;
+	}
+
+	loadPublicity() {
+		this.loading = true;
+		this.userService.getPublicity().subscribe(data => {
+			if(Array.isArray(data)) {
+				this.publicity = data;
+			}
+			this.loading = false;
+		}, error => {
+			console.log(error);
+			this.loading = false;
+		});
 	}
 
 }

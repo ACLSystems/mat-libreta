@@ -20,10 +20,8 @@ export class PublicService {
 	metodo login
 	*/
 	login(username: string, password: string): Observable<any> {
-		console.log(username,password);
 		const body = JSON.stringify({username,password});
 		const route = this.url + 'login';
-		console.log(route);
 		return this.http.post(route, body, {headers: JSONHeaders});
 	}
 

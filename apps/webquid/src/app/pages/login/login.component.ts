@@ -50,11 +50,11 @@ export class LoginComponent implements OnInit {
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
 		}
-		const card = document.getElementsByClassName('card')[0];
-		setTimeout(function() {
-				// after 1000 ms we add the class animated to the login/register card
-				card.classList.remove('card-hidden');
-		}, 700);
+		// const card = document.getElementsByClassName('card')[0];
+		// setTimeout(function() {
+		// 		// after 1000 ms we add the class animated to the login/register card
+		// 		card.classList.remove('card-hidden');
+		// }, 700);
 	}
 
 	getCredentials(){

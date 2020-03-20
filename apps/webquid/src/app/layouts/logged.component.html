@@ -12,10 +12,13 @@
 						<div class="card mt-4 mb-0 pb-0">
 							<div class="card-body">
 								<h4>Anuncios</h4>
-								<p>Espacio para publicidad</p>
-								<p>
-									Más publicidad
-									</p>
+								<p *ngIf="publicity.length === 0">No hay anuncios</p>
+								<div *ngIf="publicity.length > 0">
+									<div *ngFor="let ad of publicity">
+										<div [innerHTML]="ad.text"></div>
+										<hr />
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
