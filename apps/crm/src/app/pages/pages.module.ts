@@ -43,7 +43,7 @@ import { LogoutComponent } from './logout/logout.component';
     CommonModule,
 		PageRoutingModule,
 		FormsModule,
-		RecaptchaModule.forRoot()
+		RecaptchaModule
   ],
 	providers: [
 		PagesService,
