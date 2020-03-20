@@ -51,11 +51,11 @@ export class RegisterComponent implements OnInit {
 		},{validator: [this.mustMatch('password', 'rpassword'), this.mustMatch('email', 'remail')]});
 		var setAgree = this.registerForm.get('agree');
 		setAgree.setValue(false);
-		const card = document.getElementsByClassName('card')[0];
-		setTimeout(function() {
-				// after 1000 ms we add the class animated to the login/register card
-				card.classList.remove('card-hidden');
-		}, 800);
+		// const card = document.getElementsByClassName('card')[0];
+		// setTimeout(function() {
+		// 		// after 1000 ms we add the class animated to the login/register card
+		// 		card.classList.remove('card-hidden');
+		// }, 800);
   }
 
 	get name() {
