@@ -38,11 +38,11 @@ export class RecoverPassComponent implements OnInit {
 					Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]
 			]
 		});
-		const card = document.getElementsByClassName('card')[0];
-		setTimeout(function() {
-				// after 1000 ms we add the class animated to the login/register card
-				card.classList.remove('card-hidden');
-		}, 400);
+		// const card = document.getElementsByClassName('card')[0];
+		// setTimeout(function() {
+		// 		// after 1000 ms we add the class animated to the login/register card
+		// 		card.classList.remove('card-hidden');
+		// }, 400);
 	}
 
 	get username() {
