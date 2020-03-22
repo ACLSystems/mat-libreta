@@ -3,9 +3,9 @@ import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
 
-// import { Identity } from '@wqshared/types/user.type';
+import { Identity } from '@wqshared/types/user.type';
 //
-// import { UserService } from '@wqshared/services/user.service';
+import { UserService } from '@wqshared/services/user.service';
 
 declare const $: any;
 
@@ -16,6 +16,7 @@ export interface RouteInfo {
 		type: string;
 		icontype: string;
 		collapse?: string;
+		role: string;
 		children?: ChildrenItems[];
 }
 
@@ -34,32 +35,14 @@ export const ROUTES: RouteInfo[] = [{
 			path: '/services',
 			title: 'Servicios',
 			type: 'link',
-			icontype: 'arrow_forward_ios'
+			role: 'all',
+			icontype: 'room_service'
 		},{
-			path: '/services/payroll',
-			title: 'Recibos de nómina',
+			path: '/admin',
+			title: 'Configuración',
 			type: 'link',
-			icontype: 'double_arrow'
-		},{
-			path: '/services/imss',
-			title: 'Altas de IMSS',
-			type: 'link',
-			icontype: 'double_arrow'
-		},{
-			path: '/services/vacation',
-			title: 'Vacaciones',
-			type: 'link',
-			icontype: 'double_arrow'
-		},{
-			path: '/services/certificates',
-			title: 'Solicitud de constancias',
-			type: 'link',
-			icontype: 'double_arrow'
-		},{
-			path: '/services/other',
-			title: 'Otros servicios',
-			type: 'link',
-			icontype: 'double_arrow'
+			role: 'isAdmin',
+			icontype: 'settings'
 		}
 		// {
 		// 		path: '/calendar',
@@ -142,13 +125,7 @@ export const ROUTES: RouteInfo[] = [{
 })
 export class SidebarComponent implements OnInit {
 
-	// identity: Identity;
-	identity = {
-		person: {
-			name: 'Roberto',
-			fatherName: 'Jiménez'
-		}
-	}
+	identity: Identity;
 	image: any;
 	route: string;
 
@@ -162,7 +139,7 @@ export class SidebarComponent implements OnInit {
 	};
 
 	constructor(
-		// private userService: UserService,
+		private userService: UserService,
 		private router: Router
 	) {
 		this.router.events.pipe(
@@ -175,17 +152,30 @@ export class SidebarComponent implements OnInit {
 	ngOnInit() {
 		const body = document.getElementsByTagName('body')[0];
 		body.classList.remove('off-canvas-sidebar');
-		this.menuItems = ROUTES.filter(menuItem => menuItem);
 		if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
 				const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
 				this.ps = new PerfectScrollbar(elemSidebar);
 		}
-		// this.identity = this.userService.getidentity();
+		this.identity = this.userService.getidentity();
 		// this.image = this.userService.getUserImage().subscribe(data => {
 		// 	this.createImageFromBlob(data);
 		// }, err => {
 		// 	console.log(err);
 		// });
+		const menuAll = ROUTES.filter(item => item.role === 'all');
+		const menuAdmin = this.identity.roles.isAdmin ? ROUTES.filter(item => item.role === 'isAdmin') : [];
+		const menuSuper = this.identity.roles.isSupervisor ? ROUTES.filter(item => item.role === 'isSupervisor') : [];
+		const menuOperator = this.identity.roles.isOperator ? ROUTES.filter(item => item.role === 'isOperator') : [];
+		const menuTech = this.identity.roles.isTechAdmin ? ROUTES.filter(item => item.role === 'isTechAdmin') : [];
+		const menuBill = this.identity.roles.isBillAdmin ? ROUTES.filter(item => item.role === 'isBillAdmin') : [];
+		this.menuItems = [
+			...menuAll,
+			...menuAdmin,
+			...menuSuper,
+			...menuOperator,
+			...menuTech,
+			...menuBill
+		];
 	}
 
 	updatePS(): void  {

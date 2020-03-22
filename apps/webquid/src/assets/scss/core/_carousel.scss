@@ -62,17 +62,17 @@
         }
     }
     .carousel-indicators{
-        bottom: 5px;
+        bottom: 1px;
 
         li,
         .active{
-            margin: 11px 10px;
+            margin: 1px 5px;
         }
 
         li{
             display: inline-block;
             width: 10px;
-            height: 10px;
+            height: 1px;
             text-indent: -999px;
             cursor: pointer;
             border: 1px solid #fff;
@@ -83,7 +83,7 @@
             border-radius: $border-radius-small;
         }
         .active{
-            margin-top: 10px;
+            margin-top: 1px;
             @include transform-scale(1.5);
             @include shadow-4dp();
         }

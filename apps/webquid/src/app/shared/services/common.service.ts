@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SimpleGlobal } from 'ng2-simple-global';
 
-import { Identity } from '@crmshared/types/user.type';
+import { Identity } from '@wqshared/types/user.type';
 import { environment } from '@crmenv/environment';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class CommonService {
 	/*
 	metodo para traer la identidad del usuario autenticado
 	*/
-	getidentity(){
+	getidentity(): Identity {
 		// const identity = JSON.parse(localStorage.getItem('identity'));
 		const keys = Object.keys(this.sg);
 		if(keys.length === 0) {

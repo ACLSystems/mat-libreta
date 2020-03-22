@@ -677,7 +677,6 @@
 							"apps/webquid/src/assets"
 						],
 						"styles": [
-							"node_modules/bootstrap/dist/css/bootstrap.min.css",
 							"node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
 							"node_modules/sweetalert2/src/sweetalert2.scss",
 							"node_modules/datatables.net-bs4/css/datatables.bootstrap4.css",

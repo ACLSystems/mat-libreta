@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { SimpleGlobal } from 'ng2-simple-global';
 
 import { Identity } from '@wqshared/types/user.type';
+import { Publicity } from '@wqshared/types/publicity.type';
 
 import { CommonService } from '@wqshared/services/common.service';
 import { JSONHeaders } from '@mat-libreta/shared';
@@ -31,7 +32,7 @@ export class UserService{
 	/*
 	metodo para traer la identidad del usuario autenticado
 	*/
-	getidentity() {
+	getidentity(): Identity {
 		return this.commonService.getidentity();
 		// const identity = JSON.parse(localStorage.getItem('identity'));
 		// if (identity !== 'undefined') {
@@ -102,5 +103,31 @@ export class UserService{
 		} else {
 			return null
 		}
+	}
+
+	getCompanies(): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = this.url + 'api/v1/operator/company';
+			return this.http.get(route, httpOptions);
+		} else {
+			return null
+		}
+	}
+
+	createPublicity(body:Publicity): Observable<any>|null {
+		const params = JSON.stringify(body);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/publicity';
+		return this.http.post(route, params, {headers});
 	}
 }

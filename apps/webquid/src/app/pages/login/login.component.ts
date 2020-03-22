@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
 	login: Login;
 	token: any;
 	tokenVersion: string;
-	identity: Identity;
+	identity: Identity | null;
 	show = false;
 
 	constructor(
@@ -44,9 +44,9 @@ export class LoginComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.token = this.userService.getToken();
-		this.identity = this.userService.getidentity();
-		this.tokenVersion = this.userService.getTokenVersion();
+		// this.token = this.userService.getToken();
+		// this.identity = this.userService.getidentity();
+		// this.tokenVersion = this.userService.getTokenVersion();
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
 		}
@@ -76,7 +76,6 @@ export class LoginComponent implements OnInit {
 		this.publicService
 			.login(this.login.username, this.login.password)
 			.subscribe(data => {
-				console.log(data)
 				this.token = data.token;
 				this.sg['token'] = this.token;
 				this.sg['tokenVersion'] = environment.tokenVersion;
@@ -84,15 +83,16 @@ export class LoginComponent implements OnInit {
 				// localStorage.setItem('token', this.token);
 				// localStorage.setItem('tokenVersion', '2');
 				let decodedToken = this.getDecodedAccessToken(this.token);
-				console.log(decodedToken);
-				this.sg['identity'] = JSON.stringify({
+				this.identity = {
 				// localStorage.setItem('identity', JSON.stringify({
 					identifier: decodedToken.sub,
 					companies: decodedToken.companies,
 					person: decodedToken.person,
-					userid: decodedToken.userid
+					userid: decodedToken.userid,
+					roles: data.roles
 				// }));
-				});
+				};
+				this.sg['identity'] = JSON.stringify(this.identity);
 				this.router.navigate(['/services']);
 				this.loading = false;
 		}, error => {

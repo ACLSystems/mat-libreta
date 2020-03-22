@@ -10,13 +10,56 @@
 				<div class="col">
 					<div class="publicidad">
 						<div class="card mt-4 mb-0 pb-0">
-							<div class="card-body">
-								<h4>Anuncios</h4>
+							<div class="card-header p-1">
+								<h4 class="float-left">Anuncios</h4>
+								<button
+									mat-rised-button
+									*ngIf="roles.isAdmin || roles.isBillAdmin || roles.isTechAdmin || roles.isOperator"
+									class="btn btn-link btn-primary float-right"
+									data-toggle="modal"
+									data-target="#publicityModal"
+									(click)="loadCompanies();"
+									><i class="fas fa-plus-circle fa-lg mr-2 mt-2"></i>
+								</button>
+							</div>
+							<div class="card-body p-1">
 								<p *ngIf="publicity.length === 0">No hay anuncios</p>
 								<div *ngIf="publicity.length > 0">
-									<div *ngFor="let ad of publicity">
-										<div [innerHTML]="ad.text"></div>
-										<hr />
+									<div class="d-md-none">
+										<ng-container *ngFor="let ad of publicity; let index=index; let first=first">
+											<div [innerHTML]="ad.text"></div>
+											<hr>
+										</ng-container>
+									</div>
+									<div class="d-none d-md-block">
+										<div class="container p-0">
+											<div class="row">
+												<div class="col p-0 d-flex align-items-center justify-content-center">
+													<button
+														class="btn btn-sm btn-link"
+														(click)="move(-1);"
+													>
+														<i class="fas fa-chevron-left fa-2x"></i>
+													</button>
+												</div>
+												<div class="col-10 p-0">
+													<div class="container p-0">
+														<img src="assets/img/carousel-bg.jpg" class="d-block w-100">
+														<div class="centered">
+															<div [innerHTML]="publicity[currentPublicity].text"></div>
+														</div>
+													</div>
+												</div>
+												<div class="col p-0 d-flex align-items-center justify-content-center">
+													<button
+														class="btn btn-sm btn-link"
+														(click)="move(1);"
+													>
+														<i class="fas fa-chevron-right fa-2x"></i>
+													</button>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -30,6 +73,154 @@
 						<router-outlet></router-outlet>
 					</div>
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div
+	class="modal fade"
+	id="publicityModal"
+	tabindex="-1"
+	aria-hiden="true"
+	role="dialog"
+	aria-labelledby="publicityModal"
+	>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Crear Anuncio</h4>
+				<button
+					mat-button
+					type="button"
+					data-dismiss="modal"
+					aria-hidden="true"
+					class="close"
+					>
+					<i class="material-icons">clear</i>
+				</button>
+			</div>
+			<div class="modal-body" *ngIf="!loadingCompanies">
+					<div class="row">
+						<div class="col ml-auto mr-auto">
+							<div class="form-group bmd-form-group is-filled">
+								<form [formGroup]="publicityForm">
+									<div class="container">
+										<div class="row">
+											<div class="col">
+												<mat-form-field>
+													<textarea
+													matInput
+													placeholder="Texto del anuncio"
+													formControlName="text"
+													type="text">
+													</textarea>
+												</mat-form-field>
+												<div
+													class="text-danger"
+													*ngIf="(text.dirty || text.touched) && text.invalid && text.errors.required"
+												>
+													<small>* Texto del anuncio requerido</small>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<mat-form-field>
+													<mat-label>
+														Anuncio válido hasta
+													</mat-label>
+													<input
+													matInput
+													[matDatepicker]="picker"
+													formControlName="endDate"
+													>
+													<mat-datepicker-toggle
+														matSuffix [for]="picker"
+													></mat-datepicker-toggle>
+													<mat-datepicker #picker></mat-datepicker>
+												</mat-form-field>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												<mat-form-field>
+													<mat-label>Aplica para las empresas:</mat-label>
+													<input
+													matInput
+													placeholder="Aplica para las empresas:"
+													formControlName="companies"
+													type="text">
+													<mat-select formControlName="companies" multiple>
+														<mat-option *ngFor="let company of companiesOptions" [value]="company._id">
+															{{company.display}}
+														</mat-option>
+													</mat-select>
+												</mat-form-field>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col">
+												Prioridad
+												<mat-slider
+													thumbLabel
+													[displayWith]="formatLabel"
+													thickInterval="10"
+													min="10"
+													max="1000"
+													formControlName="priority"
+												>
+												</mat-slider>
+											</div>
+										</div>
+									</div>
+								</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-body" *ngIf="loadingCompanies">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<div class="d-flex justify-content-center align-items-center">
+								<div class="container">
+									<div class="row">
+										<div class="col d-flex justify-content-center align-items-center">
+											<div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+												<span class="sr-only">Loading...</span>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col d-flex justify-content-center align-items-center">
+											<h4>Cargando... Espera</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button
+					mat-raised-button
+					type="button"
+					class="btn btn-primary btn-sm"
+					*ngIf="!loadingCompanies"
+					(click)="savePublicity();"
+					>
+					Guardar
+				</button>
+				<button
+					mat-raised-button
+					type="button"
+					class="btn btn-danger btn-sm"
+					data-dismiss="modal"
+					>
+					Cerrar
+				</button>
 			</div>
 		</div>
 	</div>

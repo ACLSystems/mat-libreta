@@ -1,22 +1,29 @@
 export type Identity = {
-	admin: {
+	identifier: String,
+	companies: {
 		isActive: Boolean,
-		isDataVerified: Boolean,
-		isVerified: Boolean,
-		recoverString?: string
+		company: {
+			isActive: Boolean,
+			_id: Boolean,
+			name: String,
+			display: String,
+			identifier: String
+		} | String
+	}[],
+	person?: {
+		name?: String,
+		fatherName?: String,
+		motherName?: String,
+		email?: String
 	},
-	attachedToWShift: Boolean,
-	name: string,
-	org: string,
-	orgUnit: string,
-	orgid: string,
-	ouid: string,
-	person: {
-		birthDate: string,
-		email: string,
-		fatherName: string,
-		motherName: string,
-		name: string
-	},
-	userid: string
+	userid: String,
+	roles: Roles
+}
+
+export type Roles = {
+	isAdmin: Boolean,
+	isSupervisor: Boolean,
+	isOperator: Boolean,
+	isTechAdmin: Boolean,
+	isBillAdmin: Boolean
 }
