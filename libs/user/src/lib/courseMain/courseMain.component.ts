@@ -14,7 +14,7 @@ import {
 	Section
 } from '@mat-libreta/shared';
 
-
+import { TourService } from 'ngx-tour-ng-bootstrap';
 
 registerLocaleData(localeMX);
 
@@ -27,6 +27,7 @@ registerLocaleData(localeMX);
 		UserCourseService,
 		WindowService,
 		CommService,
+		TourService,
 		{ provide: LOCALE_ID, useValue: 'es-MX'}
 	]
 })
@@ -53,7 +54,8 @@ export class CourseMainComponent implements OnInit {
 		private router: Router,
 		private userCourseService: UserCourseService,
 		// private commService: CommService,
-		private commonService: CommonService
+		private commonService: CommonService,
+		private tourService: TourService
 	) {
 		this.loading = true;
 		this.activatedRoute.params.subscribe(params => {
@@ -80,6 +82,16 @@ export class CourseMainComponent implements OnInit {
 		// 		that.commService.sendMessage(that.userid,now);
 		// 	});
 		// }, 801);
+	}
+
+	ngAfterViewInit() {
+		const tourBegin = localStorage.getItem('coursetour');
+		if(tourBegin !== 'finish') {
+			console.log('Reiniciando tour')
+			setTimeout(() => {
+				this.tourService.startAt('incourse.tour');
+			},900);
+		}
 	}
 
 	getGroup() {

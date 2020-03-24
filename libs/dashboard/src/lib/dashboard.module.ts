@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { TourNgBootstrapModule } from 'ngx-tour-ng-bootstrap';
 
 import { AccesoriesModule } from '@mat-libreta/shared';
 
@@ -17,7 +18,8 @@ import { DashboardComponent } from './dashboard.component';
 		CommonModule,
 		DashboardRoutingModule,
 		FormsModule,
-		AccesoriesModule
+		AccesoriesModule,
+		TourNgBootstrapModule
 	]
 })
 export class DashboardModule {}

@@ -6,6 +6,7 @@ export interface RouteInfo {
 		icontype: string;
 		collapse?: string;
 		children?: ChildrenItems[];
+		tourAnchor?: string;
 }
 
 export interface ChildrenItems {
@@ -14,18 +15,21 @@ export interface ChildrenItems {
 		title: string;
 		ab: string;
 		type?: string;
+		tourAnchor?: string;
 }
 
 export const ROUTES_1: RouteInfo[] = [{
 				path: '/dashboard',
 				title: 'Panel',
 				type: 'link',
-				icontype: 'dashboard'
+				icontype: 'dashboard',
+				tourAnchor: 'panel.tour'
 		},{
 				path: '/calendar',
 				title: 'Calendario',
 				type: 'link',
-				icontype: 'date_range'
+				icontype: 'date_range',
+				tourAnchor: 'calendar.tour'
 		}
 ];
 

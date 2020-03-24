@@ -4,7 +4,7 @@
 								<img src="/assets/img/cetec_redwhite.png"/>
 						</div>
 					</a>
-						<a [routerLink]="['/dashboard']" class="simple-text logo-normal">
+						<a [routerLink]="['/dashboard']" class="simple-text logo-normal" tourAnchor="iniciar.tour">
 							Grupo CETEC
 						</a>
 				</div>
@@ -18,7 +18,7 @@
 									</ngx-avatar>
 								</div>
 								<div class="user-info">
-										<a data-toggle="collapse" href="#collapseExample" class="collapsed">
+										<a data-toggle="collapse" href="#collapseExample" class="collapsed" tourAnchor="name.tour">
 												<span>
 														{{identity.person.name}} {{identity.person.fatherName}}
 														<b class="caret"></b>
@@ -111,7 +111,7 @@
 						<ul class="nav">
 								<li routerLinkActive="active" *ngFor="let menuitem of menuItems" class="nav-item">
 										<!--If is a single link-->
-										<a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'" class="nav-link">
+										<a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'" class="nav-link" [tourAnchor]="menuitem.tourAnchor">
 												<i class="material-icons">{{menuitem.icontype}}</i>
 												<p>{{menuitem.title}}</p>
 										</a>

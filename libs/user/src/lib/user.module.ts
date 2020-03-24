@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TourNgBootstrapModule } from 'ngx-tour-ng-bootstrap';
 
 import { UserRoutingModule } from './user.routing.module';
 import { AccesoriesModule, SafePipe, DateAgoPipe } from '@mat-libreta/shared';
@@ -47,7 +48,8 @@ registerLocaleData(localeMX);
 		AvatarModule,
 		MatFormFieldModule,
 		MatDatepickerModule,
-		MatInputModule
+		MatInputModule,
+		TourNgBootstrapModule
 	],
 	providers: [
 		{ provide: LOCALE_ID, useValue: 'es-MX'}

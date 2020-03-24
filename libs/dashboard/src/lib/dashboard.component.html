@@ -56,6 +56,8 @@
 										aria-expanded="true"
 										aria-controls="collapseActive"
 										class="collapsed text-primary"
+										tourAnchor="cactivos.tour"
+										(click)="continueTour();"
 										>
 										Cursos activos
 										<span class="badge badge-primary">
@@ -96,6 +98,7 @@
 															crs.curso.courseid,
 															crs.curso.lastSeenBlock,
 															crs.curso.firstBlock);"
+														tourAnchor="course.tour"
 														>
 															<img
 																[src]="crs.imagen"
@@ -169,6 +172,7 @@
 										aria-expanded="true"
 										aria-controls="collapseNext"
 										class="collapsed text-info"
+										tourAnchor="cproxi.tour"
 										>
 										Próximos cursos
 										<span class="badge badge-info">
@@ -229,6 +233,7 @@
 										aria-expanded="true"
 										aria-controls="collapsePast"
 										class="collapsed text-secondary"
+										tourAnchor="cend.tour"
 										>
 										Cursos finalizados
 										<span class="badge badge-secondary">
@@ -321,7 +326,7 @@
 		</div>
 		<div class="col-md-4">
 			<div class="row">
-				<div class="card">
+				<div class="card" tourAnchor="events.tour">
 					<div class="card-header card-header-text card-header-warning">
 						<div class="card-text">
 							<h4 class="card-title"><i class="material-icons">date_range</i> Próximos eventos</h4>

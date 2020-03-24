@@ -6,6 +6,48 @@
 		<div class="main-panel">
 				<app-navbar-cmp></app-navbar-cmp>
 				<router-outlet></router-outlet>
+				<tour-step-template>
+					<ng-template let-step="step">
+						<div class="tour-step-content">
+							<div [innerHTML]="step?.content"></div>
+						</div>
+						<div class="tour-step-navigation">
+							<div class="container">
+								<div class="row">
+									<div class="col text-center">
+										<button
+											mat-raised-button mat-min-fab
+											*ngIf="tourService.hasPrev(step);"
+											class="btn btn-primary btn-sm btn-round btn-fab"
+											(click)="tourService.prev();setTour(tourService.currentStep);"
+											>
+											<i class="material-icons">arrow_backward</i>
+										</button>
+										<button
+											mat-raised-button mat-min-fab
+											*ngIf="tourService.hasNext(step);"
+											class="btn btn-primary btn-sm btn-round btn-fab"
+											(click)="tourService.next();setTour(tourService.currentStep);"
+											>
+											<i class="material-icons">arrow_forward</i>
+										</button>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col text-center">
+										<button
+											mat-raised-button mat-min-fab
+											class="btn btn-danger btn-sm"
+											(click)="tourService.end();finishTour();"
+											>
+											{{step?.endBtnTitle}}
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</ng-template>
+				</tour-step-template>
 		</div>
 		<!-- <app-fixedplugin></app-fixedplugin> -->
 </div>
