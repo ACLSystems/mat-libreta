@@ -57,6 +57,19 @@ export class UserService{
 		// return this.token;
 	}
 
+	/*
+	metodo para refrescar el token del usuario
+	*/
+
+	refreshToken(): Observable<any>|null {
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/refreshtoken';
+		return this.http.post(route, {}, {headers});
+	}
+
 	updateIdentity(identity: Identity): Identity {
 		return this.commonService.updateIdentity(identity);
 	}
@@ -89,7 +102,7 @@ export class UserService{
 		return this.tokenVersion;
 	}
 
-	getPublicity(): Observable<any>|null {
+	getMyPublicity(): Observable<any>|null {
 		const token = this.getToken();
 		if(token) {
 			const httpOptions = {
@@ -99,6 +112,38 @@ export class UserService{
 				)
 			};
 			const route = this.url + 'api/v1/mypublicity';
+			return this.http.get(route, httpOptions);
+		} else {
+			return null
+		}
+	}
+
+	getMyServices(): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = this.url + 'api/v1/myservices';
+			return this.http.get(route, httpOptions);
+		} else {
+			return null
+		}
+	}
+
+	getService(serviceid:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = this.url + 'api/v1/service/' + serviceid;
 			return this.http.get(route, httpOptions);
 		} else {
 			return null

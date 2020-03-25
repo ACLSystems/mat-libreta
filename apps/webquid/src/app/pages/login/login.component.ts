@@ -44,9 +44,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		// this.token = this.userService.getToken();
-		// this.identity = this.userService.getidentity();
-		// this.tokenVersion = this.userService.getTokenVersion();
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
 		}
@@ -79,18 +76,14 @@ export class LoginComponent implements OnInit {
 				this.token = data.token;
 				this.sg['token'] = this.token;
 				this.sg['tokenVersion'] = environment.tokenVersion;
-				this.sg['tokenExp'] = new Date(this.token.exp);
-				// localStorage.setItem('token', this.token);
-				// localStorage.setItem('tokenVersion', '2');
+				this.sg['tokenExp'] = data.exp;
 				let decodedToken = this.getDecodedAccessToken(this.token);
 				this.identity = {
-				// localStorage.setItem('identity', JSON.stringify({
 					identifier: decodedToken.sub,
 					companies: decodedToken.companies,
 					person: decodedToken.person,
 					userid: decodedToken.userid,
 					roles: data.roles
-				// }));
 				};
 				this.sg['identity'] = JSON.stringify(this.identity);
 				this.router.navigate(['/services']);

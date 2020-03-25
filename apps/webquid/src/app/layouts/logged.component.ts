@@ -6,6 +6,8 @@ import { Subscription, Observable, timer } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import PerfectScrollbar from 'perfect-scrollbar';
 import Swal from 'sweetalert2';
+import { SimpleGlobal } from 'ng2-simple-global';
+import * as jwt_decode from 'jwt-decode';
 
 import { NavItem, NavItemType} from '@wqmd/md.module';
 import { NavbarComponent } from '@wqnavbar/navbar.component';
@@ -13,6 +15,8 @@ import { UserService } from '@wqshared/services/user.service';
 import { Publicity } from '@wqshared/types/publicity.type';
 import { Identity, Roles } from '@wqshared/types/user.type';
 import { Company } from '@wqshared/types/companies.type';
+
+import { environment } from '@wqenv/environment';
 
 declare const $: any;
 
@@ -50,6 +54,11 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 	loadingCompanies: boolean = false;
 	companiesOptions: Company[] = [];
 
+	// Variables para validar token
+	private time: number= 780000; // 13 minutos
+	private intervalReviewToken: Observable<number> = timer(0, this.time);
+	private intervalSubscriptionToken: Subscription;
+
 	formatLabel(value:number) {
 		return value + ''
 	}
@@ -61,7 +70,8 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 		private router: Router,
 		private userService: UserService,
 		location: Location,
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		private sg: SimpleGlobal
 	) {
 		this.location = location;
 		this.identity = this.userService.getidentity();
@@ -111,55 +121,6 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 				.subscribe((event: NavigationEnd) => {
 			this.navbar.sidebarClose();
 		});
-
-		// this.navItems = [
-		// 	{ type: NavItemType.NavbarLeft, title: 'Dashboard', iconClass: 'fa fa-dashboard' },
-		//
-		// 	{
-		// 		type: NavItemType.NavbarRight,
-		// 		title: '',
-		// 		iconClass: 'fa fa-bell-o',
-		// 		numNotifications: 5,
-		// 		dropdownItems: [
-		// 			{ title: 'Notification 1' },
-		// 			{ title: 'Notification 2' },
-		// 			{ title: 'Notification 3' },
-		// 			{ title: 'Notification 4' },
-		// 			{ title: 'Another Notification' }
-		// 		]
-		// 	},
-		// 	{
-		// 		type: NavItemType.NavbarRight,
-		// 		title: '',
-		// 		iconClass: 'fa fa-list',
-		//
-		// 		dropdownItems: [
-		// 			{ iconClass: 'pe-7s-mail', title: 'Messages' },
-		// 			{ iconClass: 'pe-7s-help1', title: 'Help Center' },
-		// 			{ iconClass: 'pe-7s-tools', title: 'Settings' },
-		// 			 'separator',
-		// 			{ iconClass: 'pe-7s-lock', title: 'Lock Screen' },
-		// 			{ iconClass: 'pe-7s-close-circle', title: 'Log Out' }
-		// 		]
-		// 	},
-		// 	{ type: NavItemType.NavbarLeft, title: 'Search', iconClass: 'fa fa-search' },
-		//
-		// 	{ type: NavItemType.NavbarLeft, title: 'Account' },
-		// 	{
-		// 		type: NavItemType.NavbarLeft,
-		// 		title: 'Dropdown',
-		// 		dropdownItems: [
-		// 			{ title: 'Action' },
-		// 			{ title: 'Another action' },
-		// 			{ title: 'Something' },
-		// 			{ title: 'Another action' },
-		// 			{ title: 'Something' },
-		// 			'separator',
-		// 			{ title: 'Separated link' },
-		// 		]
-		// 	},
-		// 	{ type: NavItemType.NavbarLeft, title: 'Log out' }
-		// ];
 		this.loadPublicity();
 	}
 	ngAfterViewInit() {
@@ -167,9 +128,13 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.intervalSubscription = this.intervalReview.subscribe(interval => {
 			this.move(1);
 		});
+		this.intervalSubscriptionToken = this.intervalReviewToken.subscribe(interval => {
+			this.checkTokenValidity();
+		});
 	}
 	ngOnDestroy() {
 		this.intervalSubscription.unsubscribe();
+		this.intervalSubscriptionToken.unsubscribe();
 	}
 
 	get text() {
@@ -225,7 +190,7 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	loadPublicity() {
 		this.loading = true;
-		this.userService.getPublicity().subscribe(data => {
+		this.userService.getMyPublicity().subscribe(data => {
 			if(Array.isArray(data)) {
 				this.publicity = data;
 			}
@@ -323,6 +288,46 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 			});
 		} else {
 			this.validateAllFormFields(this.publicityForm);
+		}
+	}
+
+	checkTokenValidity() {
+		// Si el token expira hay que generar uno nuevo
+		console.log(new Date());
+		const now = Math.floor(new Date().getTime() / 1000);
+		console.log(now);
+		const tokenExp = this.sg['tokenExp'];
+		console.log(tokenExp);
+		const time = this.time / 1000;
+		const diff = tokenExp - now;
+		console.log(diff, time);
+		if(diff < time) {
+			console.log('Renovación de token');
+			this.userService.refreshToken().subscribe(data => {
+				this.sg['token'] = data.token;
+				this.sg['tokenVersion'] = environment.tokenVersion;
+				this.sg['tokenExp'] = data.exp;
+				let decodedToken = this.getDecodedAccessToken(data.token);
+				this.identity = {
+					identifier: decodedToken.sub,
+					companies: decodedToken.companies,
+					person: decodedToken.person,
+					userid: decodedToken.userid,
+					roles: data.roles
+				};
+				this.sg['identity'] = JSON.stringify(this.identity);
+			}, error => {
+				console.log(error);
+				this.router.navigate(['/pages/login']);
+			});
+		}
+	}
+
+	getDecodedAccessToken(token: string): any {
+		try {
+			return jwt_decode(token);
+		} catch (err)  {
+			return null;
 		}
 	}
 

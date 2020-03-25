@@ -20,6 +20,7 @@ import { Payroll2Component } from './payroll2/payroll2.component';
 // import { BlockCopyPasteDirective } from '@crmshared/directives/protect.directive';
 
 import { HTTPService } from '@mat-libreta/shared';
+import { ServiceComponent } from './service/service.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HTTPService } from '@mat-libreta/shared';
 		CertificatesComponent,
 		OtherComponent,
 		Payroll2Component,
+		ServiceComponent,
 		// DemoComponent,
 		// BlockCopyPasteDirective
 	],

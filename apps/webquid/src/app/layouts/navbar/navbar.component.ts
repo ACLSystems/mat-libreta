@@ -220,7 +220,7 @@ export class NavbarComponent implements OnInit {
 				}
 			}
 		}
-		return 'Panel';
+		return 'Servicios';
 	}
 	getPath() {
 		const currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
