@@ -3,35 +3,24 @@
 		<app-loading-spinner></app-loading-spinner>
 	</div>
 	<div *ngIf="!loading" class="container">
-		<div class="row" *ngIf="myRoles.isSupervisor && !loadingPublicData && (platform && platform == 'mooc')">
-			<div class="col-sm-6 col-lg-4 m-0">
-				<div class="card card-stats m-0">
-					<div class="card-header card-header-rose card-header-icon">
-						<div class="card-icon">
-							<i class="material-icons">person_add</i>
-						</div>
-						<p class="card-category">Alumnos Públicos</p>
-						<h3 class="card-title">{{totalCount}}</h3>
-					</div>
-					<div class="card-footer">
-						<div class="stats">
-							<i class="material-icons">date_range</i> {{reportDate| date: 'MMMM yyyy'}}
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6 col-lg-8 m-0">
+		<div class="row" *ngIf="myRoles.isSupervisor && (platform && platform == 'mooc')">
+			<div class="col">
 				<div class="card card-stats m-0">
 					<div class="card-header card-header-icon card-header-rose">
 						<div class="card-icon">
 							<i class="material-icons">insert_chart</i>
 						</div>
 						<h4 class="card-title">Cursos públicos
-							<small>- {{reportDate| date: 'MMMM yyyy'}}</small>
 						</h4>
 					</div>
 					<div class="card-body">
-						<div id="totalByCourseBarChart" class="ct-chart"></div>
+						<button
+							mat-raised-button
+							class="btn btn-primary"
+							(click)="goToReports();"
+							>
+							Ver datos
+						</button>
 					</div>
 				</div>
 			</div>

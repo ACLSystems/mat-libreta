@@ -75,7 +75,7 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 	}
 
 	goExam() {
-		this.router.navigate(['/exam']);
+		this.router.navigate(['/exam',this.rosterType,this.id,this.blockid]);
 	}
 
 	validateResponses() {

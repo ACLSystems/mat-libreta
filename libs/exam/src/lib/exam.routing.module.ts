@@ -5,8 +5,11 @@ import { ExamComponent } from './exam/exam.component'
 
 const examRoutes: Routes = [
 	{
-		path: '',
+		path: ':rostertype/:id/:blockid',
 		component: ExamComponent
+	},{
+		path: '**',
+		redirectTo: '/dashboard'
 	}
 ];
 

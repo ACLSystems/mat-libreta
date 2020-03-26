@@ -28,7 +28,7 @@ export class OrderComponent implements OnInit {
 
 	drop(event: CdkDragDrop<string[]>) {
 		moveItemInArray(this.groupList, event.previousIndex, event.currentIndex);
-		console.log(this.groupList);
+		// console.log(this.groupList);
 	}
 
 	private shuffle() {

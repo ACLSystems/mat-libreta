@@ -16,6 +16,8 @@ import { TextComponent } from './text/text.component';
 import { TfComponent } from './tf/tf.component';
 import { OrderComponent } from './order/order.component';
 
+import { QuestionService } from '@mat-libreta/shared';
+
 @NgModule({
 	declarations: [
 		ExamComponent,
@@ -42,6 +44,9 @@ import { OrderComponent } from './order/order.component';
 		TextComponent,
 		TfComponent,
 		OrderComponent
+	],
+	providers: [
+		QuestionService
 	]
 })
 export class ExamModule {}
