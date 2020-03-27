@@ -78,6 +78,14 @@ export class CertificateComponent implements OnInit {
   }
 
 	searchCertificate(folio:number) {
+		folio = +folio;
+		if((typeof folio !== 'number') || folio < 1) {
+			Swal.fire({
+				type: 'error',
+				text: 'Ingresa el número de folio de la constancia a validar'
+			});
+			return;
+		}
 		this.secondsDisable = 10000; // 10 segundos
 		this.segundos = 10; // 10 veces
 		const secondsCounter = interval(this.secondsDisable / this.segundos); // Intervalo que va a contar con intervalos de un segundo
