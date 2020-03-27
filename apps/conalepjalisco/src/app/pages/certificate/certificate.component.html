@@ -98,7 +98,8 @@
 											<div class="col-sm-1"></div>
 											<div class="col-sm">
 												<div class="alert alert-primary">
-													{{messageError}}
+													<h3 *ngIf="name">{{name}}</h3>
+													<p class="text-justify">{{messageError}}</p>
 												</div>
 											</div>
 											<div class="col-sm-1"></div>
