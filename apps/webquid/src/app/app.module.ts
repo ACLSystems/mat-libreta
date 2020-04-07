@@ -74,6 +74,7 @@ import { UserService } from '@wqshared/services/user.service';
 import { CommonService } from '@wqshared/services/common.service';
 import { PublicService } from '@wqshared/services/public.service';
 import { WindowService } from '@mat-libreta/shared';
+import { OperatorService } from '@wqshared/services/operator.service';
 
 @NgModule({
 	exports: [
@@ -147,7 +148,8 @@ export class MaterialModule {}
 		WindowService,
 		CommonService,
 		EnumService,
-		SimpleGlobal
+		SimpleGlobal,
+		OperatorService
 	],
   bootstrap: [AppComponent]
 })
