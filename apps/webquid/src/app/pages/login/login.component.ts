@@ -85,6 +85,26 @@ export class LoginComponent implements OnInit {
 					userid: decodedToken.userid,
 					roles: data.roles
 				};
+				const portalVersion = +data.portalVersion;
+				const lsPortalVersion = +localStorage.getItem('wq.portalVersion') || portalVersion;
+				if(!localStorage.getItem('wq.portalVersion')) {
+					localStorage.setItem('wq.portalVersion',portalVersion+'');
+				}
+				if(portalVersion > lsPortalVersion) {
+					Swal.fire({
+						type: 'info',
+						html: 'Hay una nueva version de la aplicación. <br>¿Deseas actualizar?',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Recargar la página'
+					}).then((result) => {
+						if(result.value) {
+							localStorage.setItem('wq.portalVersion',portalVersion+'');
+							window.location.reload(true);
+						}
+					});
+				}
 				this.sg['identity'] = JSON.stringify(this.identity);
 				this.router.navigate(['/services']);
 				this.loading = false;
