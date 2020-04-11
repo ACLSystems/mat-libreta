@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -35,7 +35,7 @@ declare const $: any;
 		NotElemService
 	]
 })
-export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SidebarComponent implements OnInit, OnDestroy {
 
 	subscription: Subscription;
 	subsNotData: Subscription;
@@ -142,10 +142,6 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 				'<i class="fas fa-book-open text-white"></i> Selecciona tu curso en el panel'
 			);
 		}
-	}
-
-	ngAfterViewInit() {
-
 	}
 
 	ngOnDestroy() {

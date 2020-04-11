@@ -8,7 +8,6 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { TourNgBootstrapModule } from 'ngx-tour-ng-bootstrap';
 
 import { environment } from '@cetecenv/environment';
 
@@ -141,8 +140,7 @@ export class MaterialModule {}
 		NavbarModule,
 		AccesoriesModule,
 		DeviceDetectorModule.forRoot(),
-		SocketIoModule.forRoot(config),
-		TourNgBootstrapModule.forRoot()
+		SocketIoModule.forRoot(config)
   ],
 	providers: [
 		EnvService,

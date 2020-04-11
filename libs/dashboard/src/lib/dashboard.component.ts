@@ -6,7 +6,6 @@ import localeMX from '@angular/common/locales/es-MX';
 //import * as Chartist from 'chartist';
 import Swal from 'sweetalert2';
 import * as Chartist from 'chartist';
-import { TourService } from 'ngx-tour-ng-bootstrap';
 
 import {
 	UserService,
@@ -71,8 +70,7 @@ export class DashboardComponent implements OnInit {
 		private userCourseService: UserCourseService,
 		private currentCourseService: CurrentCourseService,
 		private superService: SuperService,
-		private commonService: CommonService,
-		private tourService: TourService
+		private commonService: CommonService
 	) {
 		this.identity = this.userService.getidentity();
 		this.token = this.userService.getToken();
@@ -90,17 +88,7 @@ export class DashboardComponent implements OnInit {
 			this.getPublicData();
 		}
 	}
-
-	continueTour() {
-		const tourBegin = localStorage.getItem('tour');
-		this.tourService.next();
-		console.log('Aquí andamos')
-		if(tourBegin !== 'finish') {
-			this.tourService.resume();
-		}
-	}
-
- 	//
+	//
 	// Para prevenir copia y descarga
 	//
 	// @HostListener('copy', ['$event'])
