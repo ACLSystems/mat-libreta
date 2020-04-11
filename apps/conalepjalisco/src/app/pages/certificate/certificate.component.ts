@@ -51,6 +51,8 @@ export class CertificateComponent implements OnInit {
 	certificateFound: boolean;
 	private updateDisableSubscription: Subscription;
 	color: string;
+	noCert: boolean = false;
+	name: string;
 
   constructor(
 		private pagesService: PagesService,
@@ -76,6 +78,14 @@ export class CertificateComponent implements OnInit {
   }
 
 	searchCertificate(folio:number) {
+		folio = +folio;
+		if((typeof folio !== 'number') || folio < 1) {
+			Swal.fire({
+				type: 'error',
+				text: 'Ingresa el número de folio de la constancia a validar'
+			});
+			return;
+		}
 		this.secondsDisable = 10000; // 10 segundos
 		this.segundos = 10; // 10 veces
 		const secondsCounter = interval(this.secondsDisable / this.segundos); // Intervalo que va a contar con intervalos de un segundo
@@ -86,17 +96,26 @@ export class CertificateComponent implements OnInit {
 			this.updateDisableSubscription.unsubscribe();
 		})
 		secondsCounter.pipe(takeUntil(timer$)).subscribe( n => this.segundos = numero - n);
+		this.name = '';
 		this.buscando = true;
 		this.certificateFound = false;
 		this.messageError = '';
-
 		this.busqueda = false;
 		this.pagesService.getCertificate(folio).subscribe((data:any) => {
 			if(data) {
 				let message = data.message;
 				//console.log(message);
-				if(message == 'No hay certificado con ese número de folio') {
-					this.messageError	= message;
+				if(data.noCert) {
+					Swal.fire({
+						type: 'warning',
+						html: `<h4>${data.studentName}</h4> ${data.message}`
+					});
+					this.messageError = data.message;
+					this.certificateFound = false;
+					this.busqueda = true;
+					if(data.studentName) {
+						this.name = data.studentName;
+					}
 				} else {
 					this.certificate = {
 						courseName: message.courseName,
@@ -117,6 +136,7 @@ export class CertificateComponent implements OnInit {
 			this.buscando = false;
 			this.busqueda = true;
 		}, error => {
+			console.log(error);
 			this.buscando = false;
 			this.certificateFound = false;
 			this.updateDisable = false;

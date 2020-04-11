@@ -1,23 +1,21 @@
+import { Company } from './companies.type';
+
 export type Identity = {
 	identifier: String,
 	companies: {
 		isActive: Boolean,
-		company: {
-			isActive: Boolean,
-			_id: Boolean,
-			name: String,
-			display: String,
-			identifier: String
-		} | String
+		company: Company
 	}[],
-	person?: {
-		name?: String,
-		fatherName?: String,
-		motherName?: String,
-		email?: String
-	},
+	person?: Person,
 	userid: String,
 	roles: Roles
+}
+
+export type Person = {
+	name?: String,
+	fatherName?: String,
+	motherName?: String,
+	email?: String
 }
 
 export type Roles = {

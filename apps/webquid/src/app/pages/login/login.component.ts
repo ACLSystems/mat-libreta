@@ -44,9 +44,6 @@ export class LoginComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		// this.token = this.userService.getToken();
-		// this.identity = this.userService.getidentity();
-		// this.tokenVersion = this.userService.getTokenVersion();
 		if(!this.tokenVersion) {
 			this.userService.destroySession();
 		}
@@ -79,19 +76,35 @@ export class LoginComponent implements OnInit {
 				this.token = data.token;
 				this.sg['token'] = this.token;
 				this.sg['tokenVersion'] = environment.tokenVersion;
-				this.sg['tokenExp'] = new Date(this.token.exp);
-				// localStorage.setItem('token', this.token);
-				// localStorage.setItem('tokenVersion', '2');
+				this.sg['tokenExp'] = data.exp;
 				let decodedToken = this.getDecodedAccessToken(this.token);
 				this.identity = {
-				// localStorage.setItem('identity', JSON.stringify({
 					identifier: decodedToken.sub,
 					companies: decodedToken.companies,
 					person: decodedToken.person,
 					userid: decodedToken.userid,
 					roles: data.roles
-				// }));
 				};
+				const portalVersion = +data.portalVersion;
+				const lsPortalVersion = +localStorage.getItem('wq.portalVersion') || portalVersion;
+				if(!localStorage.getItem('wq.portalVersion')) {
+					localStorage.setItem('wq.portalVersion',portalVersion+'');
+				}
+				if(portalVersion > lsPortalVersion) {
+					Swal.fire({
+						type: 'info',
+						html: 'Hay una nueva version de la aplicación. <br>¿Deseas actualizar?',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Recargar la página'
+					}).then((result) => {
+						if(result.value) {
+							localStorage.setItem('wq.portalVersion',portalVersion+'');
+							window.location.reload(true);
+						}
+					});
+				}
 				this.sg['identity'] = JSON.stringify(this.identity);
 				this.router.navigate(['/services']);
 				this.loading = false;

@@ -1,0 +1,74 @@
+<div class="container">
+	<div class="row">
+		<div class="col">
+			<h3>Carga de archivos XML</h3>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col p-0 text-center">
+			<form [formGroup]="loadFilesForm">
+				<label for="dirPath" class="custom-file-upload text-primary">
+					<i class="fas fa-cloud-upload-alt"></i> Selecciona directorio
+				</label>
+					<input
+					type="file"
+					formControlName="dirPath"
+					placeholder="Selecciona un directorio"
+					webkitdirectory=""
+					directory=""
+					id="dirPath"
+					#dirPath
+					(change)="filesPicked(dirPath.files);"
+					>
+			</form>
+		</div>
+		<div class="col p-0 text-center">
+			<button
+				class="btn btn-sm btn-primary"
+				(click)="processFiles();"
+				*ngIf="filesSelected"
+			>
+				Procesar Archivos
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<table class="table table-striped" *ngIf="files.length > 0 && fileString.length === 0">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Archivo</th>
+						<th scope="col">Tamaño</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let file of files; let index=index">
+						<th scope="row">{{index + 1 }}</th>
+						<td>{{file.name}}</td>
+						<td>{{file.size | filesize}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-striped" *ngIf="fileString.length > 0">
+				<thead>
+					<tr>
+						<th scope="col">#</th>
+						<th scope="col">Archivo</th>
+						<th scope="col">Tamaño</th>
+						<th scope="col">Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let file of fileString; let index=index">
+						<th scope="row">{{index + 1 }}</th>
+						<td>{{file.name}}</td>
+						<td>{{file.size | filesize}}</td>
+						<td *ngIf="!file.error && file.result">{{file.result.message}}</td>
+						<td *ngIf="file.error" class="text-danger">{{file.error.error}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

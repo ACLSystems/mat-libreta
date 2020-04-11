@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { NgxFilesizeModule } from 'ngx-filesize';
 
-import { MaterialModule } from '@wqapp/app.module';
 import { MdModule } from '@wqmd/md.module';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { AccesoriesModule } from '@mat-libreta/shared';
@@ -20,6 +21,9 @@ import { Payroll2Component } from './payroll2/payroll2.component';
 // import { BlockCopyPasteDirective } from '@crmshared/directives/protect.directive';
 
 import { HTTPService } from '@mat-libreta/shared';
+import { ServiceComponent } from './service/service.component';
+import { SN001Component } from './service/sn001/sn001.component';
+import { SN001AdminComponent } from './service/sn001-admin/sn001-admin.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +34,9 @@ import { HTTPService } from '@mat-libreta/shared';
 		CertificatesComponent,
 		OtherComponent,
 		Payroll2Component,
+		ServiceComponent,
+		SN001Component,
+		SN001AdminComponent,
 		// DemoComponent,
 		// BlockCopyPasteDirective
 	],
@@ -38,10 +45,13 @@ import { HTTPService } from '@mat-libreta/shared';
 		DashboardRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		MaterialModule,
+		// MaterialModule,
+		MatSelectModule,
+		MatInputModule,
 		MdModule,
 		AccesoriesModule,
-		MatDatepickerModule
+		// MatDatepickerModule
+		NgxFilesizeModule
   ],
 	providers: [
 		HTTPService

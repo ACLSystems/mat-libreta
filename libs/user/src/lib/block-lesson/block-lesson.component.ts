@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, AfterViewInit, SimpleChanges } from '@angular/core';
 import { Block } from '@mat-libreta/shared';
 
 @Component({
@@ -6,7 +6,7 @@ import { Block } from '@mat-libreta/shared';
 	templateUrl: './block-lesson.component.html',
 	styleUrls: ['./block-lesson.component.scss'],
 })
-export class BlockLessonComponent implements OnInit, AfterViewInit {
+export class BlockLessonComponent implements OnInit, AfterViewInit, OnChanges {
 
 	@Input() blockData:Block;
 	@Input() id: string;
@@ -14,12 +14,28 @@ export class BlockLessonComponent implements OnInit, AfterViewInit {
 	@Input() blockid: string;
 	// track: number;
 
+
+
 	constructor() { }
 
 	ngOnInit() {
 		// this.track = this.blockData.track;
-		// console.log('blockLesson');
+		// console.group('blockLesson');
 		// console.log(this.blockData);
+		// console.groupEnd();
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		this.blockData = (changes.blockData && !changes.blockData.firstChange) ? changes.blockData.currentValue : this.blockData;
+		this.id = (changes.id && !changes.id.firstChange) ? changes.id.currentValue : this.id;
+		this.rosterType = (changes.rosterType && !changes.rosterType.firstChange) ? changes.rosterType.currentValue : this.rosterType;
+		this.blockid = (changes.blockid && !changes.blockid.firstChange) ? changes.blockid.currentValue : this.blockid;
+		// console.log('changes');
+		// if(changes.blockData) {
+		// 	console.group('blockLesson');
+		// 	console.log(this.blockData);
+		// 	console.groupEnd();
+		// }
 	}
 
 	ngAfterViewInit() {

@@ -102,7 +102,9 @@ export class CourseMainComponent implements OnInit {
 				// console.log(this.content);
 				// console.groupEnd();
 				this.sections = getUniques(this.content.blocks);
+				// console.group('sections');
 				// console.log(this.sections);
+				// console.groupEnd();
 				this.track = parseInt(this.content.track.split('%')[0]);
 				//console.log(this.track);
 				this.finalGrade = this.content.finalGrade ? this.content.finalGrade : 0;

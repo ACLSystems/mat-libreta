@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, OnDestroy, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -55,13 +55,22 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		console.group('block-questionnarie');
+		console.log(this.blockData);
+		console.groupEnd();
 		// console.log(this.blockData);
+		this.updateData();
+	}
+
+	updateData() {
 		this.attempts = this.blockData.attempts;
 		this.questionnarie = this.blockData.questionnarie;
 		this.blockGrade = this.blockData.blockGrade;
 		this.blockGradedQ = this.blockData.blockGradedQ;
 		if(this.blockGradedQ) {
 			this.hideQuiz = true;
+		} else {
+			this.hideQuiz = false;
 		}
 		// console.log('blockQuestionnarie');
 		// console.log(this.questionnarie);
@@ -70,12 +79,26 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 		this.getMaxPoints();
 	}
 
+	ngOnChanges(changes: SimpleChanges) {
+		this.blockData = (changes.blockData && !changes.blockData.firstChange) ? changes.blockData.currentValue : this.blockData;
+		this.id = (changes.id && !changes.id.firstChange) ? changes.id.currentValue : this.id;
+		this.rosterType = (changes.rosterType && !changes.rosterType.firstChange) ? changes.rosterType.currentValue : this.rosterType;
+		this.blockid = (changes.blockid && !changes.blockid.firstChange) ? changes.blockid.currentValue : this.blockid;
+		console.log('changes');
+		if(changes.blockData) {
+			console.group('block-questionnaire');
+			console.log(this.blockData);
+			console.groupEnd();
+		}
+		this.updateData();
+	}
+
 	ngOnDestroy() {
 		this.subscription.unsubscribe();
 	}
 
 	goExam() {
-		this.router.navigate(['/exam']);
+		this.router.navigate(['/exam',this.rosterType,this.id,this.blockid]);
 	}
 
 	validateResponses() {

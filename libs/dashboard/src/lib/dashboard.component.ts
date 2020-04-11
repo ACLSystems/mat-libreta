@@ -45,7 +45,6 @@ export class DashboardComponent implements OnInit {
 	inActiveCourses: any[] = [];
 	courseNext: any[] = [];
 	loading: boolean = false;
-	loadingPublicData: boolean = false;
 	messageNewUser = false;
 	events: dashEvent[] = [];
 	currentCourse: any = null;
@@ -79,14 +78,13 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.loading = true;
-		this.loadingPublicData = true;
 		this.identity = this.userService.getidentity();
 		this.getMyRoles();
 		this.getCourseUser();
 		this.currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
-		if(this.platform == 'mooc') {
-			this.getPublicData();
-		}
+		// if(this.platform == 'mooc') {
+		// 	this.getPublicData();
+		// }
 	}
 	//
 	// Para prevenir copia y descarga
@@ -141,53 +139,53 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
-	getPublicData() {
-		this.superService.getPublicData().subscribe(data => {
-			if(data) {
-				this.reportDate = data.firstDate;
-				if(data.totalCount) {
-					this.totalCount = data.totalCount;
-				}
-				const series = [...data.totalByCourse.series];
-				var max = 0;
-				series.forEach(s => {
-					max = (s > max) ? s : max;
-				});
-				if(data.totalByCourse) {
-					this.loadingPublicData = false;
-					setTimeout(() => {
-						const barOptions = {
-							// seriesBarDistance: 10,
-							// reverseData: true,
-							distributeSeries: true,
-							horizontalBars: true,
-							high: (max < 3) ? 3 : max,
-							axisX: {
-								offset: 50,
-								onlyInteger: true
-							},
-							axisY: {
-								offset: 100
-							}
-						};
-						const pieOptions = {
-							donut: false,
-							showLabel: true
-						};
-						const totalByCourseBarChart = new Chartist.Bar('#totalByCourseBarChart',{labels: data.totalByCourse.labels2, series},barOptions);
-						this.startAnimationForBarChart(totalByCourseBarChart);
-						// const totalByCoursePieChart = new Chartist.Pie('#totalByCoursePieChart',{series},pieOptions);
-					}, 300);
-				}
-			}
-
-			// console.log(data);
-
-		},
-		error => {
-			console.log(error);
-		})
-	}
+	// getPublicData() {
+	// 	this.superService.getPublicData().subscribe(data => {
+	// 		if(data) {
+	// 			this.reportDate = data.firstDate;
+	// 			if(data.totalCount) {
+	// 				this.totalCount = data.totalCount;
+	// 			}
+	// 			const series = [...data.totalByCourse.series];
+	// 			var max = 0;
+	// 			series.forEach(s => {
+	// 				max = (s > max) ? s : max;
+	// 			});
+	// 			if(data.totalByCourse) {
+	// 				this.loadingPublicData = false;
+	// 				setTimeout(() => {
+	// 					const barOptions = {
+	// 						// seriesBarDistance: 10,
+	// 						// reverseData: true,
+	// 						distributeSeries: true,
+	// 						horizontalBars: true,
+	// 						high: (max < 3) ? 3 : max,
+	// 						axisX: {
+	// 							offset: 50,
+	// 							onlyInteger: true
+	// 						},
+	// 						axisY: {
+	// 							offset: 100
+	// 						}
+	// 					};
+	// 					const pieOptions = {
+	// 						donut: false,
+	// 						showLabel: true
+	// 					};
+	// 					const totalByCourseBarChart = new Chartist.Bar('#totalByCourseBarChart',{labels: data.totalByCourse.labels2, series},barOptions);
+	// 					this.startAnimationForBarChart(totalByCourseBarChart);
+	// 					// const totalByCoursePieChart = new Chartist.Pie('#totalByCoursePieChart',{series},pieOptions);
+	// 				}, 300);
+	// 			}
+	// 		}
+	//
+	// 		// console.log(data);
+	//
+	// 	},
+	// 	error => {
+	// 		console.log(error);
+	// 	})
+	// }
 
 	getCourseUser() {
 		const minDays = 14;
@@ -400,5 +398,9 @@ export class DashboardComponent implements OnInit {
 	// 	}
 	// 	new Chartist.Pie('#pieMyCourses', dataPreferences, optionsPreferences);
 	// }
+
+	goToReports() {
+		this.router.navigate(['/reports'])
+	}
 
 }

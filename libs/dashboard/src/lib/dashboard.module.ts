@@ -18,6 +18,7 @@ import { DashboardComponent } from './dashboard.component';
 		DashboardRoutingModule,
 		FormsModule,
 		AccesoriesModule
-	]
+	],
+	providers: []
 })
 export class DashboardModule {}
