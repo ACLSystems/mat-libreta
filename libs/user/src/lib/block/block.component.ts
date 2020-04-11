@@ -54,8 +54,9 @@ export class BlockComponent implements OnInit {
 					// this.blockGrade = this.blockData.blockGrade;
 					// this.blockGradedT = this.blockData.blockGradedT;
 				}
-				// console.log('block')
-				// console.log(this.blockData);
+				console.group('block')
+				console.log(this.blockData);
+				console.groupEnd();
 				if(!this.blockData.blockNextId || this.blockData.blockNextId === '') {
 					this.notElementService.showNotification(
 						'bottom',

@@ -150,13 +150,13 @@
 									</ul>
 								</div>
 								<div class="col-sm-8 col-md-10">
-									<div class="tab-content">
+									<div class="tab-content ml-2">
 										<div *ngFor="let section of sections; let firstSection = first;" class="tab-pane" [class.active]="firstSection" id="{{section.name}}" >
-											<h3 class="text-primary" *ngIf="track==0">
+											<h3 class="text-primary my-0" *ngIf="track==0">
 												{{content.blocks[section.number].title}}</h3>
-											<h3 class="text-primary pointme" (click)="getBlock(content.blocks[section.number].id)" *ngIf="track>0">
+											<h3 class="text-primary pointme my-0" (click)="getBlock(content.blocks[section.number].id)" *ngIf="track>0">
 												{{content.blocks[section.number].title}}</h3>
-											<table class="table table-hover">
+											<table class="table table-hover" *ngIf="section.last - section.number - 1 > 1">
 												<thead>
 													<th>
 														<a class="pointhelp" (click)="seeLessonNumberHelp()">
@@ -183,7 +183,10 @@
 														</a>
 													</th>
 												</thead>
-												<tbody>
+												<tbody *ngIf="content.blocks.length === 0">
+													Espera...
+												</tbody>
+												<tbody *ngIf="content.blocks.length > 0">
 													<tr *ngIf="!track && section.section == sections[0].section">
 														<td colspan="4">
 															<button
