@@ -20,6 +20,7 @@
 	<div class="container-fluid">
 		<div class="card">
 			<div class="card-header">
+				<div [innerHTML]="blockData.blockContent" *ngIf="blockData.blockContent"></div>
 				<div *ngIf="question.label">
 					<legend>
 						{{question.label}} <span *ngIf="question.help">- {{question.help}}</span>

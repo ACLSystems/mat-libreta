@@ -84,12 +84,12 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 		this.id = (changes.id && !changes.id.firstChange) ? changes.id.currentValue : this.id;
 		this.rosterType = (changes.rosterType && !changes.rosterType.firstChange) ? changes.rosterType.currentValue : this.rosterType;
 		this.blockid = (changes.blockid && !changes.blockid.firstChange) ? changes.blockid.currentValue : this.blockid;
-		console.log('changes');
-		if(changes.blockData) {
-			console.group('block-questionnaire');
-			console.log(this.blockData);
-			console.groupEnd();
-		}
+		// console.log('changes');
+		// if(changes.blockData) {
+		// 	console.group('block-questionnaire');
+		// 	console.log(this.blockData);
+		// 	console.groupEnd();
+		// }
 		this.updateData();
 	}
 

@@ -35,9 +35,9 @@ export class HTTPService {
 				`Basic ${key}`
 			)
 		}
-		console.group('get')
-		console.log('Ruta ',route);
-		console.groupEnd();
+		// console.group('get')
+		// console.log('Ruta ',route);
+		// console.groupEnd();
 		return this.http.get(url,httpOptions);
 	}
 }
