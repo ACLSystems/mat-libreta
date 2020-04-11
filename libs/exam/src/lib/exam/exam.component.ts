@@ -118,6 +118,9 @@ export class ExamComponent implements OnInit {
 				this.getMaxPoints();
 				window.scroll(0,0);
 				this.loading = false;
+				// console.group('BlockData - Exam');
+				// console.log(this.blockData);
+				// console.groupEnd();
 			}
 		}, error => {
 			console.log(error);

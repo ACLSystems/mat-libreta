@@ -125,7 +125,7 @@ export class ProfileComponent implements OnInit {
 				this.loading = true;
 				this.details = this.userService.getUser(this.identity.name).subscribe(data => {
 					this.details = data;
-					console.log(this.details);
+					// console.log(this.details);
 					this.loading = false;
 				}, err => {
 					console.log(err);
@@ -135,7 +135,7 @@ export class ProfileComponent implements OnInit {
 					type: 'error',
 					html: 'Hubo un error en la comunicación.<br>Espera unos minutos y vuelve a intentarlo.'
 				});
-				console.log(data);
+				// console.log(data);
 			}
 		}, error => {
 			Swal.fire({
@@ -161,7 +161,7 @@ export class ProfileComponent implements OnInit {
 						this.identity = this.userService.updateIdentity(this.identity);
 						this.details = this.userService.getUser(this.identity.name).subscribe(data => {
 							this.details = data;
-							console.log(this.details);
+							// console.log(this.details);
 							this.loading = false;
 						}, err => {
 							console.log(err);
@@ -206,7 +206,7 @@ export class ProfileComponent implements OnInit {
 						this.identity = this.userService.updateIdentity(this.identity);
 						this.details = this.userService.getUser(this.identity.name).subscribe(data => {
 							this.details = data;
-							console.log(this.details);
+							// console.log(this.details);
 							this.loading = false;
 							if(!this.details.admin.isDataVerified) {
 								this.name = this.details.person.name;

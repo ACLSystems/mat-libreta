@@ -42,12 +42,14 @@ export class MapComponent implements OnInit {
 	getUserResponse(option: Option, optionMapId: number, mapId: number) {
 		// console.log(option);
 		// console.log(optionMapId);
+		// console.log(mapId);
 		let answers = Array(this.question.options.length);
 		if(this.question.answers &&
 			this.question.answers.length === 1 &&
 			this.question.answers[0].type == 'group') {
 				answers = JSON.parse(JSON.stringify(this.question.answers[0].group));
 			}
+		// console.log(answers)
 		this.results[mapId] = {
 			answer: answers[mapId],
 			answerString: this.question.options[answers[mapId]].value,
