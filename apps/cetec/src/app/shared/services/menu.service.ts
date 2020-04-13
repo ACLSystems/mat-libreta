@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NotElemService } from '@mat-libreta/shared';
+import { NotElemService, UserService, Roles } from '@mat-libreta/shared';
 
 import {
 	ROUTES_1,
-	// ROUTES_2,
+	ROUTES_2,
 	RouteInfo
 } from '@cetecshared/menus/routes';
 
@@ -12,16 +12,30 @@ import {
 })
 export class MenuService {
 
+	roles: Roles = {
+		isAdmin: false,
+		isBusines: false,
+		isOrg: false,
+		isOrgContent: false,
+		isAuthor: false,
+		isSupervisor: false,
+		isInstructor: false,
+		isRequester: false,
+		isUser: false
+	};
+
 	constructor(
-		private notElementService: NotElemService
+		private notElementService: NotElemService,
+		private userService: UserService
 	) {}
 
 	refreshMenu() {
+		this.roles = this.userService.getRoles();
 		const myCurrentCourseData =
 		JSON.parse(localStorage.getItem('currentCourse'));
-		// console.group('myCurrentCourseData');
-		// console.log(myCurrentCourseData);
-		// console.groupEnd();
+			// console.group('Roles');
+			// console.log(this.roles);
+			// console.groupEnd();
 		const url = myCurrentCourseData ?  JSON.stringify([myCurrentCourseData.rosterType,myCurrentCourseData.id]) : null;
 		var myCurrentCourse: RouteInfo;
 		myCurrentCourse = {
@@ -69,8 +83,23 @@ export class MenuService {
 			localStorage.setItem('currentCourse',JSON.stringify(myCurrentCourseData));
 		}
 
+		const menuAll = ROUTES_2.filter(item => item.role === 'all');
+		const menuReq = this.roles.isRequester ? ROUTES_2.filter(item => item.role === 'isRequester') : [];
+		const menuSup = this.roles.isSupervisor ? ROUTES_2.filter(item => item.role === 'isSupervisor') : [];
 
-		return myCurrentCourseData ? [...ROUTES_1, myCurrentCourse] : [...ROUTES_1];
+
+		return myCurrentCourseData ? [
+			...ROUTES_1,
+			myCurrentCourse,
+			...menuAll,
+			...menuReq,
+			...menuSup
+		] : [
+			...ROUTES_1,
+			...menuAll,
+			...menuReq,
+			...menuSup
+		];
 	}
 
 }

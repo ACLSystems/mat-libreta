@@ -84,7 +84,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		// console.groupEnd();
 		this.menuItems.forEach(mi => {
 			if(mi.type == 'sub') {
-				mi.children.forEach(child => {
+				mi.children.forEach((child:any) => {
 					if(child.subpath) {
 						const review = JSON.parse(child.subpath);
 						if(Array.isArray(review)) {
@@ -106,12 +106,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		}
 		this.subscription = this.currentCourseService.getCurrentCourse.subscribe(() => {
 				this.menuItems = [...this.menuService.refreshMenu()];
+				// console.log(this.menuItems);
 				this.menuItems.forEach(mi => {
 					if(mi.type == 'sub') {
-						mi.children.forEach(child => {
-							const review = JSON.parse(child.subpath);
-							if(Array.isArray(review)) {
-								child.subpath = [...review];
+						mi.children.forEach((child:any) => {
+							if(child.subpath) {
+								const review = JSON.parse(child.subpath);
+								if(Array.isArray(review)) {
+									child.subpath = [...review];
+								}
 							}
 						});
 					}

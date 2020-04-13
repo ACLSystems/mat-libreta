@@ -6,6 +6,7 @@ export interface RouteInfo {
 		icontype: string;
 		collapse?: string;
 		children?: ChildrenItems[];
+		role?: string;
 }
 
 export interface ChildrenItems {
@@ -20,29 +21,52 @@ export const ROUTES_1: RouteInfo[] = [{
 				path: '/dashboard',
 				title: 'Panel',
 				type: 'link',
-				icontype: 'dashboard'
+				icontype: 'dashboard',
+				role: 'all'
 		},{
 				path: '/calendar',
 				title: 'Calendario',
 				type: 'link',
-				icontype: 'date_range'
+				icontype: 'date_range',
+				role: 'all'
 		}
 ];
 
-export const ROUTES_2: RouteInfo[] = [{
-				path: '/editor',
-				title: 'Editor',
-				type: 'link',
-				icontype: 'content_paste'
-		},{
-				path: '/admin',
-				title: 'Administrador',
-				type: 'link',
-				icontype: 'settings_applications'
-		},{
-				path: '/charts',
-				title: 'Reportes',
-				type: 'link',
-				icontype: 'timeline'
-		}
+// export const ROUTES_2: RouteInfo[] = [{
+// 				path: '/editor',
+// 				title: 'Editor',
+// 				type: 'link',
+// 				icontype: 'content_paste'
+// 		},{
+// 				path: '/admin',
+// 				title: 'Administrador',
+// 				type: 'link',
+// 				icontype: 'settings_applications'
+// 		},{
+// 				path: '/charts',
+// 				title: 'Reportes',
+// 				type: 'link',
+// 				icontype: 'timeline'
+// 		}
+// ];
+
+export const ROUTES_2: RouteInfo[] = [
+	{
+		path: '/requester',
+		title: 'Solicitante',
+		type: 'sub',
+		icontype: 'content_paste',
+		collapse: 'Solicitante',
+		role: 'isRequester',
+		children: [
+			{ path: 'userpublic',
+				title: 'Usuarios Públicos',
+				ab: 'UP'
+			},
+			{ path: 'reportspublic',
+				title: 'Reportes UP',
+				ab: 'RUP'
+			}
+		]
+	}
 ];

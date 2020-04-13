@@ -7,6 +7,7 @@ export const environment = {
   idTutor: '5afade18be6da5001b81e59f',
 	versionCheckURL: 'version.json',
 	instanceName: 'cetec',
+	orgUnitName: 'morelos',
 	instanceTitle: 'CETEC',
 	instanceRef: '@cetec',
 	siteName: 'cetec.superatemexico.com',

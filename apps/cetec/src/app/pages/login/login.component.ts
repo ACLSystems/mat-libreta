@@ -91,8 +91,32 @@ export class LoginComponent implements OnInit {
 					preferences: decodedToken.preferences,
 					userid: decodedToken.userid
 				}));
-				this.router.navigate(['/dashboard']);
-				this.loading = false;
+				this.userService.getRolesHTTP().subscribe(data => {
+					let roles = data.message ? {
+						isAdmin: data.message.isAdmin || false,
+						isBusines: data.message.isBusines || false,
+						isOrg: data.message.isOrg || false,
+						isOrgContent: data.message.isOrgContent || false,
+						isAuthor: data.message.isAuthor || false,
+						isSupervisor: data.message.isSupervisor || false,
+						isInstructor: data.message.isInstructor ||false,
+						isRequester: data.message.isRequester ||false,
+						isUser: data.message.isUser ||false
+					} : {
+						isAdmin: false,
+						isBusines: false,
+						isOrg: false,
+						isOrgContent: false,
+						isAuthor: false,
+						isSupervisor: false,
+						isInstructor: false,
+						isRequester: false,
+						isUser: false
+					}
+					localStorage.setItem('roles',JSON.stringify(roles));
+					this.router.navigate(['/dashboard']);
+					this.loading = false;
+				});
 		}, error => {
 			if ( error.status > 399 && error.status < 500) {
 				this.messageError = 'En caso de que no recuerdes tu contraseña <br>selecciona la opción <b style="color:blue;">Recuperar Acceso</b>';

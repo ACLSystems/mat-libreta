@@ -1,0 +1,135 @@
+<div class="main-content">
+	<div *ngIf="loading">
+		<div class="row text-center animated fadeIn m-5">
+			<div class="col ">
+				<i class="fas fa-sync fa-spin fa-5x"></i>
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col">
+				<h1>Cargando componentes ... </h1>
+			</div>
+		</div>
+	</div>
+	<div class="card" *ngIf="!loading">
+		<div class="card-header">
+			<h3>Carga de usuarios públicos</h3>
+		</div>
+		<div class="card-body" *ngIf="usersPreprocessed">
+			<div class="row">
+				<div class="col">
+					<mat-form-field>
+						<input matInput type="text" placeholder="Define el password inicial para los usuarios" [formControl]="password">
+					</mat-form-field>
+					<p class="text-danger">Revisa si existen errores en la tabla y selecciona los cursos de cada alumno público</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="btn-group" role="group">
+						<button
+						mat-raised-button
+						class="btn btn-sm btn-danger"
+						(click)="reload();"
+						><i class="fas fa-chevron-left"></i> Recargar</button>
+						<button
+						mat-raised-button
+						class="btn btn-sm btn-primary"
+						(click)="loadUsers();"
+						>Cargar <i class="fas fa-chevron-right"></i></button>
+						<button
+						mat-raised-button
+						*ngIf='processing'
+						class="btn btn-sm btn-warning"
+						>Procesando <i class="fa fa-sync fa-spin"></i></button>
+					</div>
+				</div>
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Nombre(s)</th>
+						<th>A. Paterno</th>
+						<th>A. Materno</th>
+						<th>Email</th>
+						<th>Curso ---------</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let user of usersArray; let index=index">
+						<td>{{user.id}}</td>
+						<td [ngClass]="{'text-danger' : user.name==='error'}">{{user.name}}</td>
+						<td [ngClass]="{'text-danger' : user.fatherName==='error'}">{{user.fatherName}}</td>
+						<td [ngClass]="{'text-danger' : user.motherName==='error'}">{{user.motherName}}</td>
+						<td [ngClass]="{'text-danger' : user.email==='error'}">{{user.email}}</td>
+						<td>
+							<mat-form-field>
+								<mat-select class="form-control selectpicker" data-live-search="true" id="user.email" (selectionChange)="addUserCourse(index,$event.value);">
+									<mat-option *ngFor="let course of courses" id="index" [value]="course.id">
+										{{course.title}} ({{course.code}})
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</td>
+						<td>
+							<ul class="list-group">
+								<li class="list-group-item" *ngFor="let status of user.status">
+									{{status}}
+								</li>
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="btn-group" role="group">
+				<button
+				mat-raised-button
+				class="btn btn-sm btn-danger"
+				(click)="reload();"
+				><i class="fas fa-chevron-left"></i> Recargar</button>
+				<button
+				mat-raised-button
+				class="btn btn-sm btn-primary"
+				(click)="loadUsers();"
+				>Cargar <i class="fas fa-chevron-right"></i></button>
+				<button
+				mat-raised-button
+				*ngIf='processing'
+				class="btn btn-sm btn-warning"
+				>Procesando <i class="fa fa-sync fa-spin"></i></button>
+			</div>
+		</div>
+		<div class="card-body" *ngIf="!usersPreprocessed">
+			<div class="row">
+				<div class="col">
+					Ingresa los usuarios en el siguiente campo con el siguiente formato para cada entrada:<br />
+					id,nombre,ApellidoPaterno,ApellidoMaterno,email<br />
+					<small class="text-muted">*id: Consecutivo (1,2,3,4,5...)</small><br />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<textarea
+					cols="90"
+					rows="9"
+					placeholder="ID,Nombre,ApellidoPaterno,ApellidoMaterno,Email,CourseCode"
+					[formControl]="users"
+					></textarea>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button
+						mat-raised-button
+						class="btn btn-sm btn-primary"
+						(click)="preProcessUsers();"
+					>
+						Procesar <i class="fas fa-chevron-right"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

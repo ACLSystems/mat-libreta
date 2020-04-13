@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Identity } from '../types/user.type';
+import { Roles } from '../types/user.type';
 
 import { CommonService } from './common.service';
 import { JSONHeaders } from './httpHeaders';
@@ -112,7 +113,16 @@ export class UserService{
 	/*
 	Falta validar qué sucede si no hay token. Debería mandarlo a login
 	*/
-	getRoles():Observable<any>{
+
+	getRoles(): Roles | null{
+		let roles = JSON.parse(localStorage.getItem('roles'));
+		if(roles) {
+			return roles
+		}
+		return null;
+	}
+
+	getRolesHTTP():Observable<any>{
 		const httpOptions = {
 			headers: JSONHeaders.set(
 				'Authorization',
