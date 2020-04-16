@@ -1,0 +1,126 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!loading">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col d-flex align-items-center">
+						<h3 class="text-primary">Configuración Principal</h3>
+					</div>
+					<div class="col-auto">
+						<div class="btn-group float-right">
+							<button
+							class="btn btn-sm btn-outline-secondary"
+							(click)="goToHome();"
+							>
+								Regresar
+							</button>
+							<button
+							class="btn btn-sm btn-success"
+							(click)="submit();"
+							>
+								<i class="fas fa-save fa-lg"></i> Guardar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<form [formGroup]="configForm" class="form">
+			<div class="card" *ngIf="config.server">
+				<div class="card-header card-header-icon card-header-primary">
+					<div class="card-icon">
+						<i class="fas fa-server fa-2x"></i>
+					</div>
+					<h4 class="card-title">Servidor - <small>Parámetros básicos del servidor</small></h4>
+				</div>
+				<div class="card-body">
+					<div class="row" >
+						<div class="col input-group" *ngIf="config.server.issuer">
+							<mat-form-field>
+								<mat-label>Empresa Proveedor</mat-label>
+								<input matInput type="text" formControlName="serverIssuer">
+							</mat-form-field>
+						</div>
+						<div class="col input-group" *ngIf="config.server.expires">
+							<mat-form-field>
+								<mat-label>Duración de las sesiones</mat-label>
+								<input matInput type="text" formControlName="serverExpires">
+							</mat-form-field>
+						</div>
+						<div class="col input-group" *ngIf="config.server.urlLogin">
+							<mat-form-field>
+								<mat-label>URL del login</mat-label>
+								<input matInput type="text" formControlName="serverUrlLogin">
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card" *ngIf="config.routes">
+				<div class="card-header card-header-icon card-header-secondary">
+					<div class="card-icon">
+						<i class="fas fa-hdd fa-2x"></i>
+					</div>
+					<h4 class="card-title">Rutas de las APIs</h4>
+				</div>
+				<div class="card-body">
+					<div class="row" *ngIf="config.routes.jsonBodyLimit">
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Límite del cuerpo JSON de las API</mat-label>
+								<input matInput type="text" formControlName="routesJsonBodyLimit">
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card" *ngIf="config.portalVersion">
+				<div class="card-header card-header-icon card-header-danger">
+					<div class="card-icon">
+						<i class="fas fa-code-branch fa-2x"></i>
+					</div>
+					<h4 class="card-title">Versión del portal - <small class="text-danger">*Esto dispara un reinicio de la aplicación en el navegador de los clientes</small></h4>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Versión del portal</mat-label>
+								<input matInput type="text" formControlName="portalVersion">
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="card">
+			<div class="card-header card-header-icon card-header-info">
+				<div class="card-icon">
+					<i class="fas fa-journal-whills fa-2x"></i>
+				</div>
+				<h4 class="card-title">Logs</h4>
+			</div>
+			<div class="card-body">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Qué</th>
+							<th>Cuándo</th>
+							<th>Quién</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr *ngFor="let log of config.history">
+							<td>{{log.what}}</td>
+							<td>{{log.when | date: 'medium'}}</td>
+							<td>{{log.by.identifier}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -31,16 +31,56 @@ const routes: Routes = [
 				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
 			}
 		]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'users',
-	// 			loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
-	// 		}
-	// 	]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'super',
+				loadChildren: () => import('./super/super.module').then(mod => mod.SuperModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'oper',
+				loadChildren: () => import('./oper/oper.module').then(mod => mod.OperModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'admin',
+				loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'billing',
+				loadChildren: () => import('./billing/billing.module').then(mod => mod.BillingModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'config',
+				loadChildren: () => import('./config/config.module').then(mod => mod.ConfigModule)
+			}
+		]
 	// },{
 	// 	path: '',
 	// 	component: LoggedComponent,

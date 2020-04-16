@@ -1,0 +1,202 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!loading">
+	<div class="container-fluid">
+		<div class="card">
+			<div class="card-body">
+				<div class="row">
+					<div class="col d-flex align-items-center">
+						<h3 class="text-primary">Operaciones</h3>
+					</div>
+					<div class="col-auto">
+						<div class="btn-group float-right">
+							<button
+							class="btn btn-sm btn-outline-secondary"
+							(click)="goToHome();"
+							>
+								Regresar
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card">
+			<div class="card-header card-header-icon card-header-primary">
+				<div class="card-icon">
+					<i class="fas fa-user fa-2x"></i>
+				</div>
+				<h4 class="card-title">Usuarios y Empresas <small>- Gestión de usuarios y empresas</small></h4>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col">
+						<div class="container alert alert-info p-2">
+							<p class="m-0">Usa el campo debajo para realizar búsquedas de usuarios y empresas. Los campos a buscar en usuarios son: RFC, nombre y apellidos. Y para empresas: RFC, razón social y nombre comercial</p>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-auto">
+						<div class="togglebutton">
+							<label>
+								<input
+									type="checkbox"
+									[checked]="usersToggle"
+									(change)="changeUser();"
+								>
+								<span class="toggle"></span>
+								Buscar en usuarios
+							</label>
+						</div>
+						<div class="togglebutton">
+							<label>
+								<input
+									type="checkbox"
+									[checked]="companiesToggle"
+									(change)="changeComp();"
+								>
+								<span class="toggle"></span>
+								Buscar en empresas
+							</label>
+						</div>
+					</div>
+					<div class="col">
+						<div class="navbar-form" [formGroup]="searchForm">
+							<div class="input-group no-border">
+								<input
+									type="text"
+									class="form-control"
+									placeholder="Buscar..."
+									formControlName="search"
+									(keydown.enter)="search()"
+									>
+								<button
+									mat-raised-button
+									class="btn btn-primary btn-round btn-just-icon"
+									(click)="search();"
+									>
+									<i class="material-icons">search</i>
+									<div class="ripple-container"></div>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card" *ngIf="companiesHasResult">
+			<div class="card-header">
+				<h4>Empresas</h4>
+			</div>
+			<div class="card-body">
+				<div class="container-fluid" *ngIf="companiesResultMessage !== ''">
+					<p>{{companiesResultMessage}}</p>
+				</div>
+				<div class="container-fluid" *ngIf="companiesResultMessage === ''">
+					<div class="table-responsive-md">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>RFC</th>
+									<th>Razón social</th>
+									<th>Nombre comercial</th>
+									<th>Usuarios</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let company of companiesResult; let index=index;">
+									<td>{{index + 1}}</td>
+									<td
+										(click)="openCompanyModal();"
+										class="pointme"
+									>
+										{{company.identifier}}
+									</td>
+									<td
+										(click)="openCompanyModal();"
+										class="pointme"
+										*ngIf="company.name">
+										{{company.name}}
+									</td>
+									<td *ngIf="!company.name" class="text-danger">
+										---
+									</td>
+									<td *ngIf="company.display">
+										{{company.display}}
+									</td>
+									<td *ngIf="!company.display" class="text-danger">
+										---
+									</td>
+									<td>Ver usuarios</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card" *ngIf="usersHasResult">
+			<div class="card-header">
+				<h4>Usuarios</h4>
+			</div>
+			<div class="card-body">
+				<div class="container-fluid" *ngIf="usersResultMessage !== ''">
+					<p>{{usersResultMessage}}</p>
+				</div>
+				<div class="container-fluid p-0" *ngIf="usersResultMessage === ''">
+					<div class="table-responsive-md">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>RFC</th>
+									<th>Nombre</th>
+									<th>Email</th>
+									<th>Empresas</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let user of usersResult; let index=index;">
+									<td>{{index + 1}}</td>
+									<td>
+										<button
+											(click)="openUserModal(user._id);"
+											class="btn btn-link"
+											>
+											{{user.identifier}}
+										</button>
+									</td>
+									<td *ngIf="user.person && user.person.name">
+										{{user.person.name}} {{user.person.fatherName}} {{user.person.motherName}}
+									</td>
+									<td *ngIf="!user.person || (user.person && !user.person.name)" class="text-danger">
+										---
+									</td>
+									<td *ngIf="user.person && user.person.email">
+										{{user.person.email}}
+									</td>
+									<td *ngIf="!user.person || (user.person && !user.person.email)" class="text-danger">
+										---
+									</td>
+									<td *ngIf="user.companies.length > 0">
+										<div class="row" *ngFor="let company of user.companies">
+											<div class="col">
+												<i [ngClass]="{'text-success': company.isActive, 'text-danger': !company.isActive}" class="fas fa-circle"></i> {{company.company.name}} ({{company.company.identifier}})
+											</div>
+										</div>
+									</td>
+									<td *ngIf="user.companies.length === 0" class="text-danger">
+										Sin empresas
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

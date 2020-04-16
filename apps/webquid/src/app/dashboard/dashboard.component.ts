@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
 	getMyServices() {
 		this.userService.getMyServices().subscribe(data => {
-			console.log(data);
+			// console.log(data);
 			this.services = [...data];
 			this.loading = false;
 		}, error => {

@@ -119,6 +119,15 @@ export class LoginComponent implements OnInit {
 					confirmButtonText: 'Ok',
 					confirmButtonClass: 'btn btn-danger'
 				});
+			} else if(error.status === 0 || (error.message && error.message.includes('failure response'))) {
+				this.messageError = 'Espera unos minutos e intenta nuevamente. Si persiste el error después de varios intentos, favor de reportarlo a la mesa de ayuda. Error: ' + error.status;
+				Swal.fire({
+					title: 'El servicio no está disponible',
+					text: this.messageError,
+					type: 'error',
+					confirmButtonText: 'Ok',
+					confirmButtonClass: 'btn btn-danger'
+				});
 			} else {
 				this.messageError = 'Favor de reportarlo a la mesa de ayuda, estatus:' + error.status;
 				Swal.fire({

@@ -38,7 +38,35 @@ export const ROUTES: RouteInfo[] = [{
 			role: 'all',
 			icontype: 'room_service'
 		},{
+			path: '/super',
+			title: 'Supervisión',
+			type: 'link',
+			role: 'isSupervisor',
+			icontype: 'supervisor_account',
+			collapse: 'Supervisión'
+		},{
+			path: '/oper',
+			title: 'Operación',
+			type: 'link',
+			role: 'isOperator',
+			icontype: 'computer',
+			collapse: 'Operación',
+		},{
 			path: '/admin',
+			title: 'Administración',
+			type: 'link',
+			role: 'isTechAdmin',
+			icontype: 'domain',
+			collapse: 'Administración'
+		},{
+			path: '/billing',
+			title: 'Facturación',
+			type: 'link',
+			role: 'isBillAdmin',
+			icontype: 'attach_money',
+			collapse: 'Administración'
+		},{
+			path: '/config',
 			title: 'Configuración',
 			type: 'link',
 			role: 'isAdmin',
@@ -163,19 +191,25 @@ export class SidebarComponent implements OnInit {
 		// 	console.log(err);
 		// });
 		const menuAll = ROUTES.filter(item => item.role === 'all');
-		const menuAdmin = this.identity.roles.isAdmin ? ROUTES.filter(item => item.role === 'isAdmin') : [];
-		const menuSuper = this.identity.roles.isSupervisor ? ROUTES.filter(item => item.role === 'isSupervisor') : [];
-		const menuOperator = this.identity.roles.isOperator ? ROUTES.filter(item => item.role === 'isOperator') : [];
-		const menuTech = this.identity.roles.isTechAdmin ? ROUTES.filter(item => item.role === 'isTechAdmin') : [];
-		const menuBill = this.identity.roles.isBillAdmin ? ROUTES.filter(item => item.role === 'isBillAdmin') : [];
-		this.menuItems = [
-			...menuAll,
-			...menuAdmin,
-			...menuSuper,
-			...menuOperator,
-			...menuTech,
-			...menuBill
-		];
+		if(this.identity.roles) {
+			const menuAdmin = this.identity.roles.isAdmin ? ROUTES.filter(item => item.role === 'isAdmin') : [];
+			const menuSuper = this.identity.roles.isSupervisor ? ROUTES.filter(item => item.role === 'isSupervisor') : [];
+			const menuOperator = this.identity.roles.isOperator ? ROUTES.filter(item => item.role === 'isOperator') : [];
+			const menuTech = this.identity.roles.isTechAdmin ? ROUTES.filter(item => item.role === 'isTechAdmin') : [];
+			const menuBill = this.identity.roles.isBillAdmin ? ROUTES.filter(item => item.role === 'isBillAdmin') : [];
+			this.menuItems = [
+				...menuAll,
+				...menuSuper,
+				...menuOperator,
+				...menuTech,
+				...menuBill,
+				...menuAdmin
+			];
+		} else {
+			this.menuItems = [
+				...menuAll
+			];
+		}
 	}
 
 	updatePS(): void  {

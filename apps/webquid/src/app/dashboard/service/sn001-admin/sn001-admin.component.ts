@@ -21,6 +21,7 @@ export class SN001AdminComponent implements OnInit {
 	fileName: string;
 	fileString: FileString[] = [];
 	filesSelected: boolean = false;
+	progressbar: number = 0;
 
   constructor(
 		private fb: FormBuilder,
@@ -30,42 +31,58 @@ export class SN001AdminComponent implements OnInit {
   ngOnInit(): void {
   }
 
-	filesPicked(files:File[]) {
-		this.files = [];
-		for(let i=0; i < files.length; i++) {
-			if(files[i].type === 'text/xml') {
-				// console.log(i,files[i].name);
-				this.files.push(files[i]);
-				let reader = new FileReader();
-				reader.readAsText(files[i]);
-				reader.onloadend = () => {
-					let file: FileString = {
-						name: this.files[i].name,
-						size: this.files[i].size,
-						type: 'data',
-						mimeType: this.files[i].type,
-						data: reader.result.toString()
-					}
-					this.fileString.push(file);
-				}
-				reader.onerror = () => {
-					this.fileString.push({
-						name: this.files[i].name,
-						size: this.files[i].size,
-						type: 'error',
-						error: reader.error.message
-					});
-				}
-			}
+	async filesPicked(files:File[]) {
+		this.files = [...files];
+		this.progressbar = 0;
+		this.files = this.files.filter(file => file.type.includes('text/xml'));
+		// console.log(this.files);
+		this.fileString = [];
+		for(let i=0; i < this.files.length; i++) {
+			// console.log(i,files[i]);
+			// this.files.push(files[i]);
+			// let reader = new FileReader();
+			// reader.readAsText(files[i]);
+			// reader.onloadend = () => {
+			// 	let file: FileString = {
+			// 		name: this.files[i].name,
+			// 		size: this.files[i].size,
+			// 		type: 'data',
+			// 		mimeType: this.files[i].type,
+			// 		data: reader.result.toString()
+			// 	}
+			// 	this.fileString.push(file);
+			// }
+			// reader.onerror = () => {
+			// 	this.fileString.push({
+			// 		name: this.files[i].name,
+			// 		size: this.files[i].size,
+			// 		type: 'error',
+			// 		error: reader.error.message
+			// 	});
+			// }
+			// this.files.push(files[i]);
+			let result = await processFile(this.files[i]);
+			// console.log(this.files[i]);
+			this.fileString.push({
+				name: this.files[i].name,
+				size: this.files[i].size,
+				type: 'data',
+				mimeType: this.files[i].type,
+				data: result.toString()
+			})
 		}
 		this.filesSelected = true;
 		console.log(this.fileString);
 	}
 
 	processFiles() {
+		this.progressbar = 0;
 		for(let i=0; i < this.fileString.length; i++) {
 			this.operatorService.sendCFDI(this.fileString[i]).subscribe(data => {
 				this.fileString[i].result = data;
+				setTimeout(() => {
+					this.progressbar = Math.floor(1)
+				}, 306);
 			}, error => {
 				this.fileString[i].error = error.error;
 				this.fileString[i].type = 'error';
@@ -73,4 +90,28 @@ export class SN001AdminComponent implements OnInit {
 		}
 	}
 
+}
+
+
+function readFileAsync(file) {
+	return new Promise((resolve, reject) => {
+		let reader = new FileReader();
+
+		reader.onload = () => {
+			resolve(reader.result);
+		}
+
+		reader.onerror = reject;
+
+		reader.readAsText(file);
+
+	});
+}
+
+async function processFile(filename) {
+	try {
+		return await readFileAsync(filename);
+	} catch(e) {
+		console.log(e);
+	}
 }

@@ -113,9 +113,8 @@ export class UserService{
 			};
 			const route = this.url + 'api/v1/mypublicity';
 			return this.http.get(route, httpOptions);
-		} else {
-			return null
 		}
+		return null;
 	}
 
 	getMyServices(): Observable<any>|null {
@@ -129,9 +128,8 @@ export class UserService{
 			};
 			const route = this.url + 'api/v1/myservices';
 			return this.http.get(route, httpOptions);
-		} else {
-			return null
 		}
+		return null;
 	}
 
 	getService(serviceid:string): Observable<any>|null {
@@ -145,9 +143,8 @@ export class UserService{
 			};
 			const route = this.url + 'api/v1/service/' + serviceid;
 			return this.http.get(route, httpOptions);
-		} else {
-			return null
 		}
+		return null;
 	}
 
 	getCompanies(): Observable<any>|null {
@@ -161,18 +158,21 @@ export class UserService{
 			};
 			const route = this.url + 'api/v1/operator/company';
 			return this.http.get(route, httpOptions);
-		} else {
-			return null
 		}
+		return null;
 	}
 
 	createPublicity(body:Publicity): Observable<any>|null {
-		const params = JSON.stringify(body);
-		const headers = JSONHeaders.set(
+		const token = this.getToken();
+		if(token) {
+			const params = JSON.stringify(body);
+			const headers = JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.getToken()
 			);
-		const route = this.url+'api/v1/publicity';
-		return this.http.post(route, params, {headers});
+			const route = this.url+'api/v1/publicity';
+			return this.http.post(route, params, {headers});
+		}
+		return null;
 	}
 }
