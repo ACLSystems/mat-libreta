@@ -115,9 +115,18 @@ export class UserService{
 	*/
 
 	getRoles(): Roles | null{
-		let roles = JSON.parse(localStorage.getItem('roles'));
+		var roles = JSON.parse(localStorage.getItem('roles'));
 		if(roles) {
 			return roles
+		} else {
+			this.getRolesHTTP().subscribe(data => {
+				roles = data.message;
+				localStorage.setItem('roles',JSON.stringify(roles));
+				return roles;
+			}, error => {
+				console.log(error);
+				return null;
+			});
 		}
 		return null;
 	}

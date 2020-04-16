@@ -19,7 +19,7 @@
 							<h4>{{grade.name}}</h4>
 						</div>
 						<div class="col">
-							Folio <span class="text-danger h4" *ngIf="grade.certificateActive && grade.finalGrade >= grade.minGrade && track >= minTrack">{{grade.certificateNumber}}</span> <span class="text-danger h4" *ngIf="!grade.certificateActive || !grade.finalGrade >= grade.minGrade || !track >= minTrack">
+							Folio <span class="text-danger h4" *ngIf="((grade.rosterType === 'public' && grade.pass && grade.folioStatus === 'payed') || (grade.rosterType === 'group' && grade.certificateActive)) && grade.finalGrade >= grade.minGrade && track >= minTrack">{{grade.certificateNumber}}</span> <span class="text-danger h4" *ngIf="(grade.rosterType === 'public' && grade.folioStatus !== 'payed') || (grade.rosterType === 'group' && !grade.certificateActive) || !grade.finalGrade >= grade.minGrade || !track >= minTrack">
 								XXXXXXX
 							</span>
 						</div>
@@ -34,10 +34,10 @@
 					</div>
 					<div class="row">
 						<div class="col">
-							Duración: {{grade.courseDuration}} {{grade.courseDurUnits}}
+							Duración: {{grade.duration}} {{grade.durationUnits}}
 						</div>
 						<div class="col">
-							Fecha: <b>{{grade.passDateSpa}}</b>
+							Fecha de obtención de constancia: <b>{{grade.passDateSpa}}</b>
 						</div>
 					</div>
 					<div class="row">
@@ -126,7 +126,7 @@
 				>
 					<div
 						class="container"
-						*ngIf="grade.certificateActive && grade.finalGrade >= grade.minGrade && track >= minTrack"
+						*ngIf="((grade.rosterType === 'public' && grade.pass && grade.folioStatus === 'payed') || (grade.rosterType === 'group' && grade.certificateActive)) && grade.finalGrade >= grade.minGrade && track >= minTrack"
 						>
 						<div class="btn-group float-right" role="group">
 							<button
@@ -147,13 +147,18 @@
 								2. Descargar Constancia
 							</button>
 						</div>
-
 					</div>
 					<div
-						*ngIf="!grade.certificateActive"
+						*ngIf="grade.rosterType === 'group' && !grade.certificateActive"
 						class="alert alert-danger"
 						>
 						La constancia no ha sido liberada todavía
+					</div>
+					<div
+						*ngIf="grade.rosterType === 'public' && !grade.pass"
+						class="alert alert-danger"
+						>
+						Todavía no cumples los requisitos para constancia
 					</div>
 				</div>
 			</div>

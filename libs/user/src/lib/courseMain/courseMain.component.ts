@@ -202,18 +202,26 @@ export class CourseMainComponent implements OnInit {
 			rosterType : this.rosterType
 		} :
 		{
-			id: this.content.rosterid,
+			id: this.content.roster,
 			status: this.content.myStatus,
 			rosterType : this.rosterType
 		}
+		// console.group('content');
+		// console.log(this.content);
+		// console.groupEnd();
 		// console.group('cert');
 		// console.log(cert);
 		// console.groupEnd();
-		const id = (this.rosterType == 'group') ? this.content.groupid : this.content.rosterid;
+		const id = (this.rosterType == 'group') ? this.content.groupid : this.content.roster;
 		// console.group('id');
 		// console.log(id)
 		// console.groupEnd();
 		localStorage.setItem('cert', JSON.stringify(cert)),
+		// console.group('Mandando al CERT');
+		// console.log('/cert');
+		// console.log(cert.rosterType);
+		// console.log(id);
+		// console.groupEnd();
 		this.router.navigate(['/cert', cert.rosterType, id]);
 	}
 }

@@ -155,7 +155,7 @@ export class CreateAccountComponent implements OnInit {
 		Swal.fire('Espera...');
 		Swal.showLoading();
 		this.userService.checkOrgExistence(this.name.value).subscribe(data => {
-				console.log(data.message);
+				// console.log(data.message);
 				this.orgExists = true;
 				this.orgExistsMessage = data.message;
 				Swal.close();
@@ -215,7 +215,7 @@ export class CreateAccountComponent implements OnInit {
 	}
 
 	selectedTag(event: MatAutocompleteSelectedEvent): void {
-		console.log(event.option.viewValue)
+		// console.log(event.option.viewValue)
 		let findTag = this.tags.find(tag => tag === event.option.viewValue);
 		if(findTag) {
 			Swal.fire({

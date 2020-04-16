@@ -121,6 +121,14 @@ export class DashboardComponent implements OnInit {
 
 	getMyRoles() {
 		this.myRoles = this.userService.getRoles();
+		// if(!this.myRoles) {
+		// 	this.userService.getRolesHTTP().subscribe(data => {
+		//
+		// 	},error => {
+		// 		console.log(error);
+		// 	});
+		// }
+
 	}
 
 	// getPublicData() {

@@ -7,14 +7,14 @@ import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DeviceDetectorModule } from 'ngx-device-detector';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+// import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { environment } from '@cjaenv/environment';
 
-const config: SocketIoConfig = {
-	url: environment.url,
-	options: {}
-}
+// const config: SocketIoConfig = {
+// 	url: environment.url,
+// 	options: {}
+// }
 
 // Import librerías Angular Material
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -138,7 +138,7 @@ export class MaterialModule {}
 		NavbarModule,
 		AccesoriesModule,
 		DeviceDetectorModule.forRoot(),
-		SocketIoModule.forRoot(config)
+		// SocketIoModule.forRoot(config)
   ],
 	providers: [
 		EnvService,

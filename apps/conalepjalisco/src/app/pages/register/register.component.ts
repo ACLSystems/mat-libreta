@@ -102,7 +102,7 @@ export class RegisterComponent implements OnInit {
 					org: environment.instanceName,
 					orgUnit: environment.orgUnitName
 				};
-				console.log(register);
+				// console.log(register);
 				Swal.fire('Solicitando registro. Espera...');
 				Swal.showLoading();
 				// console.log(register);

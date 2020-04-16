@@ -3,7 +3,7 @@
 		<app-loading-spinner></app-loading-spinner>
 	</div>
 	<div *ngIf="!loading" class="container">
-		<div class="row" *ngIf="myRoles.isSupervisor && (platform && platform == 'mooc')">
+		<div class="row" *ngIf="myRoles && myRoles.isSupervisor && (platform && platform == 'mooc')">
 			<div class="col">
 				<div class="card card-stats m-0">
 					<div class="card-header card-header-icon card-header-rose">

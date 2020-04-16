@@ -27,5 +27,6 @@ export const environment = {
 	colorEvents: ['#16A2B8', '#04B45F', '#BE1C1F', '#E6E6E6'],
 	textColor: '#FFFFFF',
 	selfRegister: true,
-	emailSupport: 'soporte@superatemexico.com'
+	emailSupport: 'soporte@superatemexico.com',
+	version: 18
 };

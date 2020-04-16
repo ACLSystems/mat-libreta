@@ -59,7 +59,7 @@ export class MdChartComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		this.chartId = `md-chart-${MdChartComponent.currentId++}`;
-		console.log(this.chartId)
+		// console.log(this.chartId)
 	}
 
 	public ngAfterViewInit(): void {
