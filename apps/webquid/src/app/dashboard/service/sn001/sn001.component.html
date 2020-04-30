@@ -1,1 +1,45 @@
-<p>sn001 works!</p>
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container" *ngIf="!loading">
+	<div class="card mt-1">
+		<div class="card-header bg-success">
+			<h3 class="card-title text-white">
+				{{userTag}}
+			</h3>
+		</div>
+		<div class="card-body">
+			<ul class="timeline timeline-simple" *ngIf="documents.length > 0">
+				<li class="timeline-inverted" *ngFor="let doc of documents">
+					<div class="timeline-badge primary">
+						<i class="fas fa-file-invoice"></i>
+					</div>
+					<div class="timeline-panel bg-light">
+						<div class="timeline-heading">
+							<span class="badge badge-primary">
+								{{doc.beginDate | date: 'mediumDate'}}  a {{doc.endDate | date: 'mediumDate'}}
+							</span>
+						</div>
+						<div class="timeline-body">
+							<button
+								mat-raised-button
+								class="btn btn-sm btn-link"
+								(click)="getDocument(doc._id);"
+							>
+								Descargar XML
+							</button>
+							<button
+								mat-raised-button
+								class="btn btn-sm btn-link"
+								(click)="getPDF(doc._id);"
+							>
+								Descargar PDF
+							</button>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h4 *ngIf="documents.length === 0">No hay recibos disponibles</h4>
+		</div>
+	</div>
+</div>

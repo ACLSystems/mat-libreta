@@ -6,3 +6,7 @@
 .pointme {
 	cursor: pointer;
 }
+
+::ng-deep .webquid-tooltip {
+	background-color: white;
+}

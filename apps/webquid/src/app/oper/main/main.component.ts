@@ -7,6 +7,9 @@ import Swal from 'sweetalert2';
 import { OperService } from '../services/oper.services';
 
 import { UserComponent } from '../user/user.component';
+import { CompanyComponent } from '../company/company.component';
+import { CreatecompanyComponent } from '../createcompany/createcompany.component';
+import { CreateuserComponent } from '../createuser/createuser.component';
 
 @Component({
   selector: 'webquid-oper-main',
@@ -122,8 +125,32 @@ export class MainComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	openCompanyModal() {
-		console.log('hola company modal');
+	createUserModal() {
+		const createuserModalDialog = this.matDialog.open(CreateuserComponent, {
+			// disableClose: false,
+			id: 'createUser',
+			height: '495px',
+			width: '900px'
+		});
+	}
+
+	createCompanyModal() {
+		const createcompanyModalDialog = this.matDialog.open(CreatecompanyComponent, {
+			// disableClose: false,
+			id: 'createCompany',
+			height: '495px',
+			width: '900px'
+		});
+	}
+
+	openCompanyModal(id:string) {
+		const companyModalDialog = this.matDialog.open(CompanyComponent, {
+			// disableClose: false,
+			id: 'editCompany',
+			height: '495px',
+			width: '900px',
+			data: {id}
+		});
 	}
 
 

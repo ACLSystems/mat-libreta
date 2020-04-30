@@ -1,1 +1,25 @@
-<p>main works!</p>
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container" *ngIf="!loading">
+	<div class="card">
+		<div class="card-header">
+			<h4>Supervisor</h4>
+		</div>
+		<div class="card-body">
+			<button
+				mat-raised-button
+				class="btn btn-primary"
+				(click)="openUserModal();"
+			>
+				<i class="fas fa-list"></i> Lista de empleados
+			</button>
+			<button
+				mat-raised-button
+				class="btn btn-success"
+			>
+				<i class="fas fa-paper-plane"></i> Realizar solicitud
+			</button>
+		</div>
+	</div>
+</div>

@@ -24,10 +24,40 @@
 		</div>
 		<div class="card">
 			<div class="card-header card-header-icon card-header-primary">
-				<div class="card-icon">
-					<i class="fas fa-user fa-2x"></i>
+				<div class="row">
+					<div class="col">
+						<div class="card-icon">
+							<i class="fas fa-user fa-2x"></i>
+						</div>
+						<h4 class="card-title">Usuarios y Empresas <small>- Gestión de usuarios y empresas</small></h4>
+					</div>
+					<div class="col-auto">
+						<div class="btn-group" role="group">
+							<button
+								mat-raised-button
+								matTooltip="Crear nueva empresa"
+								matTooltipPosition="above"
+								matTooltipClass="webquid-tooltip"
+								class="btn btn-sm btn-primary"
+								aria-label="Crear nueva empresa"
+								(click)="createUserModal();"
+							>
+								+Empresa
+							</button>
+							<button
+								mat-raised-button
+								matTooltip="Crear nuevo usuario"
+								matTooltipPosition="above"
+								matTooltipClass="webquid-tooltip"
+								class="btn btn-sm btn-success"
+								aria-label="Crear nueva usuario"
+								(click)="createCompanyModal();"
+							>
+								+Usuario
+							</button>
+						</div>
+					</div>
 				</div>
-				<h4 class="card-title">Usuarios y Empresas <small>- Gestión de usuarios y empresas</small></h4>
 			</div>
 			<div class="card-body">
 				<div class="row">
@@ -74,6 +104,9 @@
 									>
 								<button
 									mat-raised-button
+									matTooltip="Buscar"
+									matTooltipPosition="above"
+									matTooltipClass="Buscar"
 									class="btn btn-primary btn-round btn-just-icon"
 									(click)="search();"
 									>
@@ -110,13 +143,13 @@
 								<tr *ngFor="let company of companiesResult; let index=index;">
 									<td>{{index + 1}}</td>
 									<td
-										(click)="openCompanyModal();"
+										(click)="openCompanyModal(company._id);"
 										class="pointme"
 									>
 										{{company.identifier}}
 									</td>
 									<td
-										(click)="openCompanyModal();"
+										(click)="openCompanyModal(company._id);"
 										class="pointme"
 										*ngIf="company.name">
 										{{company.name}}

@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes} from '@angular/router';
 
 import { AuthGuard } from '@wqshared/guards/auth.guard';
+import { CustomPreloadingWithDelayStrategy } from '@wqshared/preloading/custompreloading.service';
 //
 import { PagesComponent } from '@wqlayouts/pages.component';
-// import { LandingComponent } from '@wqlayouts/landing.component';
 import { LoggedComponent } from '@wqlayouts/logged.component';
+import { LandingComponent } from '@wqlayouts/landing.component';
+
 
 const routes: Routes = [
 	{
@@ -18,7 +20,21 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'pages',
-				loadChildren: () => import('./pages/pages.module').then(mod => mod.PagesModule)
+				loadChildren: () => import('./pages/pages.module').then(mod => mod.PagesModule),
+				data: {
+					preload: true,
+					delay: false,
+					time: 2000
+				}
+			}
+		]
+	},{
+		path: '',
+		children: [
+			{
+				path: 'landing',
+				component: LandingComponent,
+				loadChildren: () => import('@wqlayouts/landing/landing.module').then(mod => mod.LandingModule)
 			}
 		]
 	},{
@@ -28,7 +44,12 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'services',
-				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
+				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{
@@ -81,66 +102,6 @@ const routes: Routes = [
 				loadChildren: () => import('./config/config.module').then(mod => mod.ConfigModule)
 			}
 		]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'accounts',
-	// 			loadChildren: () => import('./accounts/accounts.module').then(mod => mod.AccountsModule)
-	// 		}
-	// 	]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'quotes',
-	// 			loadChildren: () => import('./quotes/quotes.module').then(mod => mod.QuotesModule)
-	// 		}
-	// 	]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'opportunities',
-	// 			loadChildren: () => import('./opportunities/opportunities.module').then(mod => mod.OpportunitiesModule)
-	// 		}
-	// 	]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'business',
-	// 			loadChildren: () => import('./businesses/businesses.module').then(mod => mod.BusinessesModule)
-	// 		}
-	// 	]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'reports',
-	// 			loadChildren: () => import('./reports/reports.module').then(mod => mod.ReportsModule)
-	// 		}
-	// 	]
-	// },{
-	// 	path: '',
-	// 	component: LoggedComponent,
-	// 	canActivate: [AuthGuard],
-	// 	children: [
-	// 		{
-	// 			path: 'admin',
-	// 			loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
-	// 		}
-	// 	]
 	},{
 		path: '**',
 		redirectTo: '/pages/error'
@@ -148,14 +109,20 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(
-		routes,{
+  imports: [
+		RouterModule.forRoot(routes,{
 			useHash:true,
 			// enableTracing: true,
-			scrollPositionRestoration: 'enabled'
+			scrollPositionRestoration: 'enabled',
+			preloadingStrategy: CustomPreloadingWithDelayStrategy
 		})
 	],
-  exports: [RouterModule]
+  exports: [
+		RouterModule
+	],
+	providers: [
+		CustomPreloadingWithDelayStrategy
+	]
 })
 
 export class AppRoutingModule { }

@@ -1,1 +1,11 @@
-<router-outlet></router-outlet>
+<router-outlet>
+	<div class="page-header" *ngIf="loading">
+			<div class="col-md-6 ml-auto mr-auto text-center">
+				<img src="./assets/img/logo_cetec_main.png"  class="img-fluid" alt="Grupo CETEC">
+				<br>
+				<div class="spinner-border m-5" role="status" style="width: 5rem; height: 5rem;">
+					<span class="sr-only">Cargando ...</span>
+				</div>
+			</div>
+	</div>
+</router-outlet>

@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart } from '@angular/router';
+import {
+	Router,
+	RouterEvent,
+	NavigationEnd,
+	NavigationStart
+} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import Swal from 'sweetalert2';
@@ -15,6 +20,7 @@ import { BrowerService, CommonService } from '@mat-libreta/shared';
 export class AppComponent {
 	private _router: Subscription;
 	private browser: any;
+	loading: boolean = false;
 
 	constructor(
 		private router: Router,
@@ -22,6 +28,15 @@ export class AppComponent {
 		private browserService: BrowerService,
 		private commonService: CommonService
 	) {
+		this.router.events.subscribe((event: RouterEvent) => {
+			if(event instanceof NavigationStart) {
+				console.log('Comenzando navegación');
+				this.loading = true;
+			} else if(event instanceof NavigationEnd) {
+				console.log('Terminando navegación');
+				this.loading = false;
+			}
+		});
 		this.envService.validateEnvironment();
 		this.browser = this.browserService.detectBrowser();
 		this.commonService.displayLog('Browser',this.browser);

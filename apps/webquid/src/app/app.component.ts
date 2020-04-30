@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router,
+import {
+	Router,
+	RouterEvent,
 	NavigationEnd,
-	// NavigationStart
+	NavigationStart
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -15,10 +17,20 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
 	private _router: Subscription;
+	loading: boolean = false;
 
 	constructor(
 		private router: Router
 	) {
+		this.router.events.subscribe((event: RouterEvent): void => {
+			if(event instanceof NavigationStart) {
+				console.log('Comenzando navegación');
+				this.loading = true;
+			} else if(event instanceof NavigationEnd) {
+				console.log('Terminando navegación');
+				this.loading = false;
+			}
+		});
 }
 
 	ngOnInit() {

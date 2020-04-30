@@ -11,7 +11,7 @@ import { LoginComponent } from './login/login.component';
 // import { PrivacyComponent } from './privacy/privacy.component';
 // import { CatalogComponent } from './catalog/catalog.component';
 // import { CourseComponent } from './course/course.component';
-// import { RecoverPassComponent} from './recoverpass/recoverpass.component';
+import { RecoveraccessComponent } from './recoveraccess/recoveraccess.component';
 // import { OfflineComponent } from './offline/offline.component';
 import { LogoutComponent } from './logout/logout.component';
 
@@ -39,9 +39,9 @@ const pageRoutes: Routes = [
 			},{
 				path: 'login',
 				component: LoginComponent
-			// },{
-			// 	path: 'reqrecoverpass',
-			// 	component: RecoverPassComponent
+			},{
+				path: 'reqrecoverpass',
+				component: RecoveraccessComponent
 			// },{
 			// 	path: 'help',
 			// 	component: HelpComponent

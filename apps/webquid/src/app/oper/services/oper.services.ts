@@ -72,4 +72,19 @@ export class OperService{
 		return null
 	}
 
+	getCompany(id:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + this.getToken()
+				)
+			}
+			const route = this.url+'api/v1/operator/company/'+id;
+			return this.http.get(route,httpOptions);
+		}
+		return null
+	}
+
 }

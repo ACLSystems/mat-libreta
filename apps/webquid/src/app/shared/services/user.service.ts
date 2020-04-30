@@ -175,4 +175,34 @@ export class UserService{
 		}
 		return null;
 	}
+
+	searchDocuments(params:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/attachment?${params}`;
+			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
+
+	getDocument(docid:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/attachment/${docid}`;
+			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
 }

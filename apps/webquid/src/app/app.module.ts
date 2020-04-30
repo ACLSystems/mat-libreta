@@ -56,7 +56,7 @@ import { AccesoriesModule } from '@wqshared/accesories/accesories.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing.module';
 import { PagesComponent } from '@wqlayouts/pages.component';
-// import { LandingComponent } from '@wqlayouts/landing.component';
+import { LandingComponent } from '@wqlayouts/landing.component';
 import { FooterComponent } from '@wqlayouts/footer/footer.component';
 import { LoggedComponent } from '@wqlayouts/logged.component';
 // import { LoadingSpinnerComponent } from '@wqshared/spinners/loading.component';
@@ -118,7 +118,7 @@ export class MaterialModule {}
     AppComponent,
 		PagesComponent,
 		FooterComponent,
-		// LandingComponent,
+		LandingComponent,
 		LoggedComponent,
 		// LoadingSpinnerComponent
   ],

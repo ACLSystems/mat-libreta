@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { OperService } from '../services/oper.services';
 
 @Component({
   selector: 'mat-libreta-company',
@@ -7,9 +10,42 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CompanyComponent implements OnInit {
 
-  constructor() { }
+	companyid: string;
+	loading: boolean = false;
+	company: any;
+	companyMessage: string = '';
+
+  constructor(
+		@Optional() @Inject(MAT_DIALOG_DATA) public id: any,
+		private operService: OperService,
+		public dialogRef: MatDialogRef<CompanyComponent>
+	) {
+		if(id && id.id) {
+			this.companyid = id.id;
+		}
+	}
 
   ngOnInit(): void {
+		this.loading = true;
+		if(this.companyid) {
+			this.operService.getCompany(this.companyid).subscribe(data => {
+				console.log(data);
+				if(data && data.message && data.message.includes('No existen empresas')) {
+					this.companyMessage = data.message;
+				} else {
+					this.company = data.company;
+					this.company.isActive = data.isActive;
+				}
+				this.loading = false;
+			}, error => {
+				console.log(error);
+				this.companyMessage = error.message;
+			});
+		}
   }
+
+	closeDialog() {
+		this.dialogRef.close();
+	}
 
 }

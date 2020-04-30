@@ -1,0 +1,23 @@
+<div class="card">
+	<div class="card-header">
+		<h4>Selecciona Empresa</h4>
+	</div>
+	<div class="card-body">
+		<div *ngIf="companies.length > 0">
+			<div class="row" *ngFor="let company of companies">
+				<div class="col">
+					<button
+					mat-raised-button
+					class="btn btn-outline-primary btn-block"
+					(click)="goToUsers(company.value)"
+					>
+					{{company.viewValue}}
+					</button>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="companies.length === 0">
+			<h4 class="text-danger">NO TIENES EMPRESAS RELACIONADAS</h4>
+		</div>
+	</div>
+</div>
