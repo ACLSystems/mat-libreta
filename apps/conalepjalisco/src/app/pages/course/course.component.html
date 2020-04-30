@@ -118,27 +118,22 @@
 												Tipo
 											</div>
 											<div class="col-sm-6 col-md border-top border-success children">
-												<b>
 													<span *ngIf="curso.type == 'tutor'">
-														Tutorado<br />
-														Espera fechas próximamente
+														<b>Tutorado</b><br />
+														Este curso se imparte en línea, pero acompañado de un tutor, por lo que deberás solicitarlo aquí y realizar el pago correspondiente.
 													</span>
-													<!-- <span *ngIf="curso.type == 'tutor'" class="text-danger">
-														*Espera las fechas de este curso para poder tomarlo
-													</span> -->
 													<span *ngIf="curso.type == 'self-paced'">
 														A tu ritmo
 													</span>
-												</b>
 											</div>
 										</div>
-										<div class="row" *ngIf="curso.moocPrice">
+										<div class="row" *ngIf="curso.type !== 'tutor'">
 											<div class="col-sm-6 col-md-3 border-top border-success children">
 												Costo de inversión
 											</div>
 											<div class="col-sm-6 col-md border-top border-success children">
 												<b>
-													Gratuito
+													{{curso.moocPrice | currency}}
 												</b><br />
 												Al finalizar el curso podrás obtener una constancia oficial de acreditación verificada, que comprueba tus conocimientos y habilidades adquiridas
 											</div>
@@ -200,8 +195,16 @@
 						<button
 							mat-raised-button
 							class="btn btn-rose float-right"
+							(click)="goGoogleForms();"
+							*ngIf="curso.type === 'tutor'"
+							>
+							Solicitar
+						</button>
+						<button
+							mat-raised-button
+							class="btn btn-rose float-right"
 							(click)="goEnroll(curso._id, curso.title);"
-							[disabled]="curso.type == 'tutor'"
+							*ngIf="curso.type !== 'tutor'"
 							>
 							Inscribirme
 						</button>
