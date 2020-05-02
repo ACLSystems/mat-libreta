@@ -9,18 +9,23 @@
 			<div class="row mb-0 pb-0">
 				<div class="col">
 					<div class="publicidad">
-						<div class="card mt-4 mb-0 pb-0">
+						<div class="card mt-4 mb-0 pb-0" id="publicity">
 							<div class="card-header p-1">
 								<h4 class="float-left">Anuncios</h4>
-								<button
-									mat-rised-button
+								<div
+									class="badge badge-pill badge-danger float-right align-middle pointme"
+									(click)="hideCard();"
+									>
+									Cerrar <i class="fas fa-times-circle"></i>
+								</div>
+								<div
 									*ngIf="roles.isAdmin || roles.isBillAdmin || roles.isTechAdmin || roles.isOperator"
-									class="btn btn-link btn-primary float-right"
+									class="badge badge-pill badge-success float-right align-middle pointme"
 									data-toggle="modal"
 									data-target="#publicityModal"
 									(click)="loadCompanies();"
-									><i class="fas fa-plus-circle fa-lg mr-2 mt-2"></i>
-								</button>
+									>Agregar <i class="fas fa-plus-circle"></i>
+								</div>
 							</div>
 							<div class="card-body p-1">
 								<p *ngIf="publicity.length === 0">No hay anuncios</p>

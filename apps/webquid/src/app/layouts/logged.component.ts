@@ -195,6 +195,7 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.publicity = data;
 			}
 			this.loading = false;
+			console.log(this.publicity);
 		}, error => {
 			console.log(error);
 			this.loading = false;
@@ -328,6 +329,13 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 			return jwt_decode(token);
 		} catch (err)  {
 			return null;
+		}
+	}
+
+	hideCard(){
+		const card = document.getElementById('publicity');
+		if(card) {
+			card.style.display = 'none';
 		}
 	}
 

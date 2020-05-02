@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as jwt_decode from 'jwt-decode';
 import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
@@ -9,7 +9,7 @@ import { Identity } from '@wqshared/types/user.type';
 
 import { UserService } from '@wqshared/services/user.service';
 import { PublicService } from '@wqshared/services/public.service';
-import { Login } from './login';
+// import { Login } from './login';
 
 import { environment } from '@wqenv/environment';
 
@@ -21,26 +21,43 @@ import { environment } from '@wqenv/environment';
 })
 export class LoginComponent implements OnInit {
 
-	RFCRegex = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
+	// RFCRegex = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
 	type = 'password';
 	dataIsOk = false;
 	loading = false;
 	messageSuccess: string;
 	messageError: string;
 	messageErroremail: string;
-	login: Login;
 	token: any;
 	tokenVersion: string;
 	identity: Identity | null;
 	show = false;
+	loginForm = this.fb.group({
+		identifier: ['', [
+			Validators.required,
+			mustBeValidRFC
+		]],
+		password: ['', [
+			Validators.required
+		]]
+	});
 
 	constructor(
 		private router: Router,
 		private userService: UserService,
 		private publicService: PublicService,
-		private sg: SimpleGlobal
+		private sg: SimpleGlobal,
+		private fb: FormBuilder
 	) {
-		this.login = new Login('', '');
+
+	}
+
+	get identifier() {
+		return this.loginForm.get('identifier');
+	}
+
+	get password() {
+		return this.loginForm.get('password');
 	}
 
 	ngOnInit() {
@@ -54,13 +71,13 @@ export class LoginComponent implements OnInit {
 		// }, 700);
 	}
 
+	rfcUpper() {
+		let identifier = this.loginForm.get('identifier');
+		identifier.setValue(identifier.value.toUpperCase());
+	}
+
 	getCredentials(){
-		if (this.RFCRegex.test(this.login.username)) {
-			this.messageErroremail = null;
-		} else {
-			this.messageErroremail = 'Proporciona un RFC válido';
-		}
-		if (this.login.username !== '' && this.login.password !== '' && this.RFCRegex.test(this.login.username)) {
+		if(this.loginForm.valid) {
 			this.dataIsOk = true;
 		} else {
 			this.dataIsOk = false;
@@ -71,7 +88,7 @@ export class LoginComponent implements OnInit {
 		this.loading = true;
 		this.messageError= null;
 		this.publicService
-			.login(this.login.username, this.login.password)
+			.login(this.loginForm.get('identifier').value, this.loginForm.get('password').value)
 			.subscribe(data => {
 				this.token = data.token;
 				this.sg['token'] = this.token;
@@ -159,4 +176,18 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
+}
+
+function mustBeValidRFC(field: FormControl) {
+	let RFC = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
+	let value = field.value;
+	if(value === '') {
+		return null;
+	}
+	value = value.toUpperCase();
+	return RFC.test(value) ? null : {
+		validateEmail: {
+			valid: false
+		}
+	}
 }

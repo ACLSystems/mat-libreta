@@ -1,0 +1,124 @@
+<div class="row">
+	<div class="col">
+		<div [formGroup]="addressForm">
+			<div class="row">
+				<div class="col">
+					<div class="input-group">
+						<mat-form-field>
+							<mat-label>Calle</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="line1"
+								id="line1"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group">
+						<mat-form-field>
+							<mat-label>Colonia</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="line2"
+								id="line2"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group">
+						<mat-form-field>
+							<mat-label>Código Postal</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="postalCode"
+								id="postalCode"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="input-group">
+						<mat-form-field>
+							<mat-label>Delegación/Municipio</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="locality"
+								id="locality"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group">
+						<mat-form-field>
+							<mat-label>Ciudad</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="city"
+								id="city"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group">
+						<mat-form-field>
+							<mat-label>Estado</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="state"
+								id="state"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group">
+						<mat-form-field>
+							<mat-label>País</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="country"
+								id="country"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="badge badge-pill badge-success align-middle pointme" (click)="addAddress();">Agregar <i class="fas fa-plus-circle"></i></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-auto">
+		<div *ngIf="addresses.length > 0">
+			<div class="row" *ngFor="let address of addresses; let index=index">
+				<div class="col">
+					{{index + 1}}) {{address.line1}} {{address.line2}} {{address.locality}} {{address.city}} {{address.state}} {{address.postalCode}} {{address.country}}
+				</div>
+				<div class="col-auto">
+					<button
+						mat-raised-button
+						class="btn btn-sm btn-link btn-danger align-middle"
+						(click)="removeAddress(index);"
+						>
+						<i class="fas fa-minus-circle fa-md"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

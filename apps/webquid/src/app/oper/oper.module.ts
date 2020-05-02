@@ -5,6 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 import { OperRoutingModule } from './oper.routing';
 
@@ -14,6 +15,8 @@ import { UserComponent } from './user/user.component';
 import { UsersByCompanyComponent } from './users-by-company/users-by-company.component';
 import { CreatecompanyComponent } from './createcompany/createcompany.component';
 import { CreateuserComponent } from './createuser/createuser.component';
+import { PhonesComponent } from './phones/phones.component';
+import { AddressComponent } from './address/address.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import { CreateuserComponent } from './createuser/createuser.component';
 		UserComponent,
 		UsersByCompanyComponent,
 		CreatecompanyComponent,
-		CreateuserComponent
+		CreateuserComponent,
+		PhonesComponent,
+		AddressComponent
 	],
 	imports: [
 		CommonModule,
@@ -32,7 +37,8 @@ import { CreateuserComponent } from './createuser/createuser.component';
 		MatInputModule,
 		MatDialogModule,
 		MatButtonModule,
-		MatTooltipModule
+		MatTooltipModule,
+		MatSelectModule
   ],
 	entryComponents: [
 		UserComponent,

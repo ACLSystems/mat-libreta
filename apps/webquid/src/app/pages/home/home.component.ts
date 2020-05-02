@@ -59,4 +59,8 @@ export class HomeComponent implements OnInit {
 	// 		$navbar.classList.add('bg-primary');
 	// 	}
 	// }
+
+	goLogin() {
+		this._router.navigate(['/pages/login']);
+	}
 }

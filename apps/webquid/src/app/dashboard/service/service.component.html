@@ -10,11 +10,25 @@
 		</div>
 		<div class="card">
 			<div class="card-header">
-				<h3>{{service.title}} para <small>{{identity.identifier}}</small></h3>
+				<h3 class="float-left">{{service.title}} para <small>{{identity.identifier}}</small></h3>
+				<div
+					class="badge badge-pill badge-primary float-right align-middle pointme"
+					(click)="goBack();"
+					>
+					Regresar <i class="fas fa-concierge-bell"></i>
+				</div>
 			</div>
 			<div class="card-body">
 				<webquid-sn001 *ngIf="service.code === 'SN001'">
 				</webquid-sn001>
+			</div>
+			<div class="card-footer">
+				<div
+					class="badge badge-pill badge-primary float-right align-middle pointme"
+					(click)="goBack();"
+					>
+					Regresar <i class="fas fa-concierge-bell"></i>
+				</div>
 			</div>
 		</div>
 	</div>

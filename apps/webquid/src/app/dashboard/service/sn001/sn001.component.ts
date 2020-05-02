@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { Identity } from '@wqshared/types/user.type';
@@ -20,7 +21,8 @@ export class SN001Component implements OnInit {
 
   constructor(
 		private userService: UserService,
-		private pdfService: PDFService
+		private pdfService: PDFService,
+		private router: Router
 	) { }
 
   ngOnInit(): void {

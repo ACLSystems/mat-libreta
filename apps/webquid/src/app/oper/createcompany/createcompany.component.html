@@ -1,1 +1,183 @@
-<p>createcompany works!</p>
+<div class="d-flex justify-content-center" *ngIf="loading">
+	<div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+		<span class="sr-only">Espera...</span>
+	</div>
+</div>
+<div class="container-fluid p-0" *ngIf="!loading">
+	<div class="container m-auto">
+		<div class="card">
+			<div class="card-header my-0 py-0">
+				<div class="row">
+					<div class="col m-0 p-0">
+						<h3 class="card-title text-primary">
+							Crear empresa
+						</h3>
+					</div>
+				</div>
+			</div>
+			<div class="card-body">
+				<div [formGroup]="companyForm">
+					<div id="accordion" role="tablist">
+						<div class="card-collapse">
+							<div class="card-header p-0" role="tab"	id="general">
+								<h5 class="mb-0">
+									<a
+										data-toggle="collapse"
+										href="#collapseGeneral"
+										aria-expanded="true"
+										aria-controls="collapseGeneral"
+										class="collapsed"
+										>
+										Datos generales
+										<i class="material-icons">keyboard_arrow_down</i>
+									</a>
+								</h5>
+							</div>
+							<div
+								id="collapseGeneral"
+								class="collapse show"
+								role="tabpanel"
+								aria-labelledby="general"
+								data-parent="#accordion"
+								>
+								<div class="row">
+									<div class="col">
+										<div class="row">
+											<div class="col">
+												<div class="input-group">
+													<mat-form-field>
+														<mat-label>RFC</mat-label>
+														<input
+															matInput
+															type="text"
+															formControlName="identifier"
+															required
+															id="identifier"
+															(blur)="rfcUpper()"
+															>
+													</mat-form-field>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col text-danger" *ngIf="(identifier.dirty || identifier.touched) && identifier.invalid && identifier.errors.required">
+												<small>* El RFC es requerido.</small>
+											</div>
+										</div>
+										<div class="row">
+											<div
+											class="col text-danger"
+											*ngIf="identifier.errors?.validateEmail">
+												<small>* Debe ser un RFC válido (AAA000000AA0)</small>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="row">
+											<div class="col">
+												<div class="input-group">
+													<mat-form-field>
+														<mat-label>Razón Social</mat-label>
+														<input
+															matInput
+															type="text"
+															formControlName="name"
+															required
+															id="name"
+															>
+													</mat-form-field>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col text-danger" *ngIf="(name.dirty || name.touched) && name.invalid && name.errors.required">
+												<small>* La Razón Social es requerida.</small>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="row">
+											<div class="col">
+												<div class="input-group">
+													<mat-form-field>
+														<mat-label>Nombre Comercial</mat-label>
+														<input
+															matInput
+															type="text"
+															formControlName="display"
+															required
+															id="display"
+														>
+													</mat-form-field>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col text-danger" *ngIf="(display.dirty || display.touched) && display.invalid && display.errors.required">
+												<small>* El Nombre Comercial es requerido.</small>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-collapse">
+							<div class="card-header p-0" role="tab"	id="phones">
+								<h5 class="mb-0">
+									<a
+										data-toggle="collapse"
+										href="#collapsePhones"
+										aria-expanded="true"
+										aria-controls="collapsePhones"
+										class="collapsed"
+										>
+										Teléfonos
+										<i class="material-icons">keyboard_arrow_down</i>
+									</a>
+								</h5>
+							</div>
+							<div
+								id="collapsePhones"
+								class="collapse"
+								role="tabpanel"
+								aria-labelledby="phones"
+								data-parent="#accordion"
+								>
+								<webquid-phones
+									(phonesEvent)="receivePhones($event);"
+								></webquid-phones>
+							</div>
+						</div>
+						<div class="card-collapse">
+							<div class="card-header p-0" role="tab"	id="address">
+								<h5 class="mb-0">
+									<a
+										data-toggle="collapse"
+										href="#collapseAddress"
+										aria-expanded="true"
+										aria-controls="collapseAddress"
+										class="collapsed"
+										>
+										Direcciones
+										<i class="material-icons">keyboard_arrow_down</i>
+									</a>
+								</h5>
+							</div>
+							<div
+								id="collapseAddress"
+								class="collapse"
+								role="tabpanel"
+								aria-labelledby="address"
+								data-parent="#accordion"
+								>
+								<webquid-address
+									(addressesEvent)="receiveAddresses($event);"
+								></webquid-address>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

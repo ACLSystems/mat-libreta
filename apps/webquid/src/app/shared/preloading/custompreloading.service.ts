@@ -10,7 +10,7 @@ export class CustomPreloadingWithDelayStrategy implements PreloadingStrategy {
 		load: () => Observable<any>
 	): Observable<any> {
 		if(route.data && route.data['preload']) {
-			console.log(`Preload Path: ${route.path}, delay: ${route.data['delay']}`);
+			// console.log(`Preload Path: ${route.path}, delay: ${route.data['delay']}`);
 			if(route.data['delay']) {
 				return timer(2160).pipe(mergeMap(() => load()));
 			}

@@ -1,0 +1,31 @@
+<div class="row">
+	<div class="col">
+		<div [formGroup]="phoneForm">
+			<div class="input-group">
+				<mat-form-field>
+					<mat-label>Teléfono</mat-label>
+					<input
+						matInput
+						type="text"
+						formControlName="phone"
+						id="phone"
+						>
+				</mat-form-field>
+				<div class="badge badge-pill badge-success align-middle pointme" (click)="addPhone();">Agregar <i class="fas fa-plus-circle"></i></div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<ul class="list-group" *ngIf="phones.length > 0">
+			<li class="list-group-item p-0" *ngFor="let phone of phones">
+				{{phone}} <button
+					mat-raised-button
+					class="btn btn-sm btn-link btn-danger align-middle"
+					(click)="removePhone(phone);"
+					>
+					<i class="fas fa-minus-circle fa-md"></i>
+				</button>
+			</li>
+		</ul>
+	</div>
+</div>

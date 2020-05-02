@@ -32,7 +32,7 @@ export class ServiceComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.identity = this.userservice.getidentity();
-		console.log(this.identity);
+		// console.log(this.identity);
 		this.getService(this.serviceid);
 	}
 
@@ -49,5 +49,9 @@ export class ServiceComponent implements OnInit {
 			console.log(error);
 			this.router.navigate(['/services']);
 		});
+	}
+
+	goBack() {
+		this.router.navigate(['/services']);
 	}
 }
