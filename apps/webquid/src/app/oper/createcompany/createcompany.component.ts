@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 import { Company } from '@wqshared/types/companies.type';
 import { Address } from '@wqshared/types/addresses.type';
+
+import { OperService } from '../services/oper.services';
 
 declare const $:any;
 
@@ -49,10 +53,58 @@ export class CreatecompanyComponent implements OnInit {
 	}
 
   constructor(
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		public dialogRef: MatDialogRef<CreatecompanyComponent>,
+		private operService: OperService
 	) {}
 
 	ngOnInit(): void {}
+
+	submit() {
+		this.validateAllFormFields(this.companyForm);
+		if(this.companyForm.valid) {
+			let company: Company = {
+				type: 'cliente',
+				phone: (this.phones.length > 0) ? [...this.phones] : [],
+				isActive: true,
+				name: this.name.value,
+				display: this.display.value,
+				identifier: this.identifier.value,
+				addresses: (this.addresses.length > 0) ? [...this.addresses] : []
+			}
+
+			Swal.fire('Espera...');
+			Swal.showLoading();
+			// console.log(company);
+			this.operService.createCompany(company).subscribe((data: any) => {
+				Swal.hideLoading();
+				Swal.close();
+				if(data && data.identifier === company.identifier) {
+					Swal.fire({
+						type: 'success',
+						text: 'Empresa creada'
+					});
+					this.dialogRef.close();
+				}
+			}, error => {
+				Swal.hideLoading();
+				Swal.close();
+				Swal.fire({
+					type: 'error',
+					text: `Hubo un error en la transacción: ${error.message}`
+				});
+				console.log(company);
+				console.log(error)
+			});
+		} else {
+			Swal.fire({
+				type: 'error',
+				text: 'Por favor revisa los errores',
+				timer: 2000,
+				showConfirmButton: false
+			});
+		}
+	}
 
 	validateAllFormFields(formGroup: FormGroup) {
 		Object.keys(formGroup.controls).forEach(field => {
@@ -80,6 +132,9 @@ export class CreatecompanyComponent implements OnInit {
 		console.log(this.phones);
 	}
 
+	closeDialog() {
+		this.dialogRef.close();
+	}
 }
 
 function mustBeValidRFC(field: FormControl) {

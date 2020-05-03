@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, Optional, EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -11,7 +11,7 @@ export class PhonesComponent implements OnInit {
 	phoneForm = this.fb.group({
 		phone: ['']
 	})
-	phones: string[] = [];
+	@Input() phones: string[] = [];
 	@Output() phonesEvent = new EventEmitter<string>();
 
 	get phone() {
@@ -20,7 +20,8 @@ export class PhonesComponent implements OnInit {
 
   constructor(
 		private fb: FormBuilder
-	) { }
+	) {
+	}
 
   ngOnInit(): void {
   }

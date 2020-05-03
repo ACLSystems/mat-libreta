@@ -86,7 +86,7 @@
 				          <button *ngIf="dataIsOk"
 										type="button" class="btn btn-success btn-block"
 										(click)="getlogin()"
-										(keydown.enter)="getlogin()"
+										(keyup.enter)="getlogin()"
 										>
 				            <i [ngClass]=" { 'fa-key':!loading, 'fa-sync fa-spin':loading }" class="fa"></i>
 				            <span *ngIf="!loading"> Entrar</span>

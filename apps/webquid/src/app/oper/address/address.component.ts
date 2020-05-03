@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 import { Address } from '@wqshared/types/addresses.type';
 
@@ -60,6 +61,19 @@ export class AddressComponent implements OnInit {
 			city: this.addressForm.get('city').value,
 			state: this.addressForm.get('state').value,
 			country: this.addressForm.get('country').value,
+		}
+		console.log(address);
+		if(
+			(address.line1 === '' || !address.line1) &&
+			(address.line2 === '' || !address.line2) &&
+			(address.postalCode === '' || !address.postalCode) &&
+			(address.locality === '' || !address.locality) &&
+			(address.city === '' || !address.city)) {
+			Swal.fire({
+				type: 'warning',
+				text: 'Ingresa al menos un campo de dirección'
+			});
+			return;
 		}
 		this.addresses.push(address);
 		this.addressForm.reset();

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CommonService } from '@wqshared/services/common.service';
 import { JSONHeaders } from '@mat-libreta/shared';
 import { environment } from '@wqenv/environment';
+import { Company } from '@wqshared/types/companies.type';
 
 @Injectable({providedIn: 'root'})
 export class OperService{
@@ -85,6 +86,26 @@ export class OperService{
 			return this.http.get(route,httpOptions);
 		}
 		return null
+	}
+
+	createCompany(company:Company) {
+		const params = JSON.stringify(company);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/operator/company';
+		return this.http.post(route, params, {headers});
+	}
+
+	updateCompany(company:Company) {
+		const params = JSON.stringify(company);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/operator/company';
+		return this.http.patch(route, params, {headers});
 	}
 
 }

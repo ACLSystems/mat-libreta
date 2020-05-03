@@ -103,6 +103,8 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div class="row">
 	<div class="col-auto">
 		<div *ngIf="addresses.length > 0">
 			<div class="row" *ngFor="let address of addresses; let index=index">
@@ -111,10 +113,10 @@
 				</div>
 				<div class="col-auto">
 					<button
-						mat-raised-button
-						class="btn btn-sm btn-link btn-danger align-middle"
-						(click)="removeAddress(index);"
-						>
+					mat-raised-button
+					class="btn btn-sm btn-link btn-danger align-middle"
+					(click)="removeAddress(index);"
+					>
 						<i class="fas fa-minus-circle fa-md"></i>
 					</button>
 				</div>

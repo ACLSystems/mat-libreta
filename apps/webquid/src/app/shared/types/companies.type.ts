@@ -1,7 +1,7 @@
 import { Address } from './addresses.type';
 
 export type Company = {
-	_id: String,
+	_id?: String,
 	type: String,
 	alias?: string,
 	phone?: String[],

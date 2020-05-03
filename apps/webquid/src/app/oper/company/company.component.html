@@ -58,21 +58,20 @@
 			</div>
 			<div class="row">
 				<div class="col" *ngIf="company.phone && company.phone.length > 0">
-					<mat-form-field>
-						<mat-label>Teléfonos</mat-label>
-						<input matInput type="text" [value]="company.phone" disabled
-						>
-					</mat-form-field>
+					<webquid-phones
+						[phones]="company.phone"
+					>
+					</webquid-phones>
 				</div>
 				<div class="col" *ngIf="company.phone && company.phone.length === 0">
 					Sin Teléfonos
 				</div>
+			</div>
+			<div class="row">
 				<div class="col" *ngIf="company.addresses && company.addresses.length > 0">
-					<mat-form-field>
-						<mat-label>Direcciones</mat-label>
-						<input matInput type="text" [value]="user.addresses" disabled
-						>
-					</mat-form-field>
+
+					<webquid-address>
+					</webquid-address>
 				</div>
 				<div class="col" *ngIf="company.addresses && company.addresses.length === 0">
 					Sin Direcciones

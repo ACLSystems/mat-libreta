@@ -144,6 +144,7 @@
 								data-parent="#accordion"
 								>
 								<webquid-phones
+									[phones]="phones"
 									(phonesEvent)="receivePhones($event);"
 								></webquid-phones>
 							</div>
@@ -175,6 +176,26 @@
 								></webquid-address>
 							</div>
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer">
+				<div class="row">
+					<div class="col float-right">
+						<div class="btn-group" role="group">
+							<button
+							class="btn btn-sm btn-success"
+							(click)="submit();"
+							>
+							<i class="fas fa-save"></i> Guardar
+						</button>
+						<button
+						class="btn btn-sm btn-danger"
+						(click)="closeDialog();"
+						>
+						<i class="fas fa-times-circle"></i> Cerrar
+					</button>
+				</div>
 					</div>
 				</div>
 			</div>
