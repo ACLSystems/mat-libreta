@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 
@@ -9,36 +10,53 @@ import {
 	PublicService } from '@mat-libreta/shared';
 import { EnvService } from '@cjashared/services/setEnv.service';
 
-import { Login } from './login';
+// import { Login } from './login';
 
 @Component({
-	selector: 'app-login',
+	selector: 'cja-login',
 	templateUrl: './login.component.html',
 	styleUrls: ['./login.component.scss'],
 	providers: [UserService]
 })
 export class LoginComponent implements OnInit {
 
-	emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+	// emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 	type = 'password';
 	dataIsOk = false;
 	loading = false;
 	messageSuccess: string;
 	messageError: string;
 	messageErroremail: string;
-	login: Login;
+	// login: Login;
 	token: any;
 	tokenVersion: string;
 	identity: Identity;
 	show = false;
+	loginForm = this.fb.group({
+		username: ['', [
+			Validators.required,
+			mustBeValidEmail
+		]],
+		password: ['', [
+			Validators.required
+		]]
+	});
 
 	constructor(
 		private router: Router,
 		private userService: UserService,
 		private publicService: PublicService,
-		private envService: EnvService
+		private envService: EnvService,
+		private fb: FormBuilder
 	) {
-		this.login = new Login('', '');
+	}
+
+	get username() {
+		return this.loginForm.get('username');
+	}
+
+	get password() {
+		return this.loginForm.get('password');
 	}
 
 	ngOnInit() {
@@ -56,13 +74,21 @@ export class LoginComponent implements OnInit {
 		// }, 700);
 	}
 
+	// getCredentials(){
+	// 	if (this.emailRegex.test(this.login.username)) {
+	// 		this.messageErroremail = null;
+	// 	} else {
+	// 		this.messageErroremail = 'Proporciona una dirección de correo válida (<cuenta>@<dominio>.<raiz>)';
+	// 	}
+	// 	if (this.login.username !== '' && this.login.password !== '' && this.emailRegex.test(this.login.username)) {
+	// 		this.dataIsOk = true;
+	// 	} else {
+	// 		this.dataIsOk = false;
+	// 	}
+	// }
+
 	getCredentials(){
-		if (this.emailRegex.test(this.login.username)) {
-			this.messageErroremail = null;
-		} else {
-			this.messageErroremail = 'Proporciona una dirección de correo válida (<cuenta>@<dominio>.<raiz>)';
-		}
-		if (this.login.username !== '' && this.login.password !== '' && this.emailRegex.test(this.login.username)) {
+		if(this.loginForm.valid) {
 			this.dataIsOk = true;
 		} else {
 			this.dataIsOk = false;
@@ -73,7 +99,7 @@ export class LoginComponent implements OnInit {
 		this.loading = true;
 		this.messageError= null;
 		this.publicService
-			.login(this.login.username, this.login.password)
+			.login(this.loginForm.get('username').value, this.loginForm.get('password').value)
 			.subscribe(data => {
 				this.token = data.token;
 				localStorage.setItem('token', this.token);
@@ -158,4 +184,18 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
+}
+
+function mustBeValidEmail(field: FormControl) {
+	let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+	let value = field.value;
+	if(value === '') {
+		return null;
+	}
+	value = value.toUpperCase();
+	return emailRegex.test(value) ? null : {
+		validateEmail: {
+			valid: false
+		}
+	}
 }

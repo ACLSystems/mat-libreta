@@ -79,25 +79,27 @@
 								</div>
 								<div class="row">
 									<div class="col">
-										<div
-										*ngIf="content.myStatus === 'pending'"
-										>
-											Cuenta <span class="text-danger">Pendiente</span><br />
-											<button mat-raised-button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#certificateModal">
-												Cómo obtener constancia
-											</button>
-										</div>
-										<div
-										*ngIf="content.myStatus === 'active'"
-										>
-											Cuenta <span class="text-success">Activa</span><br />
-											<button
-												mat-raised-button
-												class="btn btn-success btn-sm"
-												(click)="getCert();"
+										<div *ngIf="content && content.course && !content.course.noCertificate">
+											<div
+											*ngIf="content.myStatus === 'pending'"
 											>
-												Obtener constancia
-											</button>
+												Cuenta <span class="text-danger">Pendiente</span><br />
+												<button mat-raised-button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#certificateModal">
+													Cómo obtener constancia
+												</button>
+											</div>
+											<div
+											*ngIf="content.myStatus === 'active'"
+											>
+												Cuenta <span class="text-success">Activa</span><br />
+												<button
+													mat-raised-button
+													class="btn btn-success btn-sm"
+													(click)="getCert();"
+												>
+													Obtener constancia
+												</button>
+											</div>
 										</div>
 									</div>
 									<div class="col">

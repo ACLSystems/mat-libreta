@@ -4,66 +4,70 @@
 		style="background-image: url('./assets/img/bg1.jpg');
 		background-size: cover; background-position: top center;"
 		>
-		<div class="container index-page">
+		<div class="container">
 	    <div class="row">
-					<div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
-			      <!-- <div *ngIf="messageSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
-			        <strong>{{messageSuccess}}</strong>
-			        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			          <span aria-hidden="true">&times;</span>
-			        </button>
-			      </div>
-
-			      <div *ngIf="messageErrorUser" class="alert alert-warning" role="alert">
-			        <strong><i class="fas fa-exclamation-triangle"></i> {{messageErrorUser}}</strong>
-			      </div>
-			      <div *ngIf="messageErrorAPI" class="alert alert-danger" role="alert">
-			        <strong><i class="fas fa-exclamation-triangle"></i> {{messageErrorAPI}}</strong>
-			      </div> -->
-
+					<div class="col-xs col-sm-10 col-md-10 col-lg-6 col-xl-5 ml-auto mr-auto">
 			      <div class="card card-login">
 							<div class="card-header card-header-primary text-center">
 								<p class="h3">Iniciar sesión</p>
 							</div>
 			        <div class="card-body">
-			          <form class="was-validated">
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text">
-												<i class="fas fa-user"></i>
-											</span>
+			          <div [formGroup]="loginForm">
+									<div class="row">
+										<div class="col">
+											<div class="input-group">
+												<div class="input-group-prepend">
+													<span class="input-group-text">
+														<i class="fas fa-user"></i>
+													</span>
+												</div>
+												<input type="email"
+													class="form-control"
+													placeholder="Usuario (email)"
+													name="username"
+													formControlName="username"
+													(blur)="getCredentials()"
+													autocomplete="username"
+													required>
+											</div>
 										</div>
-										<input type="email"
-											class="form-control"
-											#username="ngModel"
-											placeholder="Usuario"
-											name="username"
-											[(ngModel)]="login.username"
-											(blur)="getCredentials()"
-											autocomplete="username"
-											required>
 									</div>
-			            <span *ngIf="messageErroremail" class="text-danger"><small>{{messageErroremail}}</small></span>
-			            <br>
-			            <div class="input-group">
-			            	<div class="input-group-prepend">
-			            		<span class="input-group-text">
-			            			<i class="fas fa-lock"></i>
-			            		</span>
+									<div class="row" *ngIf="(username.dirty || username.touched) && username.invalid && username.errors.required">
+										<div class="col text-danger">
+											<small>* El usuario es requerido</small>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col text-danger" *ngIf="username.errors?.mustBeValidEmail">
+											<small>* Debe ser una cuenta de  correo válida (cuenta@dominio.com)</small>
+										</div>
+									</div>
+			            <div class="row">
+			            	<div class="col">
+											<div class="input-group">
+					            	<div class="input-group-prepend">
+					            		<span class="input-group-text">
+					            			<i class="fas fa-lock"></i>
+					            		</span>
+					            	</div>
+												<input type="{{type}}"
+													class="form-control"
+													placeholder="Password"
+													name="password"
+													formControlName="password"
+													name="password"
+													(blur)="getCredentials()"
+													autocomplete="current-password"
+													required>
+					            </div>
 			            	</div>
-										<input type="{{type}}"
-											class="form-control"
-											#password="ngModel"
-											placeholder="Password"
-											name="password"
-											[(ngModel)]="login.password"
-											(blur)="getCredentials()"
-											autocomplete="current-password"
-											required>
 			            </div>
-			            <br>
-			            <span *ngIf="!dataIsOk" class="text-danger"><small>Debes ingresar usuario y contraseña</small></span>
-			          </form>
+									<div class="row">
+										<div class="col text-danger" *ngIf="(password.dirty || password.touched) && password.invalid && password.errors.required">
+											<small>* El password es requerido.</small>
+										</div>
+									</div>
+			          </div>
 			          <div class="form-check">
 			            <input class="form-check-input" type="checkbox" id="validacion1" (change)="showPass()">
 			            <label class="form-check-label" for="validacion1"> <small><i class="fas fa-eye"></i> Mostrar contraseña</small></label>
@@ -82,13 +86,13 @@
 				            <span *ngIf="!loading"> Entrar</span>
 				            <span *ngIf="loading"> Procesando</span>
 				          </button>
-									<button type="button"
+									<!-- <button type="button"
 										class="btn btn-secondary btn-block"
 										data-toggle="modal"
 										data-target="#accesoSinPassword"
 										>
 										<i class="fas fa-lock-open"></i> Acceso sin password
-									</button>
+									</button> -->
 				          <button type="button"
 										class="btn btn-primary btn-block"
 										[routerLink]="['/pages/reqrecoverpass']">
