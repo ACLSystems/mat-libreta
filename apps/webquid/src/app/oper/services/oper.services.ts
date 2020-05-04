@@ -98,13 +98,15 @@ export class OperService{
 		return this.http.post(route, params, {headers});
 	}
 
-	updateCompany(company:Company) {
+	updateCompany(company:any) {
+		let id = company.id;
+		delete company.id;
 		const params = JSON.stringify(company);
 		const headers = JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.getToken()
 			);
-		const route = this.url+'api/v1/operator/company';
+		const route = this.url+'api/v1/operator/company/'+id;
 		return this.http.patch(route, params, {headers});
 	}
 

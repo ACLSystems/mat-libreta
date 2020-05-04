@@ -32,7 +32,10 @@ export class CompanyComponent implements OnInit {
 		]]
 	});
 	addresses: Address[] = [];
-	phones: string[] = [];
+	phones: String[] = [];
+	companySend: any;
+	phonesDirty: boolean = false;
+	addressesDirty: boolean = false;
 
 
   constructor(
@@ -67,6 +70,7 @@ export class CompanyComponent implements OnInit {
 				} else {
 					this.company = data;
 					// console.log(this.company);
+					this.populateForm();
 				}
 				this.loading = false;
 			}, error => {
@@ -81,39 +85,56 @@ export class CompanyComponent implements OnInit {
 		identifier.setValue(identifier.value.toUpperCase());
 	}
 
+	populateForm() {
+		this.companyForm.get('identifier').setValue(this.company.identifier || '');
+		this.companyForm.get('name').setValue(this.company.name || '');
+		this.companyForm.get('display').setValue(this.company.display || '');
+		this.addresses = [...this.company.addresses];
+		this.phones = [...this.company.phone];
+	}
+
 	receiveAddresses(adds:string) {
 		this.addresses = [...JSON.parse(adds)];
-		console.log(this.addresses);
+		// console.log(this.addresses);
+		this.addressesDirty = true;
 	}
 
 	receivePhones(phs:string) {
 		this.phones = [...JSON.parse(phs)];
-		console.log(this.phones);
+		// console.log(this.phones);
+		this.phonesDirty = true;
 	}
 
 	submit() {
 		this.validateAllFormFields(this.companyForm);
+		// console.log(this.companyForm);
 		if(this.companyForm.valid) {
-			let company: Company = {
-				type: 'cliente',
-				phone: (this.phones.length > 0) ? [...this.phones] : [],
-				isActive: true,
-				name: this.name.value,
-				display: this.display.value,
-				identifier: this.identifier.value,
-				addresses: (this.addresses.length > 0) ? [...this.addresses] : []
+			let company = {
+				id: this.company._id,
+				phone: (this.phonesDirty ) ? [...this.phones] : null,
+				name: this.companyForm.get('name').touched ? this.name.value : null,
+				display: this.companyForm.get('display').touched ? this.display.value : null,
+				identifier: this.companyForm.get('identifier').touched ? this.identifier.value : null,
+				addresses: (this.addressesDirty) ? [...this.addresses] : null
 			}
+			let keys = Object.keys(company);
+			keys.forEach(key => {
+				if(company[key] === null) {
+					delete company[key]
+				}
+			});
 
+			// console.log(company);
 			Swal.fire('Espera...');
 			Swal.showLoading();
 			// console.log(company);
 			this.operService.updateCompany(company).subscribe((data: any) => {
 				Swal.hideLoading();
 				Swal.close();
-				if(data && data.identifier === company.identifier) {
+				if(data && data.identifier === this.company._id) {
 					Swal.fire({
 						type: 'success',
-						text: 'Empresa creada'
+						text: 'Empresa modificada'
 					});
 					this.dialogRef.close();
 				}

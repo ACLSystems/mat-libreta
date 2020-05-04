@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 
 import { Company } from '@wqshared/types/companies.type';
 import { Address } from '@wqshared/types/addresses.type';
-
 import { OperService } from '../services/oper.services';
 
 declare const $:any;
