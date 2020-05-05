@@ -18,8 +18,8 @@ const operRoutes: Routes = [
 				component: MainComponent,
 				canActivate: [OperGuard]
 			},{
-				path: 'company/users/:companyid',
-				component: MainComponent,
+				path: 'company/:companyid/users',
+				component: UsersByCompanyComponent,
 				canActivate: [OperGuard]
 			}
 		]

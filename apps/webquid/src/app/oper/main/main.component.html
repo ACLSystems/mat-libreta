@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="!loading">
 	<div class="container-fluid">
-		<div class="card">
+		<!-- <div class="card">
 			<div class="card-body">
 				<div class="row">
 					<div class="col d-flex align-items-center">
@@ -21,7 +21,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<div class="card">
 			<div class="card-header card-header-icon card-header-primary">
 				<div class="row">
@@ -163,7 +163,13 @@
 									<td *ngIf="!company.display" class="text-danger">
 										---
 									</td>
-									<td>Ver usuarios</td>
+									<td class="text-danger">
+										<a
+										class="pointme"
+										(click)="goUsersByCompany(company._id,company.name)"
+										>
+											Usuarios</a>
+										</td>
 								</tr>
 							</tbody>
 						</table>

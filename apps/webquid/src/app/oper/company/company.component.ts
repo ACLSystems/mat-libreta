@@ -129,14 +129,17 @@ export class CompanyComponent implements OnInit {
 			Swal.showLoading();
 			// console.log(company);
 			this.operService.updateCompany(company).subscribe((data: any) => {
-				Swal.hideLoading();
-				Swal.close();
-				if(data && data.identifier === this.company._id) {
+				console.group('Data');
+				console.log(data);
+				console.groupEnd();
+				if(data && data._id === this.company._id) {
+					Swal.hideLoading();
+					Swal.close();
 					Swal.fire({
 						type: 'success',
 						text: 'Empresa modificada'
 					});
-					this.dialogRef.close();
+					this.closeDialog();
 				}
 			}, error => {
 				Swal.hideLoading();

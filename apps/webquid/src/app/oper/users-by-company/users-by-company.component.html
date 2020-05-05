@@ -1,1 +1,51 @@
-<p>users-by-company works!</p>
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!loading">
+	<div class="card">
+		<div class="card-header">
+			<h4 class="float-left">{{companyName}}</h4>
+				<div
+				class="badge badge-pill badge-danger align-middle pointme float-right"
+
+				>
+					Regresar <i class="fas fa-times-circle"></i>
+				</div>
+			<div
+				class="badge badge-pill badge-success align-middle pointme float-right"
+
+				>
+				Agregar <i class="fas fa-plus-circle"></i>
+			</div>
+		</div>
+		<div class="card-body">
+			<table class="table table-striped" id="users">
+				<thead>
+					<tr class="text-center">
+						<th>#</th>
+						<th>Activo</th>
+						<th>RFC</th>
+						<th>Nombre</th>
+						<th>Email</th>
+						<th>Password inicial</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let user of users; let index=index">
+						<td>{{index+1}}</td>
+						<td *ngIf="user.isActive" class="text-success text-center">
+							<i class="fas fa-circle"></i>
+						</td>
+						<td *ngIf="!user.isActive" class="text-danger text-center">
+							<i class="fas fa-circle"></i>
+						</td>
+						<td>{{user.identifier}}</td>
+						<td>{{user.name}}</td>
+						<td>{{user.fatherName}} {{user.motherName}}</td>
+						<td>{{user.iniPass}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

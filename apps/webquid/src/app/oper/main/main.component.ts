@@ -91,6 +91,7 @@ export class MainComponent implements OnInit, OnDestroy {
 			this.operService.searchCompanies(searchValue).subscribe(data => {
 				console.log(data);
 				if(data && data.message && data.message.includes('No existen empresas')) {
+					this.companiesToggle = false;
 					this.companiesResultMessage = data.message;
 				} else {
 					this.companiesResult = [...data];
@@ -105,6 +106,7 @@ export class MainComponent implements OnInit, OnDestroy {
 				console.log(data);
 				if(data && data.message && data.message.includes('La búsqueda no arrojó usuarios')) {
 					this.usersResultMessage = data.message;
+					this.usersToggle = false;
 				} else {
 					this.usersResult = [...data];
 				}
@@ -151,6 +153,10 @@ export class MainComponent implements OnInit, OnDestroy {
 			width: '900px',
 			data: {id}
 		});
+	}
+
+	goUsersByCompany(id:string,companyName: string) {
+		this.router.navigate(['/oper/company',id,'users'], {state:{companyName}});
 	}
 
 
