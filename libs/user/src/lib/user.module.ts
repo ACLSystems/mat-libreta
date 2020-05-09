@@ -3,12 +3,12 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import { AvatarModule } from 'ngx-avatar';
 import localeMX from '@angular/common/locales/es-MX';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
 import { UserRoutingModule } from './user.routing.module';
-import { AccesoriesModule, SafePipe, DateAgoPipe } from '@mat-libreta/shared';
+import { AccesoriesModule, SafePipe, DateAgoPipe, FilterPipe } from '@mat-libreta/shared';
 
 import { ExamModule } from '@mat-libreta/exam';
 
@@ -21,6 +21,10 @@ import { ProgressComponent } from './progress/progress.component';
 import { SupportComponent } from './support/support.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NotificationComponent } from './notification/notification.component';
+import { DiscussionComponent } from './discussion/discussion.component';
+import { CreateQuestionComponent } from './discussion/create-question/create-question.component';
+import { ForumComponent } from './discussion/forum/forum.component';
+import { AnnouncementComponent } from './announcement/announcement.component';
 
 registerLocaleData(localeMX);
 
@@ -28,6 +32,7 @@ registerLocaleData(localeMX);
 	declarations: [
 		SafePipe,
 		DateAgoPipe,
+		FilterPipe,
 		CourseMainComponent,
 		BlockComponent,
 		BlockLessonComponent,
@@ -36,11 +41,16 @@ registerLocaleData(localeMX);
 		ProgressComponent,
 		SupportComponent,
 		ProfileComponent,
-		NotificationComponent
+		NotificationComponent,
+		DiscussionComponent,
+		CreateQuestionComponent,
+		ForumComponent,
+		AnnouncementComponent
 	],
   imports: [
 		CommonModule,
 		FormsModule,
+		ReactiveFormsModule,
 		UserRoutingModule,
 		AccesoriesModule,
 		ExamModule,

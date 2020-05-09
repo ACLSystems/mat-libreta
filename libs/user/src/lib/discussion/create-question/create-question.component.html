@@ -1,0 +1,49 @@
+<div class="card">
+	<div class="card-header card-header-info card-header-icon">
+		<div class="card-icon">
+			<i class="material-icons">contact_support</i>
+		</div>
+		<h4 class="card-title">Realizar pregunta</h4>
+	</div>
+	<div class="card-body">
+		<div [formGroup]="askForm">
+			<div class="row">
+				<div class="col">
+					<mat-form-field>
+						<label>
+							¿Sobre qué trata tu pregunta?
+						</label>
+						<input
+							matInput
+							type="text"
+							formControlName="subject"
+							>
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<mat-form-field>
+						<label>
+							Detalla tu pregunta
+						</label>
+						<textarea
+							matInput
+							type="text"
+							formControlName="description"
+							></textarea>
+					</mat-form-field>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card-footer">
+		<button
+			mat-raised-button
+			class="btn btn-sm btn-info"
+			(click)="sendQuestion();"
+			>
+			<i class="fas fa-paper-plane"></i> Enviar
+		</button>
+	</div>
+</div>

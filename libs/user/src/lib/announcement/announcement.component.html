@@ -1,0 +1,31 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid p-0" *ngIf="!loading">
+	<div class="card" *ngIf="announcements.length > 0" id="announcement">
+		<div class="card-header">
+			<h3 class="card-title float-left">Anuncios Importantes</h3>
+			<div
+				class="badge badge-pill badge-danger float-right align-middle pointme"
+				(click)="hideCard();"
+				>
+				Cerrar <i class="fas fa-times-circle"></i>
+			</div>
+		</div>
+		<div class="card-body pt-1">
+			<div class="row" *ngFor="let announcement of announcements">
+				<!-- <div class="col-auto">
+					<ngx-avatar
+						[src]="image"
+						[name]="announcement.user"
+						size="45">
+					</ngx-avatar>
+				</div> -->
+				<div class="col">
+					<p class="h5 text-justify m-0">{{announcement.text}}</p>
+					<small>Aviso del instructor: <span class="text-primary">{{announcement.user}}</span> - {{announcement.date | dateAgo}}</small>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

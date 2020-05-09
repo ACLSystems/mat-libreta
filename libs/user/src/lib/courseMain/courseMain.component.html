@@ -123,7 +123,7 @@
 								<button
 									type="button"
 									class="btn btn-primary btn-sm"
-									(click)="getBlock(content.blocks[0].id, true)"
+									(click)="getBlock(blocks[0].id, true)"
 									>
 									Iniciar curso
 								</button>
@@ -155,10 +155,10 @@
 									<div class="tab-content ml-2">
 										<div *ngFor="let section of sections; let firstSection = first;" class="tab-pane" [class.active]="firstSection" id="{{section.name}}" >
 											<h3 class="text-primary my-0" *ngIf="track==0">
-												{{content.blocks[section.number].title}}</h3>
-											<h3 class="text-primary pointme my-0" (click)="getBlock(content.blocks[section.number].id)" *ngIf="track>0">
-												{{content.blocks[section.number].title}}</h3>
-											<table class="table table-hover" *ngIf="section.last - section.number - 1 > 1">
+												{{blocks[section.number].title}}</h3>
+											<h3 class="text-primary pointme my-0" (click)="getBlock(blocks[section.number].id)" *ngIf="track>0">
+												{{blocks[section.number].title}}</h3>
+											<table class="table table-hover" *ngIf="((section.last - section.number) - 1) > 1">
 												<thead>
 													<th>
 														<a class="pointhelp" (click)="seeLessonNumberHelp()">
@@ -179,28 +179,30 @@
 															<small>Lección</small>
 														</a>
 													</th>
-													<th>
+													<!-- <th>
 														<a class="pointhelp" (click)="gradeHelp()">
 															<small>Calificación</small>
 														</a>
-													</th>
+													</th> -->
 												</thead>
-												<tbody *ngIf="content.blocks.length === 0">
+												<tbody *ngIf="blocks.length === 0">
 													Espera...
 												</tbody>
-												<tbody *ngIf="content.blocks.length > 0">
+												<tbody *ngIf="blocks.length > 0">
 													<tr *ngIf="!track && section.section == sections[0].section">
 														<td colspan="4">
 															<button
 																type="button"
 																class="btn btn-primary btn-sm"
-																(click)="getBlock(content.blocks[0].id, true)"
+																(click)="getBlock(blocks[0].id, true)"
 																>
 																Iniciar curso
 															</button>
 														</td>
 													</tr>
-													<tr *ngFor="let block of content.blocks | slice:section.number + 1:section.last; let i of index; let firstBlock = first;" (click)="getBlock(block.id)" [class.pointme]="track">
+													<tr *ngFor="let block of blocks | slice:section.number + 1:section.last; let i of index; let firstBlock = first;"
+														(click)="getBlock(block.id)"
+														[class.pointme]="track">
 														<!-- Número de sección/lección -->
 														<td *ngIf="block.section == section.section && block.number != 0">
 															<span [class.text-success]="block.track">{{block.section}}.{{block.number}}</span>
@@ -243,9 +245,7 @@
 																Finaliza: {{block.endDate | date}}
 															</span>
 														</td>
-														<td>
-
-														</td>
+														<!-- <td></td> -->
 													</tr>
 												</tbody>
 											</table>

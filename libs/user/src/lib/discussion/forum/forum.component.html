@@ -1,0 +1,244 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid p-0" *ngIf="!loading">
+	<div class="card" *ngIf="discussionid === ''">
+		<div class="card-header">
+			<!-- <div class="row">
+				<div class="col">
+					<h3 class="card-title">Preguntas y respuestas</h3>
+				</div>
+			</div> -->
+			<div class="row">
+				<div class="col">
+					<span class="h4" *ngIf="discussions.length === 0">No hay preguntas todavía</span>
+					<span class="h4" *ngIf="discussions.length === 1">{{discussions.length}} pregunta realizada</span>
+					<span class="h4" *ngIf="discussions.length > 1">{{discussions.length}} preguntas</span>
+				</div>
+				<div class="col">
+					<div class="float-right pointme" (click)="createQuestion();">
+						<span class="h5 text-primary">Realizar nueva pregunta</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<hr>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<div class="container-fluid" *ngIf="discussions.length > 0">
+				<div *ngFor="let discussion of discussions; let index = index">
+					<div
+						class="row pointme"
+						(click)="viewQuestion(index)"
+						[class.bg-light]="mouseOvered"
+						(mouseover)="mouseOvered=true;"
+						(mouseout)="mouseOvered=false;"
+					>
+						<div class="col-auto">
+							<ngx-avatar
+								[src]="image"
+								[name]="discussion.user"
+								size="45">
+							</ngx-avatar>
+						</div>
+						<div class="col">
+							<span class="h5">{{discussion.title}}</span>
+							<p
+								class="text-justify"
+								*ngIf="discussion.text.length > 80"
+							>
+								{{discussion.text.substring(0,80)+'...'}}
+							</p>
+							<p
+								class="text-justify"
+								*ngIf="discussion.text.length <= 80"
+							>
+								{{discussion.text}}
+							</p>
+							<small>Preguntó <span class="text-primary">{{discussion.user.split(' ')[0]}}</span> - {{discussion.date | dateAgo}}</small>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<hr>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="card p-lg-3 p-xl-5" *ngIf="discussionid !== ''">
+	<div class="card-header pb-0">
+		<button
+			class="btn btn-outline-primary"
+			(click)="returnToDiscussions();"
+			><i class="material-icons">replay</i>
+			Regresar a todas las preguntas
+		</button>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col" *ngIf="comments.length === 0">
+				No hay comentarios todavía
+			</div>
+			<div class="col" *ngIf="comments.length === 1">
+				1 comentario
+			</div>
+			<div class="col" *ngIf="comments.length > 1">
+				{{comments.length}} comentarios
+			</div>
+			<div class="col">
+				<div class="float-right pointme" (click)="followQuestion();">
+					<span class="h5 text-primary">Seguir pregunta</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				&nbsp;
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-auto">
+				<ngx-avatar
+					[src]="image"
+					[name]="discussion.user"
+					size="45">
+				</ngx-avatar>
+			</div>
+			<div class="col">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+							<p class="text-justify h3 my-0">{{discussion.title}}</p>
+							<small>Preguntó <span class="text-primary">{{discussion.user.split(' ')[0]}}</span> - {{discussion.date | dateAgo}}</small>
+							<p class="text-justify mt-1">{{discussion.text}}</p>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<hr class="mt-0">
+						</div>
+					</div>
+					<div *ngIf="comments.length > 0">
+						<div *ngFor="let comment of comments">
+							<div class="row px-2 pb-2" >
+								<div class="col-auto px-1">
+									<ngx-avatar
+										[src]="image"
+										[name]="comment.user"
+										size="34">
+									</ngx-avatar>
+								</div>
+								<div class="col pl-1">
+									<div class="row">
+										<div class="col">
+											<small>
+												Comentó <span
+													class="text-primary"
+												>{{comment.user.split(' ')[0]}}
+												</span> - {{comment.date | dateAgo}} - <span
+													class="text-info pointme"
+													(click)="comment.replyme=!comment.replyme"
+												>
+													Responder
+												</span>
+											</small>
+											<p class="text-justify mb-0 pb-2">{{comment.text}}</p>
+											<div class="container-fluid" *ngIf="replies.length > 0">
+												<div class="row pb-1" *ngFor="let reply of replies | filter: 'replyto': comment.discussionId ">
+													<div class="col-auto px-1">
+														<ngx-avatar
+															[src]="image"
+															[name]="reply.user"
+															size="25">
+														</ngx-avatar>
+													</div>
+													<div class="col">
+														<p class="text-justify mb-0">{{reply.text}}</p>
+														<small>
+															Respondió <span
+																class="text-primary"
+															>{{reply.user.split(' ')[0]}}
+															</span> - {{reply.date | dateAgo}}
+														</small>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="container-fluid">
+										<div class="row" *ngIf="comment.replyme">
+											<div class="col-auto px-1">
+												<ngx-avatar
+													[src]="image"
+													[name]="discussion.user"
+													size="25">
+												</ngx-avatar>
+											</div>
+											<div class="col">
+												<textarea
+													rows="1"
+													placeholder="Responde..."
+													id="reply"
+													#inputReply
+													required
+												></textarea>
+											</div>
+											<div class="col-auto">
+												<button
+													class="btn btn-sm btn-info"
+													(click)="createReply(inputReply.value, comment);"
+													>
+													<i class="fas fa-paper-plane"></i> Responder
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<hr>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-auto">
+				<ngx-avatar
+					[src]="image"
+					[name]="discussion.user"
+					size="34">
+				</ngx-avatar>
+			</div>
+			<div class="col">
+				<div [formGroup]="commentForm">
+					<textarea
+						formControlName="comment"
+						rows="3"
+						placeholder="Comenta la pregunta principal..."
+						id="comment"
+						required
+					></textarea>
+				</div>
+			</div>
+			<div class="col-auto">
+				<button
+					class="btn btn-sm btn-primary"
+					(click)="createComment();"
+					>
+					<i class="fas fa-paper-plane"></i> Comentar
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

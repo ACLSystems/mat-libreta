@@ -6,6 +6,7 @@ export { AccesoriesModule } from './lib/accesories/accesories.module';
 
 export { SafePipe } from './lib/pipes/video.pipe';
 export { DateAgoPipe } from './lib/pipes/dateago.pipe';
+export { FilterPipe } from './lib/pipes/filter.pipe';
 
 // Export Guards
 
@@ -28,6 +29,7 @@ export { NotElemService } from './lib/services/notificationElements.service';
 export { SuperService } from './lib/services/supervisor.service';
 export { BrowerService } from './lib/services/browser.service';
 export { HTTPService } from './lib/services/http.service';
+export { RefreshDiscussionService } from './lib/services/refreshDiscussion.service';
 
 // Export Types/Classes
 
@@ -45,7 +47,8 @@ export {
 } from './lib/types/block.type';
 
 export {
-	CurrentCourse
+	CurrentCourse,
+	Discussion
 } from './lib/types/course.type';
 
 export {
@@ -60,6 +63,10 @@ export {
 export {
 	Environment
 } from './lib/types/env.type';
+
+export {
+	Doubt
+} from './lib/types/doubt.type';
 
 export {
 	Bell,

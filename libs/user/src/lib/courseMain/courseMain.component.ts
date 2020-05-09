@@ -37,6 +37,7 @@ export class CourseMainComponent implements OnInit {
 	rosterType: string;
 	userid: string;
 	content: any;
+	blocks: any[] = [];
 	sections: Section[] = [];
 	courseStarted: boolean = false;
 	track: number = 0;
@@ -59,8 +60,7 @@ export class CourseMainComponent implements OnInit {
 		this.activatedRoute.params.subscribe(params => {
 			this.rosterType = params.rostertype;
 			this.id = params.id;
-		}
-		)
+		});
 		this.userid = this.commonService.getidentity().userid;
 		this.bank = this.commonService.getEnvironment().bank;
 		this.bankAccount = this.commonService.getEnvironment().bankAccount;
@@ -82,6 +82,7 @@ export class CourseMainComponent implements OnInit {
 		// }, 801);
 	}
 
+
 	getGroup() {
 		this.userCourseService.myGroup(this.id, this.rosterType).subscribe(data => {
 			const notFoundMessage = `Group with id -${this.id}- not found`;
@@ -98,10 +99,13 @@ export class CourseMainComponent implements OnInit {
 				this.content = data.message;
 				this.content.bd = new Date(this.content.beginDate);
 				this.content.ed = new Date(this.content.endDate);
-				// console.group('content');
-				// console.log(this.content);
+				if(this.content.blocks && Array.isArray(this.content.blocks) && this.content.blocks.length > 0) {
+					this.blocks = [...this.content.blocks];
+				}
+				// console.group('blocks');
+				// console.log(this.blocks);
 				// console.groupEnd();
-				this.sections = getUniques(this.content.blocks);
+				this.sections = getUniques(this.blocks);
 				// console.group('sections');
 				// console.log(this.sections);
 				// console.groupEnd();

@@ -10,5 +10,6 @@ export interface Environment {
 	bankCLABE: string,
 	mocAmount?: string,
 	platform: string,
-	production: boolean
+	production: boolean,
+	backOffice?: string
 }

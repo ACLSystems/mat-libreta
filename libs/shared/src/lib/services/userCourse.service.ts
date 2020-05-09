@@ -183,7 +183,7 @@ export class UserCourseService {
 				}))
 				.set('order','-1')
 				.set('skip','0')
-				.set('limit', '500')
+				.set('limit', '801')
 		};
 		const route = this.url+'api/v1/user/comment/get';
 		return this.http.get(route,httpOptions);
@@ -240,23 +240,54 @@ export class UserCourseService {
 	/*
 	listar las dudas y comentarios de los cursos
 	*/
-	getDiscussionCourse(courseid:string, groupid:string):Observable<any>{
+	getDiscussionCourse(
+		courseid?:string | false,
+		groupid?:string | false,
+		blockid?:string | false,
+		skip?:string | false,
+		limit?:string | false,
+		order?:string | false,
+		pubtype?:string | false,
+		type?:string | false,
+		replyto?:string | false
+	):Observable<any>{
+		// console.log(pubtype);
+		let query = '{';
+		if(pubtype) {
+			query = query + '"pubtype":"' + pubtype + '"'
+		} else {
+			query = query + '"pubtype":"question"'
+		}
+		if(type) {
+			query = query + ',"type":"' + type + '"'
+		} else {
+			query = query + ',"type":"root"'
+		}
+		if(courseid) {
+			query = query + ',"course":"' + courseid + '"';
+		}
+		if(groupid) {
+			query = query + ',"group":"' + groupid + '"';
+		}
+		if(blockid) {
+			query = query + ',"block":"' + blockid + '"';
+		}
+		if(replyto) {
+			query = query + ',"replyto":"' + replyto + '"';
+		}
+		query = query + '}';
 		const httpOptions = {
 			headers: JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.commonService.getToken()
 			),
 			params: new HttpParams()
-				.set('query', JSON.stringify({
-					course: courseid,
-					group: groupid,
-					pubtype: "discussion",
-					type:"root"
-				}))
-				.set('order','-1')
-				.set('skip','0')
-				.set('limit', '500')
+				.set('query', query)
+				.set('order', order ? order : '-1')
+				.set('skip', skip ? skip : '0')
+				.set('limit', limit ? limit : '500')
 		};
+		// console.log(httpOptions);
 		const route = this.url+'api/v1/user/comment/get';
 		return this.http.get(route,httpOptions);
 	}

@@ -62,6 +62,7 @@ export class DashboardComponent implements OnInit {
 	totalCount: number;
 	reportDate: Date;
 	platform: string;
+	backOffice: string;
 
 	constructor(
 		private router: Router,
@@ -74,6 +75,7 @@ export class DashboardComponent implements OnInit {
 		this.identity = this.userService.getidentity();
 		this.token = this.userService.getToken();
 		this.platform = this.commonService.getEnvironment().platform;
+		this.backOffice = this.commonService.getEnvironment().backOffice || null;
 	}
 
 	ngOnInit() {
@@ -393,6 +395,12 @@ export class DashboardComponent implements OnInit {
 
 	goToReports() {
 		this.router.navigate(['/reports'])
+	}
+
+	goTutor() {
+		const goTutor = `${this.backOffice}/tutor/tutorial`;
+		console.log(goTutor);
+		window.open(goTutor, '_blank');
 	}
 
 }

@@ -7,3 +7,21 @@ export interface CurrentCourse {
 	rosterType: string,
 	notification?: boolean
 }
+
+export type Discussion = {
+	course:any,
+	group?:any,
+	title:string,
+	text:string,
+	block?:any,
+	type?: string,
+	pubType?: string,
+	discussionId?:string,
+	when?: string,
+	date?: string,
+	userId?: string,
+	user?: string,
+	replyto?: string,
+	root?: string,
+	replyme?: boolean
+}

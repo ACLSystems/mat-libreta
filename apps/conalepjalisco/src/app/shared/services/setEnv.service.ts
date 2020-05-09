@@ -37,7 +37,8 @@ export class EnvService {
 			bankCLABE: environment.bankCLABE,
 			mocAmount: environment.mocAmount,
 			platform: environment.platform,
-			production: environment.production
+			production: environment.production,
+			backOffice: environment.backOffice
 		});
 	}
 

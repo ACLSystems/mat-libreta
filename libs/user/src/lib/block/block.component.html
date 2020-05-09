@@ -3,6 +3,13 @@
 		<app-loading-spinner></app-loading-spinner>
 	</div>
 	<div *ngIf="!loading">
+		<!-- Anuncios -->
+		<mat-libreta-announcement
+			*ngIf="rosterType === 'group'"
+			[groupid]="id"
+			[courseid]="blockData.courseId"
+		>
+		</mat-libreta-announcement>
 		<!-- Bloque para la lección -->
 		<app-block-lesson
 			[rosterType]="rosterType"
@@ -31,6 +38,14 @@
 						>
 						<i class="material-icons">replay</i> Regresar al temario
 					</button>
+					<!-- <button
+						*ngIf="rosterType === 'group'"
+						mat-raised-button
+						class="btn btn-sm btn-info float-none"
+						(click)="createQuestion(blockData.courseId)"
+						>
+						<i class="material-icons">contact_support</i> Realizar una pregunta
+					</button> -->
 					<button
 						mat-raised-button
 						class="btn btn-sm float-right"
@@ -43,18 +58,16 @@
 					<div *ngIf="!blockData.blockNextId">
 						<h3>El curso ha terminado</h3>
 					</div>
-					<!-- <div class="btn-toolbar" role="toolbar">
-
-					</div> -->
-					<!-- <div class="btn-group mr-2" role="group">
-
-					</div> -->
-					<!-- <div class="btn-group mr-2" role="group">
-
-					</div> -->
 				</div>
 			</div>
 		</div>
+		<mat-libreta-forum
+			[rosterType]="rosterType"
+			[blockid]="blockid"
+			[groupid]="id"
+			[courseid]="blockData.courseId"
+			*ngIf="rosterType === 'group'">
+		</mat-libreta-forum>
 	</div>
 </div>
 <app-shared-footer></app-shared-footer>

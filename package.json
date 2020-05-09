@@ -28,7 +28,10 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "stats": "webpack-bundle-analyzer",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+		"test:cja": "ng serve conalepjalisco",
+		"test:wq": "ng serve webquid",
+		"test:cetec": "ng serve cetec"
   },
   "private": true,
   "dependencies": {

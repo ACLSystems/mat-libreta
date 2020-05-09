@@ -72,6 +72,7 @@ import {
 	WindowService,
 	AccesoriesModule,
 	BrowerService,
+	RefreshDiscussionService
 } from '@mat-libreta/shared';
 
 import { ShareService } from '@cjashared/services/share.service';
@@ -149,7 +150,8 @@ export class MaterialModule {}
 		CommonService,
 		ShareService,
 		CurrentCourseService,
-		BrowerService
+		BrowerService,
+		RefreshDiscussionService
 	],
   bootstrap: [AppComponent]
 })

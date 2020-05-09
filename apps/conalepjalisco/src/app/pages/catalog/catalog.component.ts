@@ -66,7 +66,7 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.loading = true;
 		this.pagesService.getCoursesOrg().subscribe(data =>{
 			if(data && data.body && data.body.message && data.body.message.courses) {
-				this.cursoslist = data.body.message.courses;
+				this.cursoslist = data.body.message.courses.filter((course:any) => course.isVisible && course.status === 'published');
 				this.loading = false;
 				// console.log(this.cursoslist);
 				this.categories = [];
@@ -157,4 +157,53 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 		// console.log($navbar.classList);
 	}
 
+}
+
+function orderCourses(courses: any[]) {
+	// console.group('Cursos');
+	// console.log(courses);
+	// console.groupEnd()
+	const coursesFiltered = courses.filter(course => course.isVisible && course.status === 'published');
+	console.group('Cursos filtrados');
+	console.log(coursesFiltered);
+	console.groupEnd();
+	var newCourses = [];
+	const columns = 3;
+	const colSize = Math.floor(coursesFiltered.length / columns);
+	const modSum = coursesFiltered.length % columns;
+	console.log('calculations: ', colSize, modSum);
+	var index = 0;
+	for(var i=0; i<columns; i++) {
+		for(var j=0; j<colSize; j++) {
+			index = i+(j*columns);
+			if(!coursesFiltered[index]) {
+				console.log('MOLE!!!')
+				console.log(index)
+				console.log(coursesFiltered[index])
+			}
+			newCourses.push(coursesFiltered[index]);
+		}
+		if(modSum === 2 && i === 0) {
+			index = i+(j*columns);
+			if(!coursesFiltered[index]) {
+				console.log('MOLE!!! -- i == 0')
+				console.log(index)
+				console.log(coursesFiltered[index])
+			}
+			newCourses.push(coursesFiltered[index]);
+		}
+		if(modSum > 0 && i === 1) {
+			index = i+(j*columns);
+			if(!coursesFiltered[index]) {
+				console.log('MOLE!!! -- i == 1')
+				console.log(index)
+				console.log(coursesFiltered[index])
+			}
+			newCourses.push(coursesFiltered[index]);
+		}
+	}
+	console.group('Cursos reordenados');
+	console.log(newCourses);
+	console.groupEnd();
+	return newCourses;
 }

@@ -35,6 +35,7 @@ export class BlockComponent implements OnInit {
 	}
 
   ngOnInit() {
+		// console.log(this.rosterType);
 		this.loading = true;
 		this.getNextBlock(this.rosterType,this.id,this.blockid);
   }
@@ -46,6 +47,9 @@ export class BlockComponent implements OnInit {
 		lastid?:string) {
 		this.userCourseService.getNextBlock(rosterType,id,blockid,lastid)
 		.subscribe(data => {
+			// console.group('data block')
+			// console.log(data)
+			// console.groupEnd()
 			if(data) {
 				this.blockData = data.message;
 				this.blockid = blockid;

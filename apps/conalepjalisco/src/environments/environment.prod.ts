@@ -28,5 +28,6 @@ export const environment = {
 	textColor: '#FFFFFF',
 	selfRegister: true,
 	emailSupport: 'soporte@superatemexico.com',
+	backOffice: 'https://conalepjaliscobo.superatemexico.com/#',
 	version: 18
 };
