@@ -184,4 +184,9 @@ export class RegisterComponent implements OnInit {
 		}
 	}
 
+	toLowerCase(key: string) {
+		let value = this.registerForm.get(key).value.toLowerCase();
+		this.registerForm.get(key).setValue(value);
+	}
+
 }

@@ -81,6 +81,7 @@
 													type="text"
 													class="form-control" placeholder="Correo electrónico"
 													formControlName="email"
+													(keyup)="toLowerCase('email')"
 													required
 													>
 											</div>
@@ -99,6 +100,7 @@
 													type="text"
 													class="form-control" placeholder="Escribe nuevamente tu correo electrónico"
 													formControlName="remail"
+													(keyup)="toLowerCase('remail')"
 													required
 													>
 											</div>

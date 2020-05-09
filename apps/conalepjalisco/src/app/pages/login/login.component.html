@@ -26,6 +26,7 @@
 													placeholder="Usuario (email)"
 													name="username"
 													formControlName="username"
+													(keyup)="toLowerCase('username')"
 													(blur)="getCredentials()"
 													autocomplete="username"
 													required>

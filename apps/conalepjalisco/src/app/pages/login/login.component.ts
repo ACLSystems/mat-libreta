@@ -184,6 +184,11 @@ export class LoginComponent implements OnInit {
 		}
 	}
 
+	toLowerCase(key: string) {
+		let value = this.loginForm.get(key).value.toLowerCase();
+		this.loginForm.get(key).setValue(value);
+	}
+
 }
 
 function mustBeValidEmail(field: FormControl) {
