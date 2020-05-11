@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 import { UserCourseService, NotElemService, Block } from '@mat-libreta/shared';
 
@@ -51,23 +52,31 @@ export class BlockComponent implements OnInit {
 			// console.log(data)
 			// console.groupEnd()
 			if(data) {
-				this.blockData = data.message;
-				this.blockid = blockid;
+				if(typeof data.message === 'string' && data.message.includes('Block cannot be displayed because')) {
+					Swal.fire({
+						type: 'warning',
+						text: data.messageUser
+					});
+					this.goGroup(this.rosterType,id);
+				} else {
+					this.blockData = data.message;
+					this.blockid = blockid;
 
-				if(this.blockData.blockType === 'task') {
-					// this.blockGrade = this.blockData.blockGrade;
-					// this.blockGradedT = this.blockData.blockGradedT;
-				}
-				// console.group('block')
-				// console.log(this.blockData);
-				// console.groupEnd();
-				if(!this.blockData.blockNextId || this.blockData.blockNextId === '') {
-					this.notElementService.showNotification(
-						'bottom',
-						'left',
-						'warning',
-						'<i class="fas fa-stop text-white"></i> Has llegado al final del curso. Si ya realizaste tus evaluaciones, revisa tu progreso y descarga tu constancia'
-					);
+					if(this.blockData.blockType === 'task') {
+						// this.blockGrade = this.blockData.blockGrade;
+						// this.blockGradedT = this.blockData.blockGradedT;
+					}
+					// console.group('block')
+					// console.log(this.blockData);
+					// console.groupEnd();
+					if(!this.blockData.blockNextId || this.blockData.blockNextId === '') {
+						this.notElementService.showNotification(
+							'bottom',
+							'left',
+							'warning',
+							'<i class="fas fa-stop text-white"></i> Has llegado al final del curso. Si ya realizaste tus evaluaciones, revisa tu progreso y descarga tu constancia'
+						);
+					}
 				}
 				window.scroll(0,0);
 				this.loading = false;

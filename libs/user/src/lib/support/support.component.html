@@ -41,8 +41,22 @@
 									[attr.aria-labelledby]="'heading'+in"
 									data-parent="#accordion"
 								>
-									<div class="card-body">
+									<div class="card-body" *ngIf="res.content">
 										<div [innerHTML]="res.content"></div>
+									</div>
+									<div class="card-body" *ngIf="res.embedded">
+										<div
+											class="video-container"
+										>
+											<iframe
+												[src]="res.embedded | safe "
+												frameborder="0"
+												allow="encrypted-media"
+												width="853"
+												height="480"
+												allowfullscreen
+												></iframe>
+										</div>
 									</div>
 								</div>
 							</div>

@@ -48,7 +48,7 @@ export class SupportComponent implements OnInit {
 					// console.log(data)
 					if(data && data.message && data.message.length > 0 && Array.isArray(data.message)) {
 						this.resources = data.message;
-						// console.log(this.resources);
+						console.log(this.resources);
 					} else {
 						this.resources = [];
 					}

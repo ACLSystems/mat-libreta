@@ -19,7 +19,7 @@ export class AnnouncementComponent implements OnInit {
 	) { }
 
   ngOnInit(): void {
-		console.log('Si me llamaron!')
+		// console.log('Si me llamaron!')
 		this.getAnnouncements();
   }
 
