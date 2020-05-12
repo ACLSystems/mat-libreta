@@ -48,16 +48,22 @@
 					</button> -->
 					<button
 						mat-raised-button
-						class="btn btn-sm float-right"
-						[ngClass]="{'btn-primary' : blockData.blockNextId, 'btn-secondary': !blockData.blockNextId}"
+						*ngIf="!closeCourse"
+						class="btn btn-sm btn-primary float-right"
 						(click)="getNextBlock(rosterType,id,blockData.blockNextId, blockData.blockCurrentId)"
-						[disabled]="!blockData.blockNextId"
+						[disabled]="closeCourse"
 						>
 						Siguiente <i class="material-icons">chevron_right</i>
 					</button>
-					<div *ngIf="!blockData.blockNextId">
-						<h3>El curso ha terminado</h3>
-					</div>
+					<button
+						mat-raised-button
+						*ngIf="closeCourse"
+						class="btn btn-sm btn-warning float-right"
+						(click)="goCloseCourse(rosterType,id,blockData.blockCurrentId);"
+						[disabled]="!closeCourse"
+						>
+						Terminar curso <i class="material-icons">send</i>
+					</button>
 				</div>
 			</div>
 		</div>

@@ -3,26 +3,29 @@
 		<app-loading-spinner></app-loading-spinner>
 	</div>
 	<div *ngIf="!loading" class="container">
-		<div class="row" *ngIf="myRoles && myRoles.isInstructor">
-			<div class="card">
-				<div class="card-header">
-					<h4 class="card-title">Módulo de tutor
-					</h4>
-				</div>
-				<div class="card-body">
-					<button
-						mat-raised-button
-						class="btn btn-sm btn-primary"
-						(click)="goTutor();"
-						>
-						Ver módulo de tutor
-					</button>
+		<div class="row">
+			<div class="col" *ngIf="myRoles && myRoles.isInstructor">
+				<div class="card card-stats">
+					<div class="card-header card-header-icon card-header-rose">
+						<div class="card-icon">
+							<i class="material-icons">person</i>
+						</div>
+						<h4 class="card-title">Módulo de tutor
+						</h4>
+					</div>
+					<div class="card-body">
+						<button
+							mat-raised-button
+							class="btn btn-primary btn-block"
+							(click)="goTutor();"
+							>
+							Ver módulo de tutor
+						</button>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row" *ngIf="myRoles && myRoles.isSupervisor && (platform && platform == 'mooc')">
-			<div class="col">
-				<div class="card card-stats m-0">
+			<div class="col" *ngIf="myRoles && myRoles.isSupervisor && (platform && platform == 'mooc')">
+				<div class="card card-stats">
 					<div class="card-header card-header-icon card-header-rose">
 						<div class="card-icon">
 							<i class="material-icons">insert_chart</i>
@@ -33,7 +36,7 @@
 					<div class="card-body">
 						<button
 							mat-raised-button
-							class="btn btn-primary"
+							class="btn btn-primary btn-block"
 							(click)="goToReports();"
 							>
 							Ver datos

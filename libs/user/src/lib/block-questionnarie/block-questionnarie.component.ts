@@ -55,9 +55,9 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		console.group('block-questionnarie');
-		console.log(this.blockData);
-		console.groupEnd();
+		// console.group('block-questionnarie');
+		// console.log(this.blockData);
+		// console.groupEnd();
 		// console.log(this.blockData);
 		this.updateData();
 	}

@@ -19,6 +19,7 @@ export class BlockComponent implements OnInit {
 	blockid: string;
 	loading: boolean;
 	blockData: Block;
+	closeCourse: boolean = false;
 
 
   constructor(
@@ -66,22 +67,72 @@ export class BlockComponent implements OnInit {
 						// this.blockGrade = this.blockData.blockGrade;
 						// this.blockGradedT = this.blockData.blockGradedT;
 					}
-					// console.group('block')
-					// console.log(this.blockData);
-					// console.groupEnd();
+					console.group('block')
+					console.log(this.blockData);
+					console.groupEnd();
 					if(!this.blockData.blockNextId || this.blockData.blockNextId === '') {
-						this.notElementService.showNotification(
-							'bottom',
-							'left',
-							'warning',
-							'<i class="fas fa-stop text-white"></i> Has llegado al final del curso. Si ya realizaste tus evaluaciones, revisa tu progreso y descarga tu constancia'
-						);
+						// this.notElementService.showNotification(
+						// 	'bottom',
+						// 	'left',
+						// 	'warning',
+						// 	'<i class="fas fa-stop text-white"></i> Has llegado al final del curso. Si ya realizaste tus evaluaciones, revisa tu progreso y descarga tu constancia'
+						// );
+						this.closeCourse = true;
 					}
 				}
 				window.scroll(0,0);
 				this.loading = false;
 			}
+		}, error => {
+			Swal.fire({
+				type: 'error',
+				text: 'Hubo un error al intentar descargar la lección. Por favor intenta nuevamente más tarde. Si esto se repite varias veces en un lapse de dos horas, por favor, notifícalo a la mesa de servicio usando el botón de "Asistencia"'
+			});
+			console.log(error);
+			this.loading = false;
 		})
+	}
+
+	goCloseCourse(
+		rosterType:string,
+		id:string,
+		blockid:string) {
+		this.userCourseService.getNextBlock(rosterType,id,blockid,blockid)
+		.subscribe(data => {
+			// console.group('data block')
+			// console.log(data)
+			// console.groupEnd()
+			if(data) {
+				if(typeof data.message === 'string' && data.message.includes('Block cannot be displayed because')) {
+					Swal.fire({
+						type: 'warning',
+						text: data.messageUser
+					});
+					this.goGroup(this.rosterType,id);
+				} else {
+					Swal.fire({
+						type: 'success',
+						text: 'Felicidades, has terminado tu curso. Ahora iras a la página de progreso para ver tus calificaciones y poder tramitar tu constancia. ¡Enhorabuena!'
+					});
+				}
+				this.router.navigate(['/user/progress',rosterType,id]);
+				this.loading = false;
+			}
+		}, error => {
+			Swal.fire({
+				type: 'error',
+				text: 'Hubo un error al intentar cerrar el curso. Por favor intenta nuevamente más tarde. Si esto se repite varias veces en un lapso de dos horas, por favor, notifícalo a la mesa de servicio usando el botón de "Asistencia"'
+			});
+			console.log(error);
+			this.loading = false;
+		});
+		// this.notElementService.showNotification(
+		// 	'bottom',
+		// 	'left',
+		// 	'warning',
+		// 	'<i class="fas fa-stop text-white"></i> Has llegado al final del curso. Si ya realizaste tus evaluaciones, revisa tu progreso y descarga tu constancia'
+		// );
+
 	}
 
 	goGroup(rosterType: string, id:string) {
