@@ -1,7 +1,7 @@
 import { Injectable} from '@angular/core';
 import * as jsPDF from 'jspdf';
 // import 'jspdf-autotable';
-// import * as qrious from 'qrious';
+import * as qrious from 'qrious';
 
 import { CommonService } from '@wqshared/services/common.service';
 
@@ -105,7 +105,7 @@ export class PDFService {
 		var temp3 = 207-temp-temp2-2;
 		doc.text(temp3,y,text);
 		doc.setFontStyle('normal');
- 		doc.text(temp3+temp+2,y,text2)
+		doc.text(temp3+temp+2,y,text2)
 
 		// Segunda fila de rectángulos // Quinto Reglón
 		var height = 0;
@@ -330,10 +330,10 @@ export class PDFService {
 			// console.log(lines);
 			doc.text(x,y,lines);
 			x += 39.5;
-			text = percepciones[i].importeGravado;
+			text = numberToString(percepciones[i].importeGravado);
 			doc.text(x,y,text);
 			x += 23;
-			text = percepciones[i].importeExento;
+			text = numberToString(percepciones[i].importeExento);
 			doc.text(x,y,text);
 			y += 8;
 			yRec += height+1;
@@ -398,7 +398,7 @@ export class PDFService {
 			// console.log(lines);
 			doc.text(x,y,lines);
 			x += 53;
-			text = deducciones[i].importe;
+			text = numberToString(deducciones[i].importe);
 			doc.text(x,y,text);
 			y += 8;
 			yRec += height+1;
@@ -414,8 +414,8 @@ export class PDFService {
 		} else {
 			percepLine = deducLine;
 		}
-		console.log(percepLine,deducLine);
-		console.log(y,yRec);
+		// console.log(percepLine,deducLine);
+		// console.log(y,yRec);
 
 		doc.line(recInit,percepLine,104,percepLine);
 		y = percepLine + 4;
@@ -429,17 +429,17 @@ export class PDFService {
 		y += 6;
 		x = 59.5;
 		doc.setFontStyle('normal');
-		text = totalGravado + '';
+		text = numberToString(totalGravado);
 		doc.text(x,y,text);
 		x += 23;
-		text = totalExento + '';
+		text = numberToString(totalExento);
 		doc.text(x,y,text);
 
 		doc.line(112,deducLine,207,deducLine);
 		y = deducLine + 4;
 		x = 124;
 		doc.setFontType('bold');
-		text = 'Total Deducciones';
+		text = 'Total Otras Deducciones';
 		doc.text(x,y,text);
 		x += 53;
 		text = 'Total Impuestos';
@@ -447,12 +447,142 @@ export class PDFService {
 		y += 6;
 		x = 124;
 		doc.setFontStyle('normal');
-		text = nomina12.deducciones.totalOtrasDeducciones;
+		text = numberToString(nomina12.deducciones.totalOtrasDeducciones);
 		doc.text(x,y,text);
 		x += 53;
-		text = nomina12.deducciones.totalImpuestosRetenidos || '0.00';
+		text = numberToString(nomina12.deducciones.totalImpuestosRetenidos) || '0.00';
 		doc.text(x,y,text);
 
+
+		// HORAS EXTRAS E INCAPACIDAD
+		y += 12;
+		x = rightMargin / 4;
+		text = 'HORAS EXTRAS';
+		doc.setFontStyle('bold');
+		doc.text(x,y,text,{align: 'center'});
+		x = x * 3;
+		text = 'INCAPACIDAD';
+		doc.setFontStyle('bold');
+		doc.text(x,y,text,{align: 'center'});
+
+		// TABLA HORAS EXTRA
+		// HEADER
+
+		x = 10;
+		y += 8;
+		doc.setFontStyle('bold');
+		text = 'Días';
+		doc.text(x,y,text);
+		x += 10;
+		text = 'Tipo';
+		doc.text(x,y,text);
+		x += 39.5;
+		text = 'Horas';
+		doc.text(x,y,text);
+		x += 23;
+		text = 'Imp Pagado';
+		doc.text(x,y,text);
+
+		// PONER DATOS HORAS EXTRA
+
+
+		// TABLA INCAPACIDAD
+		// HEADER
+
+		x = 114;
+		// yText = 62; y = yText;
+		doc.setFontStyle('bold');
+		text = 'Días';
+		doc.text(x,y,text);
+		x += 10;
+		text = 'Tipo';
+		doc.text(x,y,text);
+		x += 53;
+		text = 'Importe';
+		doc.text(x,y,text);
+
+		// PONER DATOS INCAPACIDAD
+
+		// y += 8;
+
+		// Barra de Totales
+
+		y += 8; yRec = y;
+		doc.setFillColor(0,0,0);
+		doc.line(recInit,y,207,y);
+		doc.setFillColor(224,224,224);
+		doc.rect(recInit,y,198,height,'F');
+		doc.setFontStyle('bold');
+		x = 40; y += 4;
+		text = 'Total';
+		doc.text(x,y,text);
+		x += 99;
+		text = 'Total con letra';
+		doc.text(x,y,text);
+		x = 40; y += 8;
+		text = numberToString(docD.total);
+		doc.text(x,y,text);
+		x += 90;
+		text = numberToSpanish(docD.total);
+		let lines = doc.splitTextToSize(text,100);
+		doc.text(x,y,lines);
+
+		// Subcontratación
+
+		y += 16;
+		if(nomina12.receptor.subContratacion.rfcLabora) {
+			x = 10;
+			doc.setFontStyle('bold');
+			text = 'Subcontratación';
+			doc.text(x,y,text);
+			x = 8;
+			doc.setFillColor(224,224,224);
+			y += 1;
+			doc.line(recInit,y,207,y);
+			y += 5; x = 10;
+			text = 'RFC cliente: ';
+			temp = doc.getTextWidth(text);
+			doc.text(x,y,text);
+			text = nomina12.receptor.subContratacion.rfcLabora;
+			doc.setFontStyle('normal');
+			doc.text(x+temp+2,y,text);
+			x = 114;
+			doc.setFontStyle('bold');
+			text = 'Porcentaje: ';
+			temp = doc.getTextWidth(text);
+			doc.text(x,y,text);
+			text = nomina12.receptor.subContratacion.porcentajeTiempo;
+			doc.setFontStyle('normal');
+			doc.text(x+temp+2,y,text);
+		}
+
+		y += 8;
+		x = 10;
+		doc.setFontStyle('bold');
+		text = 'Adenda';
+		doc.text(x,y,text);
+		x = 8;
+		doc.setFillColor(224,224,224);
+		y += 1;
+		doc.line(recInit,y,207,y);
+		y += 2; x = 10;
+
+		const link = `https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=${complemento.timbreFiscalDigital.uuid}&re=${emisor.rfc}&rr=${receptor.rfc}&tt=${docD.total}&fe=SUPTVA==`;
+
+		const qr = new qrious();
+		qr.background = 'white';
+		qr.backgroundAlpha = 1;
+		qr.foreground = 'black';
+		qr.foregroundAlpha = 1;
+		qr.level = 'H';
+		qr.size = 69;
+		qr.padding = 0;
+		qr.value = link;
+
+		doc.addImage(qr.toDataURL('image/png'),'png',x,y,38,38);
+
+
+		// FINALIZAR
 		doc.save('test.pdf');
 	}
 }
@@ -497,6 +627,169 @@ function dateToString(date: Date, short: boolean = true, upper: boolean = true):
 
 }
 
-function numberToString() {
+function numberToString(number) {
+	if(!number) return null;
+	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function numberToSpanish(number): string {
+
+		function teens(x) {
+			// console.log('teens: ', x);
+			const units = ['', 'un', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciseis', 'diecisiete', 'dieciocho', 'diecinueve'];
+			return units[x];
+		}
+
+		function decimes(x) {
+			// console.log('decimes: ', x);
+			if(x < 20) {
+				return teens(x);
+			}
+			const decimesConst = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
+			const decimesUnits = ['', 'diez', 'veinti', 'treinta y ', 'cuarenta y ', 'cincuenta y ', 'sesenta y ', 'setenta y ', 'ochenta y ', 'noventa y '];
+			var times = Math.floor(x / 10);
+			var mod = x % (times*10);
+			// console.log('Times: ', times);
+			// console.log('Mod: ', mod)
+			if (mod > 0) {
+				return decimesUnits[times] + teens(mod);
+			} else {
+				return decimesConst[times]
+			}
+		}
+
+		function hundreds(x) {
+			// console.log('hundreds: ', x);
+			const hundreds = ['', 'cien', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
+			if(x < 100) {
+				return decimes(x);
+			}
+			if(x === 100) {
+				return 'cien'
+			}
+			if(x < 200) {
+				return 'ciento ' + decimes(x - 100);
+			} else {
+				const times = Math.floor(x / 100);
+				const mod = x % 100;
+				// console.log('Times: ', times);
+				// console.log('Mod: ', mod)
+				if(mod === 0) {
+					return hundreds[times]
+				} else {
+					var value = x - (times * 100);
+					// console.log('Value: ', value)
+					return hundreds[times] + ' ' + decimes(value);
+				}
+			}
+
+		}
+
+		function thousands(x) {
+			// console.log('thousands: ', x);
+			const thousand = 'mil';
+			const thousandsConst = 'miles';
+			const times = Math.floor(x/1000);
+			const mod = x % 1000;
+			// console.log('Times: ', times);
+			// console.log('Mod: ', mod)
+			if(times < 1) {
+				return hundreds(x);
+			}
+			var word = '';
+			if(times > 999) {
+				word = millions(times * 1000);
+				// console.log('Esto es word en miles: '+word)
+			}
+			if(times === 1) {
+				word = word + ' ' + thousand;
+			}
+			if (times > 1 ){
+				if(times > 999) {
+					word = word;
+				} else {
+					word = word + ' ' + hundreds(times) + ' ' + thousand;
+				}
+				// console.log('Aquí andamos');
+			}
+			if(mod > 0) {
+				// console.log('Word: ' + word);
+				word = word + ' ' + hundreds(mod);
+			}
+
+
+			return word;
+		}
+
+		function millions(x) {
+			// console.log('millions: ', x);
+			const times = Math.floor(x / 1000000);
+			const mod = x % 1000000;
+			if(times < 1) {
+				return thousands(x);
+			}
+			// console.log('Times: ', times);
+			// console.log('Mod: ', mod)
+			const million = 'millón';
+			const millionPlural = 'millones';
+			let word = '';
+			if(times === 1) {
+				word = `un ${million}`;
+			}
+			if (times > 1) {
+				// console.log('Desde aquí disparamos');
+				word = `${thousands(times)} ${millionPlural}`;
+			}
+			// console.log('Word: ' + word);
+			if(mod > 0) {
+				word = `${word} ${thousands(mod)}`;
+			} else {
+				word = word + ' de';
+			}
+			return word;
+		}
+
+		var word = '';
+
+		var numberFloat = +number;
+		number = Math.floor(+numberFloat);
+		var cents = Math.round((numberFloat - number) * 100);
+
+		if(number === 0) {
+			return ('cero pesos (00/100) mn').toUpperCase();
+		}
+
+		// esto es un shortcut para llegar rápido a la función correcta
+		// Pero si es más de 999999 quiere decir que va a pasar por
+		// todas las funciones
+		if(number > 999999) {
+			word = millions(number);
+		} else if (number > 999) {
+			word = thousands(number);
+		} else if (number > 99) {
+			word = hundreds(number);
+		} else if (number > 19) {
+			word = decimes(number);
+		} else {
+			word = teens(number);
+		}
+
+		if(number === 1) {
+			word = word + ' peso';
+		} else {
+			word = word + ' pesos';
+		}
+
+
+		if(cents > 0 && cents < 10) {
+			return `${word} (0${cents}/100) mn` ;
+		}
+		if(cents > 9) {
+			return `${word} (${cents}/100) mn` ;
+		}
+		if(cents === 0) {
+			return `${word} (00/100) mn` ;
+		}
+
 
 }
