@@ -15,14 +15,14 @@ export class CertGuard implements CanActivate {
 		Promise<boolean | UrlTree> |
 		Observable<boolean | UrlTree>{
 			const id = route.params.id;
-			console.group('Guard Parametro');
-			console.log(id);
-			console.groupEnd();
+			// console.group('Guard Parametro');
+			// console.log(id);
+			// console.groupEnd();
 			if(id) {
 				const cert = JSON.parse(localStorage.getItem('cert'));
-				console.group('Cert');
-				console.log(cert);
-				console.groupEnd();
+				// console.group('Cert');
+				// console.log(cert);
+				// console.groupEnd();
 				if(cert && cert.id && cert.id === id && cert.status && cert.status == 'active') {
 					return true;
 				} else {

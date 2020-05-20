@@ -125,9 +125,9 @@ export class ProgressComponent implements OnInit {
 			this.minTrack = +this.grade.minTrack.replace('%','');
 			this.grade = this.generateDisplayValues(this.grade);
 			this.loading = false;
-			// console.group('Grade');
-			// console.log(this.grade);
-			// console.groupEnd();
+			console.group('Grade');
+			console.log(this.grade);
+			console.groupEnd();
 			if(this.grade.moocPrice) {
 				this.mocAmount = `$ ${this.grade.moocPrice} MXN`
 			}

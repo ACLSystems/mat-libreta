@@ -147,7 +147,7 @@
 <button mat-raised-button
 	class="btn btn-sm btn-raised btn-danger"
 	(click)="goExam()"
-	*ngIf="questionnarie.type!='quiz' && questionnarie.maxAttempts > attempts"
+	*ngIf="questionnarie.type!='quiz' && !hideQuiz && questionnarie.maxAttempts > attempts"
 	>
 	Lanza Examen
 </button>

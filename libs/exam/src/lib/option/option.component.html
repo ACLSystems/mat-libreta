@@ -8,7 +8,7 @@
 			value="{{option.value}}"
 			(change)="getUserResponse(option.value,optionMapId);"
 		>
-		{{option.value}}
+			<div [innerHTML]="option.value"></div>
 		<span class="circle">
 			<span class="check"></span>
 		</span>

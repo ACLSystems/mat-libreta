@@ -53,7 +53,7 @@ export class BlockComponent implements OnInit {
 			// console.log(data)
 			// console.groupEnd()
 			if(data) {
-				if(typeof data.message === 'string' && data.message.includes('Block cannot be displayed because')) {
+				if(typeof data.message === 'string' && (data.message.includes('Block cannot be displayed because') || data.message.includes('El curso solicitado no está disponible'))) {
 					Swal.fire({
 						type: 'warning',
 						text: data.messageUser
@@ -67,9 +67,9 @@ export class BlockComponent implements OnInit {
 						// this.blockGrade = this.blockData.blockGrade;
 						// this.blockGradedT = this.blockData.blockGradedT;
 					}
-					console.group('block')
-					console.log(this.blockData);
-					console.groupEnd();
+					// console.group('block')
+					// console.log(this.blockData);
+					// console.groupEnd();
 					if(!this.blockData.blockNextId || this.blockData.blockNextId === '') {
 						// this.notElementService.showNotification(
 						// 	'bottom',

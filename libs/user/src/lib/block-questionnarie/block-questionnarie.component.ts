@@ -64,6 +64,7 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 
 	updateData() {
 		this.attempts = this.blockData.attempts;
+		// console.log('attempts',this.attempts);
 		this.questionnarie = this.blockData.questionnarie;
 		this.blockGrade = this.blockData.blockGrade;
 		this.blockGradedQ = this.blockData.blockGradedQ;
@@ -72,9 +73,7 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 		} else {
 			this.hideQuiz = false;
 		}
-		// console.log('blockQuestionnarie');
-		// console.log(this.questionnarie);
-		// console.log(this.blockid);
+		// console.log('MaxAttempts', this.questionnarie.maxAttempts);
 		this.resetPoints();
 		this.getMaxPoints();
 	}

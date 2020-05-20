@@ -291,7 +291,10 @@ export class ExamComponent implements OnInit {
 						responseFooter
 					});
 					this.hideQuiz = true;
-					this.router.navigate(['/user/content',this.rosterType,this.id]);
+					if(this.blockData.blockNextId) {
+						this.getBlock(this.rosterType,this.id,this.blockid,this.blockData.blockNextId);
+					}
+					this.router.navigate(['/user/progress',this.rosterType,this.id]);
 				}, error => {
 					console.log(error);
 				});

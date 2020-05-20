@@ -32,9 +32,9 @@ export class BlockLessonComponent implements OnInit, AfterViewInit, OnChanges {
 		this.blockid = (changes.blockid && !changes.blockid.firstChange) ? changes.blockid.currentValue : this.blockid;
 		// console.log('changes');
 		// if(changes.blockData) {
-		// 	console.group('blockLesson');
-		// 	console.log(this.blockData);
-		// 	console.groupEnd();
+			// console.group('blockLesson');
+			// console.log(this.blockData);
+			// console.groupEnd();
 		// }
 	}
 

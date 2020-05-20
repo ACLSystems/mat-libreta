@@ -49,25 +49,20 @@ export class CertService {
 		doc.setTextColor(100);
 		doc.text(300,257,nameStudent,null,null,'center');
 
-		//Seccion del nombre del curso
+
+		//Seccion de la calificacion final del estudiante
 		doc.setFont("Helvetica");
 		doc.setFontType('regular');
 		doc.setFontSize(16);
 		doc.setTextColor(100);
 		doc.text(300,280,`Por haber acreditado con calificación de ${grade} el curso de:`,null,null,'center');
 
+		//Seccion del nombre del curso
 		doc.setFont("Helvetica");
 		doc.setFontType('bold');
 		doc.setFontSize(16);
 		doc.setTextColor(100);
 		doc.text(300,299,'"'+course+'"',null,null,'center');
-
-		//Seccion de la calificacion final del estudiante
-		// doc.setFont("Helvetica");
-		// doc.setFontType('bold');
-		// doc.setFontSize(10);
-		// doc.setTextColor(100);
-		// doc.text(112,167,grade,'center');
 
 		//duracion del curso
 		doc.setFont("Helvetica");

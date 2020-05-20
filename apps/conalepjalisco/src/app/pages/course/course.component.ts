@@ -82,7 +82,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 			if(!this.curso.discount) {
 				this.curso.discount = 10;
 			}
-			console.log(this.curso);
+			// console.log(this.curso);
 			if(!this.curso.isVisible) {
 				Swal.fire({
 					type: 'warning',

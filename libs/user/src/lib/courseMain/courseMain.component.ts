@@ -5,6 +5,8 @@ import { registerLocaleData } from '@angular/common';
 import localeMX from '@angular/common/locales/es-MX';
 import Swal from 'sweetalert2';
 
+declare const $: any;
+
 import {
 	UserService,
 	UserCourseService,
@@ -86,6 +88,7 @@ export class CourseMainComponent implements OnInit {
 	getGroup() {
 		this.userCourseService.myGroup(this.id, this.rosterType).subscribe(data => {
 			const notFoundMessage = `Group with id -${this.id}- not found`;
+			// console.log(data);
 			if(data.message && data.message == notFoundMessage) {
 				Swal.fire({
 					title: 'Curso/Grupo no encontrado',
@@ -99,6 +102,17 @@ export class CourseMainComponent implements OnInit {
 				this.content = data.message;
 				this.content.bd = new Date(this.content.beginDate);
 				this.content.ed = new Date(this.content.endDate);
+				const now = new Date();
+				// console.group('content');
+				// console.log(this.content);
+				if(this.content.ed < now) {
+					// console.log('se supone que está cerrado')
+					if(this.content.openStatus === 'active') {
+						// deberiamos cerrar el curso
+						this.content.openStatus = 'closed'
+					}
+				}
+				// console.groupEnd();
 				if(this.content.blocks && Array.isArray(this.content.blocks) && this.content.blocks.length > 0) {
 					this.blocks = [...this.content.blocks];
 				}
@@ -128,17 +142,25 @@ export class CourseMainComponent implements OnInit {
 		});
 	}
 
-	getBlock(blockid: string, force?: boolean) {
+	getBlock(blockid: string, seen: boolean, force?: boolean,) {
+		if(!seen) {
+			Swal.fire({
+				type: 'warning',
+				title: 'La lección no ha sido abierta',
+				html: '<div class="container"><div class="row"><div class="col"><p class="text-justify">Para verla tienes que ir a la última <span class="text-success">lección vista (en verde)</span> (o sección si es el caso) y presionar el botón </p></div></div><div class="row"><div class="col text-center"><button mat-raised-button class="btn btn-sm btn-success float-right">Siguiente <i class="material-icons">chevron_right</i></button></div></div><div class="row"><div class="col"><p class="text-justify">Tip: Si el título de la unidad está en verde, presiónalo para continuar.</p><p class="text-justify">También es posible que la lección que quieres ver esté bloqueda por lo que te sugerimos revisar el calendario.</p></div></div></div>'
+			});
+			return;
+		}
 		if(this.content.openStatus !== 'closed') {
 			if(this.track || force) {
 				this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
 			}
-		} else {
-			Swal.fire({
-				type: 'info',
-				text: 'El curso se encuentra cerrado'
-			});
+			return;
 		}
+		Swal.fire({
+			type: 'info',
+			text: 'El curso se encuentra cerrado'
+		});
 	}
 
 	seeLessonNumberHelp() {

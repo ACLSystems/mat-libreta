@@ -99,8 +99,8 @@ export class CertComponent implements OnInit {
 						this.grade.name,
 						this.grade.course,
 						this.grade.finalGrade + '',
-						this.grade.courseDuration + '',
-						this.grade.courseDurUnits,
+						this.grade.duration + '',
+						this.grade.durationUnits,
 						this.grade.passDateSpa
 					);
 				}

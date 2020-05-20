@@ -32,7 +32,7 @@ export class AnnouncementComponent implements OnInit {
 			} else {
 				this.announcements = [];
 			}
-			console.log(this.announcements);
+			// console.log(this.announcements);
 			this.loading = false;
 		}, error => {
 			console.log(error);
