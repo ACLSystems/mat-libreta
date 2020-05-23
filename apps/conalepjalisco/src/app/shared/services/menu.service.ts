@@ -52,7 +52,10 @@ export class MenuService {
 				// {path: 'events', title: 'Eventos del curso', ab: 'EC'}
 			] : null
 		}
-		if(myCurrentCourseData.rosterType === 'group') {
+		// console.group('myCurrentCourseData');
+		// console.log(myCurrentCourse);
+		// console.groupEnd();
+		if(myCurrentCourseData && myCurrentCourseData.rosterType && myCurrentCourseData.rosterType === 'group') {
 			myCurrentCourse.children.unshift({
 				path: 'calendar',
 				subpath: url,
