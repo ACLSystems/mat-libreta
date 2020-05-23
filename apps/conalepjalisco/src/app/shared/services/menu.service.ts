@@ -52,6 +52,14 @@ export class MenuService {
 				// {path: 'events', title: 'Eventos del curso', ab: 'EC'}
 			] : null
 		}
+		if(myCurrentCourseData.rosterType === 'group') {
+			myCurrentCourse.children.unshift({
+				path: 'calendar',
+				subpath: url,
+				title: 'Calendario del curso',
+				ab: 'CC'
+			});
+		}
 		// return myCurrentCourseData ?
 		// 	// [...ROUTES_1, myCurrentCourse, ...ROUTES_2] :
 		// 	// [...ROUTES_1, ...ROUTES_2]

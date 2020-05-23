@@ -1,6 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { AvatarModule } from 'ngx-avatar';
+import { FullCalendarModule } from '@fullcalendar/angular';
 import localeMX from '@angular/common/locales/es-MX';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +26,7 @@ import { DiscussionComponent } from './discussion/discussion.component';
 import { CreateQuestionComponent } from './discussion/create-question/create-question.component';
 import { ForumComponent } from './discussion/forum/forum.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 registerLocaleData(localeMX);
 
@@ -45,10 +47,12 @@ registerLocaleData(localeMX);
 		DiscussionComponent,
 		CreateQuestionComponent,
 		ForumComponent,
-		AnnouncementComponent
+		AnnouncementComponent,
+		CalendarComponent
 	],
   imports: [
 		CommonModule,
+		FullCalendarModule,
 		FormsModule,
 		ReactiveFormsModule,
 		UserRoutingModule,

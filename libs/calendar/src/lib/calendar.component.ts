@@ -57,6 +57,7 @@ export class CalendarComponent implements OnInit {
 			this.router.navigate(['/pages/login']);
 		} else {
 			this.loadEvents();
+			// console.log(this.calendarEvents);
 		}
 	}
 
@@ -84,6 +85,9 @@ export class CalendarComponent implements OnInit {
 				Array.isArray(res.message.groups) &&
 				res.message.groups.length > 0
 			) {
+				// console.group('respuesta');
+				// console.log(res.message.groups);
+				// console.groupEnd();
 				for (const id of res.message.groups){
 					let classColor = colorEvents[Math.floor(Math.random()*colorEvents.length)];
 					while (classColor == lastColor) {
@@ -91,13 +95,16 @@ export class CalendarComponent implements OnInit {
 					}
 					lastColor = classColor;
 					this.calendarEvents.push({
-						title: 'curso: ' + id.name,
+						title: (id.rosterType === 'group') ? `Grupo ${id.code} del curso ${id.course}` : `Curso: ${id.course}`,
 						start: this.datePipe.transform(id.beginDate, 'yyyy-MM-dd'),
 						end: this.datePipe.transform(id.endDate, 'yyyy-MM-dd'),
 						className: classColor
 						// textColor: environment.textColor
 					});
 				}
+				// console.group('Eventos Calendario');
+				// console.log(this.calendarEvents);
+				// console.groupEnd();
 			}
 			this.loading = false;
 		});

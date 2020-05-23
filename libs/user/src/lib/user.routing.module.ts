@@ -7,6 +7,7 @@ import { BlockComponent } from './block/block.component';
 import { SupportComponent } from './support/support.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NotificationComponent } from './notification/notification.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 const userRoutes: Routes = [
 	{
@@ -23,6 +24,14 @@ const userRoutes: Routes = [
 			{
 				path: 'content/:rostertype/:id',
 				component: CourseMainComponent
+			}
+		]
+	},{
+		path: '',
+		children: [
+			{
+				path: 'calendar/:rostertype/:id',
+				component: CalendarComponent
 			}
 		]
 	},{
