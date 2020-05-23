@@ -1,35 +1,27 @@
 <div *ngIf="loading" class="text-center">
 	<app-loading-spinner></app-loading-spinner>
 </div>
-<div *ngIf="!loading">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col">
-				<div class="card-deck">
-					<div *ngIf="services.length > 0">
-						<div class="card" *ngFor="let service of services">
-							<a
-							class="btn btn-link"
-							(click)="goToService(service._id);"
-							>
-								<div class="card-body text-center">
-									<span [style.color]="service.iconColor">
-										<i
-											class="fas fa-5x"
-											[ngClass]="service.icon"
-										></i>
-									</span>
-									<h4 class="card-title">{{service.title}}</h4>
-									<p class="card-category">{{service.description}}</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div *ngIf="services.length === 0">
-						<h4 class="bg-warning">No hay servicios disponibles</h4>
-					</div>
+<div class="container" *ngIf="!loading">
+	<div class="card-deck">
+		<div class="card" *ngFor="let service of services">
+			<a
+			class="btn btn-link"
+			(click)="goToService(service._id);"
+			>
+				<div class="card-body text-center">
+					<span [style.color]="service.iconColor">
+						<i
+							class="fas fa-5x"
+							[ngClass]="service.icon"
+						></i>
+					</span>
+					<h4 class="card-title">{{service.title}}</h4>
+					<p class="card-category">{{service.description}}</p>
 				</div>
-			</div>
+			</a>
+		</div>
+		<div *ngIf="services.length === 0">
+			<h4 class="bg-warning">No hay servicios disponibles</h4>
 		</div>
 	</div>
 </div>

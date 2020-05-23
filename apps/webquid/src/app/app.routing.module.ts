@@ -44,12 +44,27 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'services',
-				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule),
-				data: {
-					preload: true,
-					delay: true,
-					time: 2000
-				}
+				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
+				// data: {
+				// 	preload: true,
+				// 	delay: true,
+				// 	time: 2000
+				// }
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'requests',
+				loadChildren: () => import('./requests/requests.module').then(mod => mod.RequestsModule)
+				// data: {
+				// 	preload: true,
+				// 	delay: true,
+				// 	time: 2000
+				// }
 			}
 		]
 	},{

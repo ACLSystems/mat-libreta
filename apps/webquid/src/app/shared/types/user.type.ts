@@ -20,6 +20,7 @@ export type Person = {
 
 export type Roles = {
 	isAdmin: Boolean,
+	isRequester: Boolean,
 	isSupervisor: Boolean,
 	isOperator: Boolean,
 	isTechAdmin: Boolean,

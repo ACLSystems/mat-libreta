@@ -7,6 +7,8 @@ export type Service = {
 	description?: string,
 	icon?: string,
 	iconColor?: string,
+	role?: string,
+	category?: string,
 	companies: {
 		isActive: Boolean,
 		company: Company

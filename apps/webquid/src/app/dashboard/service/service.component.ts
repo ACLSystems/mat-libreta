@@ -40,7 +40,9 @@ export class ServiceComponent implements OnInit {
 		this.userservice.getService(serviceid).subscribe(data => {
 			this.service = Object.assign({},data);
 			this.loading = false;
-			console.log(this.service)
+			// console.group('service')
+			// console.log(this.service)
+			// console.groupEnd()
 		}, error => {
 			Swal.fire({
 				type: 'error',

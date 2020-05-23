@@ -10,17 +10,53 @@
 		</div>
 		<div class="card">
 			<div class="card-header">
-				<h3 class="float-left">{{service.title}} para <small>{{identity.identifier}}</small></h3>
-				<div
-					class="badge badge-pill badge-primary float-right align-middle pointme"
-					(click)="goBack();"
-					>
-					Regresar <i class="fas fa-concierge-bell"></i>
+				<div class="row">
+					<div class="col">
+						<h3 class="card-title float-left"><small>Solicitud de</small> {{service.title}}<small *ngIf="identity && identity.person && identity.person.name"> para {{identity.person.name}}</small></h3>
+						<div
+							class="badge badge-pill badge-primary float-right align-middle pointme"
+							(click)="goBack();"
+							>
+							Regresar <i class="fas fa-concierge-bell"></i>
+						</div>
+					</div>
 				</div>
+				<div class="row">
+					<div class="col-auto float-left">
+						<p class="card-category">{{service.category}}</p>
+					</div>
+					<div class="col">
+						<p class="card-category float-right">{{service.description}}</p>
+					</div>
+				</div>
+
 			</div>
 			<div class="card-body">
-				<webquid-sn001 *ngIf="service.code === 'SN001'">
+				<webquid-sn001
+					*ngIf="service.code === 'SN001'">
 				</webquid-sn001>
+				<webquid-sn002
+					[serviceid]=service.serviceid
+					*ngIf="service.code === 'SN002'">
+				</webquid-sn002>
+				<webquid-sn003
+					*ngIf="service.code === 'SN003'">
+				</webquid-sn003>
+				<webquid-sn004
+					*ngIf="service.code === 'SN004'">
+				</webquid-sn004>
+				<webquid-sn005
+					*ngIf="service.code === 'SN005'">
+				</webquid-sn005>
+				<webquid-sn006
+					*ngIf="service.code === 'SN006'">
+				</webquid-sn006>
+				<webquid-sn007
+					*ngIf="service.code === 'SN007'">
+				</webquid-sn007>
+				<webquid-sn008
+					*ngIf="service.code === 'SN008'">
+				</webquid-sn008>
 			</div>
 			<div class="card-footer">
 				<div

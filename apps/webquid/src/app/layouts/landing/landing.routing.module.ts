@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RecoveraccessComponent } from './recoveraccess/recoveraccess.component';
 import { ConfirmComponent } from './confirm/confirm.component';
+import { JobComponent } from './job/job.component';
 
 const landingRoutes: Routes = [
 	{
@@ -14,6 +15,9 @@ const landingRoutes: Routes = [
 			},{
 				path: 'confirm/:tokentemp/:username',
 				component: ConfirmComponent
+			},{
+				path: 'job',
+				component: JobComponent
 			}
 		]
 	}

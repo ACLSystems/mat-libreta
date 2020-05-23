@@ -1,0 +1,38 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid" *ngIf="!loading">
+	<div class="card">
+		<div class="card-header">
+			<h4>Mis solicitudes activas</h4>
+		</div>
+		<div class="card-body">
+			<div *ngIf="requests.length === 0">
+				No hay solicitudes
+			</div>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Ticket</th>
+						<th>Estado</th>
+						<th>Autorización</th>
+						<th>Asunto</th>
+						<th>Fecha de creación</th>
+						<th>Ver candidatos</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let request of requests">
+						<td>{{request.data.service_request.id}}</td>
+						<td *ngIf="request.requestStatus == 'open'"><span class="badge badge-pill badge-success">Abierto</span></td>
+						<td *ngIf="request.requestStatus == 'closed'"><span class="badge badge-pill badge-primary">Cerrado</span></td>
+						<td><span class="badge badge-pill badge-warning">En espera</span></td>
+						<td>{{request.data.service_request.subject}}</td>
+						<td>{{request.data.service_request.created_at | date: 'medium'}}</td>
+						<td>Ver candidatos</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

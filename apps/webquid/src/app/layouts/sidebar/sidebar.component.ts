@@ -38,6 +38,18 @@ export const ROUTES: RouteInfo[] = [{
 			role: 'all',
 			icontype: 'room_service'
 		},{
+			path: '/requests',
+			title: 'Mis solicitudes',
+			type: 'link',
+			role: 'all',
+			icontype: 'list'
+		},{
+			path: '/jobs',
+			title: 'Bolsa de trabajo',
+			type: 'link',
+			role: 'isRequester',
+			icontype: 'work'
+		},{
 			path: '/super',
 			title: 'Supervisión',
 			type: 'link',
@@ -193,12 +205,14 @@ export class SidebarComponent implements OnInit {
 		const menuAll = ROUTES.filter(item => item.role === 'all');
 		if(this.identity.roles) {
 			const menuAdmin = this.identity.roles.isAdmin ? ROUTES.filter(item => item.role === 'isAdmin') : [];
+			const menuRequester = this.identity.roles.isRequester ? ROUTES.filter(item => item.role === 'isRequester') : [];
 			const menuSuper = this.identity.roles.isSupervisor ? ROUTES.filter(item => item.role === 'isSupervisor') : [];
 			const menuOperator = this.identity.roles.isOperator ? ROUTES.filter(item => item.role === 'isOperator') : [];
 			const menuTech = this.identity.roles.isTechAdmin ? ROUTES.filter(item => item.role === 'isTechAdmin') : [];
 			const menuBill = this.identity.roles.isBillAdmin ? ROUTES.filter(item => item.role === 'isBillAdmin') : [];
 			this.menuItems = [
 				...menuAll,
+				...menuRequester,
 				...menuSuper,
 				...menuOperator,
 				...menuTech,

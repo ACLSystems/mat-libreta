@@ -205,4 +205,39 @@ export class UserService{
 		}
 		return null;
 	}
+
+	createServiceRequest(method:string,api:string,data:any): Observable<any>| null {
+		const token = this.getToken();
+		if(token) {
+			const params = {
+				method,
+				api,
+				data
+			}
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/request`;
+			return this.http.post(route, params, httpOptions);
+		}
+		return null;
+	}
+
+	getMyRequests(): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/requests`;
+			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
 }

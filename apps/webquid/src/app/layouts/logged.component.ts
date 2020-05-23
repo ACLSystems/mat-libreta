@@ -195,7 +195,7 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 				this.publicity = data;
 			}
 			this.loading = false;
-			console.log(this.publicity);
+			// console.log(this.publicity);
 		}, error => {
 			console.log(error);
 			this.loading = false;
@@ -294,14 +294,14 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	checkTokenValidity() {
 		// Si el token expira hay que generar uno nuevo
-		console.log(new Date());
+		// console.log(new Date());
 		const now = Math.floor(new Date().getTime() / 1000);
-		console.log(now);
+		// console.log(now);
 		const tokenExp = this.sg['tokenExp'];
-		console.log(tokenExp);
+		// console.log(tokenExp);
 		const time = this.time / 1000;
 		const diff = tokenExp - now;
-		console.log(diff, time);
+		// console.log(diff, time);
 		if(diff < time) {
 			console.log('Renovación de token');
 			this.userService.refreshToken().subscribe(data => {

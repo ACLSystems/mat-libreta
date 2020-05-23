@@ -1,0 +1,399 @@
+<div class="container-fluid">
+	<div class="card mt-1">
+		<div class="card-header bg-success">
+			<h4 class="card-title text-white float-left">
+				Solicitud de vacante
+			</h4>
+		</div>
+		<div class="card-body">
+			<h4 class="text-danger"><small>* Todos los campos marcados son requeridos</small></h4>
+			<div [formGroup]="requestForm">
+				<div class="card mt-1 mb-0">
+					<div class="card-header pb-0">
+						<h5 class="m-0">Descripción de la vacante</h5>
+					</div>
+					<div class="card-body">
+						<div class="row mb-3">
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Causa de la vacante</mat-label>
+									<mat-select
+										formControlName="causa"
+										name="Nueva creación"
+										ariaLabel="causas[0]"
+										[errorStateMatcher]="matcher"
+										required
+										>
+										<mat-option
+											*ngFor="let causa of causas"
+											[value]="causa.value">
+												{{ causa.viewValue }}
+										</mat-option>
+									</mat-select>
+									<mat-error
+										*ngIf="causa.hasError('required')"
+									>
+										Campo requerido
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Puesto</mat-label>
+									<input
+										matInput
+										type="text"
+										formControlName="puesto"
+										[errorStateMatcher]="matcher"
+										id="puesto"
+										required
+										>
+									<mat-error
+										*ngIf="puesto.hasError('required')"
+									>
+										Campo requerido
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Area</mat-label>
+									<input
+										matInput
+										type="text"
+										formControlName="area"
+										[errorStateMatcher]="matcher"
+										id="area"
+										required
+										>
+									<mat-error
+										*ngIf="area.hasError('required')"
+									>
+										Campo requerido
+									</mat-error>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-auto">
+								<mat-form-field>
+									<mat-label>Número de vacantes</mat-label>
+									<input
+										matInput
+										type="number"
+										formControlName="numeroVacantes"
+										[errorStateMatcher]="matcher"
+										id="numeroVacantes"
+										required
+										>
+									<mat-error
+										*ngIf="numeroVacantes.hasError('min')"
+									>
+										Número de vacantes debe ser mayor a 1
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Lugar de Trabajo</mat-label>
+									<mat-select
+										formControlName="lugarTrabajo"
+										name="Piedras Negras"
+										ariaLabel="lugarDeTrabajo[0]"
+										[errorStateMatcher]="matcher"
+										required
+										>
+										<mat-option
+											*ngFor="let lugar of lugarDeTrabajo"
+											[value]="lugar.value">
+												{{ lugar.viewValue }}
+										</mat-option>
+									</mat-select>
+									<mat-error
+										*ngIf="lugarTrabajo.hasError('required')"
+									>
+										Campo requerido
+									</mat-error>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Días y Horarios de Trabajo</mat-label>
+									<input
+										matInput
+										type="text"
+										formControlName="horariosTrabajo"
+										id="horariosTrabajo"
+										>
+								</mat-form-field>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card mt-1 mb-0">
+					<div class="card-header pb-0">
+						<h5 class="card-title">Funciones del puesto <small>*</small></h5>
+					</div>
+					<div class="card-body pt-0">
+						<mat-form-field>
+							<textarea
+							matInput
+							formControlName="funcionesPuesto"
+							[errorStateMatcher]="matcher"
+							rows="4"
+							draggable="false"
+							type="text">
+							</textarea>
+							<mat-error
+								*ngIf="funcionesPuesto.hasError('required')"
+							>
+								Campo requerido
+							</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="card mt-1 mb-0">
+					<div class="card-header pb-0">
+						<h5 class="card-title">Requerimientos del puesto</h5>
+					</div>
+					<div class="card-body pt-0">
+						<div class="row">
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Género</mat-label>
+									<mat-select
+										formControlName="generoPuesto"
+										name="Cualquier género"
+										ariaLabel="genero[0]"
+										>
+										<mat-option
+											*ngFor="let genero of generos"
+											[value]="genero.value">
+												{{ genero.viewValue }}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Edad</mat-label>
+									<input
+										matInput
+										type="text"
+										formControlName="edad"
+										id="edad"
+										>
+								</mat-form-field>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Estado Civil</mat-label>
+									<mat-select
+										formControlName="estadoCivil"
+										name="Casado"
+										ariaLabel="estadosCivil[0]"
+										>
+										<mat-option
+											*ngFor="let estCiv of estadosCivil"
+											[value]="estCiv.value">
+												{{ estCiv.viewValue }}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Estudios y/o Profesión</mat-label>
+									<textarea
+									matInput
+									formControlName="estudiosProfesion"
+									rows="3"
+									draggable="false"
+									type="text">
+									</textarea>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Años de experiencia</mat-label>
+									<mat-select
+										formControlName="experiencia"
+										name="1-3 años"
+										ariaLabel="exper[1]"
+										>
+										<mat-option
+											*ngFor="let ex of exper"
+											[value]="ex.value">
+												{{ ex.viewValue }}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+							<div class="col" *ngIf="experiencia.value !== 'Sin experiencia'">
+								<mat-form-field>
+									<mat-label>Experiencia específica en</mat-label>
+									<textarea
+									matInput
+									formControlName="experienciaEn"
+									rows="2"
+									draggable="false"
+									type="text">
+									</textarea>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Habilidades</mat-label>
+									<textarea
+									matInput
+									formControlName="habilidades"
+									rows="2"
+									draggable="false"
+									type="text">
+									</textarea>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="togglebutton">
+									<label>
+										<input
+											type="checkbox"
+											formControlName="disponibilidadViajar"
+										>
+										<span class="toggle"></span>
+										Disponibilidad para viajar
+									</label>
+								</div>
+							</div>
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Porcentaje de Inglés</mat-label>
+									<input
+										matInput
+										type="number"
+										formControlName="porcentajeIngles"
+										[errorStateMatcher]="matcher"
+										id="porcentajeIngles"
+										>
+									<mat-error
+										*ngIf="porcentajeIngles.hasError('max')"
+									>
+										Porcentaje no debe ser mayor a 100
+									</mat-error>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col fondoClaro">
+								<div class="row">
+									<div class="col">
+										<h5>Rango de sueldo</h5>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Sueldo Base</mat-label>
+											<input
+												matInput
+												type="number"
+												formControlName="sueldoMinimo"
+												id="sueldoMinimo"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Sueldo Máximo</mat-label>
+											<input
+												matInput
+												type="number"
+												formControlName="sueldoMaximo"
+												id="sueldoMaximo"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Tipo de contrato</mat-label>
+											<mat-select
+												formControlName="tipoContrato"
+												name="Planta"
+												ariaLabel="tiposContrato[0]"
+												[errorStateMatcher]="matcher"
+												required
+												>
+												<mat-option
+													*ngFor="let tipo of tiposContrato"
+													[value]="tipo.value">
+														{{ tipo.viewValue }}
+												</mat-option>
+											</mat-select>
+											<mat-error
+												*ngIf="tipoContrato.hasError('required')"
+											>
+												Campo requerido
+											</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Persona que entrevista</mat-label>
+											<input
+												matInput
+												type="text"
+												formControlName="personaEntrevista"
+												id="personaEntrevista"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card mt-1 mb-0">
+					<div class="card-header pb-0">
+						<h5 class="card-title">Comentarios</h5>
+					</div>
+					<div class="card-body">
+						<mat-form-field>
+							<textarea
+							matInput
+							formControlName="comentarios"
+							rows="4"
+							draggable="false"
+							type="text">
+							</textarea>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer">
+			<button
+				mat-raised-button
+				class="btn btn-sm btn-success"
+				(click)="submit();"
+				>
+					Solicitar <i class="fas fa-paper-plane"></i>
+				</button>
+		</div>
+	</div>
+</div>
