@@ -67,8 +67,9 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.pagesService.getCoursesOrg().subscribe(data =>{
 			if(data && data.body && data.body.message && data.body.message.courses) {
 				this.cursoslist = data.body.message.courses;
+				this.cursoslist = this.cursoslist.filter(curso => curso.isVisible === true);
 				this.loading = false;
-				// console.log(this.cursoslist);
+				console.log(this.cursoslist);
 				this.categories = [];
 				this.cursoslist.forEach(course => {
 					if(course.categories && Array.isArray(course.categories) && course.categories.length > 0) {

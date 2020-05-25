@@ -125,9 +125,10 @@
 												</b>
 											</div>
 										</div>
-										<div class="row">
+										<div class="row" *ngIf="curso.details">
 											<div class="col">
-												{{curso.details}}
+												<div [innerHTML]="curso.details">
+												</div>
 											</div>
 										</div>
 										<!-- <div class="row" *ngIf="curso.discount == 0">
@@ -172,6 +173,22 @@
 					<div class="card-footer">
 						<button type="button" class="btn btn-{{color}} blockquote" [routerLink]="['/pages/catalog']">
 							<i class="fas fa-reply"></i>
+						</button>
+						<button
+							mat-raised-button
+							class="btn btn-rose float-right"
+							(click)="tutorCourse();"
+							*ngIf="curso.type === 'tutor'"
+							>
+							Más información
+						</button>
+						<button
+							mat-raised-button
+							class="btn btn-rose float-right"
+							(click)="goEnroll(curso._id, curso.title);"
+							*ngIf="curso.type !== 'tutor' && token"
+							>
+							Inscribirme
 						</button>
 					</div>
 				</div>

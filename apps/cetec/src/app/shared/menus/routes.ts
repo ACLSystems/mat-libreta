@@ -18,6 +18,11 @@ export interface ChildrenItems {
 }
 
 export const ROUTES_1: RouteInfo[] = [{
+			path: '/pages/catalog',
+			title: 'Catálogo de cursos',
+			type: 'link',
+			icontype: 'view_column'
+		},{
 				path: '/dashboard',
 				title: 'Panel',
 				type: 'link',
