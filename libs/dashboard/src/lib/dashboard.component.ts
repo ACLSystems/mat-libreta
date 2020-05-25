@@ -262,6 +262,7 @@ export class DashboardComponent implements OnInit {
 			// console.log(this.courseList)
 			// this.drawPieCourses();
 		}, error => {
+			console.log(error);
 			if(error.error && error.error.errMessage && error.error.errMessage ==="invalid signature") {
 				Swal.fire({
 					title: 'Necesitas ingresar al sistema nuevamente',

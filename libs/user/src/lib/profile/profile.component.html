@@ -149,6 +149,9 @@
 						</ngx-avatar>
 					</div>
 					<div class="card-body">
+						<!-- <input type="file" id="file" name="file" class="inputfile" (change)="setImageFile($event.target.files)"/>
+						<label for="file"><small><i class="fas fa-image"></i>&nbsp;<strong>Cargar foto</strong></small></label> -->
+
 						<!-- <h6 class="card-category text-gray">
 							Alias
 						</h6> -->
@@ -156,6 +159,13 @@
 						<!-- <p class="card-description">
 							Bio
 						</p> -->
+						<button
+							mat-raised-button
+							class="btn btn-sm btn-rose"
+							(click)="changePassword();"
+							>
+							Cambiar contraseña
+						</button>
 					</div>
 				</div>
 			</div>

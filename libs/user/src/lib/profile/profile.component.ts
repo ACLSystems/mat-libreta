@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { DateAdapter } from '@angular/material/core';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
@@ -32,7 +33,8 @@ export class ProfileComponent implements OnInit {
 	mainError: boolean;
 
 	constructor(
-		private userService: UserService
+		private userService: UserService,
+		private router: Router
 	) {
 		this.loading = true;
 		this.mainError = false;
@@ -79,6 +81,68 @@ export class ProfileComponent implements OnInit {
 		if (image) {
 			reader.readAsDataURL(image);
 		}
+	}
+
+	setImageFile(files: FileList) {
+		this.createImageFromBlob(files.item(0));
+		this.userService.postUserImage(this.image).subscribe(data => {
+			console.log(data);
+		},error => {
+			console.log(error);
+		});
+	}
+
+	changePassword(){
+		Swal.mixin({
+		  input: 'password',
+		  confirmButtonText: 'Siguiente &rarr;',
+		  showCancelButton: true,
+		  progressSteps: ['1', '2']
+		}).queue([
+		  {
+		    title: 'Contraseña',
+		    text: 'Coloca tu contraseña nueva'
+		  },
+		  'Repite contraseña',
+		]).then((result) => {
+		  if (result.value) {
+				if(result.value[0] === '' || !result.value[0]) {
+					return Swal.fire({
+						type: 'error',
+						text: 'Coloca una contraseña'
+					});
+				}
+				if(result.value[0] !== result.value[1]) {
+					Swal.fire({
+						type: 'warning',
+						text: 'Las contraseñas no coinciden'
+					});
+				} else {
+					Swal.fire('Espera...');
+					Swal.showLoading();
+					this.userService.changePassword(result.value[0]).subscribe((data:any) => {
+						// console.log(data);
+						Swal.hideLoading();
+						Swal.close();
+						Swal.fire({
+				      title: 'Listo!',
+				      html: 'Tu contraseña ha sido modificada',
+				      confirmButtonText: 'Salir del sistema y volver a ingresar'
+				    });
+						this.router.navigate(['/pages/logout']);
+					}, error => {
+						console.log(error);
+						Swal.hideLoading();
+						Swal.close();
+						Swal.fire({
+				      type: 'error',
+				      html: 'Hubo un error. Favor de intentar más tarde'
+				    });
+					})
+
+				}
+		  }
+		})
 	}
 
 	getHelpOnDataVerified() {

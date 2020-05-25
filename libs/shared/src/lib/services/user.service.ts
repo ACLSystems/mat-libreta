@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -156,7 +156,7 @@ export class UserService{
 	funcion para el cambio de contraseña
 	*/
 	changePassword(newpassword:string){
-		const params = JSON.stringify(newpassword);
+		const params = JSON.stringify({password:newpassword});
 		const headers = JSONHeaders.set(
 			'Authorization',
 			'Bearer ' + this.getToken()
@@ -211,13 +211,23 @@ export class UserService{
 	metodo para devolver el total de notificaciones nuevas
 	*/
 	postUserImage(file:any):Observable<any>{
-		const params = JSON.stringify(file);
+		// const params = JSON.stringify(file);
 		const headers = JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.getToken()
 			);
-		const route = this.url+'api/v1/user/image';
-		return this.http.post(route, params, {headers});
+		// return this.http.post(route, params, {headers});
+		const formData = new FormData();
+		formData.append('file',file);
+		// console.log('Lanzando archivo')
+		// console.log(file);
+		const req = new HttpRequest('POST', this.url+'api/v1/user/image', formData, {
+			headers,
+			reportProgress: true,
+			responseType: 'json'
+		});
+		console.log(req);
+		return this.http.request(req);
 	}
 
 	/*
