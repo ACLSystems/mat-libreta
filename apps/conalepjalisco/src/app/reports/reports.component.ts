@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { DtOptions } from '@mat-libreta/shared';
 import { ExportAsConfig, ExportAsService } from 'ngx-export-as';
 
 import {
@@ -29,12 +30,19 @@ export class ReportsComponent implements OnInit {
 	platform: string;
 	loading: Boolean = false;
 	dataTable: Data[] = [];
+	dtOptions = DtOptions;
+	tableHeader: string[];
 
   constructor(
 		private exportAsService: ExportAsService,
 		private superService: SuperService,
 		private router: Router
-	) { }
+	) {
+		this.tableHeader = [
+			'Curso',
+			'Cantidad'
+		];
+	}
 
   ngOnInit(): void {
 		this.loading = true;

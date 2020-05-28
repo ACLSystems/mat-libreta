@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DataTablesModule } from 'angular-datatables';
 import { MatSelectModule } from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -14,6 +15,7 @@ import { DetailsComponent } from './details/details.component';
   imports: [
     CommonModule,
 		ExportAsModule,
+		DataTablesModule,
 		ReportsRoutingModule,
 		ReactiveFormsModule,
 		MatSelectModule

@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 registerLocaleData(localeEs,'es-MX');
 declare const $: any;
 
-import { SuperService } from '@mat-libreta/shared';
+import { SuperService, DtOptions } from '@mat-libreta/shared';
 
 type Detail = {
 	course?: {
@@ -53,6 +53,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 	approved: number;
 	certificate: number;
 	courses: string[] = [];
+	dtOptions = DtOptions;
+	tableHeader: string[];
 
 	selectionForm = this.fb.group({
 		month: [0],
@@ -66,6 +68,14 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 		private fb: FormBuilder
 	) {
 		this.thisMonthString = this.formatThisMonth(this.thisMonth);
+		this.tableHeader = [
+			'#',
+			'Participante',
+			'Curso',
+			'Constancia',
+			'Avance',
+			'Cal. Final'
+		];
 	}
 
   ngOnInit(): void {

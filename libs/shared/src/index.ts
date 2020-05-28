@@ -31,6 +31,8 @@ export { BrowerService } from './lib/services/browser.service';
 export { HTTPService } from './lib/services/http.service';
 export { RefreshDiscussionService } from './lib/services/refreshDiscussion.service';
 
+export { DtOptions } from './lib/config/config.module';
+
 // Export Types/Classes
 
 export {

@@ -36,8 +36,8 @@
 						<h4 class="my-0">Constancias: <span class="text-success">{{certificate}}</span></h4>
 					</div>
 					<div class="col-3">
-						<div class="row">
-							<div class="col">
+						<!-- <div class="row">
+							<div class="col"> -->
 								<mat-form-field>
 									<mat-label>Seleccionar otro mes:</mat-label>
 									<mat-select
@@ -50,8 +50,9 @@
 										</mat-option>
 									</mat-select>
 								</mat-form-field>
-							</div>
-						</div><div class="row">
+							<!-- </div>
+						</div> -->
+						<!-- <div class="row">
 							<div class="col">
 								<mat-form-field>
 									<mat-label>Filtrar por curso:</mat-label>
@@ -66,9 +67,9 @@
 									</mat-select>
 								</mat-form-field>
 							</div>
-						</div>
+						</div> -->
 					</div>
-					<div class="col-3">
+					<!-- <div class="col-3">
 						<div class="row">
 							<div class="col">
 								<mat-form-field>
@@ -96,20 +97,24 @@
 								</button>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="card-body">
 				<div>
-					<table class="table table-striped table-borderless table-hover" id="datatables" cellspacing="0" width="100%" style="width:100%">
+					<table
+						datatable
+						class="table table-striped table-hover"
+						cellspacing="0"
+						width="100%"
+						style="width:100%"
+						[dtOptions]="dtOptions"
+						>
 						<thead>
 							<tr>
-								<th>#</th>
-								<th>Participante</th>
-								<th>Curso</th>
-								<th>Constancia</th>
-								<th>Avance</th>
-								<th>Cal. final</th>
+								<th *ngFor="let header of tableHeader">
+									{{header}}
+								</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -123,6 +128,13 @@
 								<td [ngClass]="{'text-danger': roster.finalGrade < 60, 'text-success': roster.finalGrade >= 60}">{{roster.finalGrade | number: '1.2-2'}}</td>
 							</tr>
 						</tbody>
+						<tfoot>
+							<tr>
+								<th *ngFor="let footer of tableHeader">
+									{{footer}}
+								</th>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>
