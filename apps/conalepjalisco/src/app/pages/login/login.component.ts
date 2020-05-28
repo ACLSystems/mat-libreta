@@ -127,6 +127,7 @@ export class LoginComponent implements OnInit {
 						isSupervisor: data.message.isSupervisor || false,
 						isInstructor: data.message.isInstructor ||false,
 						isRequester: data.message.isRequester ||false,
+						isMoocSupervisor: data.message.isMoocSupervisor || false,
 						isUser: data.message.isUser ||false
 					} : {
 						isAdmin: false,
@@ -137,6 +138,7 @@ export class LoginComponent implements OnInit {
 						isSupervisor: false,
 						isInstructor: false,
 						isRequester: false,
+						isMoocSupervisor: false,
 						isUser: false
 					}
 					localStorage.setItem('roles',JSON.stringify(roles));

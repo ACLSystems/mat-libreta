@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { NotElemService } from '@mat-libreta/shared';
+import { NotElemService, UserService, Roles } from '@mat-libreta/shared';
 
 import {
 	ROUTES_1,
-	// ROUTES_2,
+	ROUTES_2,
 	RouteInfo
 } from '@cjashared/menus/routes';
 
@@ -12,11 +12,27 @@ import {
 })
 export class MenuService {
 
+	roles: Roles = {
+		isAdmin: false,
+		isBusines: false,
+		isOrg: false,
+		isOrgContent: false,
+		isAuthor: false,
+		isSupervisor: false,
+		isInstructor: false,
+		isRequester: false,
+		isUser: false,
+		isMoocSupervisor: false
+	};
+
+
 	constructor(
-		private notElementService: NotElemService
+		private notElementService: NotElemService,
+		private userService: UserService
 	) {}
 
 	refreshMenu() {
+		this.roles = this.userService.getRoles();
 		const myCurrentCourseData =
 		JSON.parse(localStorage.getItem('currentCourse'));
 		// console.group('myCurrentCourseData');
@@ -81,7 +97,29 @@ export class MenuService {
 		}
 
 
-		return myCurrentCourseData ? [...ROUTES_1, myCurrentCourse] : [...ROUTES_1];
+		const menuAll = ROUTES_2.filter(item => item.role === 'all');
+		const menuReq = this.roles.isRequester ? ROUTES_2.filter(item => item.role === 'isRequester') : [];
+		const menuSup = this.roles.isSupervisor ? ROUTES_2.filter(item => item.role === 'isSupervisor') : [];
+		const moocSup = this.roles.isMoocSupervisor ? ROUTES_2.filter(item => item.role === 'isMoocSupervisor') : [];
+		console.log(this.roles);
+
+		const regresa = myCurrentCourseData ? [
+			...ROUTES_1,
+			myCurrentCourse,
+			...menuAll,
+			...menuReq,
+			...menuSup,
+			...moocSup
+		] : [
+			...ROUTES_1,
+			...menuAll,
+			...menuReq,
+			...menuSup,
+			...moocSup
+		];
+
+		console.log(regresa);
+		return regresa;
 	}
 
 }

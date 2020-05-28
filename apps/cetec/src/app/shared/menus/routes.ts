@@ -71,9 +71,9 @@ export const ROUTES_2: RouteInfo[] = [
 		]
 	},{
 			path: '/reports',
-			title: 'Reportes',
+			title: 'Reportes MOOC',
 			type: 'link',
 			icontype: 'format_align_justify',
-			role: 'isSupervisor'
+			role: 'isMoocSupervisor'
 	}
 ];

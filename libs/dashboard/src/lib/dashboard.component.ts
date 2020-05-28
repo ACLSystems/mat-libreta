@@ -57,7 +57,8 @@ export class DashboardComponent implements OnInit {
 		isSupervisor: false,
 		isInstructor: false,
 		isRequester: false,
-		isUser: false
+		isUser: false,
+		isMoocSupervisor: false
 	};
 	totalCount: number;
 	reportDate: Date;

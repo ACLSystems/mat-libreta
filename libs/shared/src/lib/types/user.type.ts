@@ -31,4 +31,5 @@ export interface Roles {
 	isInstructor: Boolean,
 	isRequester: Boolean,
 	isUser: Boolean,
+	isMoocSupervisor: Boolean
 }

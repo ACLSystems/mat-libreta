@@ -21,7 +21,8 @@ export class MenuService {
 		isSupervisor: false,
 		isInstructor: false,
 		isRequester: false,
-		isUser: false
+		isUser: false,
+		isMoocSupervisor: false
 	};
 
 	constructor(
