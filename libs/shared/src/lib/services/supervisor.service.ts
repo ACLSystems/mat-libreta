@@ -41,4 +41,19 @@ export class SuperService{
 		const route = this.url + 'api/v1/supervisor/report/publicsumm';
 		return this.http.get(route, httpOptions);
 	}
+
+	getDetails(dateParam:string): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			),
+			params: new HttpParams().set(
+				'date', dateParam
+			)
+		};
+		const route = this.url + 'api/v1/supervisor/report/publicpro';
+		return this.http.get(route, httpOptions);
+	}
+
 }

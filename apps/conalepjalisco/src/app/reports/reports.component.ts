@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ExportAsConfig, ExportAsService } from 'ngx-export-as';
 
@@ -31,13 +32,18 @@ export class ReportsComponent implements OnInit {
 
   constructor(
 		private exportAsService: ExportAsService,
-		private superService: SuperService
+		private superService: SuperService,
+		private router: Router
 	) { }
 
   ngOnInit(): void {
 		this.loading = true;
 		this.getPublicData();
   }
+
+	goDetails() {
+		this.router.navigate(['/reports/details']);
+	}
 
 	export() {
 		this.exportAsService.save(this.exportAsConfig, `CJAL-${this.today.getFullYear()}-${this.today.getMonth()+1}-${this.today.getDate()}`).subscribe(() => {});

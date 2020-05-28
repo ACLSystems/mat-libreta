@@ -13,13 +13,22 @@
 							<p>Fecha: {{reportDate | date}}</p>
 						</div>
 						<div class="col-auto">
-							<button
-								mat-raised-button
-								class="btn btn-sm btn-primary"
-								(click)="export();"
-								>
-								Descargar en XLS
-							</button>
+							<div class="btn-group">
+								<button
+									mat-raised-button
+									class="btn btn-sm btn-primary"
+									(click)="export();"
+									>
+									Descargar en XLS
+								</button>
+								<button
+									mat-raised-button
+									class="btn btn-sm btn-rose"
+									(click)="goDetails();"
+									>
+									Ver detalle
+								</button>
+							</div>
 						</div>
 					</div>
 				</div>

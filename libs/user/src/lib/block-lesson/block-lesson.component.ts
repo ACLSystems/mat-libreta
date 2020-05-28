@@ -20,7 +20,7 @@ export class BlockLessonComponent implements OnInit, AfterViewInit, OnChanges {
 
 	ngOnInit() {
 		// this.track = this.blockData.track;
-		// console.group('blockLesson');
+		// console.group('blockData');
 		// console.log(this.blockData);
 		// console.groupEnd();
 	}
