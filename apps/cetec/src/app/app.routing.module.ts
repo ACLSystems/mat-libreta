@@ -68,6 +68,16 @@ const routes: Routes = [
 		canActivate: [AuthGuard],
 		children: [
 			{
+				path: 'reports',
+				loadChildren: () => import('./reports/reports.module').then(mod => mod.ReportsModule)
+			}
+		]
+	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
 				path: 'user',
 				loadChildren: () => import('@mat-libreta/user').then(mod => mod.UserModule)
 			}

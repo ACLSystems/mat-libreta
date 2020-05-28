@@ -1,0 +1,143 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="card mt-0">
+			<div class="card-header my-0">
+				<div class="row">
+					<div class="col">
+						<h3>Detalle de inscripciones</h3>
+						<p class="card-category text-danger">{{ thisMonthString}}</p>
+					</div>
+					<div class="col-auto">
+						<div class="btn-group">
+							<button
+								mat-raised-button
+								class="btn btn-sm btn-primary"
+								(click)="return();"
+								>
+								Regresar
+							</button>
+							<button
+								mat-raised-button
+								class="btn btn-sm btn-rose"
+								(click)="reload();"
+								>
+								Recargar
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="row"  [formGroup]="selectionForm">
+					<div class="col">
+						<h3 class="my-0">Total: <span class="text-danger">{{details.length}}</span></h3><br />
+						<h4 class="my-0">Aprobados: <span class="text-info">{{approved}}</span></h4>
+						<h4 class="my-0">Constancias: <span class="text-success">{{certificate}}</span></h4>
+					</div>
+					<div class="col-3">
+						<!-- <div class="row">
+							<div class="col"> -->
+								<mat-form-field>
+									<mat-label>Seleccionar otro mes:</mat-label>
+									<mat-select
+										name="selectFilter"
+										(selectionChange)="selected($event.value)"
+										formControlName="month"
+										>
+										<mat-option *ngFor="let option of lastMonths" value="{{option.view}}">
+											{{option.viewValue}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							<!-- </div>
+						</div> -->
+						<!-- <div class="row">
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Filtrar por curso:</mat-label>
+									<mat-select
+										name="selectFilter"
+										(selectionChange)="filtered($event.value)"
+										formControlName="course"
+										>
+										<mat-option *ngFor="let option of courses" value="{{option}}">
+											{{option}}
+										</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+						</div> -->
+					</div>
+					<!-- <div class="col-3">
+						<div class="row">
+							<div class="col">
+								<mat-form-field>
+									<mat-label>Filtrar por:</mat-label>
+									<mat-select
+										name="selectFilter"
+										(selectionChange)="filtered($event.value)"
+										formControlName="filter"
+										>
+										<mat-option value="" selected>Todos</mat-option>
+										<mat-option value="approved">Aprobados</mat-option>
+										<mat-option value="certificate">Con constancia</mat-option>
+									</mat-select>
+								</mat-form-field>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col text-center">
+								<button
+									mat-raised-button
+									class="btn btn-sm btn-danger"
+									(click)="reset();"
+								>
+									Quitar Filtros
+								</button>
+							</div>
+						</div>
+					</div> -->
+				</div>
+			</div>
+			<div class="card-body">
+				<div>
+					<table
+						datatable
+						class="table table-striped table-hover"
+						cellspacing="0"
+						width="100%"
+						style="width:100%"
+						[dtOptions]="dtOptions"
+						>
+						<thead>
+							<tr>
+								<th *ngFor="let header of tableHeader">
+									{{header}}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let roster of details; let index=index;">
+								<td>{{index+1}}</td>
+								<td>{{roster.student.person.name}} {{roster.student.person.fatherName}} {{roster.student.person.motherName}} ({{roster.student.name}})</td>
+								<td>{{roster.course.title}}</td>
+								<td *ngIf="roster.status === 'pending'" class="text-danger">Pendiente</td>
+								<td *ngIf="roster.status === 'active'" class="text-success">Pagado</td>
+								<td [ngClass]="{'text-danger': roster.track < 70, 'text-success': roster.track >= 70}">{{roster.track}}%</td>
+								<td [ngClass]="{'text-danger': roster.finalGrade < 60, 'text-success': roster.finalGrade >= 60}">{{roster.finalGrade | number: '1.2-2'}}</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th *ngFor="let footer of tableHeader">
+									{{footer}}
+								</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

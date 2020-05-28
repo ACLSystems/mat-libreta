@@ -10,12 +10,10 @@ import { RequesterRoutingModule } from './requester.routing.module';
 import { RequesterService } from './requester.service';
 
 import { UserpublicComponent } from './userpublic/userpublic.component';
-import { ReportsPublicComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
-		UserpublicComponent,
-		ReportsPublicComponent
+		UserpublicComponent
 	],
   imports: [
     CommonModule,

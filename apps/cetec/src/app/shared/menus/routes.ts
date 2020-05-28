@@ -67,11 +67,13 @@ export const ROUTES_2: RouteInfo[] = [
 			{ path: 'userpublic',
 				title: 'Usuarios Públicos',
 				ab: 'UP'
-			},
-			{ path: 'reportspublic',
-				title: 'Reportes UP',
-				ab: 'RUP'
 			}
 		]
+	},{
+			path: '/reports',
+			title: 'Reportes',
+			type: 'link',
+			icontype: 'format_align_justify',
+			role: 'isSupervisor'
 	}
 ];
