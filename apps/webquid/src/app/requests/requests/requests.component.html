@@ -10,15 +10,19 @@
 			<div *ngIf="requests.length === 0">
 				No hay solicitudes
 			</div>
-			<table class="table table-striped">
+			<table
+				datatable
+				class="table table-striped table-no-bordered table-hover"
+				cellspacing="0"
+				width="100%"
+				style="width:100%"
+				[dtOptions]="dtOptions"
+				>
 				<thead>
 					<tr>
-						<th>Ticket</th>
-						<th>Estado</th>
-						<th>Autorización</th>
-						<th>Asunto</th>
-						<th>Fecha de creación</th>
-						<th>Ver candidatos</th>
+						<th *ngFor="let header of tableHeader">
+							{{header}}
+						</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -32,6 +36,13 @@
 						<td>Ver candidatos</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<th *ngFor="let footer of tableHeader">
+							{{footer}}
+						</th>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>

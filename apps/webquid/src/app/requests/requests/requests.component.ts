@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
+import { DtOptions } from '@wqshared/config/config.module';
 import { UserService } from '@wqshared/services/user.service';
 
 @Component({
@@ -13,12 +14,21 @@ export class RequestsComponent implements OnInit {
 
 	requests: any[] = [];
 	loading: boolean = false;
+	dtOptions = DtOptions;
+	tableHeader: string[];
 
   constructor(
 		private userService: UserService,
 		private router: Router
 	) {
-
+		this.tableHeader = [
+			'Ticket',
+			'Estado',
+			'Autoriación',
+			'Asunto',
+			'Fecha de creación',
+			'Ver candidatos'
+		];
 	}
 
   ngOnInit(): void {
