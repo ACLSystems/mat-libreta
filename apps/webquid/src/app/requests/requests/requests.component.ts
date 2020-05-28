@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
-import { DtOptions } from '@wqshared/config/config.module';
+import { DtOptions } from '@mat-libreta/shared';
 import { UserService } from '@wqshared/services/user.service';
 
 @Component({
@@ -24,7 +24,7 @@ export class RequestsComponent implements OnInit {
 		this.tableHeader = [
 			'Ticket',
 			'Estado',
-			'Autoriación',
+			'Autorización',
 			'Asunto',
 			'Fecha de creación',
 			'Ver candidatos'
