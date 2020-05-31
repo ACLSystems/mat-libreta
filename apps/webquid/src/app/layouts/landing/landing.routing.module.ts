@@ -10,7 +10,7 @@ const landingRoutes: Routes = [
 		path: '',
 		children: [
 			{
-				path: 'recover/:tokentemp/:username',
+				path: 'recovery/:tokentemp',
 				component: RecoveraccessComponent
 			},{
 				path: 'confirm/:tokentemp/:username',

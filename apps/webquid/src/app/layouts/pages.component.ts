@@ -18,7 +18,7 @@ export class PagesComponent implements OnInit {
 	private _router: Subscription;
 
 	constructor(
-		private router: Router,
+		public router: Router,
 		private element: ElementRef,
 		private userService: UserService,
 		private commonService: CommonService

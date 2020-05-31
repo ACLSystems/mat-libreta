@@ -28,6 +28,7 @@
 				<li
 					class="nav-item"
 					routerLinkActive="active"
+					*ngIf="router.url !== '/pages/home'"
 					>
 					<a class="nav-link" [routerLink]="['/pages/home']" *ngIf="!token">
 						<i class="material-icons">home</i> Inicio
@@ -41,16 +42,17 @@
 				<li
 					class="nav-item"
 					routerLinkActive="active"
+					*ngIf="router.url !== '/pages/login'"
 					>
 					<a class="nav-link" [routerLink]="['/pages/login']" *ngIf="!token">
 						<i class="material-icons">fingerprint</i> Login
 					</a>
 				</li>
-				<li class="nav-item" routerLinkActive="active">
+				<!-- <li class="nav-item" routerLinkActive="active">
 					<a class="nav-link" [routerLink]="['/pages/help']">
 						<i class="fas fa-question-circle"></i> Ayuda
 					</a>
-				</li>
+				</li> -->
 				<li class="nav-item" routerLinkActive="active" *ngIf="token">
 					<a class="nav-link" [routerLink]="['/pages/logout']">
 						<i class="material-icons">power_settings_new</i> Salir

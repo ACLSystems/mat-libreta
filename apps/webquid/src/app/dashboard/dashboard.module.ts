@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
+// import { MatSelectModule } from '@angular/material/select';
+// import { MatInputModule } from '@angular/material/input';
+// import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MaterialModule } from '../app.module';
 import { NgxFilesizeModule } from 'ngx-filesize';
 
-import { MdModule } from '@wqmd/md.module';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { AccesoriesModule } from '@mat-libreta/shared';
 
@@ -45,12 +46,12 @@ import { Sn008Component } from './service/sn008/sn008.component';
 		DashboardRoutingModule,
 		FormsModule,
 		ReactiveFormsModule,
-		// MaterialModule,
-		MatSelectModule,
-		MatInputModule,
-		MdModule,
+		MaterialModule,
+		// MatSelectModule,
+		// MatInputModule,
+		// MdModule,
 		AccesoriesModule,
-		// MatDatepickerModule
+		// MatDatepickerModule,
 		NgxFilesizeModule
   ],
 	providers: [

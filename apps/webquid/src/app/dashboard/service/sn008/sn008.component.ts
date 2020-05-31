@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'mat-libreta-sn008',
+  selector: 'webquid-sn008',
   templateUrl: './sn008.component.html',
   styleUrls: ['./sn008.component.scss']
 })

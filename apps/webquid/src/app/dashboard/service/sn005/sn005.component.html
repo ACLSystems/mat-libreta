@@ -1,1 +1,167 @@
-<p>sn005 works!</p>
+<div class="container">
+ <div class="row">
+	 <div class="col-md-8 col-lg-10 mx-auto">
+		 <div class="card">
+			 <div class="card-header bg-success">
+				 <h3 class="card-title text-white">
+					 Roberto Jiménez
+				 </h3>
+			 </div>
+			 <div class="card-body">
+				 <div class="container">
+					 <div class="row">
+						 <div class="col">
+							 <div class="card bg-warning">
+								 <div class="card-body">
+									 <h4>Te restan <b>{{vacationDays}}</b> días de vacaciones en el 2020</h4>
+								 </div>
+							 </div>
+						 </div>
+					 </div>
+					 <div *ngIf="requestVacationFlag">
+						 <form [formGroup]="vacationForm">
+							 <div class="row">
+								 <div class="col-sm col-md-6">
+										 <mat-form-field>
+											 <mat-label>
+												 Elige la fecha de salida
+											 </mat-label>
+											 <input
+												 matInput
+												 [min]="today"
+												 [matDatepicker]="beginPicker"
+												 formControlName="beginDate"
+												 required
+											 >
+											 <mat-datepicker-toggle matSuffix [for]="beginPicker"></mat-datepicker-toggle>
+											 <mat-datepicker #beginPicker></mat-datepicker>
+										 </mat-form-field>
+										 <div
+										 class="text-danger"
+										 *ngIf="beginDate.touched && beginDate.hasError('required')">
+											 Fecha requerida
+										 </div>
+								 </div>
+								 <div class="col-sm col-md-6">
+										 <mat-form-field>
+											 <mat-label>
+												 Elige la fecha de regreso
+											 </mat-label>
+											 <input
+												 matInput
+												 [min]="today"
+												 [matDatepicker]="endPicker"
+												 formControlName="endDate"
+												 (dateInput)="calcReqDays();"
+												 (dateChange)="calcReqDays();"
+												 required
+											 >
+											 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+											 <mat-datepicker #endPicker></mat-datepicker>
+										 </mat-form-field>
+										 <div
+										 class="text-danger"
+										 *ngIf="endDate.touched && endDate.hasError('required')">
+											 Fecha requerida
+										 </div>
+								 </div>
+							 </div>
+							 <div
+								 class="row text-danger"
+								 *ngIf="endDate.errors?.eGTb"
+							 >
+								 <div class="col">
+									 La fecha de regreso debe ser mayor a la fecha de salida
+								 </div>
+							 </div>
+							 <div
+								 class="row"
+								 [ngClass]="{'bg-success': requestedDays <= vacationDays, 'bg-danger': requestedDays > vacationDays}"
+								 *ngIf="inputDates"
+							 >
+								 <div class="col text-white">
+									 {{requestedDays}} días seleccionados
+								 </div>
+							 </div>
+							 <div class="row">
+								 <div class="col">
+									 <mat-form-field>
+										 <mat-label>
+											 Notas para el aprobador
+										 </mat-label>
+										 <textarea
+											 matInput
+											 formControlName="description"
+											 required
+											 ></textarea>
+									 </mat-form-field>
+									 <div
+									 class="text-danger"
+									 *ngIf="description.touched && description.hasError('required')">
+										 Descripción requerida
+									 </div>
+								 </div>
+							 </div>
+						 </form>
+						 <button
+							 mat-raised-button
+							 class="btn btn-sm btn-success"
+							 (click)="sendRequest();"
+							 >
+							 Enviar Solicitud
+						 </button>
+					 </div>
+					 <div *ngIf="previousRequest">
+						 <button
+							 class="btn btn-sm btn-success"
+							 *ngIf="!checkStatusFlag"
+							 (click)="checkStatusButton();"
+							 >
+							 Revisar estado de solicitud {{requestId}}
+						 </button>
+						 <div class="container bg-light" *ngIf="checkStatusFlag">
+							 <div class="row">
+								 <div class="col">
+									 Estado de la solicitud: <b>{{ticketData.statusSpa}}</b><br />
+									 Estado de aprobación: <b>{{ticketData.approvalStatusSpa}}</b><br />
+									 Fecha de actualización: <b>{{ticketData.updatedSpa | date:'medium'}}</b><br />
+								 </div>
+							 </div>
+							 <!-- <div class="row" *ngFor="let conv of ticketData.conversations">
+								 <div class="col" *ngIf="!conv.private">
+									 Fecha: {{conv.created_at| date:'medium'}}<br />
+									 {{conv.body_text}}
+								 </div>
+							 </div> -->
+							 <ul class="timeline timeline-simple" *ngIf="ticketData.conversations && ticketData.conversations.length > 0">
+								 <li class="timeline-inverted" *ngFor="let conv of ticketData.conversations">
+									 <div class="timeline-badge success" *ngIf="!conv.private">
+										 <i class="fas fa-comment"></i>
+									 </div>
+									 <div class="timeline-panel bg-light" *ngIf="!conv.private">
+										 <div class="timeline-heading">
+											 <span class="badge badge-primary">{{conv.created_at| date:'medium'}}</span>
+										 </div>
+										 <div class="timeline-body">
+											 <div [innerHTML]="conv.body"></div>
+										 </div>
+									 </div>
+								 </li>
+							 </ul>
+						 </div>
+					 </div>
+				 </div>
+			 </div>
+			 <div class="card-footer">
+				 <button
+					 class="btn btn-sm btn-primary"
+					 *ngIf="!requestVacationFlag && !previousRequest"
+					 (click)="requestVacation();"
+					 >
+					 Solicitar vacaciones
+				 </button>
+			 </div>
+		 </div>
+	 </div>
+	</div>
+</div>

@@ -6,71 +6,79 @@
 		>
 		<div class="container index-page">
 			<div class="row">
-					<div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
-						<div class="card card-login">
-							<div class="card-header card-header-primary text-center">
-								<p class="h3">Recuperar Contraseña</p>
+				<div class="col-lg-8 mx-auto">
+					<div class="card">
+						<div class="card-header card-header-primary text-center">
+							<p class="h3">Recupera acceso al Kiosco</p>
+						</div>
+						<div class="card-body m-2 p-0">
+							<div class="row">
+								<div class="col-md-8 col-lg-10 mx-auto">
+									<p class="text-justify">Para recuperar acceso al Kiosco de servicios te ofrecemos dos opciones. En ambas es necesario que tu cuenta ya tenga configurado un correo electrónico.</p><p class="text-justify">
+									Si tu cuenta aún no tiene un correo electrónico configurado, contáctanos en el chat que se encuentra debajo de esta página.</p>
+								</div>
 							</div>
-							<div class="card-body">
-								<form class="form" [formGroup]="recoverForm">
-									<div class="input-group text-center">
+							<div class="row">
+								<div class="col-md-6 col-lg-8 mx-auto" [formGroup]="recoverForm">
+									<mat-form-field>
+										<mat-label>1. Ingresa tu RFC</mat-label>
 										<input
+										matInput
 										type="text"
 										class="form-control"
-										placeholder="Ingresa tu correo electrónico"
 										required
-										formControlName="username"
+										formControlName="identifier"
 										>
+										<mat-error
+											*ngIf="identifier.hasError('required')"
+										>
+											Campo requerido
+										</mat-error>
+									</mat-form-field>
+									<div
+										class="text-danger"
+										*ngIf="identifier.errors?.required">
+										<small>* Coloca tu RFC</small>
 									</div>
 									<div
 										class="text-danger"
-										*ngIf="(username.dirty || username.touched) && username.invalid && username.errors.required">
-										<small>* Coloca tu cuenta de correo</small>
+										*ngIf="identifier.errors?.mustBeValidRFC">
+										<small>* Debe ser un RFC válido</small>
 									</div>
-									<div
-										class="text-danger"
-										*ngIf="username.errors?.pattern">
-										<small>* La cuenta debe ser un correo válido y en minúsculas</small>
-									</div>
-									<!-- <span *ngIf="!dataIsOk" class="text-danger">Ingresa tu correo electrónico</span> -->
-								</form>
-								<div
-									*ngIf="!useRegister"
-									class="form-group text-center">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col text-center">
+									<h6>2. Ahora, elige una de las dos opciones a continuación:</h6>
+								</div>
+							</div>
+							<div class="row ">
+								<div class="col ml-2">
 									<button
 										type="button"
-										class="btn btn-success"
-										(click)="submitRequest();"
+										class="btn btn-success btn-block"
+										(click)="regainAccess('reqpassrecovery');"
 										>
 										<i class="far fa-window-restore"></i>
 										Recuperar contraseña
 									</button>
+									<p class="text-justify">Esta opción te permite recuperar tu contraseña definitivamente.</p>
 								</div>
-								<div
-									*ngIf="useRegister"
-									class="form-group text-center">
-									<div class="btn-group" role="group">
-										<button
-											type="button"
-											class="btn btn-success"
-											(click)="submitRequest();"
-											>
-											<i class="far fa-window-restore"></i>
-											Recuperar contraseña
-										</button>
-										<button
-											type="button"
-											class="btn btn-rose"
-											(click)="goRegister();"
-											>
-											<i class="far fa-window-restore"></i>
-											Registrarme
-										</button>
-									</div>
+								<div class="col mr-2" [formGroup]="recoverForm">
+									<button
+										type="button"
+										class="btn btn-success btn-block"
+										(click)="regainAccess('generateonetimepass');"
+										>
+										<i class="far fa-window-restore"></i>
+										Solicitar password temporal
+									</button>
+									<p class="text-justify">En esta opción te enviaremos un password temporal de un solo uso para que puedas ingresar al Kiosco.</p>
 								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -1,92 +1,48 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ErrorStateMatcher } from '@angular/material/core';
 import Swal from 'sweetalert2';
+
+import { RecoverPassService } from './recoverpass.service';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+	isErrorState(control: FormControl | null,form: FormGroupDirective | NgForm | null): boolean {
+		const isSubmitted = form && form.submitted;
+		return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+	}
+}
 
 @Component({
   selector: 'mat-libreta-recoveraccess',
   templateUrl: './recoveraccess.component.html',
-  styleUrls: ['./recoveraccess.component.scss']
+  styleUrls: ['./recoveraccess.component.scss'],
+	providers: [
+		RecoverPassService
+	]
 })
 export class RecoveraccessComponent implements OnInit {
 
-	recoverForm = new FormGroup({});
-	useRegister: boolean = false;
+	recoverForm = this.fb.group({
+		identifier: ['', [
+			Validators.required,
+			mustBeValidRFC
+		]]
+	});
 
 	constructor(
-		// private publicService: PublicService,
-		// private recoverPass: RecoverPassService,
+		private recoverPass: RecoverPassService,
 		private fb: FormBuilder,
 		private router: Router
 	) {}
 
 
 	ngOnInit() {
-		this.recoverForm = this.fb.group({
-			username: ['', [
-				Validators.required,
-				Validators.email,
-				Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]
-			]
-		});
+
 	}
 
-	get username() {
-		return this.recoverForm.get('username');
-	}
-
-	submitRequest() {
-		// if(this.recoverForm.valid) {
-		// 	Swal.fire('Solicitando recuperación de contraseña. Espera...');
-		// 	Swal.showLoading();
-		// 	const username = this.recoverForm.get('username').value.toLowerCase();
-		// 	this.publicService.getUserDetails(username).subscribe(data => {
-		// 		// console.log(data);
-		// 		if(data && data.message && data.message == `User -${username}- does not exist`) {
-		// 			Swal.fire({
-		// 				type: 'warning',
-		// 				html: `El usuario <b>${username}</b> no está registrado.<br>Registrate o utiliza la cuenta de correo que usaste anteriormente para registrarte`
-		// 			});
-		// 			this.recoverForm.reset();
-		// 			this.useRegister = true;
-		// 		} else if(data && data.user && data.user.email === username){
-		// 			this.recoverPass.requestPassRecovery(username).subscribe(data => {
-		// 				// console.log(data);
-		// 				if(data && data.message && data.message === 'Email found') {
-		// 					Swal.hideLoading();
-		// 					Swal.close();
-		// 					Swal.fire({
-		// 						type: 'info',
-		// 						html: `En los siguientes minutos te llegará un correo a la cuenta <br><b>${username}</b><br>Revisa ese correo y sigue las instrucciones para recuperar tu contraseña.<br>Busca en la carpeta de "No deseados" si este correo no llegara en los próximos minutos`
-		// 					});
-		// 					this.recoverForm.reset();
-		// 				}
-		// 			}, error => {
-		// 				Swal.hideLoading();
-		// 				Swal.close();
-		// 				Swal.fire({
-		// 					type: 'error',
-		// 					text: 'Ocurrió un error en la comunicación . Intenta más tarde'
-		// 				});
-		// 			});
-		// 		}
-		// 	}, error => {
-		// 		Swal.hideLoading();
-		// 		Swal.close();
-		// 		Swal.fire({
-		// 			type: 'error',
-		// 			text: 'Ocurrió un error en la comunicación . Intenta más tarde'
-		// 		});
-		// 	});
-		// } else {
-		// 	this.validateAllFormFields(this.recoverForm);
-		// 	Swal.fire({
-		// 		type: 'error',
-		// 		text: 'Por favor revisa los errores',
-		// 		timer: 2000,
-		// 		showConfirmButton: false
-		// 	});
-		// }
+	get identifier() {
+		return this.recoverForm.get('identifier');
 	}
 
 	validateAllFormFields(formGroup: FormGroup) {
@@ -100,8 +56,56 @@ export class RecoveraccessComponent implements OnInit {
 		});
 	}
 
-	goRegister() {
-		this.router.navigate(['/pages/register']);
+	regainAccess(api:string) {
+		this.validateAllFormFields(this.recoverForm);
+		if(!this.recoverForm.valid) {
+			return Swal.fire({
+				type: 'error',
+				text: 'Por favor revisa los campos con error',
+				timer: 2000,
+				showConfirmButton: false
+			});
+		}
+		Swal.fire('Espera...');
+		Swal.showLoading();
+		this.recoverPass
+			.regainAccess(this.identifier.value,api)
+			.subscribe(() => {
+				// console.log(data);
+				Swal.hideLoading();
+				Swal.close();
+				Swal.fire({
+					type: 'success',
+					text: 'En los siguientes minutos revisa tu correo. Este correo tiene instrucciones que debes seguir.'
+				});
+				this.goHome();
+			}, error => {
+				console.log(error);
+				Swal.hideLoading();
+				Swal.close();
+				Swal.fire({
+					type: 'error',
+					html: `<p>Hubo un error</p><p>Intenta más tarde</p><p><b>Error</b>: ${error.error.message}</p>`
+				});
+			});
 	}
 
+	goHome(){
+		this.router.navigate(['/pages/home']);
+	}
+
+}
+
+function mustBeValidRFC(field: FormControl) {
+	let RFC = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
+	let value = field.value;
+	if(value === '') {
+		return null;
+	}
+	value = value.toUpperCase();
+	return RFC.test(value) ? null : {
+		validateEmail: {
+			valid: false
+		}
+	}
 }
