@@ -9,25 +9,41 @@
 							<h3 class="card-title">Recuperando acceso</h3>
 						</div>
 						<div class="card-body">
-							<div class="row">
-								<div class="col">
-									<div class="input-group no-border">
-										<input
-											type="text"
-											class="form-control"
-											placeholder="Nuevo password"
-											>
+							<div [formGroup]="recoverForm">
+								<div class="row">
+									<div class="col">
+										<div class="input-group no-border">
+											<input
+												type="text"
+												class="form-control"
+												formControlName="identifier"
+												placeholder="Ingresa tu RFC, por favor"
+												>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div class="row">
-								<div class="col">
-									<div class="input-group no-border">
-										<input
-											type="text"
-											class="form-control"
-											placeholder="Repetir password"
-											>
+								<div class="row">
+									<div class="col">
+										<div class="input-group no-border">
+											<input
+												type="password"
+												class="form-control"
+												formControlName="password"
+												placeholder="Teclea tu nuevo password"
+												>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="input-group no-border">
+											<input
+												type="password"
+												class="form-control"
+												formControlName="repPassword"
+												placeholder="Teclea otra vez tu nuevo password, por favor"
+												>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -35,9 +51,10 @@
 						<div class="card-footer">
 							<button
 								mat-raised-button
-								class="btn btn-primary"
+								class="btn btn-primary btn-block"
+								(click)="submit();"
 								>
-								Ir
+								Recuperar contraseña
 							</button>
 						</div>
 					</div>
