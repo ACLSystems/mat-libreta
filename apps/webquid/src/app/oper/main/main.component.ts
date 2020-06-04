@@ -11,6 +11,8 @@ import { CompanyComponent } from '../company/company.component';
 import { CreatecompanyComponent } from '../createcompany/createcompany.component';
 import { CreateuserComponent } from '../createuser/createuser.component';
 
+import { DtOptions } from '@mat-libreta/shared';
+
 @Component({
   selector: 'webquid-oper-main',
   templateUrl: './main.component.html',
@@ -31,13 +33,32 @@ export class MainComponent implements OnInit, OnDestroy {
 	usersResult				: any[] = [];
 	companiesResultMessage: string = '';
 	usersResultMessage: string = '';
+	tableHeaderCompany: string[];
+	tableHeaderUsers: string[];
+	dtOptions = DtOptions;
 
   constructor(
 		private router: Router,
 		private fb: FormBuilder,
 		private operService: OperService,
 		public matDialog: MatDialog
-	) { }
+	) {
+		this.tableHeaderCompany = [
+			'#',
+			'RFC',
+			'Razón Social',
+			'Nombre Comercial',
+			'Usuarios'
+		];
+
+		this.tableHeaderUsers = [
+			'#',
+			'RFC',
+			'Nombre',
+			'Email',
+			'Empresas'
+		];
+	}
 
   ngOnInit(): void {
   }

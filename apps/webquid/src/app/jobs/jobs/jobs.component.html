@@ -1,0 +1,440 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid" *ngIf="!loading">
+	<div class="card mt-4 mb-0 pb-0" id="job">
+		<div class="card-header p-1">
+			<h4 class="float-left">Bolsa de Trabajo</h4>
+			<div
+				*ngIf="(roles.isAdmin || roles.isBillAdmin || roles.isTechAdmin || roles.isOperator) && companiesList && jobsList"
+				class="badge badge-pill badge-success float-right pointme"
+				data-toggle="modal"
+				data-target="#jobModal"
+				>Crear liga para CV <i class="fas fa-plus-circle"></i>
+			</div>
+		</div>
+		<div class="card-body p-1">
+			<table
+				datatable
+				class="table table-striped table-hover"
+				cellspacing="0"
+				width="100%"
+				style="width:100%"
+				[dtOptions]="dtOptions"
+			 	*ngIf="!loadingVacancy && candidates.length > 0">
+				<thead>
+					<tr>
+						<th *ngFor="let header of tableHeader">
+							{{header}}
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let candidate of candidates; let index=index">
+						<td>{{index + 1}}</td>
+						<td>{{candidate.request}}</td>
+						<td>{{candidate.person.name}} {{candidate.person.fatherName}} {{candidate.person.motherName}} {{candidate.person.email}}</td>
+						<td>
+							<div *ngFor="let job of candidate.job">
+								<span>{{job.name}} / {{job.place}}</span>
+							</div>
+						</td>
+						<td>{{candidate.created | date: 'medium'}}</td>
+						<td *ngIf="!candidate.filledBy">
+							<span class="text-warning">Pendiente de llenado</span>
+						</td>
+						<td *ngIf="candidate.filledBy">
+							{{candidate.filledBy.person.name}} {{candidate.filledBy.person.fatherName}} ({{candidate.filledWhen | date: 'medium'}})
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th *ngFor="let footer of tableHeader">
+							{{footer}}
+						</th>
+					</tr>
+				</tfoot>
+			</table>
+			<h3 class="text-danger" *ngIf="!loadingVacancy && candidates.length < 1">No hay candidatos que mostrar</h3>
+		</div>
+	</div>
+</div>
+
+<div
+	class="modal fade"
+	id="jobModal"
+	tabindex="-1"
+	aria-hiden="true"
+	role="dialog"
+	aria-labelledby="jobModal"
+	>
+	<div class="modal-dialog"  *ngIf="!jobDisplay">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Iniciar CV</h4>
+				<button
+					mat-button
+					type="button"
+					data-dismiss="modal"
+					aria-hidden="true"
+					class="close"
+					>
+					<i class="material-icons">clear</i>
+				</button>
+			</div>
+			<div class="modal-body">
+					<div class="row">
+						<div class="col ml-auto mr-auto">
+							<div [formGroup]="jobForm">
+								<div class="container">
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Ticket referencia
+												</mat-label>
+												<input
+												matInput
+												formControlName="ticket"
+												[errorStateMatcher]="matcher"
+												type="number"
+												required
+												>
+												<mat-error
+												*ngIf="(ticket.dirty || ticket.touched) && ticket.invalid && ticket.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+												<mat-error
+												*ngIf="ticket.hasError('min')"
+												>
+													* No puede ser menor a 1
+												</mat-error>
+											</mat-form-field>
+										</div>
+										<div class="col">
+
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<p>Datos del candidato</p>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													RFC
+												</mat-label>
+												<input
+												matInput
+												formControlName="identifier"
+												[errorStateMatcher]="matcher"
+												type="text"
+												required
+												>
+												<mat-error
+													*ngIf="(identifier.dirty || identifier.touched) && identifier.invalid && identifier.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+												<mat-error
+													*ngIf="identifier.hasError('validRFC')"
+												>
+													* debe ser RFC válido
+												</mat-error>
+											</mat-form-field>
+										</div>
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Nombre(s)
+												</mat-label>
+												<input
+												matInput
+												formControlName="name"
+												[errorStateMatcher]="matcher"
+												type="text"
+												required
+												>
+												<mat-error
+												*ngIf="(name.dirty || name.touched) && name.invalid && name.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+											</mat-form-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Apellido Paterno
+												</mat-label>
+												<input
+												matInput
+												formControlName="fatherName"
+												[errorStateMatcher]="matcher"
+												type="text"
+												required
+												>
+												<mat-error
+												*ngIf="(fatherName.dirty || fatherName.touched) && fatherName.invalid && fatherName.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+											</mat-form-field>
+										</div>
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Apellido Materno
+												</mat-label>
+												<input
+												matInput
+												formControlName="motherName"
+												[errorStateMatcher]="matcher"
+												type="text"
+												required
+												>
+												<mat-error
+												*ngIf="(motherName.dirty || motherName.touched) && motherName.invalid && motherName.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+											</mat-form-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Correo Electrónico
+												</mat-label>
+												<input
+												matInput
+												formControlName="email"
+												[errorStateMatcher]="matcher"
+												type="text"
+												required
+												>
+												<mat-error
+												*ngIf="(email.dirty || email.touched) && email.invalid && email.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+												<mat-error
+												*ngIf="email.hasError('email')"
+												>
+													* Debe ser correo válido
+												</mat-error>
+											</mat-form-field>
+										</div>
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Empresa
+												</mat-label>
+												<mat-select
+													formControlName="company"
+													name="company"
+													ariaLabel="companies[0]"
+													[errorStateMatcher]="matcher"
+													required
+													>
+													<mat-option
+														*ngFor="let company of companies"
+														[value]="company.value">
+															{{ company.viewValue }}
+													</mat-option>
+												</mat-select>
+												<mat-error
+													*ngIf="(company.dirty || company.touched) && company.invalid && company.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+											</mat-form-field>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Puesto
+												</mat-label>
+												<mat-select
+													formControlName="jobName"
+													name="jobName"
+													ariaLabel="jobs[0]"
+													[errorStateMatcher]="matcher"
+													required
+													>
+													<mat-optgroup *ngFor="let group of jobCategories" [label]="group.name">
+														<mat-option
+														*ngFor="let job of group.job"
+														[value]="job.value">
+															{{ job.viewValue }}
+														</mat-option>
+													</mat-optgroup>
+												</mat-select>
+												<mat-error
+													*ngIf="(jobName.dirty || jobName.touched) && jobName.invalid && jobName.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+											</mat-form-field>
+										</div>
+
+										<div class="col">
+											<mat-form-field>
+												<mat-label>
+													Lugar de trabajo
+												</mat-label>
+												<mat-select
+													formControlName="jobPlace"
+													name="jobPlace"
+													ariaLabel="jobplaces[0]"
+													[errorStateMatcher]="matcher"
+													required
+													>
+													<mat-option
+														*ngFor="let job of jobPlaces"
+														[value]="job.value">
+															{{ job.viewValue }}
+													</mat-option>
+												</mat-select>
+												<mat-error
+													*ngIf="(jobPlace.dirty || jobPlace.touched) && jobPlace.invalid && jobPlace.hasError('required')"
+												>
+													* Campo requerido
+												</mat-error>
+											</mat-form-field>
+										</div>
+									</div>
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button
+						mat-raised-button
+						type="button"
+						matTooltip="Crear Puesto de Trabajo"
+						class="btn btn-rose btn-round"
+						matTooltipPosition="left"
+						(click)="openJobCard();"
+						>
+						<i class="fas fa-briefcase"></i>
+					</button>
+					<button
+						mat-raised-button
+						type="button"
+						matTooltip="Guardar CV"
+						matTooltipPosition="above"
+						class="btn btn-primary btn-round"
+						(click)="create();"
+						>
+						<i class="fas fa-save"></i>
+					</button>
+					<button
+						mat-raised-button
+						type="button"
+						#closeModal
+						matTooltip="Cerrar ventana"
+						matTooltipPosition="above"
+						class="btn btn-danger btn-round"
+						data-dismiss="modal"
+						>
+						<i class="fas fa-times-circle"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-dialog" *ngIf="jobDisplay">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Crear Puesto</h4>
+				<button
+					mat-button
+					type="button"
+					data-dismiss="modal"
+					aria-hidden="true"
+					class="close"
+					>
+					<i class="material-icons">clear</i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row" [formGroup]="jobCreateForm">
+					<div class="col">
+						<mat-form-field>
+							<mat-label>
+								Nombre del puesto
+							</mat-label>
+							<input
+							matInput
+							formControlName="nameJob"
+							type="text"
+							[errorStateMatcher]="matcher"
+							required
+							>
+							<mat-error
+								*ngIf="(nameJob.dirty || nameJob.touched) && nameJob.invalid && nameJob.hasError('required')"
+							>
+								* Campo requerido
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col">
+						<mat-form-field>
+							<mat-label>
+								Categoría del puesto
+							</mat-label>
+							<input
+							matInput
+							formControlName="jobCategory"
+							type="text"
+							[errorStateMatcher]="matcher"
+							required
+							>
+							<mat-error
+								*ngIf="(jobCategory.dirty || jobCategory.touched) && jobCategory.invalid && jobCategory.hasError('required')"
+							>
+								* Campo requerido
+							</mat-error>
+						</mat-form-field>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="btn-group">
+					<button
+						mat-raised-button
+						type="button"
+						matTooltip="Guardar Puesto"
+						matTooltipPosition="above"
+						class="btn btn-primary btn-round"
+						(click)="saveJob();"
+						>
+						<i class="fas fa-save"></i>
+					</button>
+					<button
+						mat-raised-button
+						type="button"
+						matTooltip="Cerrar ventana"
+						matTooltipPosition="above"
+						class="btn btn-danger btn-round"
+					 	(click)="closeJobDisplay();"
+						>
+						<i class="fas fa-times-circle"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

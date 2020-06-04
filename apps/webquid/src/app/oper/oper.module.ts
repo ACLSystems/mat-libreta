@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DataTablesModule } from 'angular-datatables';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -32,6 +33,7 @@ import { AddressComponent } from './address/address.component';
 	imports: [
 		CommonModule,
 		OperRoutingModule,
+		DataTablesModule,
 		FormsModule,
 		ReactiveFormsModule,
 		MatInputModule,

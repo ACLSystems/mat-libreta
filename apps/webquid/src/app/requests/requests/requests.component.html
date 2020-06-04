@@ -2,7 +2,7 @@
 	<app-loading-spinner></app-loading-spinner>
 </div>
 <div class="container-fluid" *ngIf="!loading">
-	<div class="card">
+	<div class="card" *ngIf="request === 0">
 		<div class="card-header">
 			<h4>Mis solicitudes activas</h4>
 		</div>
@@ -27,19 +27,80 @@
 				</thead>
 				<tbody>
 					<tr *ngFor="let request of requests">
-						<td>{{request.data.service_request.id}}</td>
+						<td>{{request.freshid}}</td>
 						<td *ngIf="request.requestStatus == 'open'"><span class="badge badge-pill badge-success">Abierto</span></td>
 						<td *ngIf="request.requestStatus == 'closed'"><span class="badge badge-pill badge-primary">Cerrado</span></td>
 						<td><span class="badge badge-pill badge-warning">En espera</span></td>
 						<td>{{request.data.service_request.subject}}</td>
 						<td>{{request.data.service_request.created_at | date: 'medium'}}</td>
-						<td>Ver candidatos</td>
+						<td>
+							<span
+								class="pointme"
+								(click)="goRequest(request.freshid)"
+								>Ver candidatos
+							</span>
+						</td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
 						<th *ngFor="let footer of tableHeader">
 							{{footer}}
+						</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+	<div class="card" *ngIf="request !== 0">
+		<div class="card-header p-1">
+			<h4 class="float-left">Solicitud {{request.freshid}} - {{request.data.service_request.subject}}</h4>
+			<div
+				class="badge badge-pill badge-primary float-right pointme"
+				(click)="goTable();"
+				><i class="fas fa-angle-left"></i> Regresar
+			</div>
+		</div>
+		<div class="card-body">
+			<table
+			datatable
+			class="table table-striped table-hover"
+			cellspacing="0"
+			width="100%"
+			style="width:100%"
+			[dtOptions]="dtOptions"
+			*ngIf="candidates.length > 0"
+			>
+				<thead>
+					<tr>
+						<th *ngFor="let header of tableHeader">
+							{{header}}
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let candidate of candidates; let index=index">
+						<td>{{index + 1}}</td>
+						<td>{{candidate.request}}</td>
+						<td>{{candidate.person.name}} {{candidate.person.fatherName}} {{candidate.person.motherName}} {{candidate.person.email}}</td>
+						<td>
+							<div *ngFor="let job of candidate.job">
+								<span>{{job.name}} / {{job.place}}</span>
+							</div>
+						</td>
+						<td>{{candidate.created | date: 'medium'}}</td>
+						<td *ngIf="!candidate.filledBy">
+							<span class="text-warning">Pendiente de llenado</span>
+						</td>
+						<td *ngIf="candidate.filledBy">
+							{{candidate.filledBy.person.name}} {{candidate.filledBy.person.fatherName}} ({{candidate.filledWhen | date: 'medium'}})
+						</td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<th *ngFor="let header of tableHeader">
+							{{header}}
 						</th>
 					</tr>
 				</tfoot>

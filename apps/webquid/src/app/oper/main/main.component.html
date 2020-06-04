@@ -129,14 +129,19 @@
 				</div>
 				<div class="container-fluid" *ngIf="companiesResultMessage === ''">
 					<div class="table-responsive-md">
-						<table class="table table-striped">
+						<table
+							datatable
+							class="table table-striped table-hover"
+							cellspacing="0"
+							width="100%"
+							style="width:100%"
+							[dtOptions]="dtOptions"
+							>
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>RFC</th>
-									<th>Razón social</th>
-									<th>Nombre comercial</th>
-									<th>Usuarios</th>
+									<th *ngFor="let header of tableHeaderCompany">
+										{{header}}
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -172,6 +177,13 @@
 										</td>
 								</tr>
 							</tbody>
+							<tfoot>
+								<tr>
+									<th *ngFor="let header of tableHeaderCompany">
+										{{header}}
+									</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>
@@ -187,14 +199,19 @@
 				</div>
 				<div class="container-fluid p-0" *ngIf="usersResultMessage === ''">
 					<div class="table-responsive-md">
-						<table class="table table-striped">
+						<table
+							datatable
+							class="table table-striped table-hover"
+							cellspacing="0"
+							width="100%"
+							style="width:100%"
+							[dtOptions]="dtOptions"
+							>
 							<thead>
 								<tr>
-									<th>#</th>
-									<th>RFC</th>
-									<th>Nombre</th>
-									<th>Email</th>
-									<th>Empresas</th>
+									<th *ngFor="let header of tableHeaderUsers">
+										{{header}}
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -232,6 +249,13 @@
 									</td>
 								</tr>
 							</tbody>
+							<tfoot>
+								<tr>
+									<th *ngFor="let header of tableHeaderUsers">
+										{{header}}
+									</th>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>

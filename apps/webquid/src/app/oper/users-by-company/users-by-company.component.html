@@ -21,30 +21,46 @@
 		<div class="card-body">
 			<table class="table table-striped" id="users">
 				<thead>
-					<tr class="text-center">
-						<th>#</th>
-						<th>Activo</th>
-						<th>RFC</th>
-						<th>Nombre</th>
-						<th>Email</th>
-						<th>Password inicial</th>
+					<tr>
+						<th *ngFor="let header of tableHeader">
+							{{header}}
+						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr *ngFor="let user of users; let index=index">
 						<td>{{index+1}}</td>
-						<td *ngIf="user.isActive" class="text-success text-center">
+						<td
+							*ngIf="user.isActive && !user.isCandidate"
+							class="text-success text-center"
+						>
 							<i class="fas fa-circle"></i>
 						</td>
-						<td *ngIf="!user.isActive" class="text-danger text-center">
+						<td
+							*ngIf="user.isActive && user.isCandidate"
+							class="text-warning text-center"
+							>
+							<i class="fas fa-circle"></i>
+						</td>
+						<td
+							*ngIf="!user.isActive"
+							class="text-danger text-center"
+							>
 							<i class="fas fa-circle"></i>
 						</td>
 						<td>{{user.identifier}}</td>
-						<td>{{user.name}}</td>
-						<td>{{user.fatherName}} {{user.motherName}}</td>
+						<td>{{user.name}} {{user.fatherName}} {{user.motherName}}</td>
+						<td>{{user.email}}</td>
 						<td>{{user.iniPass}}</td>
 					</tr>
 				</tbody>
+				<tfoot>
+					<tr>
+						<th *ngFor="let header of tableHeader">
+							{{header}}
+						</th>
+					</tr>
+				</tfoot>
 			</table>
 		</div>
 	</div>

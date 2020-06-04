@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { OperService } from '../services/oper.services';
+import { DtOptions } from '@mat-libreta/shared';
 
 
 @Component({
@@ -10,12 +11,14 @@ import { OperService } from '../services/oper.services';
   templateUrl: './users-by-company.component.html',
   styleUrls: ['./users-by-company.component.scss']
 })
-export class UsersByCompanyComponent implements OnInit {
+export class UsersByCompanyComponent implements OnInit, AfterViewInit {
 
 	users: any[] = [];
 	company: string;
 	companyName: string;
 	loading: boolean = false;
+	tableHeader: string[];
+	dtOptions = DtOptions;
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
@@ -29,6 +32,14 @@ export class UsersByCompanyComponent implements OnInit {
 		if(this.company == '' || !this.company) {
 			this.router.navigate(['/oper']);
 		}
+		this.tableHeader = [
+			'#',
+			'Activo',
+			'RFC',
+			'Nombre',
+			'Email',
+			'Password Inicial'
+		];
 	}
 
 	ngOnInit(): void {
@@ -40,6 +51,7 @@ export class UsersByCompanyComponent implements OnInit {
 					return {
 						isActive: d.isActive,
 						identifier: d.identifier,
+						isCandidate: d.isCandidate,
 						name: (d.person && d.person.name) ? d.person.name : null,
 						fatherName:  (d.person && d.person.fatherName) ? d.person.fatherName : null,
 						motherName:  (d.person && d.person.motherName) ? d.person.motherName : null,
@@ -62,5 +74,9 @@ export class UsersByCompanyComponent implements OnInit {
 			console.log(error);
 		});
   }
+
+	ngAfterViewInit() {
+
+	}
 
 }

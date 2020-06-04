@@ -39,6 +39,15 @@ const routes: Routes = [
 		]
 	},{
 		path: '',
+		children: [
+			{
+				path: 'jobs',
+				component: LoggedComponent,
+				loadChildren: () => import('./jobs/jobs.module').then(mod => mod.JobsModule)
+			}
+		]
+	},{
+		path: '',
 		component: LoggedComponent,
 		canActivate: [AuthGuard],
 		children: [

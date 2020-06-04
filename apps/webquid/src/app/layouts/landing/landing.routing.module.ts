@@ -16,7 +16,7 @@ const landingRoutes: Routes = [
 				path: 'confirm/:tokentemp/:username',
 				component: ConfirmComponent
 			},{
-				path: 'job',
+				path: 'job/:token',
 				component: JobComponent
 			}
 		]

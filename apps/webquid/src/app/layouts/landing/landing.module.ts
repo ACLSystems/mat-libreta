@@ -9,6 +9,8 @@ import { RecoveraccessComponent } from './recoveraccess/recoveraccess.component'
 import { ConfirmComponent } from './confirm/confirm.component';
 import { JobComponent } from './job/job.component';
 
+import { CVService } from './services/cv.service';
+
 @NgModule({
   declarations: [
 		RecoveraccessComponent,
@@ -23,6 +25,9 @@ import { JobComponent } from './job/job.component';
 		MatSelectModule,
 		MatInputModule,
 		MatDatepickerModule
-  ]
+  ],
+	providers: [
+		CVService
+	]
 })
 export class LandingModule { }
