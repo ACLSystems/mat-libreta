@@ -31,6 +31,8 @@ export { BrowerService } from './lib/services/browser.service';
 export { HTTPService } from './lib/services/http.service';
 export { RefreshDiscussionService } from './lib/services/refreshDiscussion.service';
 
+export { TimeoutInterceptor, DEFAULT_TIMEOUT } from './lib/interceptors/timeout.interceptor';
+
 export { DtOptions } from './lib/config/config.module';
 
 // Export Types/Classes

@@ -102,6 +102,11 @@ export class UserService{
 		return this.tokenVersion;
 	}
 
+	test(): Observable<any>|null {
+		const route = this.url + 'api/test';
+		return this.http.get(route);
+	}
+
 	getMyPublicity(): Observable<any>|null {
 		const token = this.getToken();
 		if(token) {

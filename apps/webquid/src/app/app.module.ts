@@ -76,6 +76,8 @@ import { PublicService } from '@wqshared/services/public.service';
 import { WindowService } from '@mat-libreta/shared';
 import { OperatorService } from '@wqshared/services/operator.service';
 
+import { TimeoutInterceptor, DEFAULT_TIMEOUT } from '@mat-libreta/shared';
+
 @NgModule({
 	exports: [
 		MatAutocompleteModule,
@@ -149,7 +151,15 @@ export class MaterialModule {}
 		CommonService,
 		EnumService,
 		SimpleGlobal,
-		OperatorService
+		OperatorService,
+		[{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TimeoutInterceptor, multi: true
+		}],
+		[{
+			provide: DEFAULT_TIMEOUT,
+			useValue: 30000
+		}]
 	],
   bootstrap: [AppComponent]
 })
