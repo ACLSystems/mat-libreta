@@ -26,6 +26,7 @@ import { Sn005Component } from './service/sn005/sn005.component';
 import { Sn006Component } from './service/sn006/sn006.component';
 import { Sn007Component } from './service/sn007/sn007.component';
 import { Sn008Component } from './service/sn008/sn008.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { Sn008Component } from './service/sn008/sn008.component';
 		Sn005Component,
 		Sn006Component,
 		Sn007Component,
-		Sn008Component
+		Sn008Component,
+		ProfileComponent
 	],
   imports: [
     CommonModule,

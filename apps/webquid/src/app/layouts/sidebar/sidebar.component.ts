@@ -204,6 +204,9 @@ export class SidebarComponent implements OnInit {
 		// });
 		const menuAll = ROUTES.filter(item => item.role === 'all');
 		if(this.identity.roles) {
+			// console.group('Roles desde SideBar');
+			// console.log(this.identity.roles);
+			// console.groupEnd();
 			const menuAdmin = this.identity.roles.isAdmin ? ROUTES.filter(item => item.role === 'isAdmin') : [];
 			const menuRequester = this.identity.roles.isRequester ? ROUTES.filter(item => item.role === 'isRequester') : [];
 			const menuSuper = this.identity.roles.isSupervisor ? ROUTES.filter(item => item.role === 'isSupervisor') : [];

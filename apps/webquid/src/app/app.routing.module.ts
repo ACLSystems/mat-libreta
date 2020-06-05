@@ -43,87 +43,113 @@ const routes: Routes = [
 			{
 				path: 'jobs',
 				component: LoggedComponent,
+				canActivate: [AuthGuard],
 				loadChildren: () => import('./jobs/jobs.module').then(mod => mod.JobsModule)
 			}
 		]
 	},{
 		path: '',
-		component: LoggedComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'services',
-				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule)
-				// data: {
-				// 	preload: true,
-				// 	delay: true,
-				// 	time: 2000
-				// }
+				component: LoggedComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{
 		path: '',
-		component: LoggedComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'requests',
-				loadChildren: () => import('./requests/requests.module').then(mod => mod.RequestsModule)
-				// data: {
-				// 	preload: true,
-				// 	delay: true,
-				// 	time: 2000
-				// }
+				component: LoggedComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./requests/requests.module').then(mod => mod.RequestsModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{
 		path: '',
-		component: LoggedComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'super',
-				loadChildren: () => import('./super/super.module').then(mod => mod.SuperModule)
+				component: LoggedComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./super/super.module').then(mod => mod.SuperModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{
 		path: '',
-		component: LoggedComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'oper',
-				loadChildren: () => import('./oper/oper.module').then(mod => mod.OperModule)
+				component: LoggedComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./oper/oper.module').then(mod => mod.OperModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{
 		path: '',
-		component: LoggedComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'admin',
-				loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
+				component: LoggedComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{
 		path: '',
-		component: LoggedComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'billing',
-				loadChildren: () => import('./billing/billing.module').then(mod => mod.BillingModule)
+				component: LoggedComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./billing/billing.module').then(mod => mod.BillingModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{
 		path: '',
-		component: LoggedComponent,
-		canActivate: [AuthGuard],
 		children: [
 			{
 				path: 'config',
-				loadChildren: () => import('./config/config.module').then(mod => mod.ConfigModule)
+				component: LoggedComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./config/config.module').then(mod => mod.ConfigModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
 			}
 		]
 	},{

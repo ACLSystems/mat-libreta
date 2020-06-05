@@ -167,8 +167,16 @@ export class JobsComponent implements OnInit {
 	}
 
   ngOnInit(): void {
-		this.getCompanies();
-		this.getJobs();
+		const {
+			isAdmin,
+			isBillAdmin,
+			isOperator,
+			isTechAdmin
+		} = this.roles;
+		if(isAdmin || isBillAdmin || isOperator || isTechAdmin) {
+			this.getCompanies();
+			this.getJobs();
+		}
 		this.loadVacancy();
   }
 
@@ -186,6 +194,14 @@ export class JobsComponent implements OnInit {
 			this.loadingVacancy = false;
 			Swal.hideLoading();
 			Swal.close();
+		}, error => {
+			console.log(error);
+			Swal.hideLoading();
+			Swal.close();
+			Swal.fire({
+				type: 'error',
+				text: `Hubo un error al intentar la carga: ${error.error.message}`
+			})
 		});
 	}
 

@@ -3,9 +3,7 @@ export interface Display {
 	viewValue: string
 }
 
-export interface DisplayWithCategory {
-	value: string,
-	viewValue: string,
+export interface DisplayWithCategory extends Display{
 	category: string
 }
 

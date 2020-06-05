@@ -27,6 +27,10 @@ export class JobsService{
 
 	getCVs(ticket?:number): Observable<any>|null {
 		const token = this.getToken();
+		const identity = this.getIdentity();
+		// console.group('Roles getCVs');
+		// console.log(identity.roles);
+		// console.groupEnd();
 		if(token) {
 			const httpOptions = ticket ? {
 				headers: JSONHeaders.set(
@@ -42,7 +46,8 @@ export class JobsService{
 					'Bearer ' + this.getToken()
 				)
 			}
-			const route = this.url+'api/v1/operator/cvs';
+			const route = identity.roles.isRequester ? this.url+'api/v1/requester/cvs' : this.url+'api/v1/operator/cvs';
+			// console.log(route);
 			return this.http.get(route,httpOptions);
 		}
 		return null

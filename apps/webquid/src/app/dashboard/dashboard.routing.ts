@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from './dashboard.component';
 import { ServiceComponent } from './service/service.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const dashboardRoutes: Routes = [
 	{
@@ -11,6 +12,9 @@ const dashboardRoutes: Routes = [
 			{
 				path: '',
 				component: DashboardComponent
+			},{
+				path: 'profile',
+				component: ProfileComponent
 			},{
 				path: ':serviceid',
 				component: ServiceComponent

@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-	url: 'http://localhost:3050',
+	url: 'https://api035gin.aclsystems.mx/',
 	tokenVersion: '2'
 };

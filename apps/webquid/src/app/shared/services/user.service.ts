@@ -191,6 +191,21 @@ export class UserService{
 		return null;
 	}
 
+	searchMyDocuments(params:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/myattachments?${params}`;
+			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
+
 	getDocument(docid:string): Observable<any>|null {
 		const token = this.getToken();
 		if(token) {
@@ -222,6 +237,25 @@ export class UserService{
 			};
 			const route = `${this.url}api/v1/request`;
 			return this.http.post(route, params, httpOptions);
+		}
+		return null;
+	}
+
+	newPass(oldPass:string, newPass:string): Observable<any>| null {
+		const token = this.getToken();
+		if(token) {
+			const params = {
+				password: oldPass,
+				newpass: newPass
+			}
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/newpass`;
+			return this.http.patch(route, params, httpOptions);
 		}
 		return null;
 	}

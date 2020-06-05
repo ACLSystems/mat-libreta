@@ -41,7 +41,7 @@ export class SN001Component implements OnInit {
 
 	getDocumentsList() {
 		this.loading = true;
-		this.userService.searchDocuments('documentType=cfdi&subDocumentType=nomina12').subscribe(data => {
+		this.userService.searchMyDocuments('documentType=cfdi&subDocumentType=nomina12').subscribe(data => {
 			if(data && Array.isArray(data) && data.length >0) {
 				this.documents = [...data];
 			}

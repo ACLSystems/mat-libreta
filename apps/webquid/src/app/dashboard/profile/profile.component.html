@@ -1,0 +1,201 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid">
+	<div class="card">
+		<div class="card-header card-header-icon card-header-rose">
+			<div class="card-icon">
+				<i class="fas fa-user fa-2x"></i>
+			</div>
+			<h4 class="card-title" *ngIf="identity.person?.name">{{identity.person.name}} {{identity.person.fatherName}}</h4>
+			<p class="card-category">Tus datos personales</p>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col-3">
+					RFC
+				</div>
+				<div class="col">
+					{{identity.identifier}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					Nombre
+				</div>
+				<div class="col">
+					{{identity.person.name}} {{identity.person.fatherName}} {{identity.person.motherName}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3">
+					Empresas
+				</div>
+				<div class="col">
+					<div class="row" *ngFor="let company of identity.companies">
+						<div class="col">
+							<div class="row">
+								<div class="col-auto">
+									<span
+										*ngIf="company.isActive"
+										class="text-success text-center"
+									>
+										<i class="fas fa-circle"></i>
+									</span>
+									<span
+										*ngIf="!company.isActive"
+										class="text-danger text-center"
+										>
+										<i class="fas fa-circle"></i>
+									</span>
+								</div>
+								<div class="col">
+									<div class="row">
+										<div class="col">
+											{{company.company.display}}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											{{company.company.identifier}}
+										</div>
+									</div>
+									<div class="row">
+										<div class="col">
+											{{company.company.name}}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-footer">
+			<button
+				mat-raised-button
+				class="btn btn-sm btn-primary"
+				data-toggle="modal"
+				data-target="#passModal"
+			>
+				Modificar mi contraseña
+			</button>
+		</div>
+	</div>
+</div>
+
+<div
+	class="modal fade"
+	id="passModal"
+	tabindex="-1"
+	aria-hiden="true"
+	role="dialog"
+	aria-labelledby="passModal"
+	>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Modifica tu contraseña</h4>
+				<button
+					mat-button
+					type="button"
+					data-dismiss="modal"
+					aria-hidden="true"
+					class="close"
+					>
+					<i class="material-icons">clear</i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="passForm">
+					<div class="row">
+						<div class="col">
+							<mat-form-field>
+								<mat-label>
+									Contraseña actual
+								</mat-label>
+								<input
+								matInput
+								formControlName="oldPass"
+								[errorStateMatcher]="matcher"
+								type="password"
+								autocomplete="current-password"
+								required
+								>
+								<mat-error
+								*ngIf="(oldPass.dirty || oldPass.touched) && oldPass.invalid && oldPass.hasError('required')"
+								>
+									* Campo requerido
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<mat-form-field>
+								<mat-label>
+									Nueva contraseña
+								</mat-label>
+								<input
+								matInput
+								formControlName="pass1"
+								[errorStateMatcher]="matcher"
+								type="password"
+								autocomplete="new-password"
+								required
+								>
+								<mat-error
+								*ngIf="(pass1.dirty || pass1.touched) && pass1.invalid && pass1.hasError('required')"
+								>
+									* Campo requerido
+								</mat-error>
+								<mat-error
+								*ngIf="pass1.hasError('mustMatch')"
+								>
+									* Contraseñas deben ser iguales
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<mat-form-field>
+								<mat-label>
+									Repite nueva contraseña
+								</mat-label>
+								<input
+								matInput
+								formControlName="pass2"
+								[errorStateMatcher]="matcher"
+								type="password"
+								autocomplete="new-password"
+								required
+								>
+								<mat-error
+								*ngIf="(pass2.dirty || pass2.touched) && pass2.invalid && pass2.hasError('required')"
+								>
+									* Campo requerido
+								</mat-error>
+								<mat-error
+									*ngIf="pass2.hasError('mustMatch')"
+									>
+									* Contraseñas deben ser iguales
+								</mat-error>
+							</mat-form-field>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button
+					mat-raised-button
+					class="btn btn-sm btn-success"
+					(click)="changePass();"
+				>
+					Modificar contraseña
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
