@@ -2,11 +2,12 @@
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import * as Rollbar from 'rollbar';
 // import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { environment } from '@cjaenv/environment';
@@ -78,7 +79,15 @@ import {
 import { ShareService } from '@cjashared/services/share.service';
 import { EnvService } from '@cjashared/services/setEnv.service';
 
-import { TimeoutInterceptor, DEFAULT_TIMEOUT } from '@mat-libreta/shared';
+import {
+	TimeoutInterceptor,
+	DEFAULT_TIMEOUT
+} from '@mat-libreta/shared';
+import {
+	rollbarFactory,
+	RollbarService,
+	HttpErrorInterceptor
+} from '@cjashared/interceptors/error.interceptor';
 
 @NgModule({
 	exports: [
@@ -116,6 +125,7 @@ import { TimeoutInterceptor, DEFAULT_TIMEOUT } from '@mat-libreta/shared';
 	]
 })
 export class MaterialModule {}
+
 
 @NgModule({
 	declarations: [
@@ -161,7 +171,17 @@ export class MaterialModule {}
 		[{
 			provide: DEFAULT_TIMEOUT,
 			useValue: 30000
-		}]
+		}],
+		[
+			{
+				provide: RollbarService,
+				useFactory: rollbarFactory
+			},{
+				provide: HTTP_INTERCEPTORS,
+				useClass: HttpErrorInterceptor,
+				multi: true
+			}
+		]
 	],
   bootstrap: [AppComponent]
 })

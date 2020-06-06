@@ -6,9 +6,9 @@
     "ng": "ng",
     "nx": "nx",
     "start": "ng serve",
-		"start:wq": "ng serve webquid",
-		"start:ce": "ng serve cetec",
-		"start:cjal": "ng serve conalepjalisco",
+    "start:wq": "ng serve webquid",
+    "start:ce": "ng serve cetec",
+    "start:cjal": "ng serve conalepjalisco",
     "build": "ng build",
     "build:prod": "ng build --prod --aot --vendor-chunk --common-chunk --delete-output-path --buildOptimizer --stats-json",
     "test": "ng test",
@@ -32,9 +32,9 @@
     "help": "nx help",
     "stats": "webpack-bundle-analyzer",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
-		"test:cja": "ng serve conalepjalisco",
-		"test:wq": "ng serve webquid",
-		"test:cetec": "ng serve cetec"
+    "test:cja": "ng serve conalepjalisco",
+    "test:wq": "ng serve webquid",
+    "test:cetec": "ng serve cetec"
   },
   "private": true,
   "dependencies": {
@@ -107,6 +107,7 @@
     "perfect-scrollbar": "^1.5.0",
     "popper.js": "^1.16.1",
     "qrious": "^4.0.2",
+    "rollbar": "^2.16.2",
     "rxjs": "~6.5.4",
     "sweetalert2": "^8.19.0",
     "twitter-bootstrap-wizard": "^1.2.0",
