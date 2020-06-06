@@ -101,9 +101,9 @@ export class MenuService {
 		const menuReq = this.roles.isRequester ? ROUTES_2.filter(item => item.role === 'isRequester') : [];
 		const menuSup = this.roles.isSupervisor ? ROUTES_2.filter(item => item.role === 'isSupervisor') : [];
 		const moocSup = this.roles.isMoocSupervisor ? ROUTES_2.filter(item => item.role === 'isMoocSupervisor') : [];
-		console.log(this.roles);
+		// console.log(this.roles);
 
-		const regresa = myCurrentCourseData ? [
+		return myCurrentCourseData ? [
 			...ROUTES_1,
 			myCurrentCourse,
 			...menuAll,
@@ -118,8 +118,8 @@ export class MenuService {
 			...moocSup
 		];
 
-		console.log(regresa);
-		return regresa;
+		// console.log(regresa);
+		// return regresa;
 	}
 
 }

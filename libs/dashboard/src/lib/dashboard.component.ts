@@ -368,7 +368,7 @@ export class DashboardComponent implements OnInit {
 		// console.log(id)
 		// console.groupEnd();
 		localStorage.setItem('cert', JSON.stringify(cert)),
-		this.router.navigate(['/cert',id]);
+		this.router.navigate(['/cert',course.rosterType,id]);
 	}
 
 
