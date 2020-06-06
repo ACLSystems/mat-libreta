@@ -120,6 +120,16 @@ export class RegisterComponent implements OnInit {
 						});
 						this.registerForm.reset();
 						this.router.navigate(['/pages/home']);
+					} else {
+						Swal.hideLoading();
+						Swal.close()
+						console.log(data);
+						Swal.fire({
+							type: 'info',
+							html: `En los siguientes minutos te llegará un correo a la cuenta <br><b>${this.email.value}</b><br>Revisa ese correo y sigue las instrucciones.<br>Busca en la carpeta de "No deseados" si este correo no llegara en los próximos minutos`
+						});
+						this.registerForm.reset();
+						this.router.navigate(['/pages/home']);
 					}
 
 				}, error => {
@@ -134,9 +144,22 @@ export class RegisterComponent implements OnInit {
 						this.registerForm.reset();
 						this.router.navigate(['/pages/login']);
 					} else {
+						var textMessage = '';
+						if(error.message) {
+							textMessage = error.message;
+						}
+						if(error.error && error.error.message) {
+							textMessage = error.error.message;
+						}
+						if(textMessage.includes('Timeout')) {
+							textMessage = '<p>El servicio no respondió en un tiempo razonable.</p> <p>Intenta de nuevo más tarde, o revisa si tienes conexión a Internet</p>'
+						}
+						console.log(error);
+						Swal.hideLoading();
+						Swal.close();
 						Swal.fire({
 							type: 'error',
-							text: 'Ocurrió un error en el registro. Espera unos minutos y vuelve a intentar'
+							html: `<b>Error:</b> ${textMessage}`
 						});
 					}
 				});

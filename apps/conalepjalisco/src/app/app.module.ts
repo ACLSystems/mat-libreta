@@ -78,6 +78,8 @@ import {
 import { ShareService } from '@cjashared/services/share.service';
 import { EnvService } from '@cjashared/services/setEnv.service';
 
+import { TimeoutInterceptor, DEFAULT_TIMEOUT } from '@mat-libreta/shared';
+
 @NgModule({
 	exports: [
 		MatAutocompleteModule,
@@ -151,7 +153,15 @@ export class MaterialModule {}
 		ShareService,
 		CurrentCourseService,
 		BrowerService,
-		RefreshDiscussionService
+		RefreshDiscussionService,
+		[{
+			provide: HTTP_INTERCEPTORS,
+			useClass: TimeoutInterceptor, multi: true
+		}],
+		[{
+			provide: DEFAULT_TIMEOUT,
+			useValue: 30000
+		}]
 	],
   bootstrap: [AppComponent]
 })
