@@ -86,7 +86,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 			if(!this.curso.isVisible) {
 				Swal.fire({
 					type: 'warning',
-					text: 'Curso no está abierto todavía'
+					text: 'Curso no está disponible'
 				});
 				this.router.navigate(['/pages/catalog']);
 			}

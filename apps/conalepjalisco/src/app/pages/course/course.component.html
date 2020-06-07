@@ -195,6 +195,7 @@
 							class="btn btn-rose float-right"
 							(click)="goGoogleForms();"
 							*ngIf="curso.type === 'tutor'"
+							[disabled]="curso.hideEnroll"
 							>
 							Solicitar
 						</button>
