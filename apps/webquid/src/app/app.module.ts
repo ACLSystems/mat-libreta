@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import * as Rollbar from 'rollbar';
 // import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { SimpleGlobal } from 'ng2-simple-global';
 
@@ -77,6 +78,11 @@ import { WindowService } from '@mat-libreta/shared';
 import { OperatorService } from '@wqshared/services/operator.service';
 
 import { TimeoutInterceptor, DEFAULT_TIMEOUT } from '@mat-libreta/shared';
+import {
+	rollbarFactory,
+	RollbarService,
+	HttpErrorInterceptor
+} from '@wqshared/interceptors/error.interceptor';
 
 @NgModule({
 	exports: [
@@ -159,7 +165,17 @@ export class MaterialModule {}
 		[{
 			provide: DEFAULT_TIMEOUT,
 			useValue: 30000
-		}]
+		}],
+		[
+			{
+				provide: RollbarService,
+				useFactory: rollbarFactory
+			},{
+				provide: HTTP_INTERCEPTORS,
+				useClass: HttpErrorInterceptor,
+				multi: true
+			}
+		]
 	],
   bootstrap: [AppComponent]
 })
