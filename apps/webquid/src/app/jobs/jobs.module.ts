@@ -7,7 +7,7 @@ import { MaterialModule } from '@wqapp/app.module';
 import { JobsComponent } from './jobs/jobs.component';
 import { JobComponent } from './job/job.component';
 
-import { JobsService } from './services/jobs.service';
+import { JobsService } from '@wqshared/services/jobs.service';
 
 import { JobsRoutingModule } from './jobs.routing';
 

@@ -5,7 +5,14 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import Swal from 'sweetalert2';
 
 import { Identity } from '@wqshared/types/user.type';
+import { JobPosition } from '@wqshared/types/job.type';
+import {
+	Display,
+	DisplayGroups,
+	DisplayWithCategory
+} from '@wqshared/types/display.type';
 import { UserService } from '@wqshared/services/user.service';
+import { JobsService } from '@wqshared/services/jobs.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
 	isErrorState(control: FormControl | null,form: FormGroupDirective | NgForm | null): boolean {
@@ -23,6 +30,10 @@ export class Sn002Component implements OnInit {
 
 	@Input() serviceid: string;
 
+	jobPositions: JobPosition[] = [];
+	jobPosFiltered: JobPosition[] = [];
+	jobAreas: string[] = [];
+	jobsList: boolean = false;
 	requestForm = this.fb.group({
 		causa: [null, [Validators.required]],
 		puesto: ['', [Validators.required]],
@@ -34,13 +45,13 @@ export class Sn002Component implements OnInit {
 		]],
 		horariosTrabajo: ['--'],
 		funcionesPuesto: ['', [Validators.required]],
-		generoPuesto: ['Cualquier género'],
-		edad: [''],
-		estadoCivil: [''],
-		estudiosProfesion: ['--'],
-		experiencia: ['Sin experiencia'],
-		experienciaEn: ['--'],
-		habilidades: ['--'],
+		generoPuesto: ['',[Validators.required]],
+		edad: ['',[Validators.required]],
+		estadoCivil: ['',[Validators.required]],
+		estudiosProfesion: ['',[Validators.required]],
+		experiencia: ['',[Validators.required]],
+		experienciaEn: [''],
+		competencias: ['',[Validators.required]],
 		porcentajeIngles: [0,[
 			Validators.max(100)
 		]],
@@ -48,13 +59,85 @@ export class Sn002Component implements OnInit {
 		sueldoMinimo: [0],
 		sueldoMaximo: [0],
 		tipoContrato: ['', [Validators.required]],
-		personaEntrevista: ['--'],
-		comentarios: ['--']
+		personaEntrevista: ['',[Validators.required]],
+		comentarios: [''],
+		sinHorario: [false],
+		lunes: [true],
+		martes: [true],
+		miercoles: [true],
+		jueves: [true],
+		viernes: [true],
+		sabado: [false],
+		domingo: [false],
+		lunBeg: ['9:00'],
+		lunEnd: ['6:00'],
+		lunBegMer: ['am'],
+		lunEndMer: ['pm'],
+		marBeg: ['9:00'],
+		marEnd: ['6:00'],
+		marBegMer: ['am'],
+		marEndMer: ['pm'],
+		mieBeg: ['9:00'],
+		mieEnd: ['6:00'],
+		mieBegMer: ['am'],
+		mieEndMer: ['pm'],
+		jueBeg: ['9:00'],
+		jueEnd: ['6:00'],
+		jueBegMer: ['am'],
+		jueEndMer: ['pm'],
+		vieBeg: ['9:00'],
+		vieEnd: ['6:00'],
+		vieBegMer: ['am'],
+		vieEndMer: ['pm'],
+		sabBeg: ['9:00'],
+		sabEnd: ['1:00'],
+		sabBegMer: ['am'],
+		sabEndMer: ['pm'],
+		domBeg: ['9:00'],
+		domEnd: ['1:00'],
+		domBegMer: ['am'],
+		domEndMer: ['pm'],
 	});
+
+
+
+	horas = [
+		'12:00',
+		'12:30',
+		'1:00',
+		'1:30',
+		'2:00',
+		'2:30',
+		'3:00',
+		'3:30',
+		'4:00',
+		'4:30',
+		'5:00',
+		'5:30',
+		'6:00',
+		'6:30',
+		'7:00',
+		'7:30',
+		'8:00',
+		'8:30',
+		'9:00',
+		'9:30',
+		'10:00',
+		'10:30',
+		'11:00',
+		'11:30',
+	];
+
+	meridiano = [
+		'am','pm'
+	];
+
+
 
 	matcher = new MyErrorStateMatcher();
 
 	identity: Identity;
+	experienciaValue: boolean = false;
 
 	causas = [
 		{
@@ -114,6 +197,77 @@ export class Sn002Component implements OnInit {
 		}
 	];
 
+	opcCompetencias = [
+		{
+			value: 'Liderazgo',
+			viewValue: 'Liderazgo'
+		},{
+			value: 'Trabajo en equipo',
+			viewValue: 'Trabajo en equipo'
+		},{
+			value: 'Apego a normas',
+			viewValue: 'Apego a normas'
+		},{
+			value: 'Analítico',
+			viewValue: 'Analítico'
+		},{
+			value: 'Formación de equipos de trabajo',
+			viewValue: 'Formación de equipos de trabajo'
+		},{
+			value: 'Alcance de objetivos',
+			viewValue: 'Alcance de objetivos'
+		},{
+			value: 'Compromiso',
+			viewValue: 'Compromiso'
+		},{
+			value: 'Honestidad',
+			viewValue: 'Honestidad'
+		},{
+			value: 'Manejo de valores',
+			viewValue: 'Manejo'
+		}
+	];
+
+	rangosEdad = [
+		{
+			value: '15-19 años',
+			viewValue: '15-19 años'
+		},{
+			value: '20-24 años',
+			viewValue: '20-24 años'
+		},{
+			value: '25-29 años',
+			viewValue: '25-29 años'
+		},{
+			value: '20-34 años',
+			viewValue: '30-34 años'
+		},{
+			value: '35-39 años',
+			viewValue: '35-39 años'
+		},{
+			value: '40-44 años',
+			viewValue: '40-44 años'
+		},{
+			value: '45-49 años',
+			viewValue: '45-49 años'
+		},{
+			value: '50-54 años',
+			viewValue: '50-54 años'
+		},{
+			value: '55-56 años',
+			viewValue: '55-59 años'
+		},{
+			value: '60-64 años',
+			viewValue: '60-64 años'
+		},{
+			value: '65-69 años',
+			viewValue: '65-69 años'
+		},{
+			value: 'más de 70 años',
+			viewValue: 'más de 70 años'
+		}
+	];
+
 	exper = [
 		{
 			value: 'Sin experiencia',
@@ -129,6 +283,34 @@ export class Sn002Component implements OnInit {
 			viewValue: 'Más de 6 años'
 		}
 	]
+
+	nivelesEstudios = [
+		{
+			value: 'Sin formación',
+			viewValue: 'Sin formación'
+		},{
+			value: 'Primaria',
+			viewValue: 'Primaria'
+		},{
+			value: 'Secundaria',
+			viewValue: 'Secundaria'
+		},{
+			value: 'Preparatoria/Bachillerato',
+			viewValue: 'Preparatoria/Bachillerato'
+		},{
+			value: 'Técnico superior',
+			viewValue: 'Técnico superior'
+		},{
+			value: 'Licenciatura',
+			viewValue: 'Licenciatura'
+		},{
+			value: 'Maestría',
+			viewValue: 'Maestría'
+		},{
+			value: 'Doctorado',
+			viewValue: 'Doctorado'
+		}
+	];
 
 	tiposContrato = [
 		{
@@ -187,8 +369,8 @@ export class Sn002Component implements OnInit {
 	get experiencia() {
 		return this.requestForm.get('experiencia');
 	}
-	get habilidades() {
-		return this.requestForm.get('habilidades');
+	get competencias() {
+		return this.requestForm.get('competencias');
 	}
 	get disponibilidadViajar() {
 		return this.requestForm.get('disponibilidadViajar');
@@ -205,11 +387,15 @@ export class Sn002Component implements OnInit {
 	get comentarios() {
 		return this.requestForm.get('comentarios');
 	}
+	get sinHorario() {
+		return this.requestForm.get('sinHorario');
+	}
 
 
 	constructor(
 		private fb: FormBuilder,
 		private userService: UserService,
+		private jobsService: JobsService,
 		private router: Router
 	) {
 		this.identity = this.userService.getidentity();
@@ -217,6 +403,7 @@ export class Sn002Component implements OnInit {
 	}
 
 	ngOnInit(): void {
+		this.getJobs(true);
 		if(this.email === '') {
 			Swal.fire({
 				type: 'warning',
@@ -227,6 +414,7 @@ export class Sn002Component implements OnInit {
 	}
 
 	submit(): void {
+		this.getSchedule();
 		this.validateAllFormFields(this.requestForm);
 		// console.log(this.requestForm);
 		// console.log(this.identity);
@@ -243,18 +431,27 @@ export class Sn002Component implements OnInit {
 					horarios_de_trabajo: this.horariosTrabajo.value,
 					funciones_del_puesto: this.funcionesPuesto.value,
 					genero_del_puesto: this.generoPuesto.value,
-					edad: +this.edad.value,
+					edad: this.edad.value,
 					estado_civil: this.estadoCivil.value,
-					estudios_y_o_profesion: this.estudiosProfesion.value,
 					anos_de_experiencia_2: this.experiencia.value,
-					habilidades: this.habilidades.value,
+					experiencia_especifica_en: this.experienciaEn.value,
+					nivel_de_estudios: this.estudiosProfesion.value,
 					porcentaje_de_ingles: this.porcentajeIngles.value,
 					disponibilidad_para_viajar: this.disponibilidadViajar.value,
 					sueldo_minimo: this.sueldoMinimo.value,
 					sueldo_maximo: this.sueldoMaximo.value,
 					tipo_de_contrato: this.tipoContrato.value,
 					quien_entrevistara_a_los_candidatos: this.personaEntrevista.value,
-					comentarios: this.comentarios.value
+					comentarios: this.comentarios.value,
+					liderazgo: (this.competencias.value.includes('Liderazgo')) ? true: false,
+					trabajo_en_equipo: (this.competencias.value.includes('Trabajo en equipo')) ? true: false,
+					apego_a_normas: (this.competencias.value.includes('Apego a normas')) ? true: false,
+					analitico: (this.competencias.value.includes('Analítico')) ? true: false,
+					formacion_de_equipos_de_trabajo: (this.competencias.value.includes('Formación de equipos de trabajo')) ? true: false,
+					alcance_de_objetivos: (this.competencias.value.includes('Alcance de objetivos')) ? true: false,
+					compromiso: (this.competencias.value.includes('Compromiso')) ? true: false,
+					honestidad: (this.competencias.value.includes('Honestidad')) ? true: false,
+					manejo_de_valores: (this.competencias.value.includes('Manejo de valores')) ? true: false
 				}
 			};
 			if(submitForm.custom_fields.anos_de_experiencia_2 !== 'Sin experiencia') {
@@ -294,6 +491,63 @@ export class Sn002Component implements OnInit {
 		}
 	}
 
+	experienciaChange() {
+		if(this.experiencia.value === "Sin experiencia" && this.experiencia.value === '') {
+			this.experienciaEn.clearValidators();
+		} else {
+			this.experienciaEn.setValidators([Validators.required]);
+		}
+		this.experienciaEn.updateValueAndValidity();
+	}
+
+	getJobs(first?: boolean) {
+		this.jobsService.listJobs().subscribe(data => {
+			// console.log(data);
+			this.jobPositions = data.map((job:any) => {
+				return {
+					name: job.name,
+					place: job.place,
+					functions: job.functions || '',
+					area: job.area || ''
+				}
+			});
+			this.jobPositions.sort((a,b) => (a.area > b.area) ? 1 : (a.area === b.area) ? ((a.name > b.name) ? 1: -1) : -1);
+			this.jobAreas = [... new Set(this.jobPositions.map(pos => pos.area))];
+			this.filterPositions(first);
+			console.group('Jobs')
+			console.log(this.jobPositions);
+			console.log(this.jobAreas);
+			console.log(this.jobPosFiltered);
+			console.groupEnd();
+			this.jobsList = true;
+		}, error => {
+			console.log(error);
+		})
+	}
+
+	filterPositions(first?: boolean){
+		this.jobPosFiltered = this.jobPositions.filter(job => job.place === this.lugarTrabajo.value && job.area === this.area.value)
+		this.puesto.setValue('');
+		if(
+			this.jobPosFiltered.length === 0 &&
+			 !first &&
+			 this.area.value !== '' &&
+			 this.lugarTrabajo.value !== ''
+		 ) {
+			Swal.fire({
+				type: 'warning',
+				html: '<p>Las opciones que acabas de elegir no contiene puestos disponibles.</p> <p>Selecciona otro Lugar de Trabajo u otra Área.</p>'
+			});
+		}
+	}
+
+	fillJobFunctions() {
+		const findPosition = this.jobPosFiltered.find(job => job.name === this.puesto.value);
+		if(findPosition) {
+			this.funcionesPuesto.setValue(findPosition.functions);
+		}
+	}
+
 	validateAllFormFields(formGroup: FormGroup) {
 		Object.keys(formGroup.controls).forEach(field => {
 			const control = formGroup.get(field);
@@ -305,5 +559,35 @@ export class Sn002Component implements OnInit {
 		});
 	}
 
+	getSchedule() {
+		var horario = '';
+		if(this.sinHorario.value) {
+			horario = 'Sin horario';
+		} else {
+			if(this.requestForm.get('lunes').value) {
+				horario = `${horario}Lunes: De ${this.requestForm.get('lunBeg').value}${this.requestForm.get('lunBegMer').value} a ${this.requestForm.get('lunEnd').value}${this.requestForm.get('lunEndMer').value}`
+			}
+			if(this.requestForm.get('martes').value) {
+				horario = `${horario}\nMartes: De ${this.requestForm.get('marBeg').value}${this.requestForm.get('marBegMer').value} a ${this.requestForm.get('marEnd').value}${this.requestForm.get('marEndMer').value}`
+			}
+			if(this.requestForm.get('miercoles').value) {
+				horario = `${horario}\nMiércoles: De ${this.requestForm.get('mieBeg').value}${this.requestForm.get('mieBegMer').value} a ${this.requestForm.get('mieEnd').value}${this.requestForm.get('mieEndMer').value}`
+			}
+			if(this.requestForm.get('jueves').value) {
+				horario = `${horario}\nJueves: De ${this.requestForm.get('jueBeg').value}${this.requestForm.get('jueBegMer').value} a ${this.requestForm.get('jueEnd').value}${this.requestForm.get('jueEndMer').value}`
+			}
+			if(this.requestForm.get('viernes').value) {
+				horario = `${horario}\nViernes: De ${this.requestForm.get('vieBeg').value}${this.requestForm.get('vieBegMer').value} a ${this.requestForm.get('vieEnd').value}${this.requestForm.get('vieEndMer').value}`
+			}
+			if(this.requestForm.get('sabado').value) {
+				horario = `${horario}\nSábado: De ${this.requestForm.get('sabBeg').value}${this.requestForm.get('sabBegMer').value} a ${this.requestForm.get('sabEnd').value}${this.requestForm.get('sabEndMer').value}`
+			}
+			if(this.requestForm.get('domingo').value) {
+				horario = `${horario}\nDomingo: De ${this.requestForm.get('domBeg').value}${this.requestForm.get('domBegMer').value} a ${this.requestForm.get('domEnd').value}${this.requestForm.get('domEndMer').value}`
+			}
+		}
+		this.horariosTrabajo.setValue(horario);
+		// console.log(this.horariosTrabajo);
+	}
 
 }

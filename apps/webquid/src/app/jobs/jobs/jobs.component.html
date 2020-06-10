@@ -370,46 +370,49 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="row" [formGroup]="jobCreateForm">
-					<div class="col">
-						<mat-form-field>
-							<mat-label>
-								Nombre del puesto
-							</mat-label>
-							<input
-							matInput
-							formControlName="nameJob"
-							type="text"
-							[errorStateMatcher]="matcher"
-							required
-							>
-							<mat-error
-								*ngIf="(nameJob.dirty || nameJob.touched) && nameJob.invalid && nameJob.hasError('required')"
-							>
-								* Campo requerido
-							</mat-error>
-						</mat-form-field>
-					</div>
-					<div class="col">
-						<mat-form-field>
-							<mat-label>
-								Categoría del puesto
-							</mat-label>
-							<input
-							matInput
-							formControlName="jobCategory"
-							type="text"
-							[errorStateMatcher]="matcher"
-							required
-							>
-							<mat-error
-								*ngIf="(jobCategory.dirty || jobCategory.touched) && jobCategory.invalid && jobCategory.hasError('required')"
-							>
-								* Campo requerido
-							</mat-error>
-						</mat-form-field>
+				<div [formGroup]="jobCreateForm">
+					<div class="row" >
+						<div class="col">
+							<mat-form-field>
+								<mat-label>
+									Nombre del puesto
+								</mat-label>
+								<input
+								matInput
+								formControlName="nameJob"
+								type="text"
+								[errorStateMatcher]="matcher"
+								required
+								>
+								<mat-error
+									*ngIf="(nameJob.dirty || nameJob.touched) && nameJob.invalid && nameJob.hasError('required')"
+								>
+									* Campo requerido
+								</mat-error>
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>
+									Categoría del puesto
+								</mat-label>
+								<input
+								matInput
+								formControlName="jobCategory"
+								type="text"
+								[errorStateMatcher]="matcher"
+								required
+								>
+								<mat-error
+									*ngIf="(jobCategory.dirty || jobCategory.touched) && jobCategory.invalid && jobCategory.hasError('required')"
+								>
+									* Campo requerido
+								</mat-error>
+							</mat-form-field>
+						</div>
 					</div>
 				</div>
+
 			</div>
 			<div class="modal-footer">
 				<div class="btn-group">

@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CommonService } from '@wqshared/services/common.service';
+// import { CommonService } from '@wqshared/services/common.service';
 import { JSONHeaders } from '@mat-libreta/shared';
 import { environment } from '@wqenv/environment';
 
@@ -12,7 +12,7 @@ export class CVService{
 
 	constructor(
 		private http: HttpClient,
-		private commonService: CommonService
+		// private commonService: CommonService
 	) {
 		this.url = environment.url;
 	}
@@ -26,6 +26,11 @@ export class CVService{
 		};
 		const route = this.url+'api/getcvbytoken';
 		return this.http.get(route,httpOptions);
+	}
+
+	updateCV(sendForm: any): Observable<any>|null {
+		const route = this.url+'api/updatecv';
+		return this.http.patch(route,sendForm,{headers: JSONHeaders});
 	}
 
 

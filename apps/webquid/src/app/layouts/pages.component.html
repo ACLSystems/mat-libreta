@@ -34,7 +34,7 @@
 						<i class="material-icons">home</i> Inicio
 					</a>
 				</li>
-				<li class="nav-item" routerLinkActive="active" *ngIf="token">
+				<li class="nav-item" routerLinkActive="active" *ngIf="token && router.url !== '/pages/logout'">
 					<a class="nav-link" [routerLink]="['/services']">
 						<i class="material-icons">room_service</i> Servicios
 					</a>

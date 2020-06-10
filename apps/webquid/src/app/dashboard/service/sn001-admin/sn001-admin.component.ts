@@ -90,6 +90,12 @@ export class SN001AdminComponent implements OnInit {
 		}
 	}
 
+	clearFiles() {
+		this.files = [];
+		this.fileString = [];
+		this.filesSelected = false;
+	}
+
 }
 
 

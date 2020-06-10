@@ -23,24 +23,21 @@
 			</form>
 		</div>
 		<div class="col p-0 text-center">
-			<button
+			<div class="btn-group">
+				<button
 				class="btn btn-sm btn-primary"
 				(click)="processFiles();"
 				*ngIf="filesSelected"
-			>
-				Procesar Archivos
-			</button>
-		</div>
-		<div class="col p-0 text-center">
-			<div class="progress" *ngIf="filesSelected">
-				<div
-					class="progress-bar progress-bar-striped bg-success" role="progressbar"
-					style="width: 25%"
-					[ngStyle]="{width: progressbar + '%'}"
-					attr.aria-valuenow="{{progressbar}}"
-					aria-valuemin="0"
-					aria-valuemax="100">
-				</div>
+				>
+					Procesar Archivos
+				</button>
+				<button
+				class="btn btn-sm btn-danger"
+				(click)="clearFiles();"
+				*ngIf="filesSelected"
+				>
+					Reiniciar
+				</button>
 			</div>
 		</div>
 	</div>

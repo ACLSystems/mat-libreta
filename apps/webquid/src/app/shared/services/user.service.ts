@@ -265,6 +265,35 @@ export class UserService{
 		return null;
 	}
 
+	confirmEmail(email:string, validationString:string): Observable<any>| null {
+		const params = {
+			email,
+			validationString
+		}
+		const route = `${this.url}api/user/confirmEmail`;
+		return this.http.patch(route, params, {headers:JSONHeaders});
+		return null;
+	}
+
+
+	addEmail(email:string): Observable<any>| null {
+		const token = this.getToken();
+		if(token) {
+			const params = {
+				email
+			}
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/user/addemail`;
+			return this.http.patch(route, params, httpOptions);
+		}
+		return null;
+	}
+
 	getMyRequests(): Observable<any>|null {
 		const token = this.getToken();
 		if(token) {

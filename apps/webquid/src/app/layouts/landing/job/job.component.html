@@ -1,247 +1,1413 @@
 
 	<!-- <div style="background-image: url('./assets/img/bg0.jpg');"> -->
-<div class="container mt-5" *ngIf="!loading">
+<div class="container-fluid mt-5" *ngIf="!loading">
 	<div class="row">
 		<div class="col">
 			<div class="card">
 				<div class="card-header">
 					<h3 class="card-title">Solicitud de Empleo</h3>
-					<p class="card-category">Por favor llena los siguientes campos para generar tu solicitud</p>
+					<p class="card-category">Esta solicitud consta de varias secciones que debes llenar. Al final se te solicitarán de acuerdo al puesto, algunos documentos que debes tener listos para subirlos.</p>
 				</div>
 				<div class="card-body p-0">
-					<div >
-						<div class="container-fluid">
-							<div class="row">
-								<div class="col">
-									<h4 class="text-danger"><small>* Todos los campos marcados son requeridos</small></h4>
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-1"></div>
+							<div class="col">
+								Puesto: <b>{{job}}</b>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-1"></div>
+							<div class="col">
+								Lugar de trabajo: <b>{{place}}</b>
+							</div>
+						</div>
+						<div class="card mt-2">
+							<div class="card-header bg-light">
+								<h5>Datos personales</h5>
+							</div>
+							<div class="card-body" [formGroup]="jobForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Llena todos tus datos personales.
+										<span class="text-danger">Todos los campos son obligatorios</span></p>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Nombre(s)</mat-label>
+											<input
+												matInput
+												type="text"
+												id="name"
+												required
+												formControlName="name"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Apellido Paterno</mat-label>
+											<input
+												matInput
+												type="text"
+												id="fatherName"
+												formControlName="fatherName"
+												required
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Apellido Materno</mat-label>
+											<input
+												matInput
+												type="text"
+												id="motherName"
+												formControlName="motherName"
+												required
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>
+													Fecha de nacimiento
+											</mat-label>
+										  <input
+												matInput
+												[matDatepicker]="picker"
+												formControlName="birthDate"
+												required
+											>
+										  <mat-datepicker-toggle matSuffix [for]="picker">
+											</mat-datepicker-toggle>
+										  <mat-datepicker #picker>
+											</mat-datepicker>
+											<mat-error
+												*ngIf="birthDate.hasError('validDate')"
+											>
+												Debe ser fecha anterior al día de hoy
+											</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Lugar de nacimiento</mat-label>
+											<textarea
+												matInput
+												type="text"
+												rows="2"
+												formControlName="birthPlace"
+												required
+												></textarea>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Género</mat-label>
+											<mat-select
+												name="Masculino"
+												formControlName="gender"
+												required
+												>
+												<mat-option *ngFor="let gen of genderSelect" [value]="gen.value">
+													{{gen.viewValue}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Teléfono fijo</mat-label>
+											<input
+												matInput
+												type="tel"
+												formControlName="phone"
+												required
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Celular</mat-label>
+											<input
+												matInput
+												type="tel"
+												formControlName="cellPhone"
+												required
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Teléfono de recados</mat-label>
+											<input
+												matInput
+												type="tel"
+												formControlName="messagePhone"
+												required
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Cuenta de correo electrónico</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="email"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>RFC</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="identifier"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Estado Civil</mat-label>
+											<mat-select
+												formControlName="civil"
+												required
+												>
+												<mat-option *ngFor="let edo of edoCivil" [value]="edo.value">
+													{{edo.viewValue}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
 								</div>
 							</div>
-							<div>
-								<!-- Aquí va el formulario -->
-								<div class="card">
-									<div class="card-header bg-light">
-										<h5>Datos personales</h5>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Domicilio Actual</h5>
+							</div>
+							<div class="card-body" [formGroup]="addressForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Coloca la dirección en donde vives actualmente.
+										<span class="text-danger">Todos los campos son obligatorios</span></p>
 									</div>
-									<div class="card-body" [formGroup]="jobForm">
-										<div class="row">
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Nombre(s)</mat-label>
-													<input
-														matInput
-														type="text"
-														id="name"
-														required
-														formControlName="name"
-														>
-												</mat-form-field>
-											</div>
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Apellido Paterno</mat-label>
-													<input
-														matInput
-														type="text"
-														id="fatherName"
-														formControlName="fatherName"
-														required
-														>
-												</mat-form-field>
-											</div>
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Apellido Materno</mat-label>
-													<input
-														matInput
-														type="text"
-														id="motherName"
-														formControlName="motherName"
-														required
-														>
-												</mat-form-field>
-											</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Dirección</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="adLine1"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Colonia</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="adLine2"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Código Postal</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="adPostalCode"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Municipio/Localidad</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="adLocality"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Ciudad</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="adCity"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field  *ngIf
+										="!otherCountry">
+											<mat-label>Estado</mat-label>
+											<mat-select
+												formControlName="adState"
+												required
+												>
+												<mat-option *ngFor="let edo of states" [value]="edo.value">
+													{{edo.viewValue}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+										<mat-form-field *ngIf
+										="otherCountry">
+											<mat-label>Estado</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="adState"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field *ngIf
+										="!otherCountry">
+											<mat-label>País</mat-label>
+											<mat-select
+												formControlName="adCountry"
+												(selectionChange)="changeCountry();"
+												[(value)]="adCountry.value"
+												required
+												>
+												<mat-option *ngFor="let country of countries" [value]="country.value">
+													{{country.viewValue}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+										<mat-form-field *ngIf
+										="otherCountry">
+											<mat-label>País</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="adCountry"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Datos Laborales</h5>
+							</div>
+							<div class="card-body" [formGroup]="workInfoForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Puedes agregar una o más empleos colocando los datos solicitados y luego presiona el botón de "Guardar Empleo". Al hacerlo puedes agregar otra empresa repitiendo el mismo procedimiento.
+										<span class="text-danger">Todos los campos son obligatorios</span></p>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<div class="togglebutton">
+											<label>
+												<input
+													type="checkbox"
+													formControlName="wiCurrent"
+													(change)="wiCurrentChange();"
+												>
+												<span class="toggle"></span>
+												Estoy trabajando aquí actualmente
+											</label>
 										</div>
-										<div class="row">
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Fecha de nacimiento</mat-label>
-												  <input matInput [matDatepicker]="picker" required>
-												  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-												  <mat-datepicker #picker></mat-datepicker>
-												</mat-form-field>
-											</div>
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Lugar de nacimiento</mat-label>
-													<textarea
-														matInput
-														type="text"
-														rows="2"
-														id="lugarNacimiento"
-														required
-														></textarea>
-												</mat-form-field>
-											</div>
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Sexo</mat-label>
-													<mat-select
-														name="Masculino"
-														required
-														>
-														<mat-option>
-															Masculino
-														</mat-option>
-														<mat-option>
-															Femenino
-														</mat-option>
-													</mat-select>
-												</mat-form-field>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Teléfono fijo</mat-label>
-													<input
-														matInput
-														type="text"
-														id="telefono"
-														required
-														>
-												</mat-form-field>
-											</div>
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Celular</mat-label>
-													<input
-														matInput
-														type="text"
-														id="celular"
-														required
-														>
-												</mat-form-field>
-											</div>
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Teléfono de recados</mat-label>
-													<input
-														matInput
-														type="text"
-														id="recados"
-														required
-														>
-												</mat-form-field>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Cuenta de correo electrónico</mat-label>
-													<input
-														matInput
-														type="text"
-														id="email"
-														required
-														formControlName="email"
-														>
-												</mat-form-field>
-											</div>
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Estado Civil</mat-label>
-													<mat-select
-														name="Casado"
-														>
-														<mat-option>
-															Casado
-														</mat-option>
-														<mat-option>
-															Soltero
-														</mat-option>
-													</mat-select>
-												</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Empresa</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="wiCompanyName"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>
+												Fecha de inicio
+											</mat-label>
+										  <input
+												matInput
+												[matDatepicker]="pickerWIBD"
+												formControlName="wiBeginDate"
+												required
+											>
+										  <mat-datepicker-toggle matSuffix [for]="pickerWIBD">
+											</mat-datepicker-toggle>
+										  <mat-datepicker #pickerWIBD>
+											</mat-datepicker>
+											<mat-error
+												*ngIf="wiBeginDate.hasError('validDate')"
+											>
+												Debe ser fecha anterior al día de hoy
+											</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field *ngIf="!wiCurrentValue">
+											<mat-label>
+												Fecha de término
+											</mat-label>
+										  <input
+												matInput
+												[matDatepicker]="pickerWIED"
+												formControlName="wiEndDate"
+												[required]="!this.wiCurrentValue"
+											>
+										  <mat-datepicker-toggle matSuffix [for]="pickerWIED">
+											</mat-datepicker-toggle>
+										  <mat-datepicker #pickerWIED>
+											</mat-datepicker>
+											<mat-error
+												*ngIf="wiEndDate.hasError('validDate')"
+											>
+												Debe ser fecha anterior al día de hoy
+											</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Puesto inicial</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="wiInitialJob"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Puesto final</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="wiFinalJob"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Último Sueldo</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="wiSalary"
+												>
+											<mat-error
+												*ngIf="wiSalary.hasError('min')"
+											>
+												No debe ser cero
+											</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field *ngIf="!wiCurrentValue">
+											<mat-label>Motivo de separación</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="wiReasonToLeave"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Jefe Directo</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="wiBossName"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Teléfono de la empresa</mat-label>
+											<input
+												matInput
+												type="tel"
+												required
+												formControlName="wiCompanyPhone"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Teléfono de referencias laborales</mat-label>
+											<input
+												matInput
+												type="tel"
+												required
+												formControlName="wiReferencePhone"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<button
+											class="btn btn-sm btn-success"
+											(click)="saveWork();"
+										>Guardar Empleo</button>     <small>&nbsp;Presiona este botón para guardar el empleo. Puedes agregar otro empleo después de presionarlo.</small>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<div  *ngFor="let work of workInfo; let index=index">
+											<div class="row align-middle"
+												[ngClass]="{'bg-light':index % 2}"
+											>
+												<div class="col" *ngIf="work.current">
+													Actual
+												</div>
+												<div class="col" *ngIf="!work.current"></div>
+												<div class="col">
+													{{work.companyName}}<br />
+													{{work.beginDate| date: 'mediumDate'}}<br />
+													{{work.endDate| date: 'mediumDate'}}
+												</div>
+												<div class="col">
+													{{work.initialJob}}<br />
+													{{work.finalJob}}<br />
+													{{work.salary | currency}}
+												</div>
+												<div class="col">
+													{{work.reasonToLeave}}<br />
+													{{work.bossName}}
+												</div>
+												<div class="col">
+													{{work.companyPhone}}<br />
+													{{work.referencePhone}}
+												</div>
+												<div class="col-auto">
+													<button
+														class="btn btn-link"
+														(click)="editWork(index);"
+													>
+														<i class="fas fa-pencil-alt"></i>
+													</button>
+													<button
+														class="btn btn-link"
+														(click)="removeWork(index);"
+													>
+														<i class="fas fa-times"></i>
+													</button>
+												</div>
+												<div class="col"></div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="card">
-									<div class="card-header bg-light">
-										<h5>Domicilio Actual</h5>
-									</div>
-									<div class="card-body">
-
-									</div>
-								</div>
-								<div class="card">
-									<div class="card-header bg-light">
-										<h5>Datos Laborales</h5>
-									</div>
-									<div class="card-body">
-
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Datos Académicos</h5>
+							</div>
+							<div class="card-body" [formGroup]="academicForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Debes agregar uno o más estudios colocando los datos de cada uno y luego presiona el botón de "Guardar". Inicia con el último estudio. Al hacerlo puedes agregar otro estudio repitiendo el mismo procedimiento. Indica "Estoy estudiando esto actualmente" si estás estudiando actualmente.<span class="text-danger">Todos los campos son obligatorios</span></p>
 									</div>
 								</div>
-								<div class="card">
-									<div class="card-header bg-light">
-										<h5>Datos Académicos</h5>
-									</div>
-									<div class="card-body">
-
+								<div class="row mt-3">
+									<div class="col">
+										<div class="togglebutton">
+											<label>
+												<input
+													type="checkbox"
+													formControlName="aiCurrent"
+													(change)="aiCurrentChange();"
+												>
+												<span class="toggle"></span>
+												Estoy estudiando esto actualmente
+											</label>
+										</div>
 									</div>
 								</div>
-								<div class="card">
-									<div class="card-header bg-light">
-										<h5>Calidad de vida</h5>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Grado de estudios</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="aiStudies"
+												>
+											<mat-error
+												*ngIf="aiStudies.hasError('required')"
+											>
+												Campo requerido
+											</mat-error>
+										</mat-form-field>
 									</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col">
-												<mat-form-field>
-													<mat-label>Número de personas que viven en el mismo domicilio</mat-label>
-													<input
-														matInput
-														type="number"
-														id="personasViven"
-														required
-														>
-												</mat-form-field>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Nombre de la Institución Académica</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="aiInstitute"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>
+												Fecha de Inicio
+											</mat-label>
+										  <input
+												matInput
+												[matDatepicker]="pickerAIBeginDate"
+												formControlName="aiBeginDate"
+												required
+											>
+										  <mat-datepicker-toggle matSuffix [for]="pickerAIBeginDate">
+											</mat-datepicker-toggle>
+										  <mat-datepicker #pickerAIBeginDate>
+											</mat-datepicker>
+											<mat-error
+												*ngIf="aiBeginDate.hasError('validDate')"
+											>
+												Debe ser fecha anterior al día de hoy
+											</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row" *ngIf="!aiCurrentValue">
+									<div class="col">
+										<mat-form-field >
+											<mat-label>Título obtenido</mat-label>
+											<input
+												matInput
+												type="text"
+												[required]="!aiCurrentValue"
+												formControlName="aiCertificates"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Diplomas, certificaciones o cursos Obtenidos</mat-label>
+											<input
+												matInput
+												type="text"
+												[required]="!aiCurrentValue"
+												formControlName="aiDiplomas"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>
+												Fecha de Finalización
+											</mat-label>
+										  <input
+												matInput
+												[matDatepicker]="pickerAIEndDate"
+												formControlName="aiEndDate"
+												[required]="!aiCurrentValue"
+											>
+										  <mat-datepicker-toggle matSuffix [for]="pickerAIEndDate">
+											</mat-datepicker-toggle>
+										  <mat-datepicker #pickerAIEndDate>
+											</mat-datepicker>
+											<mat-error
+												*ngIf="aiEndDate.hasError('validDate')"
+											>
+												Debe ser fecha anterior al día de hoy
+											</mat-error>
+											<mat-error
+												*ngIf="aiEndDate.hasError('datesCoherent')"
+											>
+												Debe ser posterior a la Fecha de Inicio
+											</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<button
+											class="btn btn-sm btn-success"
+											(click)="saveStudy();"
+										>
+											Guardar
+										</button>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<div  *ngFor="let study of studies; let index=index">
+											<div class="row align-middle"
+												[ngClass]="{'bg-light':index % 2}"
+											>
+												<div class="col" *ngIf="study.current">
+													Actual
+												</div>
+												<div class="col" *ngIf="!study.current"></div>
+												<div class="col">
+													{{study.grade}}
+												</div>
+												<div class="col">
+													{{study.institute}}
+												</div>
+												<div class="col">
+													{{study.beginDate | date: 'mediumDate'}}
+												</div>
+												<div class="col">
+													{{study.certificate}}
+												</div>
+												<div class="col">
+													{{study.diploma}}
+												</div>
+												<div class="col">
+													{{study.endDate | date: 'mediumDate'}}
+												</div>
+												<div class="col-auto">
+													<button
+														class="btn btn-link"
+														(click)="editStudy(index);"
+													>
+														<i class="fas fa-pencil-alt"></i>
+													</button>
+													<button
+														class="btn btn-link"
+														(click)="removeStudy(index);"
+													>
+														<i class="fas fa-times"></i>
+													</button>
+												</div>
+												<div class="col"></div>
 											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Habilidades y hábitos de salud</h5>
+							</div>
+							<div class="card-body" [formGroup]="healthForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Selecciona las opciones que apliquen en tu caso. Detalla lo más posible tus respuestas, donde aplique.<span class="text-danger">Todos los campos son obligatorios</span></p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿Con qué frecuencia bebes alcohol?</mat-label>
+											<mat-select
+												formControlName="hAlcoholFrec"
+												required
+												>
+												<mat-option *ngFor="let frec of alcoholfrec" [value]="frec.value">
+													{{frec.viewValue}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿Con qué frecuencia fumas?</mat-label>
+											<mat-select
+												formControlName="hTobaccoFrec"
+												required
+												>
+												<mat-option *ngFor="let frec of tobaccofrec" [value]="frec.value">
+													{{frec.viewValue}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿Cuáles son tus pasatiempos?</mat-label>
+											<textarea
+												matInput
+												rows="3"
+												required
+												formControlName="hHobbies"
+												>
+											</textarea>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿Cuál consideras que es tu principal fortaleza?</mat-label>
+											<textarea
+												matInput
+												rows="3"
+												required
+												formControlName="hMainStrength"
+												>
+											</textarea>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿Cuál consideras que es tu principal área de oportunidad?</mat-label>
+											<textarea
+												matInput
+												rows="3"
+												required
+												formControlName="hMainOppAreas"
+												>
+											</textarea>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿Cuáles son tus habilidades?</mat-label>
+											<textarea
+												matInput
+												rows="3"
+												placeholder="Coloca las habilidades separándolas por coma. Por ejemplo: Honestidad, Puntualidad, Liderazgo"
+												required
+												formControlName="hTools"
+												>
+											</textarea>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Calidad de vida</h5>
+							</div>
+							<div class="card-body" [formGroup]="qualityForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Selecciona las opciones que apliquen en tu caso. En los campos donde se te preguntan montos (gastos, costos, ingresos, etc.) solo coloca números. <span class="text-danger">Todos los campos son obligatorios</span></p>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col bg-light">
+										<div class="togglebutton">
+											<label>
+												<input
+													type="checkbox"
+													formControlName="qOwnHouse"
+												>
+												<span class="toggle"></span>
+												Tengo Casa Propia
+											</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="togglebutton">
+											<label>
+												<input
+													type="checkbox"
+													formControlName="qRent"
+													(click)="qRentChange();"
+												>
+												<span class="toggle"></span>
+												Rento
+											</label>
+										</div>
+									</div>
+									<div class="col">
+										<div class="togglebutton">
+											<label>
+												<input
+													type="checkbox"
+													formControlName="qFamilyHouse"
+												>
+												<span class="toggle"></span>
+												Vivo en casa de un familiar
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col bg-light">
+										<div class="row">
 											<div class="col">
 												<div class="togglebutton">
 													<label>
 														<input
 															type="checkbox"
+															formControlName="qMortage"
+															(change)="qMortageChange();"
 														>
 														<span class="toggle"></span>
-														Casa propia
+														Pago Hipoteca
 													</label>
 												</div>
 											</div>
+										</div>
+										<div class="row">
 											<div class="col">
-												<mat-form-field>
-													<mat-label>Renta</mat-label>
-													<input
-														matInput
-														type="text"
-														id="renta"
-														required
+												<div class="togglebutton">
+													<label>
+														<input
+															type="checkbox"
+															formControlName="qInfonavitRetention"
 														>
-												</mat-form-field>
+														<span class="toggle"></span>
+														Tengo Crédito Infonavit
+													</label>
+												</div>
 											</div>
+										</div>
+										<div class="row" *ngIf="qMortageValue">
 											<div class="col">
 												<mat-form-field>
-													<mat-label>Casa de familiar</mat-label>
+													<mat-label>¿Cuánto gastas al mes en la Hipoteca?</mat-label>
 													<input
 														matInput
-														type="text"
-														id="casaFamiliar"
-														required
+														type="number"
+														[required]="qMortageValue"
+														formControlName="qMortageCost"
 														>
 												</mat-form-field>
 											</div>
 										</div>
 									</div>
+									<div class="col" >
+										<mat-form-field *ngIf="qRentValue">
+											<mat-label>¿Cuánto gastas al mes en la renta?</mat-label>
+											<input
+												matInput
+												type="number"
+												[required]="qRentValue"
+												formControlName="qRentCost"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col"></div>
 								</div>
+								<div class="row">
+									<div class="col">
+										<div class="row">
+											<div class="col">
+												<div class="togglebutton">
+													<label>
+														<input
+															type="checkbox"
+															formControlName="qOwnAutomobile"
+															(click)="qAutoChange();"
+														>
+														<span class="toggle"></span>
+														Tengo Auto Propio
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="row" *ngIf="qOwnAutomobileValue">
+											<div class="col">
+												<mat-form-field>
+													<mat-label>¿Cuánto gastas a la semana de gasolina?</mat-label>
+													<input
+														matInput
+														type="number"
+														[required]="qOwnAutomobileValue"
+														formControlName="qGasWeeklyRate"
+														>
+												</mat-form-field>
+											</div>
+										</div>
+										<div class="row" *ngIf="!qOwnAutomobileValue">
+											<div class="col">
+												<mat-form-field>
+													<mat-label>¿Cuánto gastas en transporte diariamente?</mat-label>
+													<input
+														matInput
+														type="number"
+														[required]="!qOwnAutomobileValue"
+														formControlName="qDailyTransportRate"
+														>
+												</mat-form-field>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="row">
+											<div class="col">
+												<div class="togglebutton">
+													<label>
+														<input
+															type="checkbox"
+															formControlName="qPlaceShift"
+															(click)="qPlaceShiftChange();"
+														>
+														<span class="toggle"></span>
+														¿Estás dispuesto a cambiar de residencia?
+													</label>
+												</div>
+											</div>
+										</div>
+										<div class="row" *ngIf="qPlaceShiftValue">
+											<div class="col">
+												<mat-form-field>
+													<mat-label>¿Porqué estarías dispuesto?</mat-label>
+													<textarea
+														matInput
+														[required]="qPlaceShiftValue"
+														formControlName="qWhyPlaceShift"
+														></textarea>
+												</mat-form-field>
+											</div>
+										</div>
+									</div>
+									<div class="col">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>¿Cuánto tiempo haces de tu casa al trabajo?</mat-label>
+												<div class="container">
+													<div class="row">
+														<div class="col">
+															<input
+																matInput
+																type="number"
+																required
+																formControlName="qDistanceToHome"
+																>
+														</div>
+														<div class="col">
+															<mat-select
+																formControlName="qDistanceHomeUnits"
+																required
+																>
+																<mat-option *ngFor="let units of units" [value]="units.value">
+																	{{units.viewValue}}
+																</mat-option>
+															</mat-select>
+														</div>
+													</div>
+												</div>
+											</mat-form-field>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿A cuánto ascienden tus ingresos mensuales?</mat-label>
+											<input
+												matInput
+												type="number"
+												formControlName="qMontlyIncome"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>¿A cuánto ascienden tus gastos mensuales?</mat-label>
+											<input
+												matInput
+												type="number"
+												formControlName="qMontlyExpenses"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Hijos</h5>
+							</div>
+							<div class="card-body" [formGroup]="childForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Llena este espacio si tienes hijos. Si no, déjalo en blanco y pasa a la siguiente sección. <span class="text-danger">Si sí tienes hijos, debes llenar todos los campos, ya que todos son obligatorios.</span> Llena los datos solicitados del primer hijo y luego presiona "Guardar hijo". Repite el procedimiento para cada hijo. Al terminar ve a la siguiente sección.</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Nombre completo</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="childname"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>
+													Fecha de nacimiento
+											</mat-label>
+										  <input
+												matInput
+												[matDatepicker]="pickerChild"
+												formControlName="childBirthDate"
+												required
+											>
+										  <mat-datepicker-toggle matSuffix [for]="pickerChild">
+											</mat-datepicker-toggle>
+										  <mat-datepicker #pickerChild>
+											</mat-datepicker>
+											<mat-error
+												*ngIf="childBirthDate.hasError('validDate')"
+											>
+												Debe ser fecha anterior al día de hoy
+											</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Escolaridad</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="childScholarShip"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Ocupación</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="childOccupation"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<button
+											class="btn btn-sm btn-success"
+											(click)="saveChild();"
+										>
+											Guardar Hijo
+										</button>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<div  *ngFor="let child of children; let index=index">
+											<div class="row align-middle"
+												[ngClass]="{'bg-light':index % 2}"
+											>
+												<div class="col"></div>
+												<div class="col">
+													{{child.name}}
+												</div>
+												<div class="col">
+													{{child.birthDate | date: 'mediumDate'}}
+												</div>
+												<div class="col">
+													{{child.scholarShip}}
+												</div>
+												<div class="col">
+													{{child.occupation}}
+												</div>
+												<div class="col-auto">
+													<button
+														class="btn btn-link"
+														(click)="editChild(index);"
+													>
+														<i class="fas fa-pencil-alt"></i>
+													</button>
+													<button
+														class="btn btn-link"
+														(click)="removeChild(index);"
+													>
+														<i class="fas fa-times"></i>
+													</button>
+												</div>
+												<div class="col"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Familia / Personas con las que vivo</h5>
+							</div>
+							<div class="card-body" [formGroup]="familyForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Llena este espacio para listar a las personas con las que vives, ya sean familia directa, familiares, amigos o conocidos. Si vives solo, déjalo en blanco y pasa a la siguiente sección. <span class="text-danger">Si vives acompañado, debes llenar todos los campos, ya que todos son obligatorios.</span> Llena los datos solicitados de la persona y luego presiona "Guardar persona". Repite el procedimiento para cada persona. Al terminar ve a la siguiente sección.</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Nombre completo</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="famName"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>
+													Fecha de nacimiento
+											</mat-label>
+										  <input
+												matInput
+												[matDatepicker]="pickerFam"
+												formControlName="famBirthDate"
+												required
+											>
+										  <mat-datepicker-toggle matSuffix [for]="pickerFam">
+											</mat-datepicker-toggle>
+										  <mat-datepicker #pickerFam>
+											</mat-datepicker>
+											<mat-error
+												*ngIf="famBirthDate.hasError('validDate')"
+											>
+												Debe ser fecha anterior al día de hoy
+											</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Relación/Parentesco</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="famRelationShip"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Ocupación</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="famOccupation"
+												>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<button
+											class="btn btn-sm btn-success"
+											(click)="saveFamily();"
+											>
+											Guardar Persona
+										</button>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<div  *ngFor="let fam of family; let index=index">
+											<div class="row align-middle"
+												[ngClass]="{'bg-light':index % 2}"
+											>
+												<div class="col"></div>
+												<div class="col">
+													{{fam.name}}
+												</div>
+												<div class="col">
+													{{fam.birthDate | date: 'mediumDate'}}
+												</div>
+												<div class="col">
+													{{fam.relationship}}
+												</div>
+												<div class="col">
+													{{fam.occupation}}
+												</div>
+												<div class="col-auto">
+													<button
+														class="btn btn-link"
+														(click)="editFamily(index);"
+													>
+														<i class="fas fa-pencil-alt"></i>
+													</button>
+													<button
+														class="btn btn-link"
+														(click)="removeFamily(index);"
+													>
+														<i class="fas fa-times"></i>
+													</button>
+												</div>
+												<div class="col"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header bg-light">
+								<h5>Referencias Personales</h5>
+							</div>
+							<div class="card-body" [formGroup]="referenceForm">
+								<div class="row border-bottom">
+									<div class="col">
+										<h5>Instrucciones:</h5>
+										<p>Debes llenar al menos 3 (tres) referencias personales. <span class="text-danger">Todos los campos son obligatorios.</span> Llena los datos solicitados de la referencia y luego presiona "Guardar referencia". Repite el procedimiento para cada referencia.</p>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Nombre Completo</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												#refName
+												formControlName="refname"
+												>
+											<mat-error
+												*ngIf="refname.hasError('required')"
+											>
+												Campo requerido
+											</mat-error>
+										</mat-form-field>
+									</div>
+									<div class="col">
+										<mat-form-field>
+											<mat-label>Número telefónico</mat-label>
+											<input
+												matInput
+												type="tel"
+												required
+												formControlName="refphone"
+												(keyup.enter)="saveReference();"
+												>
+												<mat-error
+													*ngIf="refphone.hasError('required')"
+												>
+													Campo requerido
+												</mat-error>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<button
+											class="btn btn-sm btn-success"
+											(click)="saveReference();"
+										>
+											Guardar Referencia
+										</button>
+									</div>
+								</div>
+								<div class="row mt-3">
+									<div class="col">
+										<div  *ngFor="let ref of references; let index=index">
+											<div class="row"
+												[ngClass]="{'bg-light':index % 2}"
+											>
+												<div class="col"></div>
+												<div class="col">
+													{{ref.name}}
+												</div>
+												<div class="col">
+													{{ref.phone}}
+												</div>
+												<div class="col-auto">
+													<button
+														class="btn btn-link"
+														(click)="editReference(index);"
+													>
+														<i class="fas fa-pencil-alt"></i>
+													</button>
+													<button
+														class="btn btn-link"
+														(click)="removeReference(index);"
+													>
+														<i class="fas fa-times"></i>
+													</button>
+												</div>
+												<div class="col"></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-body bg-warning">
+								<div class="row">
+									<div class="col text-center">
+										<h5>Antes de continuar, revisa bien tu solicitud</h5>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col text-center">
+								<button
+									class="btn btn-lg btn-block btn-success"
+									(click)="confirmJobSubmit();"
+								>
+									<i class="fas fa-paper-plane"></i> Enviar
+								</button>
 							</div>
 						</div>
 					</div>

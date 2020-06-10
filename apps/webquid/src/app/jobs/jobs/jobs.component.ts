@@ -6,7 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import Swal from 'sweetalert2';
 
 import { UserService } from '@wqshared/services/user.service';
-import { JobsService } from '../services/jobs.service';
+import { JobsService } from '@wqshared/services/jobs.service';
 import { Identity, Roles } from '@wqshared/types/user.type';
 
 import { DtOptions } from '@mat-libreta/shared';
@@ -317,7 +317,8 @@ export class JobsComponent implements OnInit {
 				return {
 					value: job.name,
 					viewValue: job.name,
-					category: job.category
+					category: job.category,
+					functions: job.functions || ''
 				}
 			});
 			const categories = [...new Set(this.jobs.map(job => job.category))];

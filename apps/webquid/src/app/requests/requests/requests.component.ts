@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 import { DtOptions } from '@mat-libreta/shared';
 import { UserService,  } from '@wqshared/services/user.service';
-import { JobsService } from '../../jobs/services/jobs.service';
+import { JobsService } from '@wqshared/services/jobs.service';
 
 registerLocaleData(localeMX);
 
@@ -20,6 +20,7 @@ registerLocaleData(localeMX);
 })
 export class RequestsComponent implements OnInit {
 
+	allRequests: any[] = [];
 	requests: any[] = [];
 	loading: boolean = false;
 	dtOptions = DtOptions;
@@ -53,10 +54,11 @@ export class RequestsComponent implements OnInit {
 	getMyRequests() {
 		this.userService.getMyRequests().subscribe(data => {
 			if(data) {
-				this.requests = [...data];
+				this.allRequests = [...data];
 			}
 			this.loading = false;
-			console.log(this.requests);
+			this.requests = this.allRequests.filter(req => req.freshStatus !== 'Closed');
+			// console.log(this.requests);
 		}, error => {
 			console.log(error);
 			this.loading = false;
