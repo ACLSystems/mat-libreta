@@ -24,7 +24,7 @@ export class OperGuard implements CanActivate {
 		Observable<boolean|UrlTree> {
 		this.identity = this.userService.getidentity();
 		if(this.identity && this.identity.roles && this.identity.roles.isOperator) {
-			console.log('Sí eres Operator!!!')
+			// console.log('Sí eres Operator!!!')
 			return true;
 		} else {
 			return this.router.createUrlTree(['/dashboard']);

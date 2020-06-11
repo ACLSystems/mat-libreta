@@ -38,7 +38,7 @@ export class SuperService{
 				)
 			}
 			const route = this.url+'api/v1/operator/user';
-			console.log(httpOptions);
+			// console.log(httpOptions);
 			return this.http.get(route,httpOptions);
 		}
 		return null

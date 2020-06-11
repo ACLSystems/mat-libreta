@@ -50,7 +50,7 @@ export class MainComponent implements OnInit {
 			Swal.fire({
 				type: 'error',
 				text: `Hubo un error en la obtención de configuración: ${error.message}`
-			})
+			});
 		});
 	}
 
@@ -118,6 +118,6 @@ export class MainComponent implements OnInit {
 function setNewKey(key: string, word:string) {
 	let newKey = key.replace(word,'');
 	newKey = newKey.charAt(0).toLowerCase() + newKey.slice(1);
-	console.log('newKey: ', newKey);
+	// console.log('newKey: ', newKey);
 	return newKey;
 }

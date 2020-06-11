@@ -303,7 +303,7 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 		const diff = tokenExp - now;
 		// console.log(diff, time);
 		if(diff < time) {
-			console.log('Renovación de token');
+			// console.log('Renovación de token');
 			this.userService.refreshToken().subscribe(data => {
 				this.sg['token'] = data.token;
 				this.sg['tokenVersion'] = environment.tokenVersion;

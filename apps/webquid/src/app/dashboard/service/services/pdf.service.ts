@@ -281,7 +281,7 @@ export class PDFService {
 
 		const totalGravado = percepciones.map(item => +item.importeGravado).reduce((acc,curr) => acc + curr);
 		const totalExento = percepciones.map(item => +item.importeExento).reduce((acc,curr) => acc + curr);
-		console.log(totalGravado,totalExento);
+		// console.log(totalGravado,totalExento);
 
 		// const percepciones = [
 		// 	{

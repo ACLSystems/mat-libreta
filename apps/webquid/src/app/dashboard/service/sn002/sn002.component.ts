@@ -514,11 +514,11 @@ export class Sn002Component implements OnInit {
 			this.jobPositions.sort((a,b) => (a.area > b.area) ? 1 : (a.area === b.area) ? ((a.name > b.name) ? 1: -1) : -1);
 			this.jobAreas = [... new Set(this.jobPositions.map(pos => pos.area))];
 			this.filterPositions(first);
-			console.group('Jobs')
-			console.log(this.jobPositions);
-			console.log(this.jobAreas);
-			console.log(this.jobPosFiltered);
-			console.groupEnd();
+			// console.group('Jobs')
+			// console.log(this.jobPositions);
+			// console.log(this.jobAreas);
+			// console.log(this.jobPosFiltered);
+			// console.groupEnd();
 			this.jobsList = true;
 		}, error => {
 			console.log(error);

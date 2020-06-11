@@ -79,9 +79,9 @@ export class DashboardComponent implements OnInit {
 				cancelButtonColor: 'red',
 				cancelButtonText: 'No por ahora'
 			}).then(email => {
-				Swal.fire('Espera...');
-				Swal.showLoading();
 				if(email.value) {
+					Swal.fire('Espera...');
+					Swal.showLoading();
 					this.userService.addEmail(email.value).subscribe((data) => {
 						Swal.hideLoading();
 						Swal.close();
@@ -89,7 +89,7 @@ export class DashboardComponent implements OnInit {
 							type: 'success',
 							html: 'Tu cuenta ha sido actualizada. Te llegará un correo con instrucciones para validarla'
 						});
-						console.log(data);
+						// console.log(data);
 					}, error => {
 						console.log(error);
 						Swal.hideLoading();

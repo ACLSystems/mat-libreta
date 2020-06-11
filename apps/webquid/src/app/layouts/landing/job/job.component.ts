@@ -91,7 +91,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 		(this.token).subscribe(data => {
 			this.loading = false;
 			this.cv = data;
-			console.log(this.cv);
+			// console.log(this.cv);
 			this.setFields();
 		}, error => {
 			Swal.fire({
@@ -542,7 +542,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 
 	saveWork() {
 		this.validateAllFormFields(this.workInfoForm);
-		console.log(this.workInfoForm);
+		// console.log(this.workInfoForm);
 		if(this.formValid('Datos Laborales',this.workInfoForm)) {
 			this.workInfo.push({
 				companyName: this.wiCompanyName.value,
@@ -1088,7 +1088,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 	formValid(formName: string, form: FormGroup) {
 		this.validateAllFormFields(form);
 		if(!form.valid) {
-			console.log(form);
+			// console.log(form);
 			const controls = form.controls;
 			var invalid = `<br>----${formName}----`;
 			for(const name in controls) {

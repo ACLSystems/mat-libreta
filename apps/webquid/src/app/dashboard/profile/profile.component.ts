@@ -58,7 +58,7 @@ export class ProfileComponent implements OnInit {
 		private router: Router
 	) {
 		this.identity = this.userService.getidentity();
-		console.log(this.identity);
+		// console.log(this.identity);
 	}
 
   ngOnInit(): void {

@@ -76,7 +76,7 @@ export class VacationComponent implements OnInit {
 		this.http.post(bridge,request).subscribe(data => {
 			Swal.hideLoading();
 			Swal.close();
-			console.log(data);
+			// console.log(data);
 			if(data && data.ticket) {
 				this.ticketData = data.ticket;
 				if(this.ticketData.status) {

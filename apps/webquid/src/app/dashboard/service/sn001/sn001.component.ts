@@ -45,7 +45,7 @@ export class SN001Component implements OnInit {
 			if(data && Array.isArray(data) && data.length >0) {
 				this.documents = [...data];
 			}
-			console.log(this.documents);
+			// console.log(this.documents);
 			this.loading = false;
 		}, error => {
 			console.log(error);
@@ -57,7 +57,7 @@ export class SN001Component implements OnInit {
 		Swal.fire('Espera');
 		Swal.showLoading();
 		if(this.document && this.document._id + '' === docid) {
-			console.log(`Ya habíamos bajado el ${docid}`);
+			// console.log(`Ya habíamos bajado el ${docid}`);
 			Swal.hideLoading();
 			Swal.close();
 			this.saveDocument(this.document.data,`${this.document.documentNumber}.xml`,this.document.mimeType);
@@ -86,7 +86,7 @@ export class SN001Component implements OnInit {
 		Swal.fire('Espera');
 		Swal.showLoading();
 		if(this.document && this.document._id + '' === docid) {
-			console.log(`Ya habíamos bajado el ${docid}`);
+			// console.log(`Ya habíamos bajado el ${docid}`);
 			Swal.hideLoading();
 			Swal.close();
 			// correr el PDF
@@ -99,7 +99,7 @@ export class SN001Component implements OnInit {
 				this.document = data;
 				// Correr el PDF
 				this.pdfService.printPDFNomina12(this.document.json);
-				console.log('Correr PDF');
+				// console.log('Correr PDF');
 			}
 			Swal.hideLoading();
 			Swal.close();

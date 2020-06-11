@@ -185,7 +185,7 @@ export class JobsComponent implements OnInit {
 		Swal.fire('Cargando candidatos. Espera...');
 		Swal.showLoading();
 		this.jobsService.getCVs().subscribe((data:any)=>{
-			console.log(data);
+			// console.log(data);
 			if(data && data.length > 0) {
 				this.candidates = [...data];
 			} else {
@@ -232,7 +232,7 @@ export class JobsComponent implements OnInit {
 				company: this.company.value
 			}],
 		};
-		console.log(cv);
+		// console.log(cv);
 		this.jobsService.createCV(cv).subscribe((data:any) => {
 			Swal.hideLoading();
 			Swal.close();
@@ -261,7 +261,7 @@ export class JobsComponent implements OnInit {
 	}
 
 	openJobCard() {
-		console.log('Abrir tarjeta de creación de puesto');
+		// console.log('Abrir tarjeta de creación de puesto');
 		this.jobDisplay = true;
 	}
 
@@ -270,7 +270,7 @@ export class JobsComponent implements OnInit {
 	}
 
 	close() {
-		console.log('Cerrando');
+		// console.log('Cerrando');
 	}
 
 	saveJob() {
@@ -285,7 +285,7 @@ export class JobsComponent implements OnInit {
 			return;
 		}
 		this.jobsService.createJob(this.nameJob.value,this.jobCategory.value).subscribe((data:any) => {
-			console.log(data);
+			// console.log(data);
 			if(data && data.message && data.message.includes('ya había sido creado anteriormente')) {
 				Swal.fire({
 					type: 'warning',

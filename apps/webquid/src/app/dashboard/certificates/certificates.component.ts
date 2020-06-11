@@ -35,7 +35,7 @@ export class CertificatesComponent implements OnInit {
 	}
 
 	setField3() {
-		console.log(this.form);
+		// console.log(this.form);
 	}
 
 }

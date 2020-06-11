@@ -62,7 +62,7 @@ export class AddressComponent implements OnInit {
 			state: this.addressForm.get('state').value,
 			country: this.addressForm.get('country').value,
 		}
-		console.log(address);
+		// console.log(address);
 		if(
 			(address.line1 === '' || !address.line1) &&
 			(address.line2 === '' || !address.line2) &&
@@ -79,12 +79,12 @@ export class AddressComponent implements OnInit {
 		this.addressForm.reset();
 		this.addressForm.get('country').setValue('México');
 		// console.log(this.addresses);
-		console.log('En child. Enviando addresses');
+		// console.log('En child. Enviando addresses');
 		this.addressesEvent.emit(JSON.stringify(this.addresses));
 	}
 
 	removeAddress(index:number) {
-		console.log(index);
+		// console.log(index);
 		let addresses = [...this.addresses];
 		addresses = addresses.slice(0,index).concat(addresses.slice(index + 1, addresses.length));
 		this.addresses = [...addresses];

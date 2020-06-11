@@ -35,7 +35,7 @@ export class HomeGuard implements CanActivate {
 				if(diffDays > minDays) {
 					return this.router.createUrlTree(['/dashboard']);;
 				} else {
-					console.log(`Te quedan ${diffDays} de expiración... mejor ve a login`);
+					// console.log(`Te quedan ${diffDays} de expiración... mejor ve a login`);
 					return this.router.createUrlTree(['/pages/login']);
 				}
 			} catch (err) {

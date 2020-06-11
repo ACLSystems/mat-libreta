@@ -22,7 +22,7 @@ export class Sn004Component implements OnInit {
 		Swal.showLoading();
 		this.userService.test()
 			.subscribe(data => {
-				console.log(data);
+				// console.log(data);
 				Swal.hideLoading();
 				Swal.close();
 				Swal.fire({

@@ -123,12 +123,12 @@ export class CreatecompanyComponent implements OnInit {
 
 	receiveAddresses(adds:string) {
 		this.addresses = [...JSON.parse(adds)];
-		console.log(this.addresses);
+		// console.log(this.addresses);
 	}
 
 	receivePhones(phs:string) {
 		this.phones = [...JSON.parse(phs)];
-		console.log(this.phones);
+		// console.log(this.phones);
 	}
 
 	closeDialog() {

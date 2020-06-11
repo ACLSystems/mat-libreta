@@ -24,7 +24,7 @@ export class BillingGuard implements CanActivate {
 		Observable<boolean|UrlTree> {
 		this.identity = this.userService.getidentity();
 		if(this.identity && this.identity.roles && this.identity.roles.isBillAdmin) {
-			console.log('Sí eres Bill admin!!!')
+			// console.log('Sí eres Bill admin!!!')
 			return true;
 		} else {
 			return this.router.createUrlTree(['/dashboard']);

@@ -75,7 +75,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		if(!this.usersToggle && !this.companiesToggle) {
 			this.usersToggle = !this.usersToggle;
 		}
-		console.log('companiesToggle: ',this.companiesToggle, 'usersToggle: ',this.usersToggle);
+		// console.log('companiesToggle: ',this.companiesToggle, 'usersToggle: ',this.usersToggle);
 	}
 
 	changeUser() {
@@ -83,7 +83,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		if(!this.usersToggle && !this.companiesToggle) {
 			this.companiesToggle = !this.companiesToggle;
 		}
-		console.log('companiesToggle: ',this.companiesToggle, 'usersToggle: ',this.usersToggle);
+		// console.log('companiesToggle: ',this.companiesToggle, 'usersToggle: ',this.usersToggle);
 	}
 
 	search() {
@@ -110,7 +110,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		}
 		if(this.companiesToggle) {
 			this.operService.searchCompanies(searchValue).subscribe(data => {
-				console.log(data);
+				// console.log(data);
 				if(data && data.message && data.message.includes('No existen empresas')) {
 					this.companiesToggle = false;
 					this.companiesResultMessage = data.message;
@@ -124,7 +124,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		}
 		if(this.usersToggle) {
 			this.operService.searchUsers(searchValue).subscribe(data => {
-				console.log(data);
+				// console.log(data);
 				if(data && data.message && data.message.includes('La búsqueda no arrojó usuarios')) {
 					this.usersResultMessage = data.message;
 					this.usersToggle = false;

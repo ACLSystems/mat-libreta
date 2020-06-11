@@ -66,7 +66,7 @@ export class RecoveraccessComponent implements OnInit {
 			this.recoverAccessService
 				.validate(this.identifier.value,this.key,this.password.value)
 				.subscribe(data => {
-					console.log(data);
+					// console.log(data);
 					Swal.hideLoading();
 					Swal.close();
 					Swal.fire({

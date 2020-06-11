@@ -19,7 +19,9 @@ import Swal from 'sweetalert2';
 const rollbarConfig = {
 	accessToken: '2b78154c4b0f47828fc3efd23cb38b2e',
 	captureUncaught: true,
-	captureUnhandledRejections: true
+	captureUnhandledRejections: true,
+	enabled: true,
+	environment: 'production'
 }
 
 export function rollbarFactory() {
@@ -43,19 +45,31 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 				catchError((error: HttpErrorResponse) => {
 					const rollbar = this.injector.get(RollbarService);
 					let errorMessage = '';
+					let sendError = true;
+					// console.log(error);
 					if(error.error instanceof ErrorEvent) {
 						// client-side error
 						errorMessage = `Error: ${error.error.message}`;
 					} else {
 						// server-side error
-						errorMessage = `<p>Código de error: ${error.status}</p><p>Texto del error: ${error.message}</p>`
+						// console.log(error);
+						if(error.error && error.error.message) {
+							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.error.message}</p>`
+						} else {
+							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.message}</p>`
+						}
+						if(error.status === 401) {
+							sendError = false;
+						}
 					}
 					Swal.fire({
 						type: 'error',
-						title: 'Error',
+						title: 'Ha ocurrido un error',
 						html: errorMessage
 					});
-					rollbar.error(new Error(error.message).stack);
+					if(sendError) {
+						rollbar.error(new Error(error.message).stack);
+					}
 					return throwError(errorMessage);
 				})
 			);

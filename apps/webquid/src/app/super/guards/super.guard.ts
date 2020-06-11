@@ -24,7 +24,7 @@ export class SuperGuard implements CanActivate {
 		Observable<boolean|UrlTree> {
 		this.identity = this.userService.getidentity();
 		if(this.identity && this.identity.roles && this.identity.roles.isSupervisor) {
-			console.log('Sí eres Supervisor!!!')
+			// console.log('Sí eres Supervisor!!!')
 			return true;
 		} else {
 			return this.router.createUrlTree(['/dashboard']);

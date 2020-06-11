@@ -146,14 +146,14 @@ export class LoginComponent implements OnInit {
 					confirmButtonClass: 'btn btn-danger'
 				});
 			} else {
-				this.messageError = 'Favor de reportarlo a la mesa de ayuda, estatus:' + error.status;
-				Swal.fire({
-					title: 'Ocurrió un error interno de sistema',
-					text: this.messageError,
-					type: 'error',
-					confirmButtonText: 'Ok',
-					confirmButtonClass: 'btn btn-danger'
-				});
+				// this.messageError = 'Favor de reportarlo a la mesa de ayuda, estatus:' + error.status;
+				// Swal.fire({
+				// 	title: 'Ocurrió un error interno de sistema',
+				// 	text: this.messageError,
+				// 	type: 'error',
+				// 	confirmButtonText: 'Ok',
+				// 	confirmButtonClass: 'btn btn-danger'
+				// });
 			}
 			this.loading = false;
 		});

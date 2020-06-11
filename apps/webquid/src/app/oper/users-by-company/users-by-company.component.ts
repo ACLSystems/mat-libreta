@@ -45,7 +45,7 @@ export class UsersByCompanyComponent implements OnInit, AfterViewInit {
 	ngOnInit(): void {
 		this.loading = true;
 		this.operService.searchUsersByCompany(this.company).subscribe(data => {
-			console.log(data);
+			// console.log(data);
 			if(data && Array.isArray(data) && data.length > 0) {
 				this.users = data.map(d => {
 					return {

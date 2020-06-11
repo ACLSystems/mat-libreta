@@ -85,7 +85,7 @@ export class JobsService{
 					'Bearer ' + this.getToken()
 				)
 			}
-			const route = this.url+'api/v1/operator/jobs';
+			const route = this.url+'api/v1/jobs';
 			return this.http.get(route,httpOptions);
 		}
 		return null

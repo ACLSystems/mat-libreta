@@ -28,7 +28,7 @@ export class SelcompanyComponent implements OnInit {
 
   ngOnInit(): void {
 		let dataCompanies = this.superService.getIdentity().companies;
-		console.log(dataCompanies);
+		// console.log(dataCompanies);
 		dataCompanies = dataCompanies.filter(company => company.isActive);
 		let viewCompanies = dataCompanies.map(company => {
 			return {

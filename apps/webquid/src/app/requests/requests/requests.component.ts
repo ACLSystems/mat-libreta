@@ -75,7 +75,7 @@ export class RequestsComponent implements OnInit {
 		Swal.fire('Cargando ticket. Espera...');
 		Swal.showLoading();
 		this.request = this.requests.find(req => req.freshid === request);
-		console.log(this.request);
+		// console.log(this.request);
 		this.tableHeader = [
 			'#',
 			'Ticket',
@@ -99,7 +99,7 @@ export class RequestsComponent implements OnInit {
 			} else {
 				this.candidates = [];
 			}
-			console.log(this.candidates);
+			// console.log(this.candidates);
 			Swal.hideLoading();
 			Swal.close();
 		}, error => {
@@ -127,7 +127,7 @@ export class RequestsComponent implements OnInit {
 
 	goCandidate(candidate:number) {
 		this.candidate = this.candidates[candidate];
-		console.log(this.candidate);
+		// console.log(this.candidate);
 		if(candidate + 1 < this.candidates.length) {
 			this.candidate.nextCandidate = candidate + 1;
 		}
