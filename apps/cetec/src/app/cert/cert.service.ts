@@ -77,6 +77,12 @@ export class CertService {
 		doc.setFontSize(16);
 		doc.text(275,385,'Cuernavaca, Morelos a '+passDate,null,null);
 
+		//Registro STyPS
+		doc.setFont("Helvetica");
+		doc.setFontType('regular');
+		doc.setFontSize(12);
+		doc.text(300,400,'Registro STyPS: CEM-061012-J33-0013',null,null);
+
 		//fecha de termino del curso por parte del alumno
 		doc.setFont("Helvetica");
 		doc.setFontType('regular');
