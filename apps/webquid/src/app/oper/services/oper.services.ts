@@ -106,7 +106,7 @@ export class OperService{
 		return null
 	}
 
-	createCompany(company:Company) {
+	createCompany(company:Company): Observable<any>|null {
 		const params = JSON.stringify(company);
 		const headers = JSONHeaders.set(
 				'Authorization',
@@ -116,15 +116,27 @@ export class OperService{
 		return this.http.post(route, params, {headers});
 	}
 
-	updateCompany(company:any) {
+	updateCompany(company:any): Observable<any>|null {
 		let id = company.id;
 		delete company.id;
 		const params = JSON.stringify(company);
 		const headers = JSONHeaders.set(
 				'Authorization',
-				'Bearer ' + this.getToken()
+				`Bearer ${this.getToken()}`
 			);
 		const route = this.url+'api/v1/operator/company/'+id;
+		return this.http.patch(route, params, {headers});
+	}
+
+	resetPass(userid:string, newPass: string): Observable<any>|null {
+		const params = JSON.stringify({
+			userid,newPass
+		});
+		const headers = JSONHeaders.set(
+				'Authorization',
+				`Bearer ${this.getToken()}`
+			);
+		const route = this.url+'api/v1/resetpass';
 		return this.http.patch(route, params, {headers});
 	}
 

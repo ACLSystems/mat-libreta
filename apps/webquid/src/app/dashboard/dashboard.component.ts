@@ -33,9 +33,9 @@ export class DashboardComponent implements OnInit {
 		private userService: UserService
 	) {
 		this.identity = this.userService.getidentity();
-		console.group('Identity')
-		console.log(this.identity);
-		console.groupEnd()
+		// console.group('Identity')
+		// console.log(this.identity);
+		// console.groupEnd()
 	}
 
 	ngOnInit() {

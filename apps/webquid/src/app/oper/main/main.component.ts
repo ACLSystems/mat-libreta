@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
 
 import { OperService } from '../services/oper.services';
+import { CommonService } from '@mat-libreta/shared';
 
 import { UserComponent } from '../user/user.component';
 import { CompanyComponent } from '../company/company.component';
@@ -41,6 +42,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private fb: FormBuilder,
 		private operService: OperService,
+		private commonService: CommonService,
 		public matDialog: MatDialog
 	) {
 		this.tableHeaderCompany = [
@@ -112,7 +114,7 @@ export class MainComponent implements OnInit, OnDestroy {
 			this.operService.searchCompanies(searchValue).subscribe(data => {
 				// console.log(data);
 				if(data && data.message && data.message.includes('No existen empresas')) {
-					this.companiesToggle = false;
+					// this.companiesToggle = false;
 					this.companiesResultMessage = data.message;
 				} else {
 					this.companiesResult = [...data];
@@ -124,10 +126,10 @@ export class MainComponent implements OnInit, OnDestroy {
 		}
 		if(this.usersToggle) {
 			this.operService.searchUsers(searchValue).subscribe(data => {
-				// console.log(data);
+				this.commonService.displayLog('Resultados Usuarios',data);
 				if(data && data.message && data.message.includes('La búsqueda no arrojó usuarios')) {
 					this.usersResultMessage = data.message;
-					this.usersToggle = false;
+					// this.usersToggle = false;
 				} else {
 					this.usersResult = [...data];
 				}
@@ -138,13 +140,13 @@ export class MainComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	openUserModal(id:string) {
+	openUserModal(index:string) {
 		const userModalDialog = this.matDialog.open(UserComponent, {
 			// disableClose: false,
 			id: 'editUser',
 			height: '495px',
 			width: '900px',
-			data: {id}
+			data: this.usersResult[index]
 		});
 	}
 

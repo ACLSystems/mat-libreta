@@ -18,7 +18,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="card-body p-1">
+		<div class="card-body p-1" [formGroup]="userForm">
 			<div class="row">
 				<div class="col">
 					<h5>Datos personales</h5>
@@ -29,19 +29,31 @@
 				<div class="col input-group">
 					<mat-form-field>
 						<mat-label>RFC</mat-label>
-						<input matInput type="text" [value]="user.identifier">
+						<input
+							matInput
+							type="text"
+							formControlName="identifier"
+							>
 					</mat-form-field>
 				</div>
 				<div class="col input-group" *ngIf="user.person && user.person.imss">
 					<mat-form-field>
 						<mat-label>NSS</mat-label>
-						<input matInput type="text" [value]="user.person.imss">
+						<input
+						matInput
+						type="text"
+						formControlName="nss"
+						>
 					</mat-form-field>
 				</div>
 				<div class="col input-group" *ngIf="user.person && user.person.curp">
 					<mat-form-field>
 						<mat-label>CURP</mat-label>
-						<input matInput type="text" [value]="user.person.curp">
+						<input
+						matInput
+						type="text"
+						formControlName="curp"
+						>
 					</mat-form-field>
 				</div>
 			</div>
@@ -49,28 +61,72 @@
 				<div class="col input-group" *ngIf="user.person && user.person.name">
 					<mat-form-field>
 						<mat-label>Nombre</mat-label>
-						<input matInput type="text" [value]="user.person.name">
+						<input
+						matInput
+						type="text"
+						formControlName="name"
+						>
 					</mat-form-field>
 				</div>
 				<div class="col input-group" *ngIf="user.person && user.person.fatherName">
 					<mat-form-field>
 						<mat-label>Apellido Paterno</mat-label>
-						<input matInput type="text" [value]="user.person.fatherName">
+						<input
+						matInput
+						type="text"
+						formControlName="fatherName"
+						>
 					</mat-form-field>
 				</div>
 				<div class="col input-group" *ngIf="user.person && user.person.motherName">
 					<mat-form-field>
 						<mat-label>Apellido Materno</mat-label>
-						<input matInput type="text" [value]="user.person.motherName">
+						<input
+						matInput
+						type="text"
+						formControlName="motherName"
+						>
 					</mat-form-field>
 				</div>
 			</div>
-			<div class="row" *ngIf="user.person && user.person.email">
+			<div class="row" >
 				<div class="col input-group">
 					<mat-form-field>
 						<mat-label>Email</mat-label>
-						<input matInput type="text" [value]="user.person.email">
+						<input
+						matInput
+						type="text"
+						formControlName="email"
+						>
 					</mat-form-field>
+				</div>
+				<div class="col">
+					<mat-form-field>
+						<mat-label>Pass inicial</mat-label>
+						<input
+						matInput
+						type="text"
+						formControlName="pass"
+						>
+					</mat-form-field>
+				</div>
+				<div class="col">
+					<div class="btn-group">
+						<button
+							class="btn btn-sm btn-danger"
+							(click)="resetPass();"
+							>
+							<i [ngClass]=" { 'fa-unlock-alt':!changingPass, 'fa-sync fa-spin':changingPass }" class="fa"></i>
+							<span *ngIf="!changingPass"> Resetear Contraseña</span>
+							<span *ngIf="changingPass"> Espera...</span>
+						</button>
+						<button
+							class="btn btn-sm btn-primary"
+							>
+							<i class="fas fa-file-invoice"></i> Recibos de Nómina
+						</button>
+					</div>
+
 				</div>
 			</div>
 			<div class="row">

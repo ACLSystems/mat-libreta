@@ -103,7 +103,7 @@ export class CommonService {
 	*/
 	displayLog(display:string, obj: any) {
 		const environment = this.getEnvironment();
-		if(!environment.production) {
+		if(environment && !environment.production) {
 			console.group(display);
 			console.log(obj);
 			console.groupEnd();
