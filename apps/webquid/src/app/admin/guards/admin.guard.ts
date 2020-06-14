@@ -24,7 +24,7 @@ export class AdminGuard implements CanActivate {
 		Observable<boolean|UrlTree> {
 		this.identity = this.userService.getidentity();
 		if(this.identity && this.identity.roles && this.identity.roles.isTechAdmin) {
-			console.log('Sí eres Tech admin!!!')
+			// console.log('Sí eres Tech admin!!!')
 			return true;
 		} else {
 			return this.router.createUrlTree(['/dashboard']);

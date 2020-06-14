@@ -1,0 +1,75 @@
+<div *ngIf="userLoading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid" *ngIf="!userLoading">
+	<div class="card mt-1">
+		<div class="card-header bg-success">
+			<div class="row">
+				<div class="col">
+					<h4 class="card-title text-white float-left">
+						<small>Recibos de </small>{{userTag}}
+					</h4>
+					<div
+						class="badge badge-pill badge-primary float-right align-middle pointme"
+						(click)="goBack();"
+						>
+						Regresar <i class="fas fa-concierge-bell"></i>
+					</div>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-4" [formGroup]="datesForms">
+					<select
+					formControlName="dateYear"
+					required
+					>
+						<option *ngFor="let year of years" [value]="year">{{year}}</option>
+					</select>
+					<select
+					formControlName="dateMonth"
+					required
+					>
+						<option *ngFor="let month of months" [value]="month">{{month}}</option>
+					</select>
+					<button
+					class="btn btn-sm btn-success"
+					(click)="search();"
+					> Buscar</button>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<ul class="timeline timeline-simple" *ngIf="documents.length > 0">
+				<li class="timeline-inverted" *ngFor="let doc of documents">
+					<div class="timeline-badge primary">
+						<i class="fas fa-file-invoice"></i>
+					</div>
+					<div class="timeline-panel bg-light">
+						<div class="timeline-heading">
+							<span class="badge badge-primary">
+								{{doc.beginDate | date: 'mediumDate'}}  a {{doc.endDate | date: 'mediumDate'}}
+							</span>
+						</div>
+						<div class="timeline-body">
+							<button
+								mat-raised-button
+								class="btn btn-sm btn-link"
+								(click)="getDocument(doc._id);"
+							>
+								Descargar XML
+							</button>
+							<button
+								mat-raised-button
+								class="btn btn-sm btn-link"
+								(click)="getPDF(doc._id);"
+							>
+								Descargar PDF
+							</button>
+						</div>
+					</div>
+				</li>
+			</ul>
+			<h4 *ngIf="documents.length === 0">No hay recibos disponibles</h4>
+		</div>
+	</div>
+</div>

@@ -9,6 +9,8 @@ import { CommonService } from '@wqshared/services/common.service';
 
 @Injectable({providedIn: 'root'})
 export class PDFService {
+
+
 	constructor(
 		private commonService: CommonService
 	) {}
@@ -16,44 +18,62 @@ export class PDFService {
 	printPDFNomina12(
 		docD: any
 	) {
+
 		this.commonService.displayLog('docD',docD);
-		var doc = new jsPDF({
+		const doc = new jsPDF({
 			orientation: 'p',
 			unit: 'mm',
 			format: 'letter'
 		});
+  	const {
+			complemento,
+			receptor,
+			emisor,
+			total,
+			cadena
+		} = docD;
 
-		const complemento = docD.complemento;
-		const nomina12 = complemento.nomina12;
-		const receptor = docD.receptor;
-		const emisor = docD.emisor;
+		const {
+      nomina12,
+      timbreFiscalDigital
+		} = complemento;
+
+    if(!complemento || !receptor || !emisor || !total || !cadena || !nomina12 || !timbreFiscalDigital) {
+      return {
+        message: 'Documento no válido'
+      }
+    }
+
+		// const complemento = docD.complemento;
+		// const nomina12 = complemento.nomina12;
+		// const receptor = docD.receptor;
+		// const emisor = docD.emisor;
 
 		doc.setProperties({
-			title: `Recibo de nómina UUID: ${complemento.timbreFiscalDigital.uuid}`,
+			title: `Recibo de nómina UUID: ${timbreFiscalDigital.uuid}`,
 			subject: 'Recibo de nómina',
 			author: emisor.nombre,
 			keywords: 'recibo cfdi nomina12',
 			creator: emisor.nombre
 		});
 
-		var text = '';
-		var dimensions = {
+		let text = '';
+		let dimensions = {
 			w:0,h:0
 		};
 
 		// Primer renglón: NOMBRE PAGADORA
-		var x = 8;
-		var y = 8;
+		let x = 8; // Inician valores
+		let y = 17; // Inician valores
 		doc.setFontSize(20);
 		doc.text(x,y,emisor.nombre);
 
 		// Segundo renglón: RFC y Registro Patronal
-		x = 8;
-		y = 12;
+		x = 8; y += 4; //12
 		doc.setFontSize(8);
 		doc.setFontStyle('bold');
 		text = 'RFC:';
-		var temp = doc.getTextWidth(text);
+		let temp = doc.getTextWidth(text);
 		doc.text(x,y, text);
 		doc.setFontStyle('normal');
 		text = emisor.rfc;
@@ -67,13 +87,12 @@ export class PDFService {
 		doc.text(x,y,text);
 		doc.setFontStyle('normal');
 		x += temp + 2;
-		text = nomina12.emisor.registroPatronal;
+		text = nomina12.emisor?.registroPatronal;
 		doc.text(x,y,text);
 
 		// Tercer renglón: Fecha de pago
-		x = 8;
-		y = 16;
-		let fechaPago = new Date(nomina12.fechaPago);
+		x = 8; y += 4; // 16
+		const fechaPago = new Date(nomina12.fechaPago);
 		doc.setFontStyle('bold');
 		text = 'Fecha de Pago: ';
 		temp = doc.getTextWidth(text);
@@ -84,41 +103,40 @@ export class PDFService {
 
 		// Rectángulo principal
 		doc.setFillColor(224,224,224);
-		x = 8;
-		y = 19;
-		var w = 200;
-		var h = 31;
+		x = 8; y += 3; //19
+		const w = 200;
+		const h = 31;
 		doc.rect(x,y,w,h,'F');
 
 		// Cuarto renglón: Título (Recibo de nómina) y Periodo de pago
 		x = 9;
-		y = 24;
-		let fechaIni = new Date(nomina12.fechaInicialPago);
-		let fechaFin = new Date(nomina12.fechaFinalPago);
+		y += 5; // 24
+		const fechaIni = new Date(nomina12.fechaInicialPago);
+		const fechaFin = new Date(nomina12.fechaFinalPago);
 		doc.setFontType('bold');
 		text = 'Recibo de Nómina';
 		doc.text(x,y,text);
 		text = 'Periodo de Pago:'
 		temp = doc.getTextWidth(text);
-		var text2 = `${dateToString(fechaIni)} - ${dateToString(fechaFin)}`
-		var temp2 = doc.getTextWidth(text2);
-		var temp3 = 207-temp-temp2-2;
+		const text2 = `${dateToString(fechaIni)} - ${dateToString(fechaFin)}`
+		const temp2 = doc.getTextWidth(text2);
+		const temp3 = 207-temp-temp2-2;
 		doc.text(temp3,y,text);
 		doc.setFontStyle('normal');
 		doc.text(temp3+temp+2,y,text2)
 
 		// Segunda fila de rectángulos // Quinto Reglón
-		var height = 0;
-		var firstRecWid = 0;
-		var secondRecWid = 0;
-		var thirdRecWid = 0;
-		var fourthRecWid = 0;
+		let height = 0;
+		let firstRecWid = 0;
+		let secondRecWid = 0;
+		let thirdRecWid = 0;
+		let fourthRecWid = 0;
 		const recInit = 9;
 		const maxWidth = 198;
 		const rightMargin = 207;
 		const halfPage = maxWidth / 2;
-		var yRec = 28;
-		var yText = 32;
+		let yRec = y + 4; //28
+		let yText = y + 8; // 32
 		// Primer rectángulo
 		text = receptor.nombre;
 		dimensions = doc.getTextDimensions(text);
@@ -135,7 +153,7 @@ export class PDFService {
 		doc.setFontStyle('bold');
 		temp = doc.getTextWidth(text);
 		doc.text(recInit+firstRecWid+2,yText,text);
-		text = nomina12.receptor.numSeguridadSocial;
+		text = nomina12.receptor?.numSeguridadSocial;
 		doc.setFontStyle('normal');
 		doc.text(recInit+firstRecWid+temp+2,yText,text);
 		// Tercer rectángulo
@@ -218,7 +236,7 @@ export class PDFService {
 		temp = doc.getTextWidth(text);
 		doc.text(recInit+firstRecWid+2,yText,text);
 		doc.setFontStyle('normal');
-		text = nomina12.receptor.salarioDiarioIntegrado;
+		text = nomina12.receptor?.salarioDiarioIntegrado;
 		doc.text(recInit+firstRecWid+temp+2,yText,text);
 		// Tercer rectángulo
 		doc.setFillColor(255,255,255);
@@ -228,7 +246,7 @@ export class PDFService {
 		temp = doc.getTextWidth(text);
 		doc.text(recInit+firstRecWid+secondRecWid+2,yText,text);
 		doc.setFontStyle('normal');
-		text = nomina12.receptor.fechaInicioRelLaboral;
+		text = nomina12.receptor?.fechaInicioRelLaboral;
 		doc.text(recInit+firstRecWid+secondRecWid +temp+2,yText,text);
 
 		// Octavo renglón
@@ -247,7 +265,9 @@ export class PDFService {
 		// HEADER
 
 		x = 10;
-		yText += 8; y = yText; // 62
+    yText += 8; y = yText; // 71
+    const yPerc = yText;
+    console.log('Percepciones: ',y);
 		doc.setFontStyle('bold');
 		text = 'Clave';
 		doc.text(x,y,text);
@@ -262,13 +282,13 @@ export class PDFService {
 		doc.text(x,y,text);
 
 		// PERCEPCIONES DATA
-		var percepciones = [];
-		if(complemento.nomina12 && complemento.nomina12.percepciones && complemento.nomina12.percepciones.percepcion) {
-			percepciones = [...complemento.nomina12.percepciones.percepcion];
+		let percepciones = [];
+		if(nomina12.percepciones?.percepcion) {
+			percepciones = [...nomina12.percepciones?.percepcion];
 		}
 
-		if(complemento.nomina12 && complemento.nomina12.otrosPagos && complemento.nomina12.otrosPagos.otroPago) {
-			let otrosTemp = [...complemento.nomina12.otrosPagos.otroPago];
+		if(nomina12.otrosPagos?.otroPago) {
+			const otrosTemp = [...nomina12.otrosPagos.otroPago];
 			percepciones = percepciones.concat(otrosTemp.map(otro => {
 				return {
 					clave: otro.clave,
@@ -281,39 +301,12 @@ export class PDFService {
 
 		const totalGravado = percepciones.map(item => +item.importeGravado).reduce((acc,curr) => acc + curr);
 		const totalExento = percepciones.map(item => +item.importeExento).reduce((acc,curr) => acc + curr);
-		// console.log(totalGravado,totalExento);
 
-		// const percepciones = [
-		// 	{
-		// 		clave: 'P1000',
-		// 		concepto: 'SALARIO',
-		// 		importeGravado: '1702.82',
-		// 		importeExento: '0'
-		// 	},{
-		// 		clave: 'P1280',
-		// 		concepto: 'PREVISION SOCIAL Y OTRO TEXTO LARGO RARO',
-		// 		importeGravado: '0',
-		// 		importeExento: '970.29'
-		// 	},{
-		// 		clave: 'P1050',
-		// 		concepto: 'SUBSIDIO AL EMPLEO',
-		// 		importeGravado: '0',
-		// 		importeExento: '0.1'
-		// 	},{
-		// 		clave: 'P8001',
-		// 		concepto: 'INDEMNIZACION RIESGO LABORAL',
-		// 		importeGravado: '0',
-		// 		importeExento: '17.03'
-		// 	}
-		// ]
-		console.group('Percepciones');
-		console.log(percepciones);
-		console.groupEnd();
 		y += 8;
 		yRec = y-4;
-		var stripped = true;
+		let stripped = true;
 		firstRecWid = (rightMargin / 2)-3.375;
-		for(var i=0;i<percepciones.length;i++) {
+		for(let i=0;i<percepciones.length;i++) {
 			x = 10;
 			if(stripped) {
 				doc.setFillColor(224,224,224);
@@ -326,7 +319,7 @@ export class PDFService {
 			doc.setFontStyle('normal');
 			x += 10;
 			text = percepciones[i].concepto;
-			let lines = doc.splitTextToSize(text,39.5);
+			const lines = doc.splitTextToSize(text,39.5);
 			// console.log(lines);
 			doc.text(x,y,lines);
 			x += 39.5;
@@ -342,13 +335,13 @@ export class PDFService {
 		// Totales PERCEPCIONES
 		doc.setFillColor('black');
 		yRec += height+2;
-		var percepLine = yRec;
+		let percepLine = yRec;
 
 		// TABLA DEDUCCIONES
 		// HEADER
 
 		x = 114;
-		yText = 62; y = yText;
+		yText = yPerc; y = yText;
 		doc.setFontStyle('bold');
 		text = 'Clave';
 		doc.text(x,y,text);
@@ -360,27 +353,13 @@ export class PDFService {
 		doc.text(x,y,text);
 
 		// DEDUCCIONES DATA
-		const deducciones = complemento.nomina12.deducciones.deduccion;
-		// const deducciones = [
-		// 	{
-		// 		clave: 'D1000',
-		// 		concepto: 'ISR RETENIDO SALARIO',
-		// 		importe: '77.12'
-		// 	},{
-		// 		clave: 'D1010',
-		// 		concepto: 'IMSS OBRERO TOTAL',
-		// 		importe: '42.27'
-		// 	},{
-		// 		clave: 'D2717',
-		// 		concepto: 'CONSUMO ALIMENTOS',
-		// 		importe: '120'
-		// 	}
-		// ]
+    const deducciones = nomina12.deducciones?.deduccion;
+
 		y += 8;
 		yRec = y-4;
 		stripped = true;
 		firstRecWid = (rightMargin / 2)-3.375;
-		for(var i=0;i<deducciones.length;i++) {
+		for(let i=0;i<deducciones.length;i++) {
 			x = 112;
 			if(stripped) {
 				doc.setFillColor(224,224,224);
@@ -394,7 +373,7 @@ export class PDFService {
 			doc.setFontStyle('normal');
 			x += 10;
 			text = deducciones[i].concepto;
-			let lines = doc.splitTextToSize(text,39.5);
+			const lines = doc.splitTextToSize(text,39.5);
 			// console.log(lines);
 			doc.text(x,y,lines);
 			x += 53;
@@ -407,7 +386,7 @@ export class PDFService {
 		// Totales DEDUCCIONES
 		doc.setFillColor('black');
 		yRec += height+2;
-		var deducLine = yRec;
+		let deducLine = yRec;
 
 		if(percepLine > deducLine) {
 			deducLine = percepLine;
@@ -447,10 +426,10 @@ export class PDFService {
 		y += 6;
 		x = 124;
 		doc.setFontStyle('normal');
-		text = numberToString(nomina12.deducciones.totalOtrasDeducciones);
+		text = numberToString(nomina12.deducciones?.totalOtrasDeducciones);
 		doc.text(x,y,text);
 		x += 53;
-		text = numberToString(nomina12.deducciones.totalImpuestosRetenidos) || '0.00';
+		text = numberToString(nomina12.deducciones?.totalImpuestosRetenidos) || '0.00';
 		doc.text(x,y,text);
 
 
@@ -520,17 +499,17 @@ export class PDFService {
 		text = 'Total con letra';
 		doc.text(x,y,text);
 		x = 40; y += 8;
-		text = numberToString(docD.total);
+		text = numberToString(total);
 		doc.text(x,y,text);
 		x += 90;
-		text = numberToSpanish(docD.total);
+		text = numberToSpanish(total);
 		let lines = doc.splitTextToSize(text,100);
 		doc.text(x,y,lines);
 
 		// Subcontratación
 
 		y += 16;
-		if(nomina12.receptor.subContratacion.rfcLabora) {
+		if(nomina12.receptor?.subContratacion?.rfcLabora) {
 			x = 10;
 			doc.setFontStyle('bold');
 			text = 'Subcontratación';
@@ -543,7 +522,7 @@ export class PDFService {
 			text = 'RFC cliente: ';
 			temp = doc.getTextWidth(text);
 			doc.text(x,y,text);
-			text = nomina12.receptor.subContratacion.rfcLabora;
+			text = nomina12.receptor?.subContratacion?.rfcLabora;
 			doc.setFontStyle('normal');
 			doc.text(x+temp+2,y,text);
 			x = 114;
@@ -551,7 +530,7 @@ export class PDFService {
 			text = 'Porcentaje: ';
 			temp = doc.getTextWidth(text);
 			doc.text(x,y,text);
-			text = nomina12.receptor.subContratacion.porcentajeTiempo;
+			text = nomina12.receptor?.subContratacion?.porcentajeTiempo;
 			doc.setFontStyle('normal');
 			doc.text(x+temp+2,y,text);
 		}
@@ -567,7 +546,7 @@ export class PDFService {
 		doc.line(recInit,y,207,y);
 		y += 2; x = 10;
 
-		const link = `https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=${complemento.timbreFiscalDigital.uuid}&re=${emisor.rfc}&rr=${receptor.rfc}&tt=${docD.total}&fe=SUPTVA==`;
+		const link = `https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=${timbreFiscalDigital.uuid}&re=${emisor.rfc}&rr=${receptor.rfc}&tt=${total}&fe=SUPTVA==`;
 
 		const qr = new qrious();
 		qr.background = 'white';
@@ -580,6 +559,78 @@ export class PDFService {
 		qr.value = link;
 
 		doc.addImage(qr.toDataURL('image/png'),'png',x,y,38,38);
+
+		x = 53;
+		y += 2;
+		doc.setFontStyle('bold');
+		text = 'Regimen Fiscal:';
+		doc.text(x,y,text);
+
+		x = 107;
+		text = 'Lugar de Expedición:';
+		doc.text(x,y,text);
+
+		x = 143;
+		text = 'UUID (Folio Fiscal):';
+		doc.text(x,y,text);
+
+		x = 53;
+		y += 5;
+		doc.setFontStyle('normal');
+		text = emisor.regimenFiscalDescripcion;
+		doc.text(x,y,text);
+
+		x = 107;
+		text = docD.lugarExpedicion;
+		doc.text(x,y,text);
+
+		x = 143;
+		text = timbreFiscalDigital.uuid;
+		doc.text(x,y,text);
+
+		doc.setFillColor(224,224,224);
+		x = 53; y += 1;
+		doc.line(x,y,207,y);
+
+		x = 53;
+		y += 4;
+		doc.setFontStyle('bold');
+		text = 'Sello Digital Emisor:';
+		doc.text(x,y,text);
+
+		x = 135;
+		text = 'Sello Digital SAT:';
+		doc.text(x,y,text);
+
+		doc.setFontSize(6);
+    doc.setFontStyle('normal');
+    text = timbreFiscalDigital.selloCFD;
+		x = 53; y += 3;
+		const ytemp = y;
+		lines = doc.splitTextToSize(text,72);
+		doc.text(x,y,lines);
+
+		text = timbreFiscalDigital.selloSAT;
+		x = 135;
+		lines = doc.splitTextToSize(text,72);
+		// console.log(lines);
+		doc.text(x,ytemp,lines);
+
+		doc.setFillColor(224,224,224);
+		x = 53; y += 14;
+		doc.line(x,y,207,y);
+
+		y += 4;
+		doc.setFontSize(8);
+		doc.setFontStyle('bold');
+		text = 'Cadena Original de Timbre:';
+		doc.text(x,y,text);
+		doc.setFontSize(6);
+		doc.setFontStyle('normal');
+		text = cadena;
+		x = 53; y += 3;
+		lines = doc.splitTextToSize(text,153);
+		doc.text(x,y,lines);
 
 
 		// FINALIZAR
@@ -609,7 +660,7 @@ function dateToString(date: Date, short: boolean = true, upper: boolean = true):
 	const fullYear: number = date.getFullYear();
 	const month: number = date.getMonth();
 	const day: number = date.getDate();
-	var hours: number = date.getHours();
+	let hours: number = date.getHours();
 	const minutes: number = date.getMinutes();
 	const meridian: string = (hours < 12) ? 'AM': 'PM';
 
@@ -647,8 +698,8 @@ function numberToSpanish(number): string {
 			}
 			const decimesConst = ['', 'diez', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
 			const decimesUnits = ['', 'diez', 'veinti', 'treinta y ', 'cuarenta y ', 'cincuenta y ', 'sesenta y ', 'setenta y ', 'ochenta y ', 'noventa y '];
-			var times = Math.floor(x / 10);
-			var mod = x % (times*10);
+			const times = Math.floor(x / 10);
+			const mod = x % (times*10);
 			// console.log('Times: ', times);
 			// console.log('Mod: ', mod)
 			if (mod > 0) {
@@ -677,7 +728,7 @@ function numberToSpanish(number): string {
 				if(mod === 0) {
 					return hundreds[times]
 				} else {
-					var value = x - (times * 100);
+					const value = x - (times * 100);
 					// console.log('Value: ', value)
 					return hundreds[times] + ' ' + decimes(value);
 				}
@@ -696,7 +747,7 @@ function numberToSpanish(number): string {
 			if(times < 1) {
 				return hundreds(x);
 			}
-			var word = '';
+			let word = '';
 			if(times > 999) {
 				word = millions(times * 1000);
 				// console.log('Esto es word en miles: '+word)
@@ -749,11 +800,11 @@ function numberToSpanish(number): string {
 			return word;
 		}
 
-		var word = '';
+		let word = '';
 
-		var numberFloat = +number;
+		const numberFloat = +number;
 		number = Math.floor(+numberFloat);
-		var cents = Math.round((numberFloat - number) * 100);
+		const cents = Math.round((numberFloat - number) * 100);
 
 		if(number === 0) {
 			return ('cero pesos (00/100) mn').toUpperCase();

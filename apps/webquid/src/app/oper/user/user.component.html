@@ -3,7 +3,7 @@
 		<span class="sr-only">Espera...</span>
 	</div>
 </div>
-<div class="container-fluid peque p-0" *ngIf="!loading">
+<div class="container-fluid peque p-0" *ngIf="!loading && !payroll">
 	<div class="container m-auto" *ngIf="userMessage !== ''"></div>
 	<div class="card" *ngIf="userMessage === ''">
 		<div class="card-header my-0 py-0">
@@ -12,6 +12,9 @@
 					<h3 class="card-title text-primary">{{user.identifier}}</h3>
 				</div>
 				<div class="col">
+          <button class="btn btn-sm btn-primary" (click)="showPayrollRcpts();">
+            <i class="fas fa-file-invoice"></i> Recibos de Nómina
+          </button>
 					<p class="category float-right"><i class="material-icons middle">add</i><small> {{user.created| date:'medium'}}<br />
 						<i class="material-icons middle">update</i>{{user.updated | date:'medium'}}
 					</small></p>
@@ -110,7 +113,7 @@
 						>
 					</mat-form-field>
 				</div>
-				<div class="col">
+				<div class="col text-center">
 					<div class="btn-group">
 						<button
 							class="btn btn-sm btn-danger"
@@ -120,13 +123,7 @@
 							<span *ngIf="!changingPass"> Resetear Contraseña</span>
 							<span *ngIf="changingPass"> Espera...</span>
 						</button>
-						<button
-							class="btn btn-sm btn-primary"
-							>
-							<i class="fas fa-file-invoice"></i> Recibos de Nómina
-						</button>
 					</div>
-
 				</div>
 			</div>
 			<div class="row">
@@ -199,3 +196,9 @@
 		</div>
 	</div>
 </div>
+<webquid-payroll-receipts
+	[userid]="user._id"
+	[userTag]="user.identifier"
+	*ngIf="payroll"
+	(backToUser)="returnFromPayroll($event)"
+></webquid-payroll-receipts>

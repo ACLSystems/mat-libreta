@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 import { Identity } from '@wqshared/types/user.type';
 import { UserService } from '@wqshared/services/user.service';
-import { PDFService } from '../services/pdf.service';
+import { PDFService } from '@wqshared/services/pdf.service';
 
 @Component({
   selector: 'webquid-sn001',
@@ -64,7 +64,7 @@ export class SN001Component implements OnInit {
 			return;
 		}
 		this.userService.getDocument(docid).subscribe(data => {
-			console.log(data);
+			// console.log(data);
 			if(data && data._id) {
 				this.document = data;
 				this.saveDocument(this.document.data,`${this.document.documentNumber}.xml`,this.document.mimeType);

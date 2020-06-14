@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+// import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -20,10 +20,11 @@ export class UserComponent implements OnInit {
 	userMessage: string = '';
 	userForm = this.fb.group({});
 	changingPass: boolean = false;
+	payroll: boolean = false;
 
   constructor(
 		@Optional() @Inject(MAT_DIALOG_DATA) public user: any,
-		private activatedRoute: ActivatedRoute,
+		// private activatedRoute: ActivatedRoute,
 		private operService: OperService,
 		private commonService: CommonService,
 		private fb: FormBuilder,
@@ -40,6 +41,11 @@ export class UserComponent implements OnInit {
 		// 	this.id = params.id;
 		// });
 		this.commonService.displayLog('Usuario',this.user);
+	}
+
+	returnFromPayroll(back:boolean) {
+		// console.log('Esto es back:',back);
+		this.payroll = back;
 	}
 
   ngOnInit(): void {
@@ -118,6 +124,10 @@ export class UserComponent implements OnInit {
 			}
 			this.changingPass = false;
 		});
+	}
+
+	showPayrollRcpts() {
+		this.payroll = true;
 	}
 
 }

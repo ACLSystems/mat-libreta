@@ -140,4 +140,55 @@ export class OperService{
 		return this.http.patch(route, params, {headers});
 	}
 
+	searchUserDocuments(userid:string, date?:Date): Observable<any>|null {
+		const token = this.getToken();
+		// console.log('date',date);
+		const dateCalc = date ? `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`: null;
+		// console.log('dateCalc',dateCalc);
+		var params = date ?
+			new HttpParams().set(
+				'user',userid
+			).set(
+				'date',dateCalc
+			).set(
+				'documentType','cfdi'
+			).set(
+				'subDocumentType','nomina12'
+			) :
+			new HttpParams().set(
+				'user',userid
+			).set(
+				'documentType','cfdi'
+			).set(
+				'subDocumentType','nomina12'
+			);
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + this.getToken()
+				),params
+			}
+			// console.log(httpOptions);
+			const route = this.url+'api/v1/attachment';
+			return this.http.get(route,httpOptions);
+		}
+		return null
+	}
+
+	getUserDocument(docid:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/attachment/${docid}`;
+			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
+
 }
