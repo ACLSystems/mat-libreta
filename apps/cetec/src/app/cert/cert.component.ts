@@ -39,16 +39,29 @@ export class CertComponent implements OnInit {
 			}
 		);
 		this.poll = false;
+		// console.group('constructor rosterType');
+		// console.log(this.rosterType);
+		// console.groupEnd();
 	}
 
   ngOnInit() {
-		this.loading = true;
 		this.getGrades();
   }
 
 	getGrades() {
-		this.userCourseService.getMyGrades(rosterType, this.id).subscribe(data => {
+		this.loading = true;
+		this.userCourseService.getMyGrades(this.rosterType, this.id).subscribe(data => {
 			this.grade = data.message;
+			// console.log(this.grade);
+			if(data && data.message && typeof data.message === 'string' && data.message.includes('No estás inscrito')) {
+				Swal.fire({
+					type: 'error',
+					text: 'Hay un error, porque no estás inscrito en este curso. Contacta a la mesa de servicio'
+				});
+				this.loading = false;
+				this.router.navigate(['/dashboard']);
+				return;
+			}
 			this.track = +this.grade.track.replace('%','');
 			this.minTrack = +this.grade.minTrack.replace('%','');
 			this.loading = false;
@@ -92,19 +105,27 @@ export class CertComponent implements OnInit {
 	}
 
 	getCert() {
- 		this.userCourseService.getUserConst(rosterType,this.id).subscribe(data => {
+ 		this.userCourseService.getUserConst(this.rosterType,this.id).subscribe(data => {
 			if(data.message === 'Roster saved') {
 				if(this.grade.finalGrade >= this.grade.minGrade) {
+					// console.group('this.grade');
+					// console.log(this.grade);
+					// console.groupEnd()
 					this.certService.printCertificate(
 						Certificates.constancia_acreditacion,
 						this.grade.certificateNumber,
 						this.grade.name,
 						this.grade.course,
-						this.grade.courseDuration + '',
-						this.grade.courseDurUnits,
+						this.grade.duration + '',
+						this.grade.durationUnits,
 						this.grade.passDateSpa
 					);
 				}
+			} else {
+				Swal.fire({
+					type: 'warning',
+					text: `Hubo un problema al descargar la constancia: ${data.message}`
+				});
 			}
 		});
 		localStorage.removeItem('cert');

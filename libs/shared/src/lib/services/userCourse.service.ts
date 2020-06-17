@@ -296,6 +296,9 @@ export class UserCourseService {
   Mostrar la información de avance en el curso al alumno
   */
   getMyGrades(rostertype: string,id:string):Observable<any>{
+		// console.group('rosterType');
+		// console.log(rostertype);
+		// console.groupEnd();
 		const param = rostertype == 'group' ? 'groupid' : 'rosterid';
 		const httpOptions = {
 			headers: JSONHeaders.set(
@@ -306,6 +309,9 @@ export class UserCourseService {
 				param, id
 			)
 		};
+		// console.group('httpOptions');
+		// console.log(httpOptions);
+		// console.groupEnd();
 		const route = this.url+'api/v1/user/mygrades';
     return this.http.get(route,httpOptions);
   }
@@ -324,6 +330,9 @@ export class UserCourseService {
 				param, id
 			)
 		};
+		console.group('getUserConst');
+		console.log(httpOptions);
+		console.groupEnd();
 		const route = this.url+'api/v1/user/tookcert';
     return this.http.get(route,httpOptions);
   }

@@ -30,10 +30,10 @@ export class AppComponent {
 	) {
 		this.router.events.subscribe((event: RouterEvent): void => {
 			if(event instanceof NavigationStart) {
-				console.log('Comenzando navegación');
+				// console.log('Comenzando navegación');
 				this.loading = true;
 			} else if(event instanceof NavigationEnd) {
-				console.log('Terminando navegación');
+				// console.log('Terminando navegación');
 				this.loading = false;
 			}
 		});

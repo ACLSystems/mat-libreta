@@ -173,7 +173,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 	}
 
 	reload(event:MatDatepickerInputEvent<Date>) {
-		console.log(event);
+		// console.log(event);
 		this.getData(0);
 		this.selectionForm.reset();
 	}
@@ -188,7 +188,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 	}
 
 	filtered(filter:string) {
-		console.log(filter);
+		// console.log(filter);
 		if(filter==='approved') {
 			this.details = this.detailsRaw.filter(det => det.finalGrade >= 60 && det.track >= 70);
 			return;

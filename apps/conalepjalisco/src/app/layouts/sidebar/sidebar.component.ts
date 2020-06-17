@@ -129,12 +129,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
 				this.createImageFromBlob(data);
 			}
 		}, err => {
-			console.group('Error de imagen no encontrada');
-			console.log(err.status);
-			console.log(err.statusText);
-			console.log(err.message);
-			console.log(err.url);
-			console.groupEnd();
+			// console.group('Error de imagen no encontrada');
+			// console.log(err.status);
+			// console.log(err.statusText);
+			// console.log(err.message);
+			// console.log(err.url);
+			// console.groupEnd();
 		});
 		if(!this.courseSelected && this.coursesNumber > 0) {
 			this.notElementService.showNotification(
