@@ -107,8 +107,8 @@
     "perfect-scrollbar": "^1.5.0",
     "popper.js": "^1.16.1",
     "qrious": "^4.0.2",
-    "rollbar": "^2.16.2",
-    "rxjs": "~6.5.4",
+    "rollbar": "^2.17.0",
+    "rxjs": "^6.5.5",
     "sweetalert2": "^8.19.0",
     "twitter-bootstrap-wizard": "^1.2.0",
     "uglify-js": "^3.8.0",
@@ -124,7 +124,7 @@
     "@nrwl/cypress": "9.4.3",
     "@nrwl/jest": "9.4.3",
     "@nrwl/workspace": "9.4.3",
-    "@types/bootstrap": "^4.3.1",
+    "@types/bootstrap": "^4.5.0",
     "@types/chartist": "^0.9.46",
     "@types/datatables.net": "^1.10.18",
     "@types/jest": "25.1.4",
@@ -135,6 +135,7 @@
     "cypress": "^4.3.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
+    "eslint-plugin-cypress": "^2.10.3",
     "jest": "25.2.4",
     "jest-preset-angular": "8.1.3",
     "prettier": "^2.0.5",
@@ -143,7 +144,6 @@
     "tslib": "^1.11.1",
     "tslint": "^6.0.0",
     "typescript": "~3.8.3",
-    "webpack-bundle-analyzer": "^3.6.0",
-    "eslint-plugin-cypress": "^2.10.3"
+    "webpack-bundle-analyzer": "^3.6.0"
   }
 }
