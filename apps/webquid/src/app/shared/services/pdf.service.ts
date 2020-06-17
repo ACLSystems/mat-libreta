@@ -634,7 +634,8 @@ export class PDFService {
 
 
 		// FINALIZAR
-		doc.save('test.pdf');
+		// doc.save('test.pdf');
+		window.open(doc.output('bloburl'), '_blank');
 	}
 }
 

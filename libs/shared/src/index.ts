@@ -45,6 +45,7 @@ export {
 	Question,
 	Questionnarie,
 	Task,
+	TaskEntry,
 	Block,
 	BlockGrade,
 	Grade

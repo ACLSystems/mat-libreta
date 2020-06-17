@@ -91,6 +91,13 @@ export interface Task {
 	w?: number
 }
 
+export interface TaskEntry {
+	groupid: string,
+	blockId: string,
+	task: Task[],
+	force?: boolean
+}
+
 export interface Block {
 	blockBegin?: boolean,
 	blockCode: string,
