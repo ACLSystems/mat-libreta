@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { LOCALE_ID } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { FormControl } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeMX from '@angular/common/locales/es-MX';
 import Swal from 'sweetalert2';
@@ -24,9 +25,12 @@ export class DashboardComponent implements OnInit {
 
 	loading: boolean = false;
 	services: Service[] = [];
+	allServices: Service[] = [];
 	identity: Identity;
 	email: boolean = false;
 	emailNotNow: boolean = false;
+	categoryFilter = new FormControl('Todos');
+	serviceCategories: string[] = [];
 
 	constructor(
 		private router: Router,
@@ -60,10 +64,21 @@ export class DashboardComponent implements OnInit {
 				...serviceRequests,
 				...serviceAll
 			];
+			this.allServices = [...this.services];
+			this.serviceCategories = [...new Set(this.services.map(service => service.category))];
+			this.serviceCategories.unshift('Todos');
 			this.loading = false;
 		}, error => {
 			console.log(error);
 		});
+	}
+
+	filterServices() {
+		if(this.categoryFilter.value === 'Todos') {
+			this.services = [...this.allServices];
+			return;
+		}
+		this.services = this.allServices.filter(service => service.category === this.categoryFilter.value);
 	}
 
 	checkEmail() {

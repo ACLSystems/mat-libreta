@@ -196,6 +196,21 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 			this.loading = false;
 			// console.log(this.publicity);
+			localStorage.setItem('publicity',JSON.stringify(this.publicity));
+			const hidePublicity = JSON.parse(localStorage.getItem('hidePublicity'));
+			const storagePublicity = JSON.parse(localStorage.getItem('publicity'));
+			console.group('Publicity');
+			console.log(storagePublicity);
+			console.log(this.publicity);
+			console.log(hidePublicity);
+			console.groupEnd();
+			if(hidePublicity) {
+				const equal = equalArrays(this.publicity,storagePublicity);
+				console.log('Equal:',equal);
+				if(equal) {
+					this.hideCard();
+				}
+			}
 		}, error => {
 			console.log(error);
 			this.loading = false;
@@ -337,6 +352,31 @@ export class LoggedComponent implements OnInit, AfterViewInit, OnDestroy {
 		if(card) {
 			card.style.display = 'none';
 		}
+		localStorage.setItem('hidePublicity','true');
 	}
 
+}
+
+function equalArrays(arr1: any[], arr2: any[]) {
+	if(!Array.isArray(arr1)) {
+		// console.log('arr 1 no es arreglo');
+		return false;
+	}
+	if(!Array.isArray(arr2)) {
+		console.log('arr 1 no es arreglo');
+		return false;
+	}
+	if(arr1.length !== arr2.length) {
+		// console.log('no son iguales en tamaño');
+		return false;
+	}
+	for(let elem of arr1) {
+		const findElem = arr2.find(el => el._id+'' === elem._id+'');
+		console.log(`Elem: ${elem._id}`);
+		if(!findElem){
+			console.log(`No encontramos ${elem._id}`);
+			return false;
+		}
+	}
+	return true;
 }

@@ -2,6 +2,24 @@
 	<app-loading-spinner></app-loading-spinner>
 </div>
 <div class="container" *ngIf="!loading">
+	<div class="row justify-content-end">
+		<div class="col-2">
+			<mat-form-field>
+				<mat-label>Categoría</mat-label>
+				<mat-select
+					[formControl]="categoryFilter"
+					ariaLabel="serviceCategories[0]"
+					(selectionChange)="filterServices();"
+					>
+					<mat-option
+						*ngFor="let cat of serviceCategories"
+						[value]="cat">
+							{{ cat }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+	</div>
 	<div class="card-deck">
 		<div class="card" *ngFor="let service of services">
 			<a
