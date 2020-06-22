@@ -152,6 +152,11 @@ export class CourseMainComponent implements OnInit {
 			return;
 		}
 		if(this.content.openStatus !== 'closed') {
+			var currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
+			if(currentCourse) {
+				currentCourse.block = currentCourse.block ? blockid : currentCourse.block;
+				localStorage.setItem('currentCourse',JSON.stringify(currentCourse));
+			}
 			if(this.track || force) {
 				this.router.navigate(['/user/block', this.rosterType, this.id, blockid]);
 			}

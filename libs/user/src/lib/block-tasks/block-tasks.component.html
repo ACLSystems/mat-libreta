@@ -43,8 +43,23 @@
 			<!--  -->
 			<!-- Tarea tipo archivo -->
 			<div *ngIf="task.type == 'file'" class="row">
-				<div class="col-sm-6">
-					<input type="file">
+				<div class="col-sm-6" [formGroup]="loadFilesForm">
+					<button
+						mat-raised-button
+						class="btn btn-sm btn-primary"
+						(click)="fileInput.click();"
+					>
+						<i class="fas fa-file-upload"></i> Elige un archivo
+					</button>
+
+					<input
+						hidden
+						type="file"
+						id="file"
+						(change)="uploadFile($event, task.id, task.label);"
+						#fileInput
+						formControlName="file"
+					>
 				</div>
 				<div *ngIf="currentFileUpload" class="col-sm-6">
 					<div class="progress">
@@ -58,17 +73,21 @@
 						</div>
 					</div>
 					<div
-						class="alert {{progress.statusAlert}} text-center"
+						class="text-center"
 						>
 						<i class={{progress.icon}}></i> {{progress.status}}
 					</div>
 				</div>
 			</div>
-			<hr>
-			<div *ngIf="isSendTask" class="alert alert-success" role="alert">
-			  <h5><i class="fas fa-exclamation-circle"></i> Se guardó la actividad exitosamente</h5>
+			<div class="row justify-contents-start" *ngIf="task.type == 'file' && fileString[0] && fileString[0].name">
+				<div class="col-3">
+					{{fileString[0].name}}
+				</div>
 			</div>
-			<button type="button" class="btn btn-success" name="button" (click)="showAccept(modalTask)" [disabled]="!isAttachmen"><i class="fas fa-thumbtack"></i> Enviar</button>
+			<!-- <div *ngIf="isSendTask" class="alert alert-success" role="alert">
+			  <h5><i class="fas fa-exclamation-circle"></i> Se guardó la actividad exitosamente</h5>
+			</div> -->
 		</div>
 	</div>
+	<button type="button" class="btn btn-success" name="button"><i class="fas fa-paper-plane"></i> Enviar</button>
 </div>

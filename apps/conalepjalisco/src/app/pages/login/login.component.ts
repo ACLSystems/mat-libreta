@@ -146,6 +146,9 @@ export class LoginComponent implements OnInit {
 					this.loading = false;
 				});
 		}, error => {
+			// console.group('Estoy en login');
+			// console.log(error);
+			// console.groupEnd();
 			if ( error.status > 399 && error.status < 500) {
 				this.messageError = 'En caso de que no recuerdes tu contraseña <br>selecciona la opción <b style="color:blue;">Recuperar Acceso</b>';
 				Swal.fire({
@@ -156,10 +159,16 @@ export class LoginComponent implements OnInit {
 					confirmButtonClass: 'btn btn-danger'
 				});
 			} else {
-				this.messageError = 'Favor de reportarlo a la mesa de ayuda, estatus:' + error.status;
+				var title = 'Ocurrió un error interno de sistema';
+				if(typeof error === 'string') {
+					this.messageError = error;
+					title = 'Datos incorrectos, por favor revisa'
+				} else {
+					this.messageError = 'Favor de reportarlo a la mesa de ayuda, estatus:' + error.status;
+				}
 				Swal.fire({
-					title: 'Ocurrió un error interno de sistema',
-					text: this.messageError,
+					title: title,
+					html: this.messageError,
 					type: 'error',
 					confirmButtonText: 'Ok',
 					confirmButtonClass: 'btn btn-danger'

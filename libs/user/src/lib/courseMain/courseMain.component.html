@@ -139,10 +139,22 @@
 			<div class="col-md-12">
 				<div>
 					<div class="card">
-						<div class="card-header">
+						<div class="card-header mb-0 pb-0">
 							<h3 class="card-title">Temario <small class="description">- {{content.course.title}} - {{content.course.code}}</small></h3>
 						</div>
-						<div class="card-body">
+						<div class="card-body mt-0 pt-0">
+							<div class="row justify-content-xs-center justify-content-md-end"
+								*ngIf="content.currentBlock && track > 0"
+							>
+								<div class="col-xs-auto col-md-3">
+									<button
+										class="btn btn-primary btn-sm"
+										(click)="getBlock(content.currentBlock,true,true)"
+									>
+										Continuar curso
+									</button>
+								</div>
+							</div>
 							<div class="row">
 								<div class="col-sm-4 col-md-2">
 									<ul class="nav nav-pills nav-pills-danger nav-pills-icon flex-column" role=tablist>
@@ -290,6 +302,9 @@
 					<h2 class="card-body text-center">
 						{{mocAmount}}
 					</h2>
+					<div class="card-footer">
+						<p class="text-justify">Si ya hiciste el pago, no te preocupes. Tardará un máximo de 3 días hábiles en liberarse. Si ya pasó ese tiempo y no se ha liberado, presiona el botón de "Asistencia" indicando el número de folio que viene debajo y anexa tu comprobante de pago</p>
+					</div>
 				</div>
 				<!-- <div class="card">
 					<h4 class="card-header alert alert-primary printable">
@@ -312,7 +327,12 @@
 						Importante
 					</h4>
 					<div class="card-body text-justify">
-						Utiliza el siguiente número de <b>FOLIO</b> como <b><u>CONCEPTO DE PAGO</u></b> en tu depósito o transferencia. De no seguir estas instrucciones no será posible rastrear tu pago.
+						<ul>
+							<li>
+								Utiliza el siguiente número de <b>FOLIO</b> como <b><u>CONCEPTO DE PAGO</u></b> en tu depósito o transferencia. De no seguir estas instrucciones no será posible rastrear tu pago.
+							</li>
+							<li>NO REALICES PAGOS EN EFECTIVO. No podemos rastrear estos pagos y por lo tanto no nos hacemos responsables.</li>
+						</ul>
 					</div>
 				</div>
 				<div class="card">
@@ -335,6 +355,9 @@
 							</li>
 							<li>
 								El estado de la cuenta se verá reflejado como <span class="text-success">Activo</span> y podrás generar tu constancia.
+							</li>
+							<li>
+								<span class="text-danger">IMPORTANTE</span>: Este número de folio NO ES TU FOLIO de constancia, por lo que no servirá revisar este folio en el validador de constancias
 							</li>
 						</ul>
 					</div>

@@ -125,9 +125,9 @@ export class ProgressComponent implements OnInit {
 			this.minTrack = +this.grade.minTrack.replace('%','');
 			this.grade = this.generateDisplayValues(this.grade);
 			this.loading = false;
-			console.group('Grade');
-			console.log(this.grade);
-			console.groupEnd();
+			// console.group('Grade');
+			// console.log(this.grade);
+			// console.groupEnd();
 			if(this.grade.moocPrice) {
 				this.mocAmount = `$ ${this.grade.moocPrice} MXN`
 			}
@@ -294,6 +294,16 @@ export class ProgressComponent implements OnInit {
 	}
 
 	getBlock(blockid: string, track?: boolean, force?: boolean) {
+		if(blockid === 'current') {
+			var currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
+			if(!currentCourse) {
+				Swal.fire({
+					type: 'warning',
+					text: 'Ingresa al curso desde el temario'
+				});
+			}
+			this.router.navigate(['/user/block', currentCourse.rosterType, currentCourse.id, currentCourse.block]);
+		}
 		if(this.grade.openStatus !== 'closed') {
 			if(track || force) {
 				// this.router.navigate(['/user/block', courseid, groupid, blockid]);

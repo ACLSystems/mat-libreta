@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpRequest, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -361,5 +361,39 @@ export class UserCourseService {
 			);
 		const route = this.url+'api/v1/user/comment/create';
     return this.http.post(route, params, {headers});
+  }
+
+	/*
+  metodo para enviar los archivos de la tareas
+  */
+  setAttachment(file: File, dir1: any, dir2: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    //formData.append('fileName', file.name);
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'multipart/form-data'
+    // });
+		const headers = new HttpHeaders ({
+			'Authorization': 'Bearer ' + this.commonService.getToken()
+		});
+		const req = new HttpRequest('POST', this.url+'api/v1/file/upload?dir1=' + dir1 + '&dir2=' + dir2, formData, {
+			headers,
+			reportProgress: true,
+			responseType: 'json'
+		});
+		console.log(req);
+    return this.http.request(req);
+  }
+
+	/*
+  Metodo para enviar las tareas
+  */
+  setTasks(task): Observable <any>{
+    const params = JSON.stringify(task);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.commonService.getToken()
+			);
+    return this.http.put(this.url + 'api/v1/user/savetask' , params, {headers:headers});
   }
 }

@@ -56,7 +56,19 @@
 		</div>
 	</div>
 	<div class="card-body">
-
+		<!-- Espacio para mencionar al sponsor -->
+		<div class="container m-0 p-0" *ngIf="blockData.imageSponsor">
+			<div class="row">
+				<div class="col">
+					<img
+						[src]="blockData.imageSponsor"
+						alt="sponsor"
+						class="img-fluid"
+						>
+				</div>
+			</div>
+		</div>
+		<!-- Comienza lección -->
 		<div class="scrollable">
 			<div
 				class="video-container"
@@ -82,7 +94,11 @@
 				</app-block-questionnarie>
 			</div>
 			<div *ngIf="blockData.tasks">
-				<app-block-tasks [tasks]="blockData.tasks">
+				<app-block-tasks
+					[tasks]="blockData.tasks"
+					[courseCode]="blockData.courseCode"
+					[groupCode]="blockData.groupCode"
+					>
 				</app-block-tasks>
 			</div>
 			<div

@@ -48,23 +48,29 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 					let sendError = true;
 					if(error.error instanceof ErrorEvent) {
 						// client-side error
+						console.group('Client error');
+						console.log(error);
+						console.groupEnd();
 						errorMessage = `Error: ${error.error.message}`;
 					} else {
 						// server-side error
+						console.group('Server error');
+						console.log(error);
+						console.groupEnd();
+						if(error.status > 399 && error.status < 500) {
+							sendError = false;
+						}
 						if(error.error && error.error.message) {
 							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.error.message}</p>`
 						} else {
 							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.message}</p>`
 						}
-						if(error.status === 401) {
-							sendError = false;
-						}
+						Swal.fire({
+							type: 'error',
+							title: 'Error',
+							html: errorMessage
+						});
 					}
-					Swal.fire({
-						type: 'error',
-						title: 'Error',
-						html: errorMessage
-					});
 					if(sendError) {
 						rollbar.error(new Error(error.message).stack);
 					}

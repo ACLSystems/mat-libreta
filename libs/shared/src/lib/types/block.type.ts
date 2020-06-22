@@ -125,7 +125,8 @@ export interface Block {
 	blockGradedQ?: boolean,
 	blockGradedT?: boolean,
 	attempts?: number,
-	tasks?: Task[]
+	tasks?: Task[],
+	imageSponsor?: string
 }
 
 export interface BlockGrade {

@@ -4,6 +4,30 @@
 	</div>
 	<div *ngIf="!loading" class="container">
 		<div class="row">
+			<div class="col">
+				<div class="card" *ngIf="currentCourse">
+					<div class="card-header card-header-text card-header-success">
+						<div class="card-text">
+							<h4 class="card-title"><i class="material-icons">info</i> En curso</h4>
+							<p class="card-category">Este es el curso que estás estudiando actualmente</p>
+						</div>
+					</div>
+					<div class="card-body">
+						<h4 class="text-primary">
+							<small><b>({{currentCourse.courseCode}})</b></small> {{currentCourse.course}}
+						</h4>
+						<button
+							class="btn btn-sm btn-primary btn-block"
+							(click)="getBlock();"
+						>
+							Continuar mi curso
+						</button>
+					</div>
+					<div class="card-footer">
+						<small>Para seleccionar otro curso selecciona el curso que deseas en "Mis Cursos" (panel inferior)</small>
+					</div>
+				</div>
+			</div>
 			<div class="col" *ngIf="myRoles && myRoles.isInstructor">
 				<div class="card card-stats">
 					<div class="card-header card-header-icon card-header-rose">
@@ -24,26 +48,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- <div class="col" *ngIf="myRoles && myRoles.isSupervisor && (platform && platform == 'mooc')">
-				<div class="card card-stats">
-					<div class="card-header card-header-icon card-header-rose">
-						<div class="card-icon">
-							<i class="material-icons">insert_chart</i>
-						</div>
-						<h4 class="card-title">Cursos públicos
-						</h4>
-					</div>
-					<div class="card-body">
-						<button
-							mat-raised-button
-							class="btn btn-primary btn-block"
-							(click)="goToReports();"
-							>
-							Ver datos
-						</button>
-					</div>
-				</div>
-			</div> -->
 		</div>
 		<div class="row">
 			<div class="col-md-8">
@@ -356,25 +360,6 @@
 					</div>
 					<div class="card-body" *ngIf="events.length == 0">
 						<p>No hay eventos próximos</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="card" *ngIf="currentCourse">
-					<div class="card-header card-header-text card-header-success">
-						<div class="card-text">
-							<h4 class="card-title"><i class="material-icons">info</i> En curso</h4>
-							<p class="card-category">Actualmente estás tomando el curso: </p>
-						</div>
-					</div>
-					<div class="card-body">
-						<h4 class="text-primary">
-							<small><b>({{currentCourse.courseCode}})</b></small> {{currentCourse.course}}
-						</h4>
-					</div>
-					<div class="card-footer">
-						<small>Para seleccionar otro curso, dirígete al panel y selecciona el curso que deseas en "Mis Cursos"
-						<br>Nota que cada vez que seleccionas un nuevo curso se actualiza el menú</small>
 					</div>
 				</div>
 			</div>

@@ -280,6 +280,34 @@ export class DashboardComponent implements OnInit {
 		});
 	}
 
+	getBlock() {
+		// console.group('courseList');
+		// console.log(this.courseList);
+		// console.groupEnd();
+		var currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
+		if(!currentCourse) {
+			Swal.fire({
+				type: 'warning',
+				text: 'Accesa al curso desde el temario del curso'
+			});
+			return;
+		}
+		const thisCourse = this.courseList.find(course => course.curso.courseid === currentCourse.courseid);
+		if(thisCourse && thisCourse.curso && thisCourse.curso.openStatus === 'active') {
+			this.router.navigate(['/user/block', currentCourse.rosterType, currentCourse.id, currentCourse.block]);
+		} else if(thisCourse && thisCourse.curso && thisCourse.curso.openStatus === 'closed') {
+			Swal.fire({
+				type: 'info',
+				text: 'El curso se encuentra cerrado'
+			});
+		} else {
+			Swal.fire({
+				type: 'warning',
+				text: 'Accesa al curso desde el temario del curso'
+			});
+		}
+	}
+
 	startAnimationForBarChart(chart: any) {
 		let seq2: number, delays2: number, durations2: number;
 		seq2 = 0;
@@ -401,7 +429,7 @@ export class DashboardComponent implements OnInit {
 
 	goTutor() {
 		const goTutor = `${this.backOffice}/tutor/tutorial`;
-		console.log(goTutor);
+		// console.log(goTutor);
 		window.open(goTutor, '_blank');
 	}
 

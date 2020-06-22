@@ -61,6 +61,7 @@ export class BlockComponent implements OnInit {
 					this.goGroup(this.rosterType,id);
 				} else {
 					this.blockData = data.message;
+					const lastid = this.blockid;
 					this.blockid = blockid;
 
 					if(this.blockData.blockType === 'task') {
@@ -78,6 +79,11 @@ export class BlockComponent implements OnInit {
 						// 	'<i class="fas fa-stop text-white"></i> Has llegado al final del curso. Si ya realizaste tus evaluaciones, revisa tu progreso y descarga tu constancia'
 						// );
 						this.closeCourse = true;
+					}
+					var currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
+					if(currentCourse) {
+						currentCourse.block = currentCourse.block ? lastid : currentCourse.block;
+						localStorage.setItem('currentCourse',JSON.stringify(currentCourse));
 					}
 				}
 				window.scroll(0,0);

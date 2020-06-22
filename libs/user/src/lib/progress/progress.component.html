@@ -52,6 +52,12 @@
 								[ngStyle]="{width:track+'%'}"
 								></div>
 							</div>
+							<button
+								class="btn btn-primary btn-sm btn-block"
+								(click)="getBlock('current');"
+							>
+								Continuar el curso
+							</button>
 						</div>
 					</div>
 					<div class="card" *ngIf="!grade.noCertificate">

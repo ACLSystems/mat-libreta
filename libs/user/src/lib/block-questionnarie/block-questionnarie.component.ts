@@ -138,6 +138,10 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 				let now = new Date();
 				let grade = this.totalAnswered / this.totalPoints * 100;
 				grade = Math.round((grade + 0.00001) * 100) / 100;
+				// console.group('Calificaciones');
+				// console.log(this.responses);
+				// console.log(grade);
+				// console.groupEnd();
 				this.userCourseService.setAttempt(this.rosterType,this.id, this.blockid, this.responses, grade).subscribe(data => {
 					// console.log(data);
 					Swal.hideLoading();
@@ -171,6 +175,9 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 						responseFooter
 					});
 					this.hideQuiz = true;
+					this.attempts++;
+					this.blockGrade = grade;
+					// this.updateData();
 				}, error => {
 					console.log(error);
 				});
@@ -276,7 +283,7 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 		}).then((result) => {
 			if(result.value) {
 				this.hideQuiz = false;
-				this.attempts++;
+				// this.attempts++;
 			}
 		})
 	}
