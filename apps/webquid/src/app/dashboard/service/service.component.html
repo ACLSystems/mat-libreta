@@ -23,7 +23,7 @@
 				</div>
 				<div class="row">
 					<div class="col-auto float-left">
-						<p class="card-category">{{service.category}}</p>
+						<p class="card-category">{{service.code}} - {{service.category}}</p>
 					</div>
 					<div class="col">
 						<p class="card-category float-right">{{service.description}}</p>
@@ -39,7 +39,12 @@
 					[serviceid]=service.serviceid
 					*ngIf="service.code === 'SN002'">
 				</webquid-sn002>
-				<webquid-sn003
+				<webquid-generic
+					*ngIf="service.code !== 'SN001' && service.code !== 'SN002'"
+					[service]="service"
+				>
+				</webquid-generic>
+				<!-- <webquid-sn003
 					*ngIf="service.code === 'SN003'">
 				</webquid-sn003>
 				<webquid-sn004
@@ -56,7 +61,7 @@
 				</webquid-sn007>
 				<webquid-sn008
 					*ngIf="service.code === 'SN008'">
-				</webquid-sn008>
+				</webquid-sn008> -->
 			</div>
 			<div class="card-footer">
 				<div

@@ -457,7 +457,7 @@ export class Sn002Component implements OnInit {
 			if(submitForm.custom_fields.anos_de_experiencia_2 !== 'Sin experiencia') {
 				submitForm.custom_fields.experiencia_especifica_en = this.experienciaEn.value;
 			}
-			console.log(submitForm);
+			// console.log(submitForm);
 			// console.log(this.serviceid);
 			Swal.fire('Espera...');
 			Swal.showLoading();

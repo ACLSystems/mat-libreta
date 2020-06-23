@@ -72,7 +72,7 @@ export class SN001AdminComponent implements OnInit {
 			})
 		}
 		this.filesSelected = true;
-		console.log(this.fileString);
+		// console.log(this.fileString);
 	}
 
 	processFiles() {

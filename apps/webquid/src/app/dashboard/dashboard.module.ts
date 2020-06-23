@@ -27,6 +27,7 @@ import { Sn006Component } from './service/sn006/sn006.component';
 import { Sn007Component } from './service/sn007/sn007.component';
 import { Sn008Component } from './service/sn008/sn008.component';
 import { ProfileComponent } from './profile/profile.component';
+import { GenericComponent } from './service/generic/generic.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ProfileComponent } from './profile/profile.component';
 		Sn006Component,
 		Sn007Component,
 		Sn008Component,
-		ProfileComponent
+		ProfileComponent,
+		GenericComponent
 	],
   imports: [
     CommonModule,
