@@ -543,8 +543,9 @@ export class Sn002Component implements OnInit {
 
 	fillJobFunctions() {
 		const findPosition = this.jobPosFiltered.find(job => job.name === this.puesto.value);
-		if(findPosition) {
-			this.funcionesPuesto.setValue(findPosition.functions);
+		if(findPosition && findPosition.functions && Array.isArray(findPosition.functions)) {
+			let newArray = findPosition.functions.map(func => '- ' + func);
+			this.funcionesPuesto.setValue(newArray.join('\n'));
 		}
 	}
 
