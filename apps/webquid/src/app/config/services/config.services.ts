@@ -35,6 +35,20 @@ export class ConfigService{
 		return null
 	}
 
+	getFreshConfig(): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+			const route = this.url+'api/v1/admin/getFreshConfig';
+			return this.http.get(route,{headers});
+		}
+		return null
+	}
+
+
 	setConfig(body: any): Observable<any>|null {
 		const token = this.getToken();
 		if(token) {

@@ -29,7 +29,7 @@
 			</div>
 		</div>
 		<form [formGroup]="configForm" class="form">
-			<div class="card" *ngIf="config.server">
+			<div class="card">
 				<div class="card-header card-header-icon card-header-primary">
 					<div class="card-icon">
 						<i class="fas fa-server fa-2x"></i>
@@ -37,29 +37,121 @@
 					<h4 class="card-title">Servidor - <small>Parámetros básicos del servidor</small></h4>
 				</div>
 				<div class="card-body">
-					<div class="row" >
-						<div class="col input-group" *ngIf="config.server.issuer">
+					<div class="row">
+						<div class="col input-group">
 							<mat-form-field>
 								<mat-label>Empresa Proveedor</mat-label>
 								<input matInput type="text" formControlName="serverIssuer">
 							</mat-form-field>
 						</div>
-						<div class="col input-group" *ngIf="config.server.expires">
+						<div class="col input-group">
 							<mat-form-field>
 								<mat-label>Duración de las sesiones</mat-label>
 								<input matInput type="text" formControlName="serverExpires">
 							</mat-form-field>
 						</div>
-						<div class="col input-group" *ngIf="config.server.urlLogin">
+						<div class="col input-group">
 							<mat-form-field>
 								<mat-label>URL del login</mat-label>
 								<input matInput type="text" formControlName="serverUrlLogin">
 							</mat-form-field>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>URL del Kiosco (portal de servicios)</mat-label>
+								<input matInput type="text" formControlName="serverPortalUri">
+							</mat-form-field>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="card" *ngIf="config.routes">
+			<div class="card">
+				<div class="card-header card-header-icon card-header-success">
+					<div class="card-icon">
+						<i class="fas fa-mail-bulk fa-2x"></i>
+					</div>
+					<h4 class="card-title">Configuración del servicio de correo</h4>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Cuenta de correo que envía</mat-label>
+								<input matInput type="text" formControlName="mailFromEmail">
+							</mat-form-field>
+						</div>
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Nombre que aparece en el correo</mat-label>
+								<input matInput type="text" formControlName="mailFromName">
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Llave pública</mat-label>
+								<input matInput type="password" formControlName="mailApiKeyPublic">
+							</mat-form-field>
+						</div>
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Llave Privada</mat-label>
+								<input matInput type="password" formControlName="mailApiKeyPrivate">
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col input-group" *ngIf="config.mail.genericTemplate">
+							<mat-form-field>
+								<mat-label>ID de la plantilla de correo</mat-label>
+								<input matInput type="text" formControlName="mailGenericTemplate">
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<div class="togglebutton">
+								<label>
+									<input
+										type="checkbox"
+										formControlName="mailTemplateErrorDeliver"
+									>
+									<span class="toggle"></span>
+									Control de errores
+								</label>
+							</div>
+						</div>
+						<div class="col">
+							<div class="togglebutton">
+								<label>
+									<input
+										type="checkbox"
+										formControlName="mailSaveEmail"
+									>
+									<span class="toggle"></span>
+									Guardar correo
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Correo al generar error</mat-label>
+								<input matInput type="text" formControlName="mailTemplateErrorRepEmail">
+							</mat-form-field>
+						</div>
+						<div class="col input-group">
+							<mat-form-field>
+								<mat-label>Nombre al generar error</mat-label>
+								<input matInput type="text" formControlName="mailTemplateErrorRepName">
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
 				<div class="card-header card-header-icon card-header-secondary">
 					<div class="card-icon">
 						<i class="fas fa-hdd fa-2x"></i>
@@ -77,7 +169,166 @@
 					</div>
 				</div>
 			</div>
-			<div class="card" *ngIf="config.portalVersion">
+			<div class="card">
+				<div class="card-header card-header-icon card-header-warning">
+					<div class="card-icon">
+						<i class="fas fa-ticket-alt fa-2x"></i>
+					</div>
+					<h4 class="card-title">Sistema ITSM</h4>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<mat-form-field>
+								<mat-label>URL del servidor</mat-label>
+								<input matInput type="text" formControlName="freshServerUrl">
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>API Key</mat-label>
+								<input
+									matInput
+									type="password" formControlName="freshApiKey"
+								>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Carpeta del Kisco para KB</mat-label>
+								<mat-select
+									formControlName="freshUsersCategory"
+									[value]="freshUsersCategory.value"
+									(selectionChange)="changeCat();"
+									required
+									>
+									<mat-option
+										*ngFor="let category of categories"
+										[value]="category.value">
+											{{ category.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Folder público</mat-label>
+								<mat-select
+									formControlName="freshPublicFolder"
+									required
+									>
+									<mat-option
+										*ngFor="let folder of folders"
+										[value]="folder.value">
+											{{ folder.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Folder de usuarios</mat-label>
+								<mat-select
+									formControlName="freshUsersFolder"
+									[value]="freshUsersFolder.value"
+									required
+									>
+									<mat-option
+										*ngFor="let folder of folders"
+										[value]="folder.value">
+											{{ folder.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Folder de Solicitante</mat-label>
+								<mat-select
+									formControlName="freshRequesterFolder"
+									[value]="freshRequesterFolder.value"
+									required
+									>
+									<mat-option
+										*ngFor="let folder of folders"
+										[value]="folder.value">
+											{{ folder.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Folder de Supervisor</mat-label>
+								<mat-select
+									formControlName="freshSuperFolder"
+									[value]="freshSuperFolder.value"
+									required
+									>
+									<mat-option
+										*ngFor="let folder of folders"
+										[value]="folder.value">
+											{{ folder.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Folder de Operador</mat-label>
+								<mat-select
+									formControlName="freshOperatorFolder"
+									[value]="freshOperatorFolder.value"
+									required
+									>
+									<mat-option
+										*ngFor="let folder of folders"
+										[value]="folder.value">
+											{{ folder.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Folder de TechAdmin</mat-label>
+								<mat-select
+									formControlName="freshTechFolder"
+									[value]="freshTechFolder.value"
+									required
+									>
+									<mat-option
+										*ngFor="let folder of folders"
+										[value]="folder.value">
+											{{ folder.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+						<div class="col">
+							<mat-form-field>
+								<mat-label>Folder de Billing</mat-label>
+								<mat-select
+									formControlName="freshBillFolder"
+									[value]="freshBillFolder.value"
+									required
+									>
+									<mat-option
+										*ngFor="let folder of folders"
+										[value]="folder.value">
+											{{ folder.viewValue }}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
 				<div class="card-header card-header-icon card-header-danger">
 					<div class="card-icon">
 						<i class="fas fa-code-branch fa-2x"></i>
