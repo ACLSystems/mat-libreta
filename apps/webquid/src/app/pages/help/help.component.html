@@ -1,0 +1,45 @@
+<div class="wrapper">
+	<div class="main-full-panel">
+		<div class="main-content" id="page-content">
+			<div *ngIf="loading" class="text-center">
+				<app-loading-spinner></app-loading-spinner>
+			</div>
+			<div class="card" *ngIf="!loading && !articleOpen">
+				<div class="card-header card-header-icon card-header-primary">
+					<div class="card-icon">
+						<i class="fas fa-book-open fa-2x"></i>
+					</div>
+					<h3 class="card-title">Ayuda - <small>Explora los manuales y artículos de ayuda en nuestra base de conocimientos</small></h3>
+				</div>
+				<div class="card-body">
+					<div class="row" *ngFor="let article of publicArticles; let index = index;">
+						<div class="col pointme">
+							<h5 (click)="openArticle(index);"><i class="fas fa-file-alt" style="color:blue;"></i> {{article.title}}</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card m-0" *ngIf="!loading && articleOpen && article">
+				<div class="card-header bg-light">
+					<h3 class="m-0 float-left">{{article.title}}</h3>
+					<div class="badge badge-pill badge-danger float-right align-middle pointme"
+						(click)="closeArticle();"
+					>
+						Cerrar <i class="fas fa-times-circle"></i>
+					</div>
+				</div>
+				<div class="card-body">
+					<div [innerHTML]="article.description"></div>
+				</div>
+				<div class="card-footer">
+					<button
+						class="btn btn-sm btn-primary"
+						(click)="closeArticle();"
+						>
+						<i class="fas fa-times-circle"></i> Cerrar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

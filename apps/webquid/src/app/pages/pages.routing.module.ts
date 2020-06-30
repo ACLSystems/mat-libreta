@@ -5,7 +5,7 @@ import { HomeGuard } from '@wqshared/guards/home.guard';
 
 import { HomeComponent } from './home/home.component';
 import { ErrorPageComponent } from './error/error-page.component';
-// import { HelpComponent } from './help/help.component';
+import { HelpComponent } from './help/help.component';
 // import { CertificateComponent } from './certificate/certificate.component';
 import { LoginComponent } from './login/login.component';
 // import { PrivacyComponent } from './privacy/privacy.component';
@@ -42,9 +42,9 @@ const pageRoutes: Routes = [
 			},{
 				path: 'reqrecoverpass',
 				component: RecoveraccessComponent
-			// },{
-			// 	path: 'help',
-			// 	component: HelpComponent
+			},{
+				path: 'help',
+				component: HelpComponent
 			// },{
 			// 	path: 'privacy',
 			// 	component: PrivacyComponent

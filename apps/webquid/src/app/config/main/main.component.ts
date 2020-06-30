@@ -92,7 +92,7 @@ export class MainComponent implements OnInit {
 		this.service.getConfig().subscribe(data => {
 			this.loading = false;
 			this.config = data;
-			console.log(this.config);
+			// console.log(this.config);
 			this.setValues();
 		}, error => {
 			console.log(error);
@@ -177,7 +177,7 @@ export class MainComponent implements OnInit {
 		let mail		= this.config.mail || undefined;
 		let routes	= this.config.routes || undefined;
 		let fresh 	= this.config.fresh || undefined;
-		console.log(fresh);
+		// console.log(fresh);
 		let cache 	= this.config.cache || undefined;
 		this.configForm.setValue({
 			serverIssuer				: server.issuer || '',

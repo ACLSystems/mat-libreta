@@ -47,6 +47,11 @@ export class PublicService {
 		return this.http.post(route, params, {headers: JSONHeaders});
 	}
 
+	publicHelp() {
+		const route = this.url+'publichelp';
+		return this.http.get(route);
+	}
+
 	// private handleError(errorRes: HttpErrorResponse) {
 	// 	let errorMessage = 'Error desconocido';
 	// 	console.log(errorRes);

@@ -13,6 +13,7 @@ import { LoginComponent } from './login/login.component';
 import { PagesService } from './pages.service';
 import { LogoutComponent } from './logout/logout.component';
 import { RecoveraccessComponent } from './recoveraccess/recoveraccess.component';
+import { HelpComponent } from './help/help.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { RecoveraccessComponent } from './recoveraccess/recoveraccess.component'
 		ErrorPageComponent,
 		LoginComponent,
 		LogoutComponent,
-		RecoveraccessComponent
+		RecoveraccessComponent,
+		HelpComponent
 	],
   imports: [
 		MaterialModule,

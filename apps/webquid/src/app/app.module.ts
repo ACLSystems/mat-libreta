@@ -83,6 +83,8 @@ import {
 	RollbarService,
 	HttpErrorInterceptor
 } from '@wqshared/interceptors/error.interceptor';
+import { HelpComponent } from './shared/help/help.component';
+import { ArticleComponent } from './shared/article/article.component';
 
 @NgModule({
 	exports: [
@@ -117,7 +119,8 @@ import {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
-	]
+	],
+	declarations: [HelpComponent, ArticleComponent]
 })
 export class MaterialModule {}
 
