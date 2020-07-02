@@ -63,7 +63,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 	units = TIMEUNITS;
 	genderSelect = GENDER;
 	countries = COUNTRIES;
-	sendForm: any;
+	// sendForm: any;
 
   constructor(
 		private fb: FormBuilder,
@@ -170,7 +170,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 						'Otros': 'Otros'
 					}
 				}).then(result2 => {
-					this.sendForm = {
+					var sendForm = {
 						token: this.token,
 						birthDate: this.birthDate.value,
 						birthPlace: this.birthPlace.value,
@@ -185,6 +185,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 							postalCode: this.adPostalCode.value,
 							locality: this.adLocality.value,
 							city: this.adCity.value,
+							state: this.adState.value,
 							country: this.adCountry.value
 						},
 						workInfo: [...this.workInfo],
@@ -196,35 +197,37 @@ export class JobComponent implements OnInit, AfterViewInit {
 							tobacco: (this.hTobaccoFrec.value === 'No fumo') ? false : true,
 							tobaccoFrecuency: this.hTobaccoFrec.value,
 							mainStrength: this.hMainStrength.value,
-							mainOpportunityAreas: this.hMainOppAreas.value
+							mainOpportunityArea: this.hMainOppAreas.value
 						},
 						tools: [...this.hTools.value.split(',')],
 						qualityLife: {
 							distanceToHomeTime: +this.qDistanceToHome.value,
 							distanceToHomeUnits: this.qDistanceHomeUnits.value,
 							dailyTransportRate: this.qOwnAutomobileValue ? 0 : +this.qDailyTransportRate.value,
-							gasWeeklyRate: this.qOwnAutomobileValue ? +this.qGasWeeklyRate : 0,
+							gasWeeklyRate: this.qOwnAutomobileValue ? +this.qGasWeeklyRate.value : 0,
 							ownAutomobile: this.qOwnAutomobile.value,
 							ownHouse: this.qOwnHouse.value,
 							rent: this.qRent.value,
 							familyHouse: this.qFamilyHouse.value,
 							mortage: this.qMortage.value,
-							mortageCost: this.qMortageValue ? +this.qMortageCost : 0,
-							rentCost: this.qRentValue ? +this.qRentCost : 0,
+							mortageCost: this.qMortageValue ? +this.qMortageCost.value : 0,
+							rentCost: this.qRentValue ? +this.qRentCost.value : 0,
 							infonavitRetention: this.qInfonavitRetention.value,
 							placeShift: this.qPlaceShiftValue,
-							whyPlaceShift: this.qPlaceShiftValue ? this.qWhyPlaceShift : '',
-							monthlyIncome: this.qMontlyIncome,
-							monthlyExpenses: this.qMontlyExpenses
+							whyPlaceShift: this.qPlaceShiftValue ? this.qWhyPlaceShift.value : '',
+							monthlyIncome: this.qMonthlyIncome.value,
+							monthlyExpenses: this.qMonthlyExpenses.value
 						},
 						children: [...this.children],
 						family: [...this.family],
 						references: [...this.references],
-						findVacancy: result2
+						findVacancy: result2.value
 					}
+					console.log(sendForm);
+					const sendFormString = JSON.stringify(sendForm);
 					Swal.fire('Espera...');
 					Swal.showLoading();
-					this.cvService.updateCV(this.sendForm).subscribe(data => {
+					this.cvService.updateCV(sendFormString).subscribe(data => {
 						if(data && data.message && data.message.includes('Hoja de vida actualizada')) {
 							Swal.hideLoading();
 							Swal.close();
@@ -660,11 +663,11 @@ export class JobComponent implements OnInit, AfterViewInit {
 		// console.log(this.academicForm);
 		if(this.formValid('Datos Académicos',this.academicForm)) {
 			this.studies.push({
-				grade: this.aiStudies.value,
+				studiesGrade: this.aiStudies.value,
 				institute: this.aiInstitute.value,
 				beginDate: new Date(this.aiBeginDate.value),
-			 	diploma: this.aiDiplomas.value,
-				certificate: this.aiCertificates.value,
+			 	diplomasAchieved: this.aiDiplomas.value,
+				certificatesAchieved: this.aiCertificates.value,
 				current: (this.aiCurrent.value) ? true : false,
 				endDate: (this.aiEndDate.value && this.aiEndDate.value !== '') ? new Date(this.aiEndDate.value) : null
 			});
@@ -677,12 +680,12 @@ export class JobComponent implements OnInit, AfterViewInit {
 	}
 
 	editStudy(index:number) {
-		this.aiStudies.setValue(this.studies[index].grade);
+		this.aiStudies.setValue(this.studies[index].studiesGrade);
 		this.aiInstitute.setValue(this.studies[index].institute);
 		this.aiBeginDate.setValue(this.studies[index].beginDate);
 		this.aiCurrent.setValue(this.studies[index].current);
-		this.aiCertificates.setValue(this.studies[index].certificate);
-		this.aiDiplomas.setValue(this.studies[index].diploma);
+		this.aiCertificates.setValue(this.studies[index].certificatesAchieved);
+		this.aiDiplomas.setValue(this.studies[index].diplomasAchieved);
 		this.aiEndDate.setValue(this.studies[index].endDate);
 		this.aiCurrentValue = this.studies[index].current;
 		this.removeStudy(index);
@@ -773,7 +776,7 @@ export class JobComponent implements OnInit, AfterViewInit {
 			Validators.required,
 			Validators.min(0)
 		]],
-		qDistanceHomeUnits: ['',[
+		qDistanceHomeUnits: ['minutos',[
 			Validators.required
 		]],
 		qDailyTransportRate: [0,[
@@ -794,18 +797,18 @@ export class JobComponent implements OnInit, AfterViewInit {
 		qRentCost: ['',[
 
 		]],
-		qInfonavitRetention: ['',[
+		qInfonavitRetention: [false,[
 
 		]],
 		qPlaceShift: [false],
 		qWhyPlaceShift: ['',[
 
 		]],
-		qMontlyIncome: [0,[
+		qMonthlyIncome: [0,[
 			Validators.required,
 			Validators.min(0)
 		]],
-		qMontlyExpenses: [0,[
+		qMonthlyExpenses: [0,[
 			Validators.required,
 			Validators.min(0)
 		]]
@@ -853,11 +856,11 @@ export class JobComponent implements OnInit, AfterViewInit {
 	get qWhyPlaceShift() {
 		return this.qualityForm.get('qWhyPlaceShift');
 	}
-	get qMontlyIncome() {
-		return this.jobForm.get('qMontlyIncome');
+	get qMonthlyIncome() {
+		return this.qualityForm.get('qMonthlyIncome');
 	}
-	get qMontlyExpenses() {
-		return this.qualityForm.get('qMontlyExpenses');
+	get qMonthlyExpenses() {
+		return this.qualityForm.get('qMonthlyExpenses');
 	}
 
 	qMortageChange() {
@@ -1199,8 +1202,8 @@ function getName(control:string) {
 		qInfonavitRetention: 'Tengo Crédito Infonavit',
 		qPlaceShift: '¿Estás dispuesto a cambiar de residencia?',
 		qWhyPlaceShift: '¿Porqué estarías dispuesto?',
-		qMontlyIncome: '¿A cuánto ascienden tus ingresos mensuales?',
-		qMontlyExpenses: '¿A cuánto ascienden tus gastos mensuales?',
+		qMonthlyIncome: '¿A cuánto ascienden tus ingresos mensuales?',
+		qMonthlyExpenses: '¿A cuánto ascienden tus gastos mensuales?',
 		wiCompanyName: 'Empresa',
 		wiBeginDate: 'Fecha de Inicio',
 		wiEndDate: 'Fecha de término',

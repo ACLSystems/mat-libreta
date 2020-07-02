@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { DtOptions } from '@mat-libreta/shared';
 import { UserService,  } from '@wqshared/services/user.service';
 import { JobsService } from '@wqshared/services/jobs.service';
+import { CommonService } from '@wqshared/services/common.service';
 
 registerLocaleData(localeMX);
 
@@ -34,6 +35,7 @@ export class RequestsComponent implements OnInit {
   constructor(
 		private userService: UserService,
 		private jobsService: JobsService,
+		private commonService: CommonService,
 		private router: Router
 	) {
 		this.tableHeader = [
@@ -58,7 +60,7 @@ export class RequestsComponent implements OnInit {
 			}
 			this.loading = false;
 			this.requests = this.allRequests.filter(req => req.freshStatus !== 'Closed');
-			// console.log(this.requests);
+			this.commonService.displayLog('Requests', this.requests);
 		}, error => {
 			console.log(error);
 			this.loading = false;
@@ -126,15 +128,16 @@ export class RequestsComponent implements OnInit {
 	}
 
 	goCandidate(candidate:number) {
-		this.candidate = this.candidates[candidate];
-		// console.log(this.candidate);
-		if(candidate + 1 < this.candidates.length) {
-			this.candidate.nextCandidate = candidate + 1;
-		}
-		if(candidate > 0) {
-			this.candidate.prevCandidate = candidate - 1;
-		}
-		window.scroll(0,0);
+		// this.candidate = this.candidates[candidate];
+		// // console.log(this.candidate);
+		// if(candidate + 1 < this.candidates.length) {
+		// 	this.candidate.nextCandidate = candidate + 1;
+		// }
+		// if(candidate > 0) {
+		// 	this.candidate.prevCandidate = candidate - 1;
+		// }
+		// window.scroll(0,0);
+		this.router.navigate(['/jobs/job'],{state: {data: this.candidates[candidate]}});
 	}
 
 	returnRequests() {

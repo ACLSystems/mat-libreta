@@ -21,12 +21,23 @@
 					(change)="filesPicked(dirPath.files);"
 					>
 			</form>
+			<div class="progress" style="height:20px;" *ngIf="filesSelected">
+				<div
+					class="progress-bar"
+					[ngClass]="progressColor"
+					role="progressbar"
+					[attr.aria-valuenow]="progress"
+					[style]="progressStyle"
+					aria-valuemin="0"
+					[aria-valuemax]="fileString.length"
+				>{{progress}}</div>
+			</div>
 		</div>
 		<div class="col p-0 text-center">
 			<div class="btn-group">
 				<button
 				class="btn btn-sm btn-primary"
-				(click)="processFiles();"
+				(click)="processFiles(0);"
 				*ngIf="filesSelected"
 				>
 					Procesar Archivos

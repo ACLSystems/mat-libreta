@@ -106,6 +106,16 @@ export class OperService{
 		return null
 	}
 
+	createUser(user:any): Observable<any>|null {
+		const params = JSON.stringify(user);
+		const headers = JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			);
+		const route = this.url+'api/v1/operator/user';
+		return this.http.post(route, params, {headers});
+	}
+
 	createCompany(company:Company): Observable<any>|null {
 		const params = JSON.stringify(company);
 		const headers = JSONHeaders.set(
@@ -187,6 +197,22 @@ export class OperService{
 			};
 			const route = `${this.url}api/v1/attachment/${docid}`;
 			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
+
+	addUserEmail(identifier:string,email:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const params = JSON.stringify({
+				identifier,email
+			});
+			const headers = JSONHeaders.set(
+					'Authorization',
+					`Bearer ${this.getToken()}`
+				);
+			const route = this.url+'api/v1/adduseremail';
+			return this.http.patch(route, params, {headers});
 		}
 		return null;
 	}

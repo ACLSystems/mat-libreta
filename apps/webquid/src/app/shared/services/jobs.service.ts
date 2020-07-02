@@ -113,4 +113,18 @@ export class JobsService{
 		return this.http.post(route, params, {headers});
 	}
 
+	modifyCV(sendForm: any, cvid:string): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + this.getToken()
+				)
+			}
+			const route = `${this.url}api/v1/modifycv/${cvid}`
+			return this.http.patch(route,sendForm,httpOptions);
+		}
+	}
+
 }

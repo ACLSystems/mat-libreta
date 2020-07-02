@@ -12,26 +12,58 @@
 		</div>
 		<div class="card-body">
 			<div class="row">
-				<div class="col-3">
-					RFC
+				<div class="col-sm col-md-2">
+					<b>RFC</b>
 				</div>
-				<div class="col">
+				<div class="col-sm col-md-10">
 					{{identity.identifier}}
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-3">
-					Nombre
+				<div class="col-sm col-md-2">
+					<b>Nombre</b>
 				</div>
-				<div class="col">
+				<div class="col-sm col-md-10">
 					{{identity.person.name}} {{identity.person.fatherName}} {{identity.person.motherName}}
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-3">
-					Empresas
+			<div class="row" *ngIf="identity.person.email">
+				<div class="col-sm col-md-2">
+					<b>Email</b>
 				</div>
-				<div class="col">
+				<div class="col-sm col-md-10">
+					{{identity.person.email}}
+				</div>
+			</div>
+			<div class="row bg-warning" *ngIf="!identity.person.email">
+				<div class="col-sm col-md-2">
+					<b>Email</b>
+				</div>
+				<div class="col-sm col-md-10">
+					No hay email configurado, por lo tanto no puedes crear solicitudes
+				</div>
+			</div>
+			<div class="row" *ngIf="identity.person.curp">
+				<div class="col-sm col-md-2">
+					<b>CURP</b>
+				</div>
+				<div class="col-sm col-md-10">
+					{{identity.person.curp}}
+				</div>
+			</div>
+			<div class="row" *ngIf="identity.person.imss">
+				<div class="col-sm col-md-2">
+					<b>NSS</b>
+				</div>
+				<div class="col-sm col-md-10">
+					{{identity.person.imss}}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm col-md-2">
+					<b>Empresas</b>
+				</div>
+				<div class="col-sm col-md-10">
 					<div class="row" *ngFor="let company of identity.companies">
 						<div class="col">
 							<div class="row">

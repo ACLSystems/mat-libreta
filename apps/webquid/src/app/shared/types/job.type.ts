@@ -40,11 +40,11 @@ export type Child = {
 }
 
 export type Study = {
-	grade: string,
+	studiesGrade: string,
 	institute: string,
 	beginDate: Date,
 	current?: boolean,
-	certificate: string,
-	diploma: string,
+	certificatesAchieved: string,
+	diplomasAchieved: string,
 	endDate?: Date
 }

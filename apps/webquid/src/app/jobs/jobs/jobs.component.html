@@ -40,11 +40,18 @@
 							</div>
 						</td>
 						<td>{{candidate.created | date: 'medium'}}</td>
-						<td *ngIf="!candidate.filledBy">
-							<span class="text-warning">Pendiente de llenado</span>
+						<td *ngIf="!candidate.status || (candidate.status && candidate.status.length === 0)" class="text-warning">
+							Pendiente de llenado
 						</td>
-						<td *ngIf="candidate.filledBy">
-							{{candidate.filledBy.person.name}} {{candidate.filledBy.person.fatherName}} ({{candidate.filledWhen | date: 'medium'}})
+						<td *ngIf="candidate.status && candidate.status.length > 0 && candidate.status[0].status !== 'Rechazado'" class="text-success">
+							{{candidate.status[0].status}}
+						</td>
+						<td *ngIf="candidate.status && candidate.status.length > 0 && candidate.status[0].status === 'Rechazado'" class="text-danger">
+							{{candidate.status[0].status}}
+						</td>
+						<td *ngIf="!candidate.filledWhen"></td>
+						<td *ngIf="candidate.filledWhen">
+							<span class="pointme" (click)="openCandidateProfile(index)">Ver perfil</span>
 						</td>
 					</tr>
 				</tbody>

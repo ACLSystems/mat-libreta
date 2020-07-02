@@ -5,6 +5,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import Swal from 'sweetalert2';
 
 import { UserService } from '@wqshared/services/user.service';
+import { CommonService } from '@wqshared/services/common.service';
 import { Identity } from '@wqshared/types/user.type';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -40,6 +41,19 @@ export class ProfileComponent implements OnInit {
 		]
 	});
 
+  constructor(
+		private fb: FormBuilder,
+		private userService: UserService,
+		private commonService: CommonService,
+		private router: Router
+	) {
+		this.identity = this.userService.getidentity();
+		this.commonService.displayLog('Identity', this.identity);
+	}
+
+  ngOnInit(): void {
+  }
+
 	get pass1() {
 		return this.passForm.get('pass1');
 	}
@@ -51,18 +65,6 @@ export class ProfileComponent implements OnInit {
 	get oldPass() {
 		return this.passForm.get('oldPass');
 	}
-
-  constructor(
-		private fb: FormBuilder,
-		private userService: UserService,
-		private router: Router
-	) {
-		this.identity = this.userService.getidentity();
-		// console.log(this.identity);
-	}
-
-  ngOnInit(): void {
-  }
 
 	changePass() {
 		this.validateAllFormFields(this.passForm);

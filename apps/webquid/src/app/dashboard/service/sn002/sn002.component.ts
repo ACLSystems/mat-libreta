@@ -13,6 +13,7 @@ import {
 } from '@wqshared/types/display.type';
 import { UserService } from '@wqshared/services/user.service';
 import { JobsService } from '@wqshared/services/jobs.service';
+import { CommonService } from '@wqshared/services/common.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
 	isErrorState(control: FormControl | null,form: FormGroupDirective | NgForm | null): boolean {
@@ -396,6 +397,7 @@ export class Sn002Component implements OnInit {
 		private fb: FormBuilder,
 		private userService: UserService,
 		private jobsService: JobsService,
+		private commonService: CommonService,
 		private router: Router
 	) {
 		this.identity = this.userService.getidentity();
@@ -416,8 +418,6 @@ export class Sn002Component implements OnInit {
 	submit(): void {
 		this.getSchedule();
 		this.validateAllFormFields(this.requestForm);
-		// console.log(this.requestForm);
-		// console.log(this.identity);
 		if(this.requestForm.valid) {
 			var submitForm: any = {
 				quantity: 1,
@@ -456,7 +456,11 @@ export class Sn002Component implements OnInit {
 			};
 			if(submitForm.custom_fields.anos_de_experiencia_2 !== 'Sin experiencia') {
 				submitForm.custom_fields.experiencia_especifica_en = this.experienciaEn.value;
+			} else {
+				delete submitForm.custom_fields.experiencia_especifica_en;
 			}
+			this.commonService.displayLog('SubmitForm',submitForm);
+			this.commonService.displayLog('Service ID',this.serviceid);
 			// console.log(submitForm);
 			// console.log(this.serviceid);
 			Swal.fire('Espera...');
@@ -482,6 +486,7 @@ export class Sn002Component implements OnInit {
 				console.log(error);
 			});
 		} else {
+			this.commonService.displayLog('requestForm',this.requestForm);
 			Swal.fire({
 				type: 'error',
 				text: 'Por favor revisa los campos con error',
@@ -492,7 +497,8 @@ export class Sn002Component implements OnInit {
 	}
 
 	experienciaChange() {
-		if(this.experiencia.value === "Sin experiencia" && this.experiencia.value === '') {
+		this.commonService.displayLog('Cambio de experiencia','Estamos cambiando el valor de experiencia')
+		if(this.experiencia.value === "Sin experiencia") {
 			this.experienciaEn.clearValidators();
 		} else {
 			this.experienciaEn.setValidators([Validators.required]);

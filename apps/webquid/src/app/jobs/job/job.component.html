@@ -1,1 +1,496 @@
-<p>job works!</p>
+<div class="card" *ngIf="profile">
+	<div class="card-header">
+		<div class="row">
+			<div class="col">
+				<h3 *ngIf="reHire">Perfil de {{profile.person.name}} {{profile.person.fatherName}} - <small>Folio {{profile.folio}}</small></h3>
+				<h3 class="float-left text-danger" *ngIf="!reHire">Perfil de {{profile.person.name}} {{profile.person.fatherName}} - <small>Folio {{profile.folio}}</small></h3>
+				<h1 class="float-right text-danger" *ngIf="!reHire">NO CONTRATAR</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm col-md-2">
+				<b>Ticket</b>:
+			</div>
+			<div class="col-sm col-md-2">
+				{{profile.request}}
+			</div>
+			<div class="col-sm col-md-2">
+				<b>Puesto</b>:
+			</div>
+			<div class="col-sm col-md-2">
+				{{profile.job[0].name}}
+			</div>
+			<div class="col-sm col-md-2">
+				<b>Plaza</b>:
+			</div>
+			<div class="col-sm col-md-2">
+				{{profile.job[0].place}}
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm col-md-3">
+				<b>Creado</b>:
+			</div>
+			<div class="col-sm col-md-3">
+				{{profile.created | date:'medium'}}
+			</div>
+			<div class="col-sm col-md-3">
+				<b>Actualizado</b>:
+			</div>
+			<div class="col-sm col-md-3">
+				{{profile.updated | date:'medium'}}
+			</div>
+		</div>
+		<div class="row bg-light">
+			<div class="col-sm col-md-3">
+				<b>Estado</b>: {{status}}
+				<div class="progress">
+					<div
+						class="progress-bar"
+						[ngClass]="progressColor"
+						role="progressbar"
+						[attr.aria-valuenow]="progress"
+						[style]="progressStyle"
+						aria-valuemin="0"
+						aria-valuemax="100"
+					></div>
+				</div>
+				<button
+					class="btn btn-sm btn-success btn-block"
+					*ngIf="status === 'Revisar'"
+					(click)="relevante();"
+				>Relevante</button>
+				<button
+					class="btn btn-sm btn-success btn-block"
+					*ngIf="status === 'Relevante'"
+					(click)="entrevista();"
+				>Entrevista</button>
+				<button
+					class="btn btn-sm btn-success btn-block"
+					*ngIf="status === 'Entrevista'"
+					(click)="propuesta();"
+				>Propuesta</button>
+				<button
+					class="btn btn-sm btn-success btn-block"
+					*ngIf="status === 'Propuesta'"
+					(click)="contratar();"
+				>Contratar</button>
+				<button
+					class="btn btn-sm btn-danger btn-block"
+					*ngIf="status !== 'Contratado' && status !== 'Rechazado' && status !== 'No acepta'"
+					(click)="noAcepta();"
+				>No aceptó</button>
+				<button
+					class="btn btn-sm btn-danger btn-block"
+					*ngIf="status !== 'Contratado' && status !== 'Rechazado' && status !== 'No acepta'"
+					(click)="rechazar();"
+				>Rechazar</button>
+				<button
+					class="btn btn-sm btn-danger btn-block"
+					*ngIf="status !== 'Contratado' && status !== 'Rechazado' && status !== 'No acepta'"
+					(click)="noContratar();"
+					>No contratar</button>
+			</div>
+			<div class="col-sm col-md-9">
+				<mat-form-field>
+					<mat-label>Comentarios</mat-label>
+					<textarea
+						matInput
+						[formControl]="comments"
+						rows="2"></textarea>
+				</mat-form-field>
+				<div class="btn-group float-right">
+					<button
+						class="btn btn-sm btn-success"
+						(click)="modifyCV();"
+						[disabled]="saveDisable"
+					>Guardar</button>
+					<button
+						class="btn btn-sm btn-danger"
+						(click)="close();"
+					>Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-3">
+				<ul class="nav nav-pills nav-pills-rose flex-column" role="tablist">
+					<li class="nav-item">
+						<a
+							class="nav-link active"
+							data-toggle="tab"
+							role="tablist"
+							href="#datosPersonales">
+								Personales
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#datosAcademicos">
+								Académicos
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#datosLaborales">
+								Laborales
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#salud">
+								Salud
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#economicos">
+								Económicos
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#hijos">
+								Hijos
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#familia">
+								Familia
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#referencias">
+								Referencias
+						</a>
+					</li>
+					<li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#comentarios">
+								Comentarios
+						</a>
+					</li>
+					<!-- <li class="nav-item">
+						<a
+							class="nav-link"
+							data-toggle="tab"
+							role="tablist"
+							href="#actividad">
+								Actividad
+						</a>
+					</li> -->
+				</ul>
+			</div>
+			<div class="col-md-9">
+				<div class="tab-content">
+					<div class="tab-pane active" id="datosPersonales">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Datos Personales</h4>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>RFC:</b>: {{profile.identifier}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>Nombre completo</b>: {{profile.person.name}} {{profile.person.fatherName}} {{profile.person.motherName}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>Correo electrónico</b>: {{profile.person.email}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>Dirección</b>: {{profile.currentAddress.line1}} {{profile.currentAddress.line2}}, {{profile.currentAddress.locality}} {{profile.currentAddress.city}}, {{profile.currentAddress.state}} {{profile.currentAddress.postalCode}}, {{profile.currentAddress.country}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>Fecha de Nacimiento</b>: {{profile.birthDate|date}}, <b>Lugar de Nacimiento</b>: {{profile.birthPlace}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>Estado civil</b>: {{profile.civil}} <b>Género</b>: {{profile.gender}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>Teléfono</b>: {{profile.phone}} <b>Celular</b>: {{profile.cellPhone}} <b>Teléfono de recados</b>: {{profile.messagePhone}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<b>Encontré la vacante por</b>: {{profile.findVacancy}}
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="datosAcademicos">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Datos Académicos</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.academicInfo.length === 0">
+							<div class="col">
+								No hay información académica
+							</div>
+						</div>
+						<table class="table table-striped" *ngIf="profile.academicInfo.length > 0">
+							<thead>
+								<tr>
+									<th></th>
+									<th>Instituto</th>
+									<th>Estudios</th>
+									<th>Inicio</th>
+									<th>Fin</th>
+									<th>Certificados</th>
+									<th>Diplomas</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let academic of profile.academicInfo">
+									<td *ngIf="!academic.endDate">Actualmente estudiando</td>
+									<td *ngIf="academic.endDate"></td>
+									<td>{{academic.institute}}</td>
+									<td>{{academic.studiesGrade}}</td>
+									<td>{{academic.beginDate | date}}</td>
+									<td *ngIf="academic.endDate">{{academic.endDate | date}}</td>
+									<td *ngIf="!academic.endDate"></td>
+									<td *ngIf="!academic.endDate"></td>
+									<td *ngIf="!academic.endDate"></td>
+									<td *ngIf="academic.endDate">{{academic.certificatesAchieved}}</td>
+									<td *ngIf="academic.endDate">{{academic.diplomasAchieved}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="datosLaborales">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Datos Laborales</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.workInfo.length === 0">
+							<div class="col">
+								No hay información laboral
+							</div>
+						</div>
+						<table class="table table-striped" *ngIf="profile.workInfo.length > 0">
+							<tbody>
+								<tr *ngFor="let work of profile.workInfo">
+									<td *ngIf="!work.endDate" class="text-success">Empresa actual</td>
+									<td *ngIf="work.endDate"></td>
+									<td>
+										<b>Empresa</b>: {{work.companyName}} <br>
+										<b>Fecha de inicio</b>: {{work.beginDate|date}} <b>Fecha de Fin</b>: {{work.endDate|date}} <br>
+										<b>Puesto inicial</b>: {{work.initialJob}} <b>Puesto Final</b>: {{work.finalJob}} <b>Último sueldo</b>: {{work.salary}} <br>
+										<b>Jefe Inmediato</b>: {{work.bossName}} <br>
+										<b>Motivo de separación</b>: {{work.reasonToLeave}} <br>
+										<b>Teléfono de la empresa</b>: {{work.companyPhone}} <b>Teléfono de referencias</b>: {{work.referencePhone}}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="salud">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Habilidades y Hábitos de Salud</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="!profile.health">
+							<div class="col">
+								No hay datos de salud
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.health">
+							<div class="col">
+								<b>Alcohol</b>: {{profile.health.alcoholFrecuency}} <b>Tabaco</b>: {{profile.health.tobaccoFrecuency}} <br>
+								<b>Pasatiempos</b>: {{profile.health.hobbies}}<br />
+								<b>Mayor fortaleza</b>: {{profile.health.mainStrength}}<br>
+								<b>Área de oportunidad</b>: {{profile.health.mainOpportunityArea}} <br>
+								<b>Habilidades</b>: {{profile.tools.join(',')}}
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="economicos">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Datos Económicos y Calidad de Vida</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="!profile.qualityLife">
+							<div class="col">
+								No hay datos económicos
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.qualityLife">
+							<div class="col">
+								<b *ngIf="profile.qualityLife.ownHouse">Tengo casa propia <br /></b>
+								<b *ngIf="profile.qualityLife.rent">Rento <br /> y gasto {{profile.qualityLife.rentCost|currency:'MXN'}}</b>
+								<b *ngIf="profile.qualityLife.mortage">Pago Hipoteca <br /></b>
+								<b *ngIf="profile.qualityLife.infonavitRetention">Tengo Crédito Infonavit <br /></b>
+								<b *ngIf="profile.qualityLife.ownAutomobile">Tengo auto propio <br /></b>
+								<b *ngIf="profile.qualityLife.familyHouse">Vivo en casa de familiares <br /></b>
+								<b *ngIf="profile.qualityLife.placeShift">Estoy dispuesto a cambiar de residencia, por que {{profile.qualityLife.whyPlaceShift}} <br /></b>
+								<b *ngIf="profile.qualityLife.dailyTransportRate">Gasto en transporte </b><span *ngIf="profile.qualityLife.dailyTransportRate">{{profile.qualityLife.dailyTransportRate|currency:'MXN'}} <br /></span>
+								<b *ngIf="profile.qualityLife.ownAutomobile">Gasto semanalmente en gasolina </b><span *ngIf="profile.qualityLife.ownAutomobile">{{profile.qualityLife.gasWeeklyRate|currency:'MXN'}} <br /></span>
+								<span *ngIf="profile.qualityLife.distanceToHomeTime">Me toma <b>{{profile.qualityLife.distanceToHomeTime}} {{profile.qualityLife.distanceToHomeUnits}}</b> para llegar al trabajo<br /></span>
+								<b>Mis ingresos mensuales ascienden a</b>: {{profile.qualityLife.monthlyIncome|currency:'MXN'}} <br />
+								<b>Mis gastos mensuales ascienden a</b>: {{profile.qualityLife.monthlyExpenses|currency:'MXN'}}
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="hijos">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Hijos</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.children.length === 0">
+							<div class="col">
+								No hay información de hijos
+							</div>
+						</div>
+						<table class="table table-striped" *ngIf="profile.children.length > 0">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Fecha de nacimiento</th>
+									<th>Escolaridad</th>
+									<th>Ocupación</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let child of profile.children">
+									<td>{{child.name}}</td>
+									<td>{{child.birthDate|date}}</td>
+									<td>{{child.scholarShip}}</td>
+									<td>{{child.ocuppation}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="familia">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Personas que viven con el candidato</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.family.length === 0">
+							<div class="col">
+								No hay información de familiares
+							</div>
+						</div>
+						<table class="table table-striped" *ngIf="profile.family.length > 0">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Fecha de nacimiento</th>
+									<th>Relación/Parentesco</th>
+									<th>Ocupación</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let person of profile.family">
+									<td>{{person.name}}</td>
+									<td>{{person.birthDate|date}}</td>
+									<td>{{person.scholarShip}}</td>
+									<td>{{person.ocuppation}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="referencias">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Referencias Personales</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.references.length === 0">
+							<div class="col">
+								No hay información de referencias
+							</div>
+						</div>
+						<table class="table table-striped" *ngIf="profile.references.length > 0">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Teléfono</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let ref of profile.references">
+									<td>{{ref.name}}</td>
+									<td>{{ref.phone}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="tab-pane" id="comentarios">
+						<div class="row">
+							<div class="col bg-light">
+								<h4>Comentarios</h4>
+							</div>
+						</div>
+						<div class="row" *ngIf="profile.comments.length === 0">
+							<div class="col">
+								No hay información de comentarios
+							</div>
+						</div>
+						<table class="table table-striped table-fit" *ngIf="profile.comments.length > 0">
+							<thead>
+								<tr>
+									<th>Comentario</th>
+									<th>Por</th>
+									<th>Fecha</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let comment of profile.comments">
+									<td>{{comment.text}}</td>
+									<td *ngIf="comment.by && comment.by.person && comment.by.person.name && comment.by.person.fatherName">{{comment.by.person.name}} {{comment.by.person.fatherName}}</td>
+									<td>{{comment.when|date:'medium'}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

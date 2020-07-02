@@ -58,7 +58,17 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 						} else {
 							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.message}</p>`
 						}
-						if(error.status === 401) {
+						if(error.error.errors) {
+							let e = error.error.errors;
+							if(Array.isArray(e)) {
+								e.forEach(er => {
+									if(er.value) {
+										errorMessage = errorMessage + `<p><b>${er.value}</b> ${er.msg}</p>`
+									}
+								});
+							}
+						}
+						if(error.status > 399 && error.status < 500) {
 							sendError = false;
 						}
 					}

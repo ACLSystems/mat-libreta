@@ -634,8 +634,8 @@ export class PDFService {
 
 
 		// FINALIZAR
-		// doc.save('test.pdf');
-		window.open(doc.output('bloburl'), '_blank');
+		doc.save(timbreFiscalDigital.uuid);
+		// window.open(doc.output('bloburl'), '_blank');
 	}
 }
 

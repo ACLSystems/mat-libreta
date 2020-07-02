@@ -15,7 +15,9 @@ export type Person = {
 	name?: String,
 	fatherName?: String,
 	motherName?: String,
-	email?: String
+	email?: String,
+	curp?: String,
+	imss?: String
 }
 
 export type Roles = {

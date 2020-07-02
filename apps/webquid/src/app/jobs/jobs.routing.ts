@@ -14,8 +14,11 @@ const jobsRoutes: Routes = [
 				path: '',
 				component: JobsComponent,
 				canActivate: [JobGuard]
-			},
-			{
+			},{
+				path: 'job',
+				component: JobComponent,
+				canActivate: [JobGuard]
+			},{
 				path: ':jobid',
 				component: JobComponent,
 				canActivate: [JobGuard]

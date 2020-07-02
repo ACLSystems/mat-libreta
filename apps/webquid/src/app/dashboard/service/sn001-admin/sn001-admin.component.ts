@@ -21,7 +21,11 @@ export class SN001AdminComponent implements OnInit {
 	fileName: string;
 	fileString: FileString[] = [];
 	filesSelected: boolean = false;
-	progressbar: number = 0;
+	progress: string = '0';
+	progressStyle: string = 'width: 0%;';
+	progressColor: string = 'bg-success';
+	errors: any[] = [];
+	success: any[] = [];
 
   constructor(
 		private fb: FormBuilder,
@@ -33,7 +37,8 @@ export class SN001AdminComponent implements OnInit {
 
 	async filesPicked(files:File[]) {
 		this.files = [...files];
-		this.progressbar = 0;
+		this.progress = '0';
+		this.progressStyle = 'width: 0%;';
 		this.files = this.files.filter(file => file.type.includes('text/xml'));
 		// console.log(this.files);
 		this.fileString = [];
@@ -75,18 +80,38 @@ export class SN001AdminComponent implements OnInit {
 		// console.log(this.fileString);
 	}
 
-	processFiles() {
-		this.progressbar = 0;
-		for(let i=0; i < this.fileString.length; i++) {
-			this.operatorService.sendCFDI(this.fileString[i]).subscribe(data => {
-				this.fileString[i].result = data;
-				setTimeout(() => {
-					this.progressbar = Math.floor(1)
-				}, 306);
-			}, error => {
-				this.fileString[i].error = error.error;
-				this.fileString[i].type = 'error';
-			});
+	// processFiles() {
+	// 	this.progressbar = 0;
+	// 	for(let i=0; i < this.fileString.length; i++) {
+	// 		this.operatorService.sendCFDI(this.fileString[i]).subscribe(data => {
+	// 			this.fileString[i].result = data;
+	// 			setTimeout(() => {
+	// 				this.progressbar = Math.floor(1)
+	// 			}, 306);
+	// 		}, error => {
+	// 			this.fileString[i].error = error.error;
+	// 			this.fileString[i].type = 'error';
+	// 		});
+	// 	}
+	// }
+
+	processFiles(index:number) {
+		if(this.fileString[index]){
+			let file = this.fileString[index];
+			let len = this.fileString.length;
+			this.operatorService
+				.sendCFDI(file)
+				.subscribe(data => {
+					this.progress = index + 1 + '';
+					let width = Math.floor((index+1)*100/len);
+					this.progressStyle = `width: ${width}%;`;
+					this.fileString[index].result = data;
+					this.processFiles(index+1);
+				}, error => {
+					this.fileString[index].error = error.error.replace(/<p>/g,'').replace(/<\/p>/g,'');
+					this.fileString[index].type = 'error';
+					this.processFiles(index+1);
+				});
 		}
 	}
 

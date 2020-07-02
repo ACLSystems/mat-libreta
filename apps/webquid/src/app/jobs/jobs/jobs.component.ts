@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
+import { Router } from '@angular/router';
 import localeEs from '@angular/common/locales/es';
 import { FormBuilder, FormGroup, FormControl, Validators, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -7,6 +8,7 @@ import Swal from 'sweetalert2';
 
 import { UserService } from '@wqshared/services/user.service';
 import { JobsService } from '@wqshared/services/jobs.service';
+import { CommonService } from '@wqshared/services/common.service';
 import { Identity, Roles } from '@wqshared/types/user.type';
 
 import { DtOptions } from '@mat-libreta/shared';
@@ -150,7 +152,9 @@ export class JobsComponent implements OnInit {
   constructor(
 		private fb: FormBuilder,
 		private userService: UserService,
-		private jobsService: JobsService
+		private jobsService: JobsService,
+		private commonService: CommonService,
+		private router: Router
 	) {
 		this.identity = this.userService.getidentity();
 		if(this.identity) {
@@ -162,7 +166,8 @@ export class JobsComponent implements OnInit {
 			'Candidato',
 			'Puesto/Plaza',
 			'Creado',
-			'Status'
+			'Status',
+			'Perfil'
 		];
 	}
 
@@ -191,6 +196,7 @@ export class JobsComponent implements OnInit {
 			} else {
 				this.candidates = [];
 			}
+			this.commonService.displayLog('Candidates',this.candidates);
 			this.loadingVacancy = false;
 			Swal.hideLoading();
 			Swal.close();
@@ -263,6 +269,10 @@ export class JobsComponent implements OnInit {
 	openJobCard() {
 		// console.log('Abrir tarjeta de creación de puesto');
 		this.jobDisplay = true;
+	}
+
+	openCandidateProfile(index:number) {
+		this.router.navigate(['/jobs/job'],{state: {data: this.candidates[index]}});
 	}
 
 	closeJobDisplay() {

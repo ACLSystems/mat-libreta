@@ -1,5 +1,3 @@
-
-	<!-- <div style="background-image: url('./assets/img/bg0.jpg');"> -->
 <div class="container-fluid mt-5" *ngIf="!loading">
 	<div class="row">
 		<div class="col">
@@ -30,12 +28,12 @@
 								<div class="row border-bottom">
 									<div class="col">
 										<h5>Instrucciones:</h5>
-										<p>Llena todos tus datos personales.
+										<p>Llena tus datos personales.
 										<span class="text-danger">Todos los campos son obligatorios</span></p>
 									</div>
 								</div>
 								<div class="row mt-3">
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Nombre(s)</mat-label>
 											<input
@@ -47,7 +45,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Apellido Paterno</mat-label>
 											<input
@@ -59,7 +57,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Apellido Materno</mat-label>
 											<input
@@ -73,7 +71,44 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-4">
+										<mat-form-field>
+											<mat-label>Cuenta de correo electrónico</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="email"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col-sm col-md-4">
+										<mat-form-field>
+											<mat-label>RFC</mat-label>
+											<input
+												matInput
+												type="text"
+												required
+												formControlName="identifier"
+												>
+										</mat-form-field>
+									</div>
+									<div class="col-sm col-md-4">
+										<mat-form-field>
+											<mat-label>Estado Civil</mat-label>
+											<mat-select
+												formControlName="civil"
+												required
+												>
+												<mat-option *ngFor="let edo of edoCivil" [value]="edo.value">
+													{{edo.viewValue}}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>
 													Fecha de nacimiento
@@ -95,7 +130,7 @@
 											</mat-error>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Lugar de nacimiento</mat-label>
 											<textarea
@@ -107,7 +142,7 @@
 												></textarea>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Género</mat-label>
 											<mat-select
@@ -123,7 +158,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Teléfono fijo</mat-label>
 											<input
@@ -134,7 +169,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Celular</mat-label>
 											<input
@@ -145,7 +180,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Teléfono de recados</mat-label>
 											<input
@@ -154,43 +189,6 @@
 												formControlName="messagePhone"
 												required
 												>
-										</mat-form-field>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col">
-										<mat-form-field>
-											<mat-label>Cuenta de correo electrónico</mat-label>
-											<input
-												matInput
-												type="text"
-												required
-												formControlName="email"
-												>
-										</mat-form-field>
-									</div>
-									<div class="col">
-										<mat-form-field>
-											<mat-label>RFC</mat-label>
-											<input
-												matInput
-												type="text"
-												required
-												formControlName="identifier"
-												>
-										</mat-form-field>
-									</div>
-									<div class="col">
-										<mat-form-field>
-											<mat-label>Estado Civil</mat-label>
-											<mat-select
-												formControlName="civil"
-												required
-												>
-												<mat-option *ngFor="let edo of edoCivil" [value]="edo.value">
-													{{edo.viewValue}}
-												</mat-option>
-											</mat-select>
 										</mat-form-field>
 									</div>
 								</div>
@@ -209,9 +207,9 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
-											<mat-label>Dirección</mat-label>
+											<mat-label>Calle y número</mat-label>
 											<input
 												matInput
 												type="text"
@@ -220,7 +218,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Colonia</mat-label>
 											<input
@@ -231,7 +229,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Código Postal</mat-label>
 											<input
@@ -244,7 +242,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Municipio/Localidad</mat-label>
 											<input
@@ -255,7 +253,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Ciudad</mat-label>
 											<input
@@ -266,7 +264,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field  *ngIf
 										="!otherCountry">
 											<mat-label>Estado</mat-label>
@@ -290,7 +288,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field *ngIf
 										="!otherCountry">
 											<mat-label>País</mat-label>
@@ -327,12 +325,12 @@
 								<div class="row border-bottom">
 									<div class="col">
 										<h5>Instrucciones:</h5>
-										<p>Puedes agregar una o más empleos colocando los datos solicitados y luego presiona el botón de "Guardar Empleo". Al hacerlo puedes agregar otra empresa repitiendo el mismo procedimiento.
+										<p>Aquí debes llenar tu historia laboral. Comienza agregando el último empleo. Puedes agregar uno o más empleos colocando los datos solicitados y luego presiona el botón <b>"Guardar Empleo"</b>. Al hacerlo puedes agregar otro empleo repitiendo el mismo procedimiento.
 										<span class="text-danger">Todos los campos son obligatorios</span></p>
 									</div>
 								</div>
 								<div class="row mt-3">
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<div class="togglebutton">
 											<label>
 												<input
@@ -345,7 +343,7 @@
 											</label>
 										</div>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Empresa</mat-label>
 											<input
@@ -356,7 +354,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>
 												Fecha de inicio
@@ -378,7 +376,7 @@
 											</mat-error>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field *ngIf="!wiCurrentValue">
 											<mat-label>
 												Fecha de término
@@ -402,7 +400,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Puesto inicial</mat-label>
 											<input
@@ -413,7 +411,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Puesto final</mat-label>
 											<input
@@ -424,7 +422,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Último Sueldo</mat-label>
 											<input
@@ -440,7 +438,7 @@
 											</mat-error>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field *ngIf="!wiCurrentValue">
 											<mat-label>Motivo de separación</mat-label>
 											<input
@@ -453,7 +451,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Jefe Directo</mat-label>
 											<input
@@ -464,7 +462,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Teléfono de la empresa</mat-label>
 											<input
@@ -475,7 +473,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Teléfono de referencias laborales</mat-label>
 											<input
@@ -501,29 +499,29 @@
 											<div class="row align-middle"
 												[ngClass]="{'bg-light':index % 2}"
 											>
-												<div class="col" *ngIf="work.current">
+												<div class="col-sm col-md-2" *ngIf="work.current">
 													Actual
 												</div>
-												<div class="col" *ngIf="!work.current"></div>
-												<div class="col">
+												<div class="col-sm col-md-2" *ngIf="!work.current"></div>
+												<div class="col-sm col-md-2">
 													{{work.companyName}}<br />
 													{{work.beginDate| date: 'mediumDate'}}<br />
 													{{work.endDate| date: 'mediumDate'}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{work.initialJob}}<br />
 													{{work.finalJob}}<br />
 													{{work.salary | currency}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{work.reasonToLeave}}<br />
 													{{work.bossName}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{work.companyPhone}}<br />
 													{{work.referencePhone}}
 												</div>
-												<div class="col-auto">
+												<div class="col-sm col-md-2">
 													<button
 														class="btn btn-link"
 														(click)="editWork(index);"
@@ -537,7 +535,7 @@
 														<i class="fas fa-times"></i>
 													</button>
 												</div>
-												<div class="col"></div>
+												<!-- <div class="col"></div> -->
 											</div>
 										</div>
 									</div>
@@ -571,7 +569,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Grado de estudios</mat-label>
 											<input
@@ -587,7 +585,7 @@
 											</mat-error>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Nombre de la Institución Académica</mat-label>
 											<input
@@ -598,7 +596,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>
 												Fecha de Inicio
@@ -622,7 +620,7 @@
 									</div>
 								</div>
 								<div class="row" *ngIf="!aiCurrentValue">
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field >
 											<mat-label>Título obtenido</mat-label>
 											<input
@@ -633,7 +631,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>Diplomas, certificaciones o cursos Obtenidos</mat-label>
 											<input
@@ -644,7 +642,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<mat-form-field>
 											<mat-label>
 												Fecha de Finalización
@@ -688,29 +686,29 @@
 											<div class="row align-middle"
 												[ngClass]="{'bg-light':index % 2}"
 											>
-												<div class="col" *ngIf="study.current">
+												<div class="col-sm col-md-2" *ngIf="study.current">
 													Actual
 												</div>
-												<div class="col" *ngIf="!study.current"></div>
-												<div class="col">
+												<div class="col-sm col-md-2" *ngIf="!study.current"></div>
+												<div class="col-sm col-md-2">
 													{{study.grade}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{study.institute}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{study.beginDate | date: 'mediumDate'}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{study.certificate}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{study.diploma}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{study.endDate | date: 'mediumDate'}}
 												</div>
-												<div class="col-auto">
+												<div class="col-sm col-md-2">
 													<button
 														class="btn btn-link"
 														(click)="editStudy(index);"
@@ -743,7 +741,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-6">
 										<mat-form-field>
 											<mat-label>¿Con qué frecuencia bebes alcohol?</mat-label>
 											<mat-select
@@ -756,7 +754,7 @@
 											</mat-select>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-6">
 										<mat-form-field>
 											<mat-label>¿Con qué frecuencia fumas?</mat-label>
 											<mat-select
@@ -841,7 +839,7 @@
 									</div>
 								</div>
 								<div class="row mt-3">
-									<div class="col bg-light">
+									<div class="col-sm col-md-4 bg-light">
 										<div class="togglebutton">
 											<label>
 												<input
@@ -853,7 +851,7 @@
 											</label>
 										</div>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<div class="togglebutton">
 											<label>
 												<input
@@ -866,7 +864,7 @@
 											</label>
 										</div>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<div class="togglebutton">
 											<label>
 												<input
@@ -880,7 +878,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col bg-light">
+									<div class="col-sm col-md-4 bg-light">
 										<div class="row">
 											<div class="col">
 												<div class="togglebutton">
@@ -924,7 +922,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col" >
+									<div class="col-sm col-md-4">
 										<mat-form-field *ngIf="qRentValue">
 											<mat-label>¿Cuánto gastas al mes en la renta?</mat-label>
 											<input
@@ -938,7 +936,7 @@
 									<div class="col"></div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<div class="row">
 											<div class="col">
 												<div class="togglebutton">
@@ -981,7 +979,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-4">
 										<div class="row">
 											<div class="col">
 												<div class="togglebutton">
@@ -1010,54 +1008,55 @@
 											</div>
 										</div>
 									</div>
-									<div class="col">
-										<div class="col">
-											<mat-form-field>
-												<mat-label>¿Cuánto tiempo haces de tu casa al trabajo?</mat-label>
-												<div class="container">
-													<div class="row">
-														<div class="col">
-															<input
-																matInput
-																type="number"
-																required
-																formControlName="qDistanceToHome"
-																>
-														</div>
-														<div class="col">
-															<mat-select
-																formControlName="qDistanceHomeUnits"
-																required
-																>
-																<mat-option *ngFor="let units of units" [value]="units.value">
-																	{{units.viewValue}}
-																</mat-option>
-															</mat-select>
-														</div>
+									<div class="col-sm col-md-4">
+										<mat-form-field>
+											<mat-label>¿Cuánto tiempo haces de tu casa al trabajo?</mat-label>
+											<div class="container">
+												<div class="row">
+													<div class="col">
+														<input
+															matInput
+															type="number"
+															required
+															formControlName="qDistanceToHome"
+															>
+													</div>
+													<div class="col">
+														<mat-select
+															formControlName="qDistanceHomeUnits"
+															[value]="units[0].value"
+															required
+															>
+															<mat-option *ngFor="let units of units" [value]="units.value">
+																{{units.viewValue}}
+															</mat-option>
+														</mat-select>
 													</div>
 												</div>
-											</mat-form-field>
-										</div>
+											</div>
+										</mat-form-field>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-6">
 										<mat-form-field>
 											<mat-label>¿A cuánto ascienden tus ingresos mensuales?</mat-label>
 											<input
 												matInput
 												type="number"
-												formControlName="qMontlyIncome"
+												formControlName="qMonthlyIncome"
+												required
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-6">
 										<mat-form-field>
 											<mat-label>¿A cuánto ascienden tus gastos mensuales?</mat-label>
 											<input
 												matInput
 												type="number"
-												formControlName="qMontlyExpenses"
+												formControlName="qMonthlyExpenses"
+												required
 												>
 										</mat-form-field>
 									</div>
@@ -1076,7 +1075,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Nombre completo</mat-label>
 											<input
@@ -1087,7 +1086,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>
 													Fecha de nacimiento
@@ -1109,7 +1108,7 @@
 											</mat-error>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Escolaridad</mat-label>
 											<input
@@ -1120,7 +1119,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Ocupación</mat-label>
 											<input
@@ -1148,20 +1147,19 @@
 											<div class="row align-middle"
 												[ngClass]="{'bg-light':index % 2}"
 											>
-												<div class="col"></div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{child.name}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{child.birthDate | date: 'mediumDate'}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{child.scholarShip}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{child.occupation}}
 												</div>
-												<div class="col-auto">
+												<div class="col-sm col-md-2">
 													<button
 														class="btn btn-link"
 														(click)="editChild(index);"
@@ -1175,7 +1173,7 @@
 														<i class="fas fa-times"></i>
 													</button>
 												</div>
-												<div class="col"></div>
+												<div class="col-sm col-md-2"></div>
 											</div>
 										</div>
 									</div>
@@ -1194,7 +1192,7 @@
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Nombre completo</mat-label>
 											<input
@@ -1205,7 +1203,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>
 													Fecha de nacimiento
@@ -1227,7 +1225,7 @@
 											</mat-error>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Relación/Parentesco</mat-label>
 											<input
@@ -1238,7 +1236,7 @@
 												>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-3">
 										<mat-form-field>
 											<mat-label>Ocupación</mat-label>
 											<input
@@ -1266,20 +1264,19 @@
 											<div class="row align-middle"
 												[ngClass]="{'bg-light':index % 2}"
 											>
-												<div class="col"></div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{fam.name}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{fam.birthDate | date: 'mediumDate'}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{fam.relationship}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-2">
 													{{fam.occupation}}
 												</div>
-												<div class="col-auto">
+												<div class="col-sm col-md-2">
 													<button
 														class="btn btn-link"
 														(click)="editFamily(index);"
@@ -1293,7 +1290,7 @@
 														<i class="fas fa-times"></i>
 													</button>
 												</div>
-												<div class="col"></div>
+												<div class="col-sm col-md-2"></div>
 											</div>
 										</div>
 									</div>
@@ -1308,11 +1305,11 @@
 								<div class="row border-bottom">
 									<div class="col">
 										<h5>Instrucciones:</h5>
-										<p>Debes llenar al menos 3 (tres) referencias personales. <span class="text-danger">Todos los campos son obligatorios.</span> Llena los datos solicitados de la referencia y luego presiona "Guardar referencia". Repite el procedimiento para cada referencia.</p>
+										<p>Debes llenar al menos <b class="text-danger">3 (tres)</b> referencias personales. <span class="text-danger">Todos los campos son obligatorios.</span> Llena los datos solicitados de la referencia y luego presiona "Guardar referencia". Repite el procedimiento para cada referencia.</p>
 									</div>
 								</div>
 								<div class="row">
-									<div class="col">
+									<div class="col-sm col-md-6">
 										<mat-form-field>
 											<mat-label>Nombre Completo</mat-label>
 											<input
@@ -1329,7 +1326,7 @@
 											</mat-error>
 										</mat-form-field>
 									</div>
-									<div class="col">
+									<div class="col-sm col-md-6">
 										<mat-form-field>
 											<mat-label>Número telefónico</mat-label>
 											<input
@@ -1363,14 +1360,13 @@
 											<div class="row"
 												[ngClass]="{'bg-light':index % 2}"
 											>
-												<div class="col"></div>
-												<div class="col">
+												<div class="col-sm col-md-4">
 													{{ref.name}}
 												</div>
-												<div class="col">
+												<div class="col-sm col-md-4">
 													{{ref.phone}}
 												</div>
-												<div class="col-auto">
+												<div class="col-sm col-md-4">
 													<button
 														class="btn btn-link"
 														(click)="editReference(index);"
@@ -1384,7 +1380,6 @@
 														<i class="fas fa-times"></i>
 													</button>
 												</div>
-												<div class="col"></div>
 											</div>
 										</div>
 									</div>
@@ -1412,7 +1407,20 @@
 						</div>
 					</div>
 				</div>
+				<!-- <div class="card-footer bg-light">
+
+				</div> -->
 			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<p class="h4">Aviso de Privacidad</p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<p class="text-justify">CASH ASI DE EFECTIVO, SA de CV, con domicilio en Dr. Navarro 60 int D Col. Doctores, Delegación Cuauhtémoc CP 06720, Ciudad de México, manifiesta que sus datos personales serán utilizados para fines de contacto, para permitir el registro en el sitio, para acceder al contenido del sitio, para facturación y cobro y para envío de publicidad. Para conocer mayor información sobre los términos y condiciones en que serán tratados sus datos personales, como los terceros con quienes compartimos su información personal y la forma en que podrá ejercer sus derechos ARCO, puede consultar el Aviso de Privacidad Integral en nuestro sitio: https://gingroupcolorines.aclsystems.mx</p>
 		</div>
 	</div>
 </div>
