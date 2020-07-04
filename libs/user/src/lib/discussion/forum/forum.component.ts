@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { UserCourseService, RefreshDiscussionService, NotElemService, Discussion } from '@mat-libreta/shared';
+import { UserCourseService, RefreshDiscussionService, NotElemService, Discussion, CommonService } from '@mat-libreta/shared';
 
 import { CreateQuestionComponent } from '../create-question/create-question.component';
 
@@ -38,6 +38,7 @@ export class ForumComponent implements OnInit, OnDestroy, OnChanges {
 		private userCourseService: UserCourseService,
 		private refreshDiscussion: RefreshDiscussionService,
 		private notElementService: NotElemService,
+		private commonService: CommonService,
 		private matDialog: MatDialog,
 		private fb: FormBuilder
 	) { }
@@ -96,6 +97,7 @@ export class ForumComponent implements OnInit, OnDestroy, OnChanges {
 				this.discussions = [];
 			}
 			this.loading = false;
+			this.commonService.displayLog('Discusiones',this.discussions);
 		}, error => {
 			// Swal.fire({
 			// 	type: 'error',

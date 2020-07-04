@@ -85,7 +85,8 @@ export interface Task {
 	footer?: string,
 	id: string,
 	label?: string,
-	text: string,
+	content: string,
+	text?: string,
 	type: string,
 	files?: string[],
 	w?: number
@@ -93,7 +94,7 @@ export interface Task {
 
 export interface TaskEntry {
 	groupid: string,
-	blockId: string,
+	blockid: string,
 	task: Task[],
 	force?: boolean
 }

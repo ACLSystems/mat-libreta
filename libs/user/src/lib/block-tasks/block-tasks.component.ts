@@ -31,12 +31,14 @@ declare const $:any;
 export class BlockTasksComponent implements OnInit {
 
 	@Input() tasks: Task[];
+	@Input() blockid: string;
+	@Input() groupid: string;
 	@Input() courseCode: string;
 	@Input() groupCode: string;
 	textareaValue: string = '';
 	isSendTask = false;
   isAttachment = false;
-	taskStudent: TaskEntry [] = [];
+	taskStudent: Task [] = [];
 	files: File[] = [];
 	fileName: string;
 	fileString: FileString[] = [];
@@ -68,7 +70,7 @@ export class BlockTasksComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		console.log(this.tasks);
+		this.commonService.displayLog('Tareas',this.tasks);
 	}
 
 	// async changeInputFile(files: File[]) {
@@ -105,11 +107,41 @@ export class BlockTasksComponent implements OnInit {
 	//
 	// }
 
-	sendTasks(force: boolean) {
-
+	sendTasks(force?: boolean) {
+		const task: TaskEntry = {
+			groupid: this.groupid,
+			blockid: this.blockid,
+			task: this.taskStudent,
+			force: force || false
+		}
+		this.userCourseService.sendTasks(JSON.stringify(task)).subscribe(data => {
+			if(data && data.message && data.message.includes('task saved')) {
+				this.notElemService.showNotification(
+					'bottom',
+					'left',
+					'success',
+					'Actividades enviadas correctamente'
+				);
+			} else {
+				this.notElemService.showNotification(
+					'bottom',
+					'left',
+					'warning',
+					'Las actividades se enviaron, pero no recibimos confirmación correcta.'
+				);
+			}
+		}, error => {
+			console.log(error);
+			this.notElemService.showNotification(
+				'bottom',
+				'left',
+				'danger',
+				'Hubo un error en el envío. Intenta nuevamente más tarde'
+			);
+		})
 	}
 
-	uploadFile(event: any, idtask: any, label: string) {
+	uploadFile(event: any, idtask: string, label: string, text: string) {
 		const maxSize = 1048576;
 		//this.messageUserSuccess = null;
     //this.messageUserError = null;
@@ -150,7 +182,8 @@ export class BlockTasksComponent implements OnInit {
 							'Archivo cargado correctamente'
 						);
 						// console.log(event.body.fileId);
-						this.setTask(event.body.fileId, 'file', idtask, label);
+						this.commonService.displayLog('Fileid', event.body.fileId);
+						this.setTask(event.body.fileId,'file',idtask,label, text);
 					}
       }, error => {
 				this.progress.status = 'Error en la carga';
@@ -166,27 +199,17 @@ export class BlockTasksComponent implements OnInit {
     }
   }
 
-	setTask(content: any, type: any, idtask: any, label: string) {
-    // if (this.tasks.find(id => id.id=== idtask) ) {
-    //   const indexRepeat = this.tasks.indexOf(this.tasks.find(id => id.label === label));
-    //   this.tasks.splice(indexRepeat, 1);
-    //   this.tasks.push({
-		// 		id: idtask,
-		// 		text: content,
-		// 		type,
-		// 		label
-		// 	});
-    //   this.isAttachment = true;
-    // } else {
-    //   this.tasks.push({
-		// 		id: idtask,
-		// 		text: content,
-		// 		type,
-		// 		label
-		// 	});
-    //   this.isAttachment = true;
-    // }
-		// console.log(this.taskStudent)
+	setTask(content: string, type: string, id: string, label: string, text: string) {
+		if (this.taskStudent.find(idTask => idTask.id === id) ) {
+      const indexRepeat = this.taskStudent.indexOf(this.taskStudent.find(idTask => idTask.label === label));
+      this.taskStudent.splice(indexRepeat, 1);
+      this.taskStudent.push({id, content, type, label,text});
+      this.isAttachment = true;
+    } else {
+      this.taskStudent.push({id, content, type, label, text});
+      this.isAttachment = true;
+    }
+		this.commonService.displayLog('Tareas del estudiante', this.taskStudent)
   }
 
 }

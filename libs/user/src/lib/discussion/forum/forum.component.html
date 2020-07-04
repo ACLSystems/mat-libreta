@@ -11,9 +11,9 @@
 			</div> -->
 			<div class="row">
 				<div class="col">
-					<span class="h4" *ngIf="discussions.length === 0">No hay preguntas todavía</span>
-					<span class="h4" *ngIf="discussions.length === 1">{{discussions.length}} pregunta realizada</span>
-					<span class="h4" *ngIf="discussions.length > 1">{{discussions.length}} preguntas</span>
+					<span class="h4" *ngIf="discussions.length === 0">No hay preguntas / mensajes todavía</span>
+					<span class="h4" *ngIf="discussions.length === 1">{{discussions.length}} pregunta / mensaje realizado</span>
+					<span class="h4" *ngIf="discussions.length > 1">{{discussions.length}} preguntas / mensajes</span>
 				</div>
 				<div class="col">
 					<div class="float-right pointme" (click)="createQuestion();">
@@ -58,7 +58,8 @@
 							>
 								{{discussion.text}}
 							</p>
-							<small>Preguntó <span class="text-primary">{{discussion.user.split(' ')[0]}}</span> - {{discussion.date | dateAgo}}</small>
+							<small *ngIf="discussion.pubtype !== 'tutor'">Preguntó <span class="text-primary">{{discussion.user.split(' ')[0]}}</span> - {{discussion.date | dateAgo}}</small>
+							<small *ngIf="discussion.pubtype === 'tutor'">Comentó el tutor - {{discussion.date | dateAgo}}</small>
 						</div>
 					</div>
 					<div class="row">
@@ -115,7 +116,8 @@
 					<div class="row">
 						<div class="col">
 							<p class="text-justify h3 my-0">{{discussion.title}}</p>
-							<small>Preguntó <span class="text-primary">{{discussion.user.split(' ')[0]}}</span> - {{discussion.date | dateAgo}}</small>
+							<small *ngIf="discussion.pubtype !== 'tutor'">Preguntó <span class="text-primary">{{discussion.user.split(' ')[0]}}</span> - {{discussion.date | dateAgo}}</small>
+							<small *ngIf="discussion.pubtype === 'tutor'">Comentó el tutor - {{discussion.date | dateAgo}}</small>
 							<p class="text-justify mt-1">{{discussion.text}}</p>
 						</div>
 					</div>
@@ -208,7 +210,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>

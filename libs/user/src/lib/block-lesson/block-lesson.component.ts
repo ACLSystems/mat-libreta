@@ -14,15 +14,12 @@ export class BlockLessonComponent implements OnInit, AfterViewInit, OnChanges {
 	@Input() blockid: string;
 	// track: number;
 
+	constructor(
 
-
-	constructor() { }
+	) { }
 
 	ngOnInit() {
 		// this.track = this.blockData.track;
-		// console.group('blockData');
-		// console.log(this.blockData);
-		// console.groupEnd();
 	}
 
 	ngOnChanges(changes: SimpleChanges) {

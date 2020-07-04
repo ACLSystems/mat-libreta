@@ -20,7 +20,7 @@
 			<!--Contenido o texto adicional de la tarea-->
 			<div [innerHTML]="task.text"></div>
 			<!--  -->
-			<!-- Si la tarea tiene un campo tipo textarea -->
+			<!-- Tarea de tipo textarea -->
 			<div *ngIf="task.type == 'textarea'"
 				>
 				<textarea
@@ -28,6 +28,7 @@
 					rows="3"
 					placeholder="Escribe aquí tu respuesta"
 					#answerTaskTA
+					(blur)="setTask(answerTaskTA.value,'text',task.id,task.label || 'Tarea ' + taskNumber, task.text)"
 				></textarea>
 			</div>
 			<!--  -->
@@ -38,6 +39,7 @@
 					class="form-control"
 					placeholder="Escribe aquí tu respuesta"
 					#answerTaskTxt
+					(blur)="setTask(answerTaskTxt.value,'text',task.id,task.label || 'Tarea ' + taskNumber, task.text)"
 					>
 			</div>
 			<!--  -->
@@ -56,13 +58,13 @@
 						hidden
 						type="file"
 						id="file"
-						(change)="uploadFile($event, task.id, task.label);"
+						(change)="uploadFile($event, task.id, task.label, task.text);"
 						#fileInput
 						formControlName="file"
 					>
 				</div>
 				<div *ngIf="currentFileUpload" class="col-sm-6">
-					<div class="progress">
+					<div class="progress" style="height:18px;">
 						<div
 							class="progress-bar bg-success progress-bar-info"
 							role="progressbar"
@@ -89,5 +91,11 @@
 			</div> -->
 		</div>
 	</div>
-	<button type="button" class="btn btn-success" name="button"><i class="fas fa-paper-plane"></i> Enviar</button>
+	<button
+		class="btn btn-success"
+		[disabled]="!taskStudent.length"
+		(click)="sendTasks(true);"
+	>
+		<i class="fas fa-paper-plane"></i> Enviar
+	</button>
 </div>

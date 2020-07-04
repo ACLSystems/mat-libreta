@@ -256,7 +256,9 @@ export class UserCourseService {
 		if(pubtype) {
 			query = query + '"pubtype":"' + pubtype + '"'
 		} else {
-			query = query + '"pubtype":"question"'
+			// query = query + '"pubtype":"question"'
+			query = query +
+			'"$or": [{"pubtype":"question"},{"pubtype":"tutor"}]'
 		}
 		if(type) {
 			query = query + ',"type":"' + type + '"'
@@ -330,9 +332,9 @@ export class UserCourseService {
 				param, id
 			)
 		};
-		console.group('getUserConst');
-		console.log(httpOptions);
-		console.groupEnd();
+		// console.group('getUserConst');
+		// console.log(httpOptions);
+		// console.groupEnd();
 		const route = this.url+'api/v1/user/tookcert';
     return this.http.get(route,httpOptions);
   }
@@ -388,12 +390,13 @@ export class UserCourseService {
 	/*
   Metodo para enviar las tareas
   */
-  setTasks(task): Observable <any>{
-    const params = JSON.stringify(task);
+  sendTasks(task:string): Observable <any>{
+    // const params = JSON.stringify(task);
+		// Ya debe venir stringifada
 		const headers = JSONHeaders.set(
 				'Authorization',
 				'Bearer ' + this.commonService.getToken()
 			);
-    return this.http.put(this.url + 'api/v1/user/savetask' , params, {headers:headers});
+    return this.http.put(this.url + 'api/v1/user/savetask' , task, {headers:headers});
   }
 }
