@@ -1,16 +1,19 @@
 import { Address } from './addresses.type';
 
 export type Company = {
-	_id?: String,
-	type: String,
+	_id?: string,
+	type: string,
 	alias?: string,
-	phone?: String[],
+	phone?: string[],
 	isActive: Boolean,
 	created?: Date,
 	updated?: Date,
-	name: String,
-	display?: String,
-	identifier: String,
+	name: string,
+	display?: string,
+	identifier: string,
 	addresses?: Address[],
+	customersRelated?: any[],
+	employerRegistration?: string[],
+	payersRelated?: any[]
 	__v?: Number
 }

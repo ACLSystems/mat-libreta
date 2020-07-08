@@ -12,6 +12,7 @@ declare global {
 window.fcWidget = window.fcWidget || {};
 
 import { ConfigService } from '../services/config.services';
+import { CommonService } from '@wqshared/services/common.service';
 
 type Folder = {
 	id: string,
@@ -71,10 +72,18 @@ export class MainComponent implements OnInit {
 		freshOperatorFolder	: [''],
 		freshTechFolder			: [''],
 		freshBillFolder			: [''],
-		// // Falta file Repo (Dropbox)
-		// cacheUrl 						: [''],
-		// cacheTTLSessions 		: [0],
-		// cacheTTL						: [0],
+		cacheUrl 						: [''],
+		cacheTTLSessions 		: [0],
+		cacheTTL						: [0],
+		fileServerApi				: [''],
+		fileServerContent		: [''],
+		fileApiToken				: [''],
+		fileNamespaceId			: [''],
+		fileTeamMemberId		: [''],
+		fileRootFolder			: [''],
+		fileMaxSize					: [0],
+		fileMaxNumber				: [0],
+		fileTempDest				: [''],
 		portalVersion				: ['']
 	});
 	allCategories: Category[] = [];
@@ -83,6 +92,7 @@ export class MainComponent implements OnInit {
 
 	constructor(
 		private service: ConfigService,
+		private commonService: CommonService,
 		private fb: FormBuilder,
 		private router: Router
 	) {}
@@ -92,7 +102,7 @@ export class MainComponent implements OnInit {
 		this.service.getConfig().subscribe(data => {
 			this.loading = false;
 			this.config = data;
-			// console.log(this.config);
+			this.commonService.displayLog('Config',this.config);
 			this.setValues();
 		}, error => {
 			console.log(error);
@@ -135,6 +145,22 @@ export class MainComponent implements OnInit {
 					}
 					submitValues.fresh[setNewKey(key,'fresh')] = control;
 				}
+				if(key.includes('cache')) {
+					if(!Object.keys(submitValues).includes('cache')) {
+						submitValues.cache = {};
+					}
+					submitValues.cache[setNewKey(key,'cache')] = control;
+				}
+				if(key.includes('file')) {
+					console.log(key);
+					if(!Object.keys(submitValues).includes('fileRepo')) {
+						submitValues.fileRepo = {};
+					}
+					submitValues.fileRepo[setNewKey(key,'file')] = control;
+					if(key === 'fileMaxSize') {
+						submitValues.fileRepo.maxSize *= 1048576;
+					}
+				}
 				if(key.includes('portalVersion')) {
 					submitValues.portalVersion = control;
 				}
@@ -143,6 +169,9 @@ export class MainComponent implements OnInit {
 		});
 		// console.log(this.configForm);
 		// console.log(submitValues);
+		this.commonService.displayLog('configForm',this.configForm);
+		this.commonService.displayLog('submitValues',submitValues);
+		// return;
 		if(changes) {
 			this.service.setConfig(submitValues).subscribe(data => {
 				// console.log(data);
@@ -177,35 +206,44 @@ export class MainComponent implements OnInit {
 		let mail		= this.config.mail || undefined;
 		let routes	= this.config.routes || undefined;
 		let fresh 	= this.config.fresh || undefined;
-		// console.log(fresh);
 		let cache 	= this.config.cache || undefined;
+		let file 		= this.config.fileRepo || undefined;
 		this.configForm.setValue({
-			serverIssuer				: server.issuer || '',
-			serverExpires				: server.expires || '',
-			serverUrlLogin			: server.urlLogin || '',
-			serverPortalUri			: server.portalUri || '',
-			mailFromEmail				: mail.fromEmail || '',
-			mailFromName				: mail.fromName || '',
-			mailApiKeyPublic		: mail.apiKeyPublic || '',
-			mailApiKeyPrivate		: mail.apiKeyPrivate || '',
-			mailGenericTemplate	: mail.genericTemplate || 0,
-			mailTemplateErrorDeliver 	: mail.templateErrorDeliver || false,
-			mailTemplateErrorRepEmail : mail.templateErrorReportingEmail || '',
-			mailTemplateErrorRepName	: mail.templateErrorReportingName || '',
-			mailSaveEmail				: mail.saveEmail || false,
-			freshServerUrl			: fresh.serverUrl || '',
-			freshApiKey					: fresh.apiKey || '',
-			freshUsersCategory	: fresh.usersCategory + ''|| '',
-			freshPublicFolder		: fresh.publicFolder + ''|| '',
-			freshUsersFolder		: fresh.usersFolder + ''|| '',
-			freshRequesterFolder: fresh.requesterFolder + ''|| '',
-			freshSuperFolder		: fresh.superFolder + ''|| '',
-			freshOperatorFolder	: fresh.operatorFolder + ''|| '',
-			freshTechFolder			: fresh.techFolder + ''|| '',
-			freshBillFolder			: fresh.billFolder + ''|| '',
-			// cacheUrl						: cache.url || '',
-			// cacheTTLSessions		: cache.timeToLiveSessions || 0,
-			// cacheTTL						: cache.timeToLive || 0,
+			serverIssuer				: server?.issuer || '',
+			serverExpires				: server?.expires || '',
+			serverUrlLogin			: server?.urlLogin || '',
+			serverPortalUri			: server?.portalUri || '',
+			mailFromEmail				: mail?.fromEmail || '',
+			mailFromName				: mail?.fromName || '',
+			mailApiKeyPublic		: mail?.apiKeyPublic || '',
+			mailApiKeyPrivate		: mail?.apiKeyPrivate || '',
+			mailGenericTemplate	: mail?.genericTemplate || 0,
+			mailTemplateErrorDeliver 	: mail?.templateErrorDeliver || false,
+			mailTemplateErrorRepEmail : mail?.templateErrorReportingEmail || '',
+			mailTemplateErrorRepName	: mail?.templateErrorReportingName || '',
+			mailSaveEmail				: mail?.saveEmail || false,
+			freshServerUrl			: fresh?.serverUrl || '',
+			freshApiKey					: fresh?.apiKey || '',
+			freshUsersCategory	: fresh?.usersCategory + ''|| '',
+			freshPublicFolder		: fresh?.publicFolder + ''|| '',
+			freshUsersFolder		: fresh?.usersFolder + ''|| '',
+			freshRequesterFolder: fresh?.requesterFolder + ''|| '',
+			freshSuperFolder		: fresh?.superFolder + ''|| '',
+			freshOperatorFolder	: fresh?.operatorFolder + ''|| '',
+			freshTechFolder			: fresh?.techFolder + ''|| '',
+			freshBillFolder			: fresh?.billFolder + ''|| '',
+			cacheUrl						: cache?.url || '',
+			cacheTTLSessions		: cache?.timeToLiveSessions || 0,
+			cacheTTL						: cache?.timeToLive || 0,
+			fileServerApi				: file?.serverApi || '',
+			fileServerContent		: file?.serverContent || '',
+			fileApiToken				: file?.apiToken || '',
+			fileNamespaceId			: file?.namespaceId || '',
+			fileTeamMemberId		: file?.teamMemberId || '',
+			fileMaxSize					: file?.maxSize / 1048576 || 25, // 25 MB
+			fileMaxNumber				: file?.maxNumber || 1,
+			fileRootFolder			: file?.rootFolder || '',
+			fileTempDest				: file?.tempDest || '',
 			routesJsonBodyLimit	: routes.jsonBodyLimit || '',
 			portalVersion				: this.config.portalVersion || ''
 		});

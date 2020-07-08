@@ -21,6 +21,8 @@ import { CreateuserComponent } from './createuser/createuser.component';
 import { PhonesComponent } from './phones/phones.component';
 import { AddressComponent } from './address/address.component';
 import { PayrollReceiptsComponent } from './payroll-receipts/payroll-receipts.component';
+import { DeliveriesComponent } from './deliveries/deliveries.component';
+import { MassiveComponent } from './massive/massive.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { PayrollReceiptsComponent } from './payroll-receipts/payroll-receipts.co
 		CreateuserComponent,
 		PhonesComponent,
 		AddressComponent,
-		PayrollReceiptsComponent
+		PayrollReceiptsComponent,
+		DeliveriesComponent,
+		MassiveComponent
 	],
 	imports: [
 		CommonModule,

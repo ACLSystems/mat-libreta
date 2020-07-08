@@ -58,16 +58,24 @@ export class OperService{
 		return null
 	}
 
-	searchCompanies(search:string): Observable<any>|null {
+	searchCompanies(search:string, type?:string): Observable<any>|null {
 		const token = this.getToken();
 		if(token) {
-			const httpOptions = {
+			const httpOptions = (!type) ? {
 				headers: JSONHeaders.set(
 					'Authorization',
 					'Bearer ' + this.getToken()
 				),
 				params: new HttpParams().set(
 					'general', search
+				)
+			} : {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + this.getToken()
+				),
+				params: new HttpParams().set(
+					'type',type
 				)
 			}
 			const route = this.url+'api/v1/operator/company';

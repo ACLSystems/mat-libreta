@@ -1,0 +1,24 @@
+.table td,
+.table th {
+    font-size: 0.8rem;
+}
+
+.pointme {
+	cursor: pointer;
+}
+
+::ng-deep .webquid-tooltip {
+	background-color: white;
+}
+
+input[type="file"]{
+	display: none;
+}
+
+.custom-file-upload {
+	border: 1px solid black;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+	margin: 0px;
+}

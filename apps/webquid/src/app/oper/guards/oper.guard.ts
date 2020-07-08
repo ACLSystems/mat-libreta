@@ -27,7 +27,7 @@ export class OperGuard implements CanActivate {
 			// console.log('Sí eres Operator!!!')
 			return true;
 		} else {
-			return this.router.createUrlTree(['/dashboard']);
+			return this.router.createUrlTree(['/services']);
 		}
 	}
 }

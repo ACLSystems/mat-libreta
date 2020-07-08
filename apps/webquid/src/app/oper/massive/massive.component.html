@@ -1,0 +1,73 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid" *ngIf="!loading">
+	<div class="card">
+		<div class="card-header">
+			<h4 class="card-title">Carga Masiva</h4>
+			<p class="card-category">Utiliza estas herramientas para realizar movimientos masivos</p>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col">
+					<h4>Carga masiva de correos electrónicos</h4>
+					<div class="container alert alert-warning p-2">
+						<p class="text-justify" style="color:black">Esta utilería carga correos electrónicos de forma masiva en usuarios ya registrados y que no tengan cuenta de correo. El sistema envía notificación a cada usuario y el password para ingresar a la cuenta de correo que se proporciona en el Excel.</p>
+						<p class="text-justify" style="color:black"><b>Instrucciones</b>: En un excel, deben existir solo dos columnas en una hoja llamada "Sheet". La primera columna debe titularse "identifier" y debe incluir el RFC. La segunda columna debe titularse "email" y debe incluir la cuenta de correo a adicionar. Si tienes duda, puedes descargar esta plantilla <a href="https://www.dropbox.com/s/sbu3kq5u5e4d1cj/data.xlsx?dl=1">aquí</a>. Ya que tengas la lista de RFC y correos electrónicos, utiliza el botón de abajo para cargar.</p>
+					</div>
+					<label for="file" class="custom-file-upload text-primary">
+						<i class="fas fa-cloud-upload-alt"></i> Archivo Excel
+					</label>
+						<input
+						type="file"
+						placeholder="Selecciona un archivo"
+						id="file"
+						accept=".xls,.xlsx"
+						#file
+						multiple="false"
+						(change)="onFileChange($event)"
+						>
+				</div>
+			</div>
+			<div class="row" *ngIf="excelData.length > 0">
+				<div class="col">
+					{{excelData.length}} registros a cargar
+					<div class="progress" style="height:20px;">
+						<div
+							class="progress-bar"
+							[ngClass]="progressColor"
+							role="progressbar"
+							[attr.aria-valuenow]="progress"
+							[style]="progressStyle"
+							aria-valuemin="0"
+							[aria-valuemax]="excelData.length"
+						>{{progress}}</div>
+					</div>
+					{{progress}} Registros
+					<span class="text-success"><b>{{success.length}}</b> Exitosos</span>&nbsp;
+					<span class="text-danger"><b>{{errors.length}}</b> Errores</span>
+				</div>
+				<div class="col">
+					<button
+						class="btn btn-sm btn-success"
+						(click)="runLoading(0);"
+						><i class="fas fa-cogs"></i> Cargar</button>
+					<button
+						class="btn btn-sm btn-primary"
+						(click)="reset();"
+						><i class="fas fa-undo"></i> Reiniciar</button>
+				</div>
+			</div>
+			<div class="row" *ngIf="excelData.length > 0 && errors.length > 0">
+				<div class="col">
+					<p>Errores:</p>
+					<div class="row" *ngFor="let error of errors">
+						<div class="col">
+							{{error.identifier}} {{error.email}} {{error.error}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

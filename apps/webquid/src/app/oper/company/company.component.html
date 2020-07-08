@@ -6,9 +6,15 @@
 <div class="container-fluid peque p-0" *ngIf="!loading">
 	<div class="container m-auto" *ngIf="userMessage !== ''"></div>
 	<div class="card" *ngIf="companyMessage === ''">
-		<div class="card-header my-0 py-0">
+		<div
+			class="card-header"
+			[ngClass]="{'my-0 py-0': modalMode}"
+			>
 			<div class="row">
-				<div class="col m-0 p-0">
+				<div
+					class="col"
+					[ngClass]="{'my-0 p-0': modalMode}"
+					>
 					<h3 class="card-title text-primary">{{company.identifier}}
 						<small *ngIf="company.display">
 							({{company.display}})
@@ -22,12 +28,25 @@
 				</div>
 			</div>
 		</div>
-		<div class="card-body p-1">
+		<div
+			class="card-body"
+			[ngClass]="{'p-1': modalMode}"
+			>
+			<!-- <button
+				class="btn btn-round btn-warning"
+				(click)="openChat();"
+			><i class="fab fa-jedi-order fa-3x"></i></button> -->
 			<div [formGroup]="companyForm">
 				<div id="accordion" role="tablist">
 					<div class="card-collapse">
-						<div class="card-header p-0" role="tab"	id="general">
-							<h5 class="mb-0">
+						<div
+							class="card-header"
+							[ngClass]="{'p-0': modalMode}"
+							role="tab"
+							id="general">
+							<h5
+								[ngClass]="{'mb-0': modalMode}"
+								>
 								<a
 									data-toggle="collapse"
 									href="#collapseGeneral"
@@ -42,7 +61,8 @@
 						</div>
 						<div
 						id="collapseGeneral"
-						class="collapse show my-1"
+						class="collapse show"
+						[ngClass]="{'my-1': modalMode}"
 						role="tabpanel"
 						aria-labelledby="general"
 						data-parent="#accordion"
@@ -102,7 +122,7 @@
 										<div class="col input-group">
 											<mat-form-field>
 												<mat-label>Nombre comercial</mat-label>
-												<input 
+												<input
 													matInput
 													type="text"
 													formControlName="display"
@@ -122,8 +142,212 @@
 						</div>
 					</div>
 					<div class="card-collapse">
-						<div class="card-header p-0" role="tab"	id="phones">
-							<h5 class="mb-0">
+						<div
+							class="card-header"
+							[ngClass]="{'p-0': modalMode}"
+							role="tab" id="relations">
+							<h5
+								[ngClass]="{'mb-0': modalMode}"
+								>
+								<a href=""
+									data-toggle="collapse"
+									href="#collapseRelations"
+									aria-expanded="true"
+									aria-controls="collapseRelations"
+									class="collapsed"
+								>
+									Relaciones
+									<i class="material-icons">keyboard_arrow_down</i>
+								</a>
+							</h5>
+						</div>
+						<div
+							id="collapseRelations"
+							class="collapse"
+							role="tabpanel"
+							aria-labelledby="relations"
+							data-parent="#accordion"
+						>
+							<div *ngIf="company.type==='pagadora'">
+								<div *ngIf="relatedCostumers.length > 0 && !addPayerRelation && !addPayerRelationER">
+									<h5>Clientes relacionados</h5>
+									<table class="table table-stripped table-fit">
+										<thead>
+											<tr>
+												<th>RFC</th>
+												<th>Nombre</th>
+												<th>Registros Patronales</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let customer of relatedCostumers">
+												<td>{{customer.identifier}}</td>
+												<td  class="pointme" (click)="this.reloadCompany(customer.id);">{{customer.name}}</td>
+												<td *ngIf="customer.employerRegistration.length > 0">
+													<ul>
+														<li *ngFor="let empReg of customer.employerRegistration">
+															{{empReg}}
+														</li>
+													</ul>
+												</td>
+												<td *ngIf="!customer.employerRegistration || customer.employerRegistration.length === 0">No hay registros patronales relacionados</td>
+												<td *ngIf="customer.employerRegistration.length > 0">
+													<div
+														class="badge badge-pill badge-danger align-middle pointme"
+														*ngIf="!modalMode"
+													>Quitar
+													<i class="fas fa-times-circle"></i>
+													</div>
+												</td>
+												<td *ngIf="!customer.employerRegistration || customer.employerRegistration.length === 0"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div *ngIf="relatedCostumers.length === 0">
+									<p class="text-danger">No hay clientes relacionados</p>
+								</div>
+								<div *ngIf="addPayerRelation" [formGroup]="payerRelationForm">
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>Cliente</mat-label>
+												<mat-select
+													formControlName="customer"
+													multiple
+												>
+													<mat-option
+														*ngFor="let cust of customerCompanies"
+														[value]="cust.value"
+													>
+														{{cust.viewValue}}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col">
+											<div class="badge badge-pill badge-primary align-middle pointme">Agregar
+												<i class="fas fa-plus-circle"></i>
+											</div>
+											<div
+												class="badge badge-pill badge-danger align-middle pointme"
+												(click)="closePayerRelation();"
+												>Cerrar
+												<i class="fas fa-times-circle"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div *ngIf="addPayerRelationER" [formGroup]="payerRelationForm">
+									<div class="row">
+										<div class="col">
+											<mat-form-field>
+												<mat-label>Cliente</mat-label>
+												<mat-select
+													formControlName="customer"
+													multiple
+												>
+													<mat-option
+														*ngFor="let cust of customerCompanies"
+														[value]="cust.value"
+													>
+														{{cust.viewValue}}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+										</div>
+										<div class="col">
+											<mat-form-field *ngIf="company.employerRegistration.length > 0">
+												<mat-label>Registro Patronal</mat-label>
+												<mat-select
+													formControlName="empRegistration"
+												>
+													<mat-option
+														*ngFor="let empReg of company.employerRegistration"
+														[value]="empReg"
+													>
+														{{empReg}}
+													</mat-option>
+												</mat-select>
+											</mat-form-field>
+											<mat-form-field>
+												<mat-label>Nuevo Registro Patronal</mat-label>
+												<input
+													matInput
+													formControlName="newEmpRegistration"
+													type="text">
+											</mat-form-field>
+										</div>
+										<div class="col">
+											<div class="badge badge-pill badge-primary align-middle pointme">Agregar
+												<i class="fas fa-plus-circle"></i>
+											</div>
+											<div
+												class="badge badge-pill badge-danger align-middle pointme"
+												(click)="closePayerRelation();"
+												>Cerrar
+												<i class="fas fa-times-circle"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div
+									class="badge badge-pill badge-success align-middle pointme"
+									(click)="turnOnPayerRelationER();"
+									*ngIf="!addPayerRelationER && !modalMode"
+									>Agregar relación con Reg Patronal
+									<i class="fas fa-plus-circle"></i>
+								</div>
+								<div
+									class="badge badge-pill badge-success align-middle pointme"
+									*ngIf="!addPayerRelation && !modalMode"
+									(click)="turnOnPayerRelation();">Agregar relación
+									<i class="fas fa-plus-circle"></i>
+								</div>
+							</div>
+							<div *ngIf="company.type!=='pagadora'">
+								<div *ngIf="!company.payersRelated || company.payersRelated.length === 0">
+									No hay pagadoras relacionadas. Ve a la pagadora y relaciona sus clientes.
+								</div>
+								<div>
+									<h4>Pagadoras</h4>
+									<table class="table table-stripped table-fit">
+										<thead>
+											<tr>
+												<th>RFC</th>
+												<th>Nombre</th>
+												<th>Registros Patronales</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr *ngFor="let payer of relatedPayers">
+												<td>{{payer.identifier}}</td>
+												<td class="pointme" (click)="this.reloadCompany(payer.id);">{{payer.name}}</td>
+												<td *ngIf="payer.employerRegistration.length > 0">
+													<ul>
+														<li *ngFor="let empReg of payer.employerRegistration">
+															{{empReg}}
+														</li>
+													</ul>
+												</td>
+												<td *ngIf="!payer.employerRegistration || payer.employerRegistration.length === 0">No hay registros patronales relacionados</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-collapse">
+						<div
+							class="card-header"
+							[ngClass]="{'p-0': modalMode}"
+							role="tab"
+							id="phones">
+							<h5
+								[ngClass]="{'mb-0': modalMode}"
+								>
 								<a
 									data-toggle="collapse"
 									href="#collapsePhones"
@@ -149,34 +373,41 @@
 							></webquid-phones>
 						</div>
 					</div>
-				</div>
-				<div class="card-collapse">
-					<div class="card-header p-0" role="tab"	id="address">
-						<h5 class="mb-0">
-							<a
-								data-toggle="collapse"
-								href="#collapseAddress"
-								aria-expanded="true"
-								aria-controls="collapseAddress"
-								class="collapsed"
+					<div class="card-collapse">
+						<div
+							class="card-header"
+							[ngClass]="{'p-0': modalMode}"
+							role="tab"
+							id="address">
+							<h5
+								[ngClass]="{'mb-0': modalMode}"
 								>
-								Direcciones
-								<i class="material-icons">keyboard_arrow_down</i>
-							</a>
-						</h5>
-					</div>
-					<div
-						id="collapseAddress"
-						class="collapse"
-						role="tabpanel"
-						aria-labelledby="address"
-						data-parent="#accordion"
-						>
-						<webquid-address
-							(addressesEvent)="receiveAddresses($event);"
-						></webquid-address>
+								<a
+									data-toggle="collapse"
+									href="#collapseAddress"
+									aria-expanded="true"
+									aria-controls="collapseAddress"
+									class="collapsed"
+									>
+									Direcciones
+									<i class="material-icons">keyboard_arrow_down</i>
+								</a>
+							</h5>
+						</div>
+						<div
+							id="collapseAddress"
+							class="collapse"
+							role="tabpanel"
+							aria-labelledby="address"
+							data-parent="#accordion"
+							>
+							<webquid-address
+								(addressesEvent)="receiveAddresses($event);"
+							></webquid-address>
+						</div>
 					</div>
 				</div>
+
 			</div>
 		</div>
 		<div class="card-footer">
@@ -185,16 +416,24 @@
 					<div class="btn-group" role="group">
 						<button
 						class="btn btn-sm btn-success"
-						(click)="submit();"
+						(click)="goToCompany();"
+						*ngIf="modalMode"
 						>
-						<i class="fas fa-save"></i> Guardar
-					</button>
-					<button
-					class="btn btn-sm btn-danger"
-					(click)="closeDialog();"
-					>
-					<i class="fas fa-times-circle"></i> Cerrar
-				</button>
+							<i class="fas fa-edit"></i> Editar
+						</button>
+						<button
+						class="btn btn-sm btn-success"
+						(click)="submit();"
+						*ngIf="!modalMode"
+						>
+							<i class="fas fa-save"></i> Guardar
+						</button>
+						<button
+						class="btn btn-sm btn-danger"
+						(click)="closeDialog();"
+						>
+							<i class="fas fa-times-circle"></i> Cerrar
+						</button>
 			</div>
 				</div>
 			</div>

@@ -1,12 +1,25 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+//
+// declare const $:any;
 
+// window.fcWidget = window.fcWidget || {};
 
 import { OperService } from '../services/oper.services';
+import { CommonService } from '@wqshared/services/common.service';
 import { Company } from '@wqshared/types/companies.type';
 import { Address } from '@wqshared/types/addresses.type';
+import { Display } from '@wqshared/types/display.type';
+
+interface Related {
+	identifier: string,
+	name: string,
+	employerRegistration?: String[],
+	id?: string
+}
 
 @Component({
   selector: 'mat-libreta-company',
@@ -32,21 +45,52 @@ export class CompanyComponent implements OnInit {
 		]]
 	});
 	addresses: Address[] = [];
-	phones: String[] = [];
+	phones: string[] = [];
 	companySend: any;
 	phonesDirty: boolean = false;
 	addressesDirty: boolean = false;
-
+	relatedCostumers: Related[] = [];
+	relatedPayers: Related[] = [];
+	addPayerRelationER: boolean = false;
+	addPayerRelation: boolean = false;
+	payerRelationForm = this.fb.group({
+		customer: ['',[Validators.required]],
+		empRegistration: [''],
+		newEmpRegistration: ['']
+	});
+	customerCompanies: Display[] = [];
+	modalMode: boolean = false;
+	hideNewEmpReg: boolean = false;
+	customersArray: string[] = [];
+	empRegis:string[] = [];
 
   constructor(
 		@Optional() @Inject(MAT_DIALOG_DATA) public id: any,
 		private operService: OperService,
-		public dialogRef: MatDialogRef<CompanyComponent>,
+		private commonService: CommonService,
+		private activatedRoute: ActivatedRoute,
+		private router: Router,
+		@Optional() public dialogRef: MatDialogRef<CompanyComponent>,
 		private fb: FormBuilder
 	) {
 		if(id && id.id) {
 			this.companyid = id.id;
+			this.modalMode = true;
+		} else {
+			this.activatedRoute.params.subscribe(params => {
+				this.companyid = params.companyid;
+				this.modalMode = false;
+			});
 		}
+	}
+
+	ngOnInit(): void {
+
+		// if(window.fcWidget.isOpen) {
+		// 	window.fcWidget.close();
+		// 	window.fcWidget.hide();
+		// }
+		this.loadCompany();
 	}
 
 	get name() {
@@ -61,7 +105,7 @@ export class CompanyComponent implements OnInit {
 		return this.companyForm.get('display');
 	}
 
-  ngOnInit(): void {
+	loadCompany() {
 		this.loading = true;
 		if(this.companyid) {
 			this.operService.getCompany(this.companyid).subscribe(data => {
@@ -70,6 +114,31 @@ export class CompanyComponent implements OnInit {
 				} else {
 					this.company = data;
 					// console.log(this.company);
+					this.commonService.displayLog('Compañia', this.company);
+					if(this.company.type === 'pagadora') {
+						this.relatedCostumers = [];
+						this.company.customersRelated.forEach(customer => {
+							this.relatedCostumers.push({
+								identifier: customer.identifier,
+								name: customer.name,
+								employerRegistration: (customer.employerRegistration.some((empReg:string) => this.company.employerRegistration.indexOf(empReg) !== -1)) ? this.company.employerRegistration.filter(empReg => customer.employerRegistration.includes(empReg)): [],
+								id: customer._id
+							});
+						});
+						this.commonService.displayLog('Clientes', this.relatedCostumers);
+						this.customersArray = [...this.company.customersRelated];
+						this.empRegis = [...this.company.employerRegistration];
+					} else {
+						this.relatedPayers = [];
+						this.company.payersRelated.forEach(payer => {
+							this.relatedPayers.push({
+								identifier: payer.identifier,
+								name: payer.name,
+								employerRegistration: (payer.employerRegistration.some((empReg:string) => this.company.employerRegistration.indexOf(empReg) !== -1)) ? this.company.employerRegistration.filter(empReg => payer.employerRegistration.includes(empReg)): [],
+								id: payer._id
+							});
+						});
+					}
 					this.populateForm();
 				}
 				this.loading = false;
@@ -78,11 +147,21 @@ export class CompanyComponent implements OnInit {
 				this.companyMessage = error.message;
 			});
 		}
-  }
+	}
 
 	rfcUpper() {
 		let identifier = this.companyForm.get('identifier');
 		identifier.setValue(identifier.value.toUpperCase());
+	}
+
+	reloadCompany(id:string) {
+		this.companyid = id;
+		this.loadCompany();
+	}
+
+	goToCompany() {
+		this.router.navigate(['/oper/company',this.companyid]);
+		if(this.modalMode) this.closeDialog();
 	}
 
 	populateForm() {
@@ -105,6 +184,12 @@ export class CompanyComponent implements OnInit {
 		this.phonesDirty = true;
 	}
 
+	addCustomerRel() {
+		if(this.companyForm.get('customer').value === '') {
+
+		}
+	}
+
 	submit() {
 		this.validateAllFormFields(this.companyForm);
 		// console.log(this.companyForm);
@@ -124,10 +209,10 @@ export class CompanyComponent implements OnInit {
 				}
 			});
 
-			// console.log(company);
+			console.log(company);
+			return;
 			Swal.fire('Espera...');
 			Swal.showLoading();
-			// console.log(company);
 			this.operService.updateCompany(company).subscribe((data: any) => {
 				console.group('Data');
 				console.log(data);
@@ -162,7 +247,8 @@ export class CompanyComponent implements OnInit {
 	}
 
 	closeDialog() {
-		this.dialogRef.close();
+		if(this.modalMode) this.dialogRef.close();
+		if(!this.modalMode) this.router.navigate(['/oper']);
 	}
 
 	validateAllFormFields(formGroup: FormGroup) {
@@ -174,6 +260,72 @@ export class CompanyComponent implements OnInit {
 				this.validateAllFormFields(control);
 			}
 		});
+	}
+
+	turnOnPayerRelation() {
+		this.addPayerRelation = true;
+		this.addPayerRelationER = false;
+		this.payerRelationForm.reset();		this.payerRelationForm.get('empRegistration').clearValidators();
+		this.payerRelationForm.get('empRegistration').updateValueAndValidity();
+		this.loadCustomers();
+	}
+
+	turnOnPayerRelationER() {
+		this.addPayerRelationER = true;
+		this.addPayerRelation = false;
+		this.payerRelationForm.reset();
+		this.payerRelationForm.get('empRegistration').setValidators([Validators.required]);
+		this.payerRelationForm.get('empRegistration').updateValueAndValidity();
+		this.loadCustomers();
+	}
+
+	closePayerRelation() {
+		this.addPayerRelationER = false;
+		this.addPayerRelation = false;
+	}
+
+	// openChat() {
+	// 	if(window.fcWidget) {
+	// 		console.log(window.fcWidget);
+	// 		window.fcWidget.show();
+	// 		window.fcWidget.open();
+	// 	}
+	// }
+
+	loadCustomers() {
+		if(this.customerCompanies.length === 0) {
+			Swal.fire('Espera...');
+			Swal.showLoading();
+			this.operService
+				.searchCompanies('','cliente')
+				.subscribe(data => {
+					console.log(data);
+					this.customerCompanies = data
+						.filter(tempCus =>
+							(!tempCus.payersRelated ||
+								!tempCus.payersRelated
+									.includes(this.companyid)
+							)
+						)
+						.map(cust => {
+							return {
+								value: cust._id,
+								viewValue: `${cust.name} (${cust.identifier})`
+							}
+						});
+					console.log(this.customerCompanies);
+					Swal.hideLoading();
+					Swal.close();
+				}, error => {
+					console.log(error);
+					Swal.hideLoading();
+					Swal.close();
+					Swal.fire({
+						type: 'error',
+						text: 'Lo lamento, hubo un error'
+					})
+				});
+		}
 	}
 
 }
