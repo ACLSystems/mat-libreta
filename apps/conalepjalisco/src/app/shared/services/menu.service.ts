@@ -33,6 +33,9 @@ export class MenuService {
 
 	refreshMenu() {
 		this.roles = this.userService.getRoles();
+		if(!this.roles) {
+			return [];
+		}
 		const myCurrentCourseData =
 		JSON.parse(localStorage.getItem('currentCourse'));
 		// console.group('myCurrentCourseData');

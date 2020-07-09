@@ -21,8 +21,7 @@
 			<div [innerHTML]="task.text"></div>
 			<!--  -->
 			<!-- Tarea de tipo textarea -->
-			<div *ngIf="task.type == 'textarea'"
-				>
+			<div *ngIf="task.type == 'textarea'">
 				<textarea
 					class="form-control"
 					rows="3"
@@ -89,6 +88,23 @@
 			<!-- <div *ngIf="isSendTask" class="alert alert-success" role="alert">
 			  <h5><i class="fas fa-exclamation-circle"></i> Se guardó la actividad exitosamente</h5>
 			</div> -->
+			<div class="d-block d-sm-none">XS</div>
+			<div class="d-none d-sm-block d-md-none">SM</div>
+			<div class="d-none d-md-block d-lg-none">MD</div>
+			<div class="d-none d-lg-block d-xl-none">LG</div>
+			<div class="d-none d-xl-block">XL</div>
+			<div class="container-fluid" *ngIf="task.type === 'ddlmr'">
+				<mat-libreta-block-task-ddlmr
+					[task]=task
+				>
+				</mat-libreta-block-task-ddlmr>
+			</div>
+			<div class="container-fluid" *ngIf="task.type === 'ddlmmr'">
+				<mat-libreta-block-task-ddlmmr
+					[task]=task
+				>
+				</mat-libreta-block-task-ddlmmr>
+			</div>
 		</div>
 	</div>
 	<button

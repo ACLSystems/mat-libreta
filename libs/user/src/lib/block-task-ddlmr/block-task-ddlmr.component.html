@@ -1,0 +1,169 @@
+<!-- LMR Left-Middle-Right -->
+<div class="d-none d-lg-block">
+	<div class="row">
+		<div class="col text-center">
+			<div
+				class="example-lg-container">
+				<div
+					cdkDropList
+					#lgLeft="cdkDropList"
+					[cdkDropListData]="arrayLeft"
+					[cdkDropListConnectedTo]="[lgMiddle,lgRight]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: 'lightblue url(https://www.dropbox.com/s/ozp0ja5x58o85q0/hombre.png?dl=1) no-repeat left top'}"
+				>
+					<div class="example-box" *ngFor="let item of arrayLeft" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center">
+			<div class="example-lg-container">
+				<div
+					cdkDropList
+					#lgMiddle="cdkDropList"
+					[cdkDropListData]="arrayMiddle"
+					[cdkDropListConnectedTo]="[lgLeft,lgRight]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+				>
+					<div class="example-box" *ngFor="let item of arrayMiddle" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center">
+			<div
+				class="example-lg-container">
+				<div
+					cdkDropList
+					#lgRight="cdkDropList"
+					[cdkDropListData]="arrayRight"
+					[cdkDropListConnectedTo]="[lgLeft,lgMiddle]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: 'lightpink url(https://www.dropbox.com/s/ibs6hc3mbkiunk7/mujer.png?dl=1) no-repeat right top'}"
+				>
+					<div class="example-box" *ngFor="let item of arrayRight" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="d-none d-md-block d-lg-none">
+	<div class="row">
+		<div class="col text-center">
+			<div
+				class="example-md-container">
+				<div
+					cdkDropList
+					#mdLeft="cdkDropList"
+					[cdkDropListData]="arrayLeft"
+					[cdkDropListConnectedTo]="[mdMiddle,mdRight]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: 'lightblue url(https://www.dropbox.com/s/ozp0ja5x58o85q0/hombre.png?dl=1) no-repeat left top'}"
+				>
+					<div class="example-box" *ngFor="let item of arrayLeft" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center">
+			<div class="example-md-container">
+				<div
+					cdkDropList
+					#mdMiddle="cdkDropList"
+					[cdkDropListData]="arrayMiddle"
+					[cdkDropListConnectedTo]="[mdLeft,mdRight]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+				>
+					<div class="example-box" *ngFor="let item of arrayMiddle" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center">
+			<div
+				class="example-md-container">
+				<div
+					cdkDropList
+					#mdRight="cdkDropList"
+					[cdkDropListData]="arrayRight"
+					[cdkDropListConnectedTo]="[mdLeft,mdMiddle]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: 'lightpink url(https://www.dropbox.com/s/ibs6hc3mbkiunk7/mujer.png?dl=1) no-repeat right top'}"
+				>
+					<div class="example-box" *ngFor="let item of arrayRight" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="d-block d-md-none">
+	<div class="row">
+		<div class="col text-center">
+			<div
+				class="example-sm-container">
+				<div
+					cdkDropList
+					#smLeft="cdkDropList"
+					[cdkDropListData]="arrayLeft"
+					[cdkDropListConnectedTo]="[smMiddle,smRight]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: 'lightblue'}"
+				>
+					<div class="example-box" *ngFor="let item of arrayLeft" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center">
+			<div class="example-sm-container">
+				<div
+					cdkDropList
+					#smMiddle="cdkDropList"
+					[cdkDropListData]="arrayMiddle"
+					[cdkDropListConnectedTo]="[smLeft,smRight]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+				>
+					<div class="example-box" *ngFor="let item of arrayMiddle" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center">
+			<div
+				class="example-sm-container">
+				<div
+					cdkDropList
+					#smRight="cdkDropList"
+					[cdkDropListData]="arrayRight"
+					[cdkDropListConnectedTo]="[smLeft,smMiddle]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: 'lightpink'}"
+				>
+					<div class="example-box" *ngFor="let item of arrayRight" cdkDrag>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

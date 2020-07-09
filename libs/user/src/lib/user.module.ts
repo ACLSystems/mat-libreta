@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { UserRoutingModule } from './user.routing.module';
 import { AccesoriesModule, SafePipe, DateAgoPipe, FilterPipe } from '@mat-libreta/shared';
@@ -27,6 +28,8 @@ import { CreateQuestionComponent } from './discussion/create-question/create-que
 import { ForumComponent } from './discussion/forum/forum.component';
 import { AnnouncementComponent } from './announcement/announcement.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { BlockTaskDdlmrComponent } from './block-task-ddlmr/block-task-ddlmr.component';
+import { BlockTaskDdlmmrComponent } from './block-task-ddlmmr/block-task-ddlmmr.component';
 
 registerLocaleData(localeMX);
 
@@ -48,7 +51,9 @@ registerLocaleData(localeMX);
 		CreateQuestionComponent,
 		ForumComponent,
 		AnnouncementComponent,
-		CalendarComponent
+		CalendarComponent,
+		BlockTaskDdlmrComponent,
+		BlockTaskDdlmmrComponent
 	],
   imports: [
 		CommonModule,
@@ -61,7 +66,8 @@ registerLocaleData(localeMX);
 		AvatarModule,
 		MatFormFieldModule,
 		MatDatepickerModule,
-		MatInputModule
+		MatInputModule,
+		DragDropModule
 	],
 	providers: [
 		{ provide: LOCALE_ID, useValue: 'es-MX'}

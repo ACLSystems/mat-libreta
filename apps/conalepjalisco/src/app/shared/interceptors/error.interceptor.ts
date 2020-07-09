@@ -65,11 +65,13 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 						} else {
 							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.message}</p>`
 						}
-						Swal.fire({
-							type: 'error',
-							title: 'Error',
-							html: errorMessage
-						});
+						if(sendError) {
+							Swal.fire({
+								type: 'error',
+								title: 'Error',
+								html: errorMessage
+							});
+						}
 					}
 					if(sendError) {
 						rollbar.error(new Error(error.message).stack);

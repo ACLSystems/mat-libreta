@@ -82,8 +82,8 @@ export class DashboardComponent implements OnInit {
 	ngOnInit() {
 		this.loading = true;
 		this.identity = this.userService.getidentity();
-		this.getMyRoles();
 		this.getCourseUser();
+		this.getMyRoles();
 		this.currentCourse = JSON.parse(localStorage.getItem('currentCourse'));
 		// if(this.platform == 'mooc') {
 		// 	this.getPublicData();
@@ -124,14 +124,13 @@ export class DashboardComponent implements OnInit {
 
 	getMyRoles() {
 		this.myRoles = this.userService.getRoles();
-		// if(!this.myRoles) {
-		// 	this.userService.getRolesHTTP().subscribe(data => {
-		//
-		// 	},error => {
-		// 		console.log(error);
-		// 	});
-		// }
-
+		if(!this.myRoles) {
+			Swal.fire({
+				type: 'warning',
+				text: 'Es necesario que ingreses nuevamente'
+			});
+			this.router.navigate(['/pages/logout']);
+		}
 	}
 
 	// getPublicData() {
@@ -264,7 +263,11 @@ export class DashboardComponent implements OnInit {
 			// this.drawPieCourses();
 		}, error => {
 			console.log(error);
-			if(error.error && error.error.errMessage && error.error.errMessage ==="invalid signature") {
+			// const token = this.commonService.getToken();
+			// const identity = this.commonService.getidentity();
+			// console.log('Token',token);
+			// console.log('Identity',identity);
+			if(error.error && error.error.errMessage && error.error.errMessage.included('invalid signature')) {
 				Swal.fire({
 					title: 'Necesitas ingresar al sistema nuevamente',
 					html: error.error.message,
@@ -273,7 +276,7 @@ export class DashboardComponent implements OnInit {
 					confirmButtonClass: 'btn btn-danger'
 				});
 				this.router.navigate(['/pages/login']);
-			} else if (error._body.includes('"message":"No groups found"')) {
+			} else if (error._body && error._body.includes('"message":"No groups found"')) {
 				this.messageNewUser = error._body.includes('"message":"No groups found"');
 			}
 			this.loading = false;
