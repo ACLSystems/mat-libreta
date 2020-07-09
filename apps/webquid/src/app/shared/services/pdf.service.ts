@@ -679,9 +679,21 @@ function dateToString(date: Date, short: boolean = true, upper: boolean = true):
 
 }
 
-function numberToString(number) {
+function numberToString(number:number) {
 	if(!number) return null;
-	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	let processedNumber = round(number,2);
+	let newNumber = processedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	// console.log(newNumber);
+	return newNumber;
+}
+
+function round(num:number, places?:number) {
+	if(!places) {
+		return Math.round(num);
+	} else {
+		let val = Math.pow(10, places);
+		return Math.round(num*val) / val;
+	}
 }
 
 function numberToSpanish(number): string {
