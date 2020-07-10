@@ -89,6 +89,9 @@ export interface Task {
 	text?: string,
 	type: string,
 	files?: string[],
+	array1?: string[],
+	array2?: string[],
+	style?: any,
 	w?: number
 }
 

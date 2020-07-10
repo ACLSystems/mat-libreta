@@ -69,9 +69,9 @@ export class BlockTasksComponent implements OnInit {
 
 	ngOnInit() {
 		this.commonService.displayLog('Tareas', this.tasks);
-		this.tasks.forEach((task) => {
-			task.type = 'ddlmmr';
-		});
+		// this.tasks.forEach((task) => {
+		// 	task.type = 'ddlmmr';
+		// });
 	}
 
 	sendTasks(force?: boolean) {
@@ -202,5 +202,15 @@ export class BlockTasksComponent implements OnInit {
 			this.isAttachment = true;
 		}
 		this.commonService.displayLog('Tareas del estudiante', this.taskStudent);
+	}
+
+	receiveTask(event:any){
+		this.setTask(
+			event.content,
+			event.type,
+			event.id,
+			event.label,
+			event.text
+		);
 	}
 }

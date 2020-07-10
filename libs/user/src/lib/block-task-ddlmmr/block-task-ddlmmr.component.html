@@ -13,7 +13,12 @@
 					(cdkDropListDropped)="dropped($event);"
 					[ngStyle]="{background: bgLeftLg}"
 				>
-					<div class="example-box" *ngFor="let item of arrayLeft" cdkDrag>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayLeft"
+						[ngStyle]="{color: colorLeftLg}"
+						cdkDrag
+						>
 						{{item}}
 					</div>
 				</div>
@@ -33,7 +38,7 @@
 					<div
 						class="example-box"
 						*ngFor="let item of arrayMiddle1"
-						[ngStyle]="{color: colorMiddle1}"
+						[ngStyle]="{color: colorMiddle1Lg}"
 						cdkDrag
 					>
 						{{item}}
@@ -50,12 +55,12 @@
 					[cdkDropListConnectedTo]="[lgRight]"
 					class="example-list"
 					(cdkDropListDropped)="dropped($event);"
-					[ngStyle]="{background: bgMiddle1Lg}"
+					[ngStyle]="{background: bgMiddle2Lg}"
 				>
 					<div
 						class="example-box"
 						*ngFor="let item of arrayMiddle2"
-						[ngStyle]="{color: colorMiddle2}"
+						[ngStyle]="{color: colorMiddle2Lg}"
 						cdkDrag
 					>
 						{{item}}
@@ -75,7 +80,12 @@
 					(cdkDropListDropped)="dropped($event);"
 					[ngStyle]="{background: bgRightLg}"
 				>
-					<div class="example-box" *ngFor="let item of arrayRight" cdkDrag>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayRight"
+						[ngStyle]="{color: colorRightLg}"
+						cdkDrag
+						>
 						{{item}}
 					</div>
 				</div>
@@ -97,7 +107,12 @@
 					(cdkDropListDropped)="dropped($event);"
 					[ngStyle]="{background: bgLeftMd}"
 				>
-					<div class="example-box" *ngFor="let item of arrayLeft" cdkDrag>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayLeft"
+						[ngStyle]="{color: colorLeftMd}"
+						cdkDrag
+					>
 						{{item}}
 					</div>
 				</div>
@@ -117,7 +132,7 @@
 				<div
 					class="example-box"
 					*ngFor="let item of arrayMiddle1"
-					[ngStyle]="{color: colorMiddle1}"
+					[ngStyle]="{color: colorMiddle1Md}"
 					cdkDrag
 				>
 						{{item}}
@@ -139,7 +154,7 @@
 				<div
 					class="example-box"
 					*ngFor="let item of arrayMiddle2"
-					[ngStyle]="{color: colorMiddle2}"
+					[ngStyle]="{color: colorMiddle2Md}"
 					cdkDrag
 				>
 						{{item}}
@@ -159,7 +174,12 @@
 					(cdkDropListDropped)="dropped($event);"
 					[ngStyle]="{background: bgRightMd}"
 				>
-					<div class="example-box" *ngFor="let item of arrayRight" cdkDrag>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayRight"
+						[ngStyle]="{color: colorRightMd}"
+						cdkDrag
+					>
 						{{item}}
 					</div>
 				</div>
@@ -181,7 +201,12 @@
 					(cdkDropListDropped)="dropped($event);"
 					[ngStyle]="{background: bgLeftSm}"
 				>
-					<div class="example-box" *ngFor="let item of arrayLeft" cdkDrag>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayLeft"
+						[ngStyle]="{color: colorLeftSm}"
+						cdkDrag
+					>
 						{{item}}
 					</div>
 				</div>
@@ -201,7 +226,7 @@
 				<div
 					class="example-box"
 					*ngFor="let item of arrayMiddle1"
-					[ngStyle]="{color: colorMiddle1}"
+					[ngStyle]="{color: colorMiddle1Sm}"
 					cdkDrag
 				>
 						{{item}}
@@ -218,12 +243,12 @@
 					[cdkDropListConnectedTo]="[smRight]"
 					class="example-list"
 					(cdkDropListDropped)="dropped($event);"
-					[ngStyle]="{background: bgMiddle1Sm}"
+					[ngStyle]="{background: bgMiddle2Sm}"
 				>
 				<div
 					class="example-box"
 					*ngFor="let item of arrayMiddle2"
-					[ngStyle]="{color: colorMiddle2}"
+					[ngStyle]="{color: colorMiddle2Sm}"
 					cdkDrag
 				>
 						{{item}}
@@ -246,6 +271,7 @@
 					<div
 						class="example-box"
 						*ngFor="let item of arrayRight"
+						[ngStyle]="{color: colorRightSm}"
 						cdkDrag
 						>
 						{{item}}
