@@ -8,6 +8,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import * as Rollbar from 'rollbar';
+import { SimpleGlobal } from 'ng2-simple-global';
 // import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 
 import { environment } from '@cjaenv/environment';
@@ -164,6 +165,7 @@ export class MaterialModule {}
 		CurrentCourseService,
 		BrowerService,
 		RefreshDiscussionService,
+		SimpleGlobal,
 		[{
 			provide: HTTP_INTERCEPTORS,
 			useClass: TimeoutInterceptor, multi: true

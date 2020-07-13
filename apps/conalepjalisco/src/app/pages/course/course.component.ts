@@ -1,10 +1,11 @@
 import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
 
 import { PagesService } from '../pages.service';
 import { UserCourseService, CommonService, WindowService } from '@mat-libreta/shared';
-import { environment } from '@cjaenv/environment';
+// import { environment } from '@cjaenv/environment';
 
 @Component({
   selector: 'app-course',
@@ -35,9 +36,10 @@ export class CourseComponent implements OnInit, AfterViewInit {
 		private pagesService: PagesService,
 		private userCourseService: UserCourseService,
 		private commonService: CommonService,
-		private windowService: WindowService
+		private windowService: WindowService,
+		private sg: SimpleGlobal
 	) {
-		this.color = environment.color;
+		this.color = this.sg['environment'].color;
     this.activeRoute.params.subscribe( params =>{
       if (params.id != null) {
         this.idc = params.id;

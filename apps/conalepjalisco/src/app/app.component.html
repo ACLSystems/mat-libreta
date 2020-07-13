@@ -1,11 +1,16 @@
-<router-outlet>
-	<div class="page-header" *ngIf="loading">
-			<div class="col-md-6 ml-auto mr-auto text-center">
-				<img src="./assets/img/conalep.png"  class="img-fluid" alt="Conalep Jalisco">
-				<br>
-				<div class="spinner-border m-5" role="status" style="width: 5rem; height: 5rem;">
-					<span class="sr-only">Cargando ...</span>
-				</div>
+<div class="page-header" *ngIf="navigate || loading">
+		<div class="col-md-6 ml-auto mr-auto text-center">
+			<img [src]="waitLogo"  class="img-fluid" alt="Conalep">
+			<br>
+			<div class="spinner-border m-5" role="status" style="width: 5rem; height: 5rem;">
+				<span
+					class="sr-only"
+				>Cargando. Espera...</span>
 			</div>
-	</div>
-</router-outlet>
+			<h1>Cargando. Espera...</h1>
+		</div>
+</div>
+<div *ngIf="!navigate && !loading">
+	<router-outlet>
+	</router-outlet>
+</div>

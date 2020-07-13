@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-
-import { environment } from '@cjaenv/environment';
+import { SimpleGlobal } from 'ng2-simple-global';
+// import { environment } from '@cjaenv/environment';
 
 @Component({
 	selector: 'app-privacy',
@@ -12,11 +12,13 @@ export class PrivacyComponent implements OnInit, AfterViewInit {
 	url: string;
 	support: string;
 
-	constructor() { }
+	constructor(
+		private sg: SimpleGlobal
+	) { }
 
 	ngOnInit() {
-		this.url = environment.urlLibreta;
-		this.support = environment.emailSupport;
+		this.url = this.sg['environment'].urlLibreta;
+		this.support = this.sg['environment'].emailSupport;
 	}
 
 	ngAfterViewInit() {

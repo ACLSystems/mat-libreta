@@ -5,20 +5,24 @@
 			<div class="row">
 				<div class="col-md-8 ml-auto mr-auto">
 					<div class="brand">
-						<img class="img-fluid" src="./assets/img/conalep_logo_blanco.png" alt="Conalep Jalisco">
-						<h4 class="text-justify"><span>En Conalep Jalisco diseñamos este espacio para la capacitación y adquisición de nuevos conocimientos con el objetivo de mejorar el desempeño de nuestros estudiantes, docentes, egresados, así como usuarios en general del sector productivo y gubernamental mediante cursos en línea de fácil acceso.</span></h4>
+						<img class="img-fluid" [src]="bigWhiteLogo" alt="Conalep">
+						<h4 class="text-justify"><span>En {{instanceName}} diseñamos este espacio para la capacitación y adquisición de nuevos conocimientos con el objetivo de mejorar el desempeño de nuestros estudiantes, docentes, egresados, así como usuarios en general del sector productivo y gubernamental mediante cursos en línea de fácil acceso.</span></h4>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="main main-raised">
-		<div class="section section-basic">
+		<div class="section section-basic" *ngIf="university">
 			<div class="container">
 				<div class="title">
 					<h2 class="text-center text-{{color}}">Universidad en línea</h2>
 				</div>
 				<p class="text-center">Ponemos a tu disposición las licenciaturas que podrás tomar en línea. <a href="/#/pages/univ">Más información</a></p>
+			</div>
+		</div>
+		<div class="section section-basic">
+			<div class="container">
 				<div class="title">
 					<h2 class="text-center text-{{color}}">¿Por qué tomar un curso en línea?</h2>
 				</div>

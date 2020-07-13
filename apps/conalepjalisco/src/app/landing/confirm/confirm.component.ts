@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { SimpleGlobal } from 'ng2-simple-global';
 import { Person } from '../classes/person';
 import { LandingService } from '../landing.service';
-import { environment } from '@cjaenv/environment';
+// import { environment } from '@cjaenv/environment';
 
 //declare var $:any;
 @Component({
@@ -30,9 +30,10 @@ export class ConfirmComponent implements OnInit {
 
   constructor(
 		private landingService: LandingService,
-		private activatedRoute: ActivatedRoute
+		private activatedRoute: ActivatedRoute,
+		private sg: SimpleGlobal
 	) {
-		this.urlLibreta = environment.urlLibreta;
+		this.urlLibreta = this.sg['environment'].urlLibreta;
     this.activatedRoute.params.subscribe( params=> {
       if(params['tokentemp']!=null){
         this.tokentemp = params['tokentemp'];

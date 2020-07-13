@@ -3,6 +3,7 @@ import { registerLocaleData } from '@angular/common';
 import { interval, Subscription, timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 //import { TimeagoIntl } from 'ngx-timeago';
+import { SimpleGlobal } from 'ng2-simple-global';
 import localeMx from '@angular/common/locales/es-MX';
 import Swal from 'sweetalert2';
 //import { strings as spanishStrings } from 'ngx-timeago/language-strings/es';
@@ -23,47 +24,47 @@ import { environment } from '@cjaenv/environment';
 })
 export class CertificateComponent implements OnInit {
 
-	public identity: Identity;
-	public captchaSiteKey: string;
-	public instanceTitle: string;
-
-	buscando: boolean;
-	messageError: string;
-	busqueda: boolean;
-	updateDisable: boolean;
+	identity			: Identity;
+	captchaSiteKey: string;
+	instanceTitle	: string;
+	buscando			: boolean;
+	messageError	: string;
+	busqueda			: boolean;
+	updateDisable	: boolean;
 	secondsDisable: number;
-	segundos: number;
+	segundos			: number;
 	captchaValidated: boolean;
-	captchaError: boolean;
+	captchaError	: boolean;
 	captchaErrorMessage: string;
-	certificate: {
-		courseName: string,
-		courseImage: string,
+	certificate		: {
+		courseName	: string,
+		courseImage	: string,
 		courseDuration: number,
 		courseDurationUnits: string,
 		courseBeginDate: any,
 		courseEndDate: any,
-		studentName: string,
-		finalGrade: number,
-		passDate: any,
+		studentName	: string,
+		finalGrade	: number,
+		passDate		: any,
 		certificateNumber: number
 	}
 	certificateFound: boolean;
 	private updateDisableSubscription: Subscription;
-	color: string;
-	noCert: boolean = false;
-	name: string;
+	color					: string;
+	noCert				: boolean = false;
+	name					: string;
 
   constructor(
 		private pagesService: PagesService,
 		private userService: UserService,
+		private sg: SimpleGlobal
 		//intl: TimeagoIntl
 	) {
 		// intl.strings = spanishStrings;
 		// intl.changes.next();
-		this.captchaSiteKey = environment.captchaSiteKey;
-		this.instanceTitle = environment.instanceTitle;
-		this.color = environment.color;
+		this.captchaSiteKey = this.sg['instance'].captcha.siteKey;
+		this.instanceTitle = this.sg['environment'].instanceTitle;
+		this.color = this.sg['environment'].color;
 	}
 
   ngOnInit() {

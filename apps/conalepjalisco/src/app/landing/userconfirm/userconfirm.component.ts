@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
+import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
 
 import { Person } from '../classes/person';
 import { PublicService } from '@mat-libreta/shared';
 // import { LandingService } from '../landing.service';
-import { environment } from '@cjaenv/environment';
+// import { environment } from '@cjaenv/environment';
 
 @Component({
 	selector: 'app-userconfirm',
@@ -30,9 +31,10 @@ export class UserConfirmComponent implements OnInit {
 		private publicService: PublicService,
 		// private landingService: LandingService,
 		private activatedRoute: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		private sg: SimpleGlobal
 	) {
-		this.urlLibreta = environment.urlLibreta;
+		this.urlLibreta = this.sg['environment'].urlLibreta;
 		this.activatedRoute.params.subscribe( params=> {
 			if(params['tokentemp']!=null){
 				this.tokentemp = params['tokentemp'];

@@ -6,7 +6,9 @@ import { AvatarModule } from 'ngx-avatar';
 import { SidebarComponent } from './sidebar.component';
 
 @NgModule({
-  declarations: [SidebarComponent],
+  declarations: [
+		SidebarComponent
+	],
   imports: [
     CommonModule,
 		RouterModule,

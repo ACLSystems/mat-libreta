@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as jwt_decode from 'jwt-decode';
+import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
 
 import {
@@ -47,7 +48,8 @@ export class LoginComponent implements OnInit {
 		private userService: UserService,
 		private publicService: PublicService,
 		private envService: EnvService,
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		private sg: SimpleGlobal
 	) {
 	}
 
@@ -62,10 +64,12 @@ export class LoginComponent implements OnInit {
 	ngOnInit() {
 		this.token = this.userService.getToken();
 		this.identity = this.userService.getidentity();
-		this.tokenVersion = this.userService.getTokenVersion();
-		if(!this.tokenVersion) {
+		if(!this.token || !this.identity) {
 			this.userService.destroySession();
 			this.envService.setEnvironment();
+		}
+		if(this.token && this.identity) {
+			this.router.navigate(['/dashboard']);
 		}
 		// const card = document.getElementsByClassName('card')[0];
 		// setTimeout(function() {
@@ -73,19 +77,6 @@ export class LoginComponent implements OnInit {
 		// 		card.classList.remove('card-hidden');
 		// }, 700);
 	}
-
-	// getCredentials(){
-	// 	if (this.emailRegex.test(this.login.username)) {
-	// 		this.messageErroremail = null;
-	// 	} else {
-	// 		this.messageErroremail = 'Proporciona una dirección de correo válida (<cuenta>@<dominio>.<raiz>)';
-	// 	}
-	// 	if (this.login.username !== '' && this.login.password !== '' && this.emailRegex.test(this.login.username)) {
-	// 		this.dataIsOk = true;
-	// 	} else {
-	// 		this.dataIsOk = false;
-	// 	}
-	// }
 
 	getCredentials(){
 		if(this.loginForm.valid) {
@@ -103,7 +94,6 @@ export class LoginComponent implements OnInit {
 			.subscribe(data => {
 				this.token = data.token;
 				localStorage.setItem('token', this.token);
-				localStorage.setItem('tokenVersion', '2');
 				let decodedToken = this.getDecodedAccessToken(this.token);
 				localStorage.setItem('identity', JSON.stringify({
 					admin: decodedToken.admin,
@@ -118,6 +108,7 @@ export class LoginComponent implements OnInit {
 					userid: decodedToken.userid
 				}));
 				this.userService.getRolesHTTP().subscribe(data => {
+					// console.log(data);
 					let roles = data.message ? {
 						isAdmin: data.message.isAdmin || false,
 						isBusines: data.message.isBusines || false,

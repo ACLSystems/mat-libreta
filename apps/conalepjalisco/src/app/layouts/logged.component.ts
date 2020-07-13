@@ -3,6 +3,7 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy, PopStateEvent } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { SimpleGlobal } from 'ng2-simple-global';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 import { NavItem, NavItemType} from '@cjamd/md.module';
@@ -23,14 +24,18 @@ export class LoggedComponent implements OnInit, AfterViewInit {
 	private yScrollStack: number[] = [];
 	url: string;
 	location: Location;
+	sidebarImg: string = '';
 
 	@ViewChild('sidebar') sidebar: any;
 	@ViewChild(NavbarComponent) navbar: NavbarComponent;
 
 	constructor(
 		private router: Router,
-		location: Location) {
+		private sg: SimpleGlobal,
+		location: Location
+	) {
 		this.location = location;
+		this.sidebarImg = (this.sg['instance']?.logo?.sidebar) ? this.sg['instance'].logo.sidebar : 'sidebar-1.jpg';
 	}
 
 	ngOnInit() {

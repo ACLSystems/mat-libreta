@@ -1,11 +1,11 @@
 				<div class="logo">
 					<a class="simple-text logo-mini">
 						<div class="logo-img">
-								<img style="vertical-align:middle" src="/assets/img/conalep_logo_blanco.png"/>
+								<img style="vertical-align:middle" [src]="brand"/>
 						</div>
 					</a>
 					<a [routerLink]="['/dashboard']" class="simple-text logo-normal">
-						<small>CONALEP Jalisco</small>
+						<small>{{instanceName}}</small>
 					</a>
 				</div>
 				<div class="sidebar-wrapper">

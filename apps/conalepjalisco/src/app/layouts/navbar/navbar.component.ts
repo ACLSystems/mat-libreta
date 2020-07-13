@@ -169,7 +169,13 @@ export class NavbarComponent implements OnInit {
 		// setTimeout(() => {
 		// 	this.commService.sendMessage('init',this.userid);
 		// }, 801);
-		this.bell();
+		if(this.commonService.getEnvironment()) {
+			this.bell;
+		} else {
+			this.commonService.getCurrentEnvironment.subscribe(() => {
+				this.bell();
+			});
+		}
 	}
 
 	onResize(event) {
@@ -237,7 +243,7 @@ export class NavbarComponent implements OnInit {
 
 			setTimeout(function() {
 					$toggle.classList.remove('toggled');
-			}, 400);
+			}, 1602);
 
 			this.mobile_menu_visible = 0;
 	};

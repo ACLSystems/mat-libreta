@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
 
 import { PublicService } from '@mat-libreta/shared';
 
-import { environment } from '@cjaenv/environment';
+// import { environment } from '@cjaenv/environment';
 
 @Component({
   selector: 'mat-libreta-register',
@@ -21,7 +22,8 @@ export class RegisterComponent implements OnInit {
   constructor(
 		private fb: FormBuilder,
 		private publicService: PublicService,
-		private router: Router
+		private router: Router,
+		private sg: SimpleGlobal
 	) { }
 
   ngOnInit() {
@@ -99,8 +101,8 @@ export class RegisterComponent implements OnInit {
 						motherName: this.registerForm.get('motherName').value,
 						email: this.registerForm.get('email').value.toLowerCase()
 					},
-					org: environment.instanceName,
-					orgUnit: environment.orgUnitName
+					org: this.sg['environment'].instanceName,
+					orgUnit: this.sg['environment'].orgUnitName
 				};
 				// console.log(register);
 				Swal.fire('Solicitando registro. Espera...');
@@ -123,7 +125,7 @@ export class RegisterComponent implements OnInit {
 					} else {
 						Swal.hideLoading();
 						Swal.close()
-						console.log(data);
+						// console.log(data);
 						Swal.fire({
 							type: 'info',
 							html: `En los siguientes minutos te llegará un correo a la cuenta <br><b>${this.email.value}</b><br>Revisa ese correo y sigue las instrucciones.<br>Busca en la carpeta de "No deseados" si este correo no llegara en los próximos minutos`

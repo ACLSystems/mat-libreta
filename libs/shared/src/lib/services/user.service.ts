@@ -1,6 +1,7 @@
 import { HttpClient, HttpRequest, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SimpleGlobal } from 'ng2-simple-global';
 
 import { Identity } from '../types/user.type';
 import { Roles } from '../types/user.type';
@@ -14,21 +15,18 @@ import { JSONHeaders } from './httpHeaders';
 })
 export class UserService{
 
-	public url: string;
-	public identity: Identity;
-	public token: any;
-	public tokenVersion: string;
-	public roles: any;
-
+	url: string;
 
 	constructor(
 		private http: HttpClient,
-		private commonService: CommonService
+		private commonService: CommonService,
+		private sg: SimpleGlobal
 	) {
-		const environment = this.commonService.getEnvironment();
-		if(environment && environment.url) {
-			this.url = environment.url;
-		}
+		this.url = localStorage.getItem('url');
+		// this.commonService.getCurrentEnvironment.subscribe(() => {
+		// 	const environment = this.commonService.getEnvironment();
+		// 	if(environment && environment.url) this.url = environment.url;
+		// });
 	}
 
 	/*
@@ -56,13 +54,6 @@ export class UserService{
 	*/
 	getidentity() {
 		return this.commonService.getidentity();
-		// const identity = JSON.parse(localStorage.getItem('identity'));
-		// if (identity !== 'undefined') {
-		// 	this.identity = identity;
-		// } else {
-		// 	this.identity = null;
-		// }
-		// return this.identity;
 	}
 
 	/*
@@ -70,13 +61,6 @@ export class UserService{
 	*/
 	getToken() {
 		return this.commonService.getToken();
-		// const token = localStorage.getItem('token');
-		// if (token !== 'undefined') {
-		// 	this.token = token;
-		// } else {
-		// 	this.token = null;
-		// }
-		// return this.token;
 	}
 
 	updateIdentity(identity: Identity): Identity {
@@ -87,48 +71,25 @@ export class UserService{
 	método para eliminar datos de la sesión
 	*/
 	destroySession() {
-		localStorage.removeItem('identity');
 		localStorage.removeItem('token');
-		localStorage.removeItem('tokenVersion');
+		localStorage.removeItem('identity');
+		localStorage.removeItem('roles');
+		localStorage.removeItem('courses');
 		localStorage.clear();
 		return;
 	}
 
-	/*
-	metodo para poner el token del usuario logueado donde el api lo requiera
-	*/
-	getTokenVersion() {
-		const tokenVersion = localStorage.getItem('tokenVersion');
-		if (tokenVersion !== 'undefined') {
-			this.tokenVersion = this.tokenVersion;
-		} else {
-			this.tokenVersion = null;
-		}
-		return this.tokenVersion;
-	}
-
-	/*
-	Metodo para obtener los roles del usuario
-	*/
-	/*
-	Falta validar qué sucede si no hay token. Debería mandarlo a login
-	*/
-
 	getRoles(): Roles | null{
 		var roles = JSON.parse(localStorage.getItem('roles'));
-		if(roles) {
-			return roles
-		} else {
-			this.getRolesHTTP().subscribe(data => {
-				roles = data.message;
-				localStorage.setItem('roles',JSON.stringify(roles));
-				return roles;
-			}, error => {
-				console.log(error);
-				return null;
-			});
-		}
-		return null;
+		if(roles) return roles;
+		this.getRolesHTTP().subscribe(data => {
+			roles = data.message;
+			localStorage.setItem('roles',JSON.stringify(roles));
+			return roles;
+		}, error => {
+			console.log(error);
+			return null;
+		});
 	}
 
 	getRolesHTTP():Observable<any>{
@@ -199,6 +160,11 @@ export class UserService{
 	metodo para devolver el total de notificaciones nuevas
 	*/
 	getUserImage():Observable<any>{
+		if(!this.url) {
+			this.commonService.getCurrentEnvironment.subscribe(() => {
+				this.url = this.commonService.getEnvironment().url;
+			})
+		}
 		const headers = JSONHeaders.set(
 			'Authorization',
 			'Bearer ' + this.getToken()
@@ -226,7 +192,7 @@ export class UserService{
 			reportProgress: true,
 			responseType: 'json'
 		});
-		console.log(req);
+		// console.log(req);
 		return this.http.request(req);
 	}
 

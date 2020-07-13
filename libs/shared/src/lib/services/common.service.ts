@@ -1,32 +1,32 @@
 import { Injectable } from '@angular/core';
-
+import { Subject } from 'rxjs';
+import { SimpleGlobal } from 'ng2-simple-global';
 import { Identity } from '../types/user.type';
-import { Environment } from '../types/env.type';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class CommonService {
 
-	environment : Environment;
-	identity		: Identity;
-	token				: string;
-	tokenVersion: string;
-	roles				: any;
+	private storageEnvironment = new Subject<string>();
 
-	constructor() {}
+	getCurrentEnvironment = this.storageEnvironment.asObservable();
+
+	sendCurrentEnvironment(message:string) {
+		this.storageEnvironment.next(message);
+	}
+
+	constructor(
+		private sg: SimpleGlobal
+	) {}
 
 	/*
 	metodo para traer la identidad del usuario autenticado
 	*/
 	getidentity() {
-		const identity = JSON.parse(localStorage.getItem('identity'));
-		if (identity !== 'undefined') {
-			this.identity = identity;
-		} else {
-			this.identity = null;
-		}
-		return this.identity;
+		var identity = JSON.parse(localStorage.getItem('identity'));
+		if (identity !== 'undefined') return identity;
+		return null;
 	}
 
 	/*
@@ -34,13 +34,9 @@ export class CommonService {
 	*/
 	updateIdentity(data: Identity) {
 		localStorage.setItem('identity',JSON.stringify(data));
-		var identity = JSON.parse(localStorage.getItem('identity'));
-		if (identity !== 'undefined') {
-			this.identity = identity;
-		} else {
-			this.identity = null;
-		}
-		return this.identity;
+		const identity = JSON.parse(localStorage.getItem('identity'));
+		if (identity !== 'undefined') return identity;
+		return null;
 	}
 
 	/*
@@ -48,32 +44,30 @@ export class CommonService {
 	*/
 	getToken() {
 		const token = localStorage.getItem('token');
-		if (token !== 'undefined') {
-			this.token = token;
-		} else {
-			this.token = null;
-		}
-		return this.token;
+		if (token !== 'undefined') return token;
+		return null;
 	}
 
 	/*
 	metodo para extraer el nombre de la instancia (instanceName)
 	*/
 	getEnvironment() {
-		const environment = localStorage.getItem('environment');
-		if(environment !== 'undefined') {
-			this.environment = JSON.parse(environment);
-		} else {
-			this.environment = null;
-		}
-		return this.environment;
+		const environment = this.sg['environment'];
+		if(!environment) return null;
+		if(document.location.hostname === 'localhost') return environment;
+		if(environment.hostname && environment.hostname !== document.location.hostname) return null;
+		return environment;
 	}
 
 	/*
 	metodo para setear el url del api
 	*/
-	setEnvironment(environment: Environment) {
-		localStorage.setItem('environment',JSON.stringify(environment));
+	setEnvironment(environment: any) {
+		const lsEnvironment = localStorage.getItem('environment');
+		if(lsEnvironment) localStorage.removeItem('environment');
+		this.sg['environment'] = environment;
+		// console.log('Guardando ambiente');
+		this.sendCurrentEnvironment('Ambiente listo');
 	}
 
 	compareObjects(a:any, b:any): boolean {

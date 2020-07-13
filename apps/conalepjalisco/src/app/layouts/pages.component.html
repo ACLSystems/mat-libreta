@@ -3,11 +3,11 @@
 	<div class="container">
 		<div class="navbar-wrapper">
 			<a class="navbar-brand d-none d-sm-none d-md-block" [routerLink]="['/pages/home']">
-				<img src="assets/img/conalep_brand.png" alt="Conalep" width="42px"> Conalep Jalisco
+				<img src="assets/img/conalep_brand.png" alt="Conalep" width="42px"> {{instanceName}}
 			</a>
 			<a class="navbar-brand d-block d-sm-block d-md-none" [routerLink]="['/pages/home']">
 				<img src="assets/img/conalep_brand.png" alt="Conalep" width="42px">
-				Conalep
+				{{instanceName}}
 			</a>
 		</div>
 		<button
@@ -43,7 +43,7 @@
 						Constancias
 					</a>
 				</li>
-				<li class="nav-item" routerLinkActive="active">
+				<li class="nav-item" routerLinkActive="active" *ngIf="university">
 					<a class="nav-link" [routerLink]="['/pages/univ']">
 						<!-- <i class="fas fa-university"></i>  -->
 						Universidad en línea
@@ -65,7 +65,7 @@
 						Ingresa
 					</a>
 				</li>
-				<li class="nav-item" routerLinkActive="active" *ngIf="!token">
+				<li class="nav-item" routerLinkActive="active" *ngIf="!token && mooc">
 					<a class="nav-link" [routerLink]="['/pages/register']">
 						<!-- <i class="fas fa-university"></i>  -->
 						Regístrate

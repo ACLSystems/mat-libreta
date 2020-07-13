@@ -6,7 +6,7 @@
 						<a [routerLink]="['/pages/privacy']">Aviso de privacidad</a>
 					</li>
 					<li>
-						<a href="http://conalepjalisco.edu.mx" target="_blank">Conalep Jalisco</a>
+						<a [href]="footerLink" target="_blank">{{footerName}}</a>
 					</li>
 				</ul>
 			</nav>
@@ -15,7 +15,7 @@
 				&nbsp;
 				&copy;
 				{{year}}, Powered by
-				<a href="https://aclsystems.mx" target="_blank">ACL Systems S.A. de C.V.</a>
+				<a [href]="vendorLink" target="_blank">{{vendorName}}</a>
 			</nav>
 		</div>
 	</footer>

@@ -36,6 +36,8 @@ export class MenuService {
 		if(!this.roles) {
 			return [];
 		}
+		// console.log('Roles');
+		// console.log(this.roles);
 		const myCurrentCourseData =
 		JSON.parse(localStorage.getItem('currentCourse'));
 		// console.group('myCurrentCourseData');

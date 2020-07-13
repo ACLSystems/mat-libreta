@@ -14,15 +14,33 @@ export class PublicService {
 		private http: HttpClient,
 		private commonService: CommonService
 	) {
-		this.url = this.commonService.getEnvironment().url;
+		this.url = localStorage.getItem('url');
+		// this.commonService.getCurrentEnvironment.subscribe(() => {
+		// 	const environment = this.commonService.getEnvironment();
+		// 	if(environment && environment.url) this.url = environment.url;
+		// });
 	}
 
+	getInstance(secondaryUrl?:string) {
+		const url = this.url || secondaryUrl;
+		// const route = (url.includes('localhost')) ? `${url}api/instance` : `${url}api/instance?hostname=${document.location.hostname}`;
+		const route = (url.includes('localhost')) ? `${url}api/instance?hostname=conalepslp.superatemexico.com` : `${url}api/instance?hostname=${document.location.hostname}`;
+		// console.log(route);
+		return this.http.get(route);
+	}
 	/*
 	metodo login
 	*/
 	login(username: string, password: string): Observable<any> {
+		// console.log('login');
+		// console.log(this.url);
+		if(!this.url) {
+			const environment = this.commonService.getEnvironment();
+			this.url = environment.url;
+		}
 		const body = JSON.stringify({username,password});
 		const route = this.url + 'login';
+		// console.log('route', route);
 		return this.http.post(route, body, {headers: JSONHeaders});
 	}
 

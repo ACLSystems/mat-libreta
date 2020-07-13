@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { SimpleGlobal } from 'ng2-simple-global';
 
 import { PagesService } from '../pages.service';
-import { environment } from '@cjaenv/environment';
+// import { environment } from '@cjaenv/environment';
 
 // export class Areas {
 // 	constructor(
@@ -39,13 +40,14 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	constructor(
 		private pagesService: PagesService,
-		private router: Router
+		private router: Router,
+		private sg: SimpleGlobal
 	) {
-		this.org = environment.instanceName;
-		this.instanceTitle = environment.instanceTitle;
-		this.instanceNameCase = environment.instanceName.toUpperCase();
-		this.logo = environment.logo;
-		this.color = environment.color;
+		this.org = this.sg['environment'].instanceName;
+		this.instanceTitle = this.sg['environment'].instanceTitle;
+		this.instanceNameCase = this.sg['environment'].instanceName.toUpperCase();
+		this.logo = this.sg['environment'].logo;
+		this.color = this.sg['environment'].color;
 		// this.ar = new Areas('');
 		// this.getAreas();
 		// this.verGrados();

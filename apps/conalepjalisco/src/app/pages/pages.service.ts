@@ -1,10 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SimpleGlobal } from 'ng2-simple-global';
 
 import { Identity, JSONHeaders } from '@mat-libreta/shared';
 
-import { environment } from '@cjaenv/environment';
+// import { environment } from '@cjaenv/environment';
 
 @Injectable()
 export class PagesService {
@@ -14,9 +15,12 @@ export class PagesService {
 	public roles: any;
 	public org: string;
 
-	constructor(private http: HttpClient) {
-		this.url = environment.url;
-		this.org = environment.instanceName;
+	constructor(
+		private http: HttpClient,
+		private sg: SimpleGlobal
+	) {
+		this.url = this.sg['environment']?.url ;
+		this.org = this.sg['environment']?.orgName;
 	}
 
 	/*
@@ -37,6 +41,8 @@ export class PagesService {
 	Metodo para traer los cursos de la organizacion
 	*/
 	getCoursesOrg(): Observable<any> {
+		// console.log('URL');
+		// console.log(this.url);
 		const httpOptions = {
 			observe: 'response' as 'body',
 			params: new HttpParams()

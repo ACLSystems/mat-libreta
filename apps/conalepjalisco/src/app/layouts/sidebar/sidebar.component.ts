@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SimpleGlobal } from 'ng2-simple-global';
 import PerfectScrollbar from 'perfect-scrollbar';
 
 import {
@@ -9,7 +10,8 @@ import {
 	CurrentCourseService,
 	NotElemService,
 	Identity,
-	Notification
+	Notification,
+	CommonService
 } from '@mat-libreta/shared';
 
 import {
@@ -47,6 +49,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 	notificationNumber: number;
 	notifications:  Notification[];
 	coursesNumber: number;
+	instanceName 	: string;
+	brand: string  = '/assets/img/';
 
 	public menuItems: any[];
 	ps: any;
@@ -63,7 +67,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		private userService: UserService,
 		private notElementService: NotElemService,
 		private shareService: ShareService,
-		private router: Router
+		private router: Router,
+		private commonService: CommonService,
+		private sg: SimpleGlobal
 	) {
 		this.router.events.pipe(
 				filter(event => event instanceof NavigationEnd))
@@ -73,6 +79,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		const course = localStorage.getItem('currentCourse');
 		this.coursesNumber = JSON.parse(localStorage.getItem('courses'));
 		this.courseSelected = !!course;
+		this.instanceName = this.sg['instance']?.instance?.name;
+		this.brand += (document.location.hostname === 'localhost') ? 'conalepslp' : document.location.hostname.split('.')[0];
+		this.brand += '_logo_blanco.png';
+		// console.log('brand',this.brand);
 	}
 
 	ngOnInit() {
@@ -123,19 +133,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
 				this.notifications = [...data];
 			}
 		);
+
 		this.identity = this.userService.getidentity();
-		this.image = this.userService.getUserImage().subscribe(data => {
-			if(data) {
-				this.createImageFromBlob(data);
-			}
-		}, err => {
-			// console.group('Error de imagen no encontrada');
-			// console.log(err.status);
-			// console.log(err.statusText);
-			// console.log(err.message);
-			// console.log(err.url);
-			// console.groupEnd();
-		});
+		if(this.commonService.getEnvironment()) {
+			this.getUserImage();
+		} else {
+			this.commonService.getCurrentEnvironment.subscribe(() => {
+				this.getUserImage();
+			});
+		}
+
 		if(!this.courseSelected && this.coursesNumber > 0) {
 			this.notElementService.showNotification(
 				'bottom',
@@ -154,6 +161,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
 				'_self'
 			);
 		}
+	}
+
+	getUserImage() {
+		this.image = this.userService.getUserImage().subscribe(data => {
+			if(data) {
+				this.createImageFromBlob(data);
+			}
+		}, err => {
+			console.log(err);
+		});
 	}
 
 	ngOnDestroy() {

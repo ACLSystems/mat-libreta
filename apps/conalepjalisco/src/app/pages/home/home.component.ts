@@ -1,11 +1,12 @@
 import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { SimpleGlobal } from 'ng2-simple-global';
 
 import { Identity, UserService } from '@mat-libreta/shared';
 
 import { PagesService } from '../pages.service';
-import { environment } from '@cjaenv/environment';
+// import { environment } from '@cjaenv/environment';
 
 @Component({
 	selector: 'app-home',
@@ -13,17 +14,20 @@ import { environment } from '@cjaenv/environment';
 	styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-	p:number = 1;
-	public index:number;
-	public token: string;
-	public identity: Identity;
-	public loading:boolean = false;
-	public cursos:any;
-	public environment: any;
-	public color: string;
-	public numCursos: number;
-	public curso:any;
-	public blocks:any;
+	p					: number = 1;
+	index			: number;
+	token			: string;
+	identity	: Identity;
+	loading		: boolean = false;
+	cursos		: any;
+	// public environment: any;
+	color			: string;
+	numCursos	: number;
+	curso			: any;
+	blocks		: any;
+	bigWhiteLogo 	: string;
+	instanceName 	: string;
+	university		: boolean;
 	/*
 	Constructor de la clase
 	*/
@@ -31,35 +35,49 @@ export class HomeComponent implements OnInit, AfterViewInit {
 		private _router:Router,
 		private Meta:Meta,
 		private pagesService:PagesService,
-		private userService: UserService
+		private userService: UserService,
+		private sg: SimpleGlobal
 	) {
-		this.Meta.addTag(
-			{
-				name:'description',
-				content:'Supérate Mexico es una iniciativa de capacitación en línea que te ayuda en tu desarrollo profesional, adquiriendo nuevas competencias y dándole valor a tus conocimientos'
-			}
-		);
-	}
-
-	ngOnInit() {
-		this.environment = environment.production;
-		this.color = environment.color;
+		// this.Meta.addTag(
+		// 	{
+		// 		name:'description',
+		// 		content:'Supérate Mexico es una iniciativa de capacitación en línea que te ayuda en tu desarrollo profesional, adquiriendo nuevas competencias y dándole valor a tus conocimientos'
+		// 	}
+		// );
+		// this.environment = environment.production;
+		this.color = this.sg['instance']?.color?.name;
+		this.bigWhiteLogo = this.sg['instance']?.logo?.bigWhite;
+		this.instanceName = this.sg['instance']?.instance?.name;
+		this.university = this.sg['instance']?.platform?.university;
+		// console.log('color',this.color);
 		this.identity = this.userService.getidentity();
 		this.token = this.userService.getToken();
 		this.index = 0;
-		if(this.token){
-			// this._router.navigate(['/consoleuser']);
-			this._router.navigate(['/pages/home']);
-		}else{
-			this._router.navigate(['/pages/home']);
-		}
-		this.getCourseList();
 	}
 
-	public getCourseList(){
+	ngOnInit() {
+
+		// if(this.token){
+		// 	// this._router.navigate(['/consoleuser']);
+		// 	this._router.navigate(['/pages/home']);
+		// }else{
+		// 	this._router.navigate(['/pages/home']);
+		// }
+		if(!this.color) {
+			setTimeout(() => {
+				this.color = this.sg['instance'].color?.name;
+				this.getCourseList();
+			}, 801);
+		} else {
+			this.getCourseList();
+		}
+	}
+
+	getCourseList(){
 		this.loading = true;
 		this.pagesService.getCoursesOrg().subscribe(data =>{
 			this.cursos = data.body.message.courses;
+			// console.log(data);
 			this.loading = false;
 			this.curso = this.cursos[this.index];
 			this.traeTemario(this.curso.id);
@@ -68,16 +86,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 		});
 	}
 
-	public verCurso(curso:string){
+	verCurso(curso:string){
 		this._router.navigate(['/curso',curso]);
 	}
 
-	public cambiaCurso(code:string) {
+	cambiaCurso(code:string) {
 		this.curso = this.cursos.find( (crs:any) => crs.code === code);
 		this.traeTemario(this.curso.id);
 	}
 
-	public traeTemario(id:string) {
+	traeTemario(id:string) {
 		this.loading = true;
 		this.pagesService.showBlocks(id).subscribe(data => {
 			this.blocks = data.body.message.blocks;;

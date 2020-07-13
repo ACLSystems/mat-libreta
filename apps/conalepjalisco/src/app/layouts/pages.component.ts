@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SimpleGlobal } from 'ng2-simple-global';
 import { filter } from 'rxjs/operators';
 
 import { UserService } from '@mat-libreta/shared';
@@ -16,15 +17,22 @@ export class PagesComponent implements OnInit {
 	private sidebarVisible: boolean;
 	mobile_menu_visible: any = 0;
 	private _router: Subscription;
+	instanceName: string = '';
+	university: boolean = false;
+	mooc: boolean = false;
 
 	constructor(
 		private router: Router,
 		private element: ElementRef,
 		private userService: UserService,
-		private envService: EnvService
+		private envService: EnvService,
+		private sg: SimpleGlobal
 	){
 		this.sidebarVisible = false;
 		this.token = this.userService.getToken();
+		this.instanceName = this.sg['instance']?.instance?.name;
+		this.university = this.sg['instance']?.instance?.university;
+		if(this.sg['instance']?.platform.type === 'mooc') this.mooc = true;
 	}
 	ngOnInit(){
 		const navbar: HTMLElement = this.element.nativeElement;
@@ -102,8 +110,8 @@ export class PagesComponent implements OnInit {
 		}
 
 		setTimeout(function() {
-				$toggle.classList.remove('toggled');
-		}, 400);
+			$toggle.classList.remove('toggled');
+		}, 1602);
 
 		this.mobile_menu_visible = 0;
 	};

@@ -1,7 +1,9 @@
 export interface Environment {
+	hostname: string,
 	instanceName: string,
 	instanceRef: string,
 	url: string,
+	urlLibreta: string,
 	footerName: string,
 	footerLink: string,
 	colorEvents: string[],

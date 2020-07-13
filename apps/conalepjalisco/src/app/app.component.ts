@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Title, Meta } from '@angular/platform-browser';
 import {
 	Router,
 	RouterEvent,
@@ -7,6 +8,7 @@ import {
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
 
 import { EnvService } from '@cjashared/services/setEnv.service';
@@ -21,23 +23,35 @@ export class AppComponent {
 	private _router: Subscription;
 	private browser: any;
 	loading: boolean = false;
+	navigate: boolean = false;
+	title: string;
+	description: string;
+	siteName: string;
+	siteUrl: string;
+	bigLogo: string;
+	waitLogo: string = '/assets/img/';
 
 	constructor(
+		private titleService: Title,
+		private metaService: Meta,
 		private router: Router,
 		private envService: EnvService,
 		private browserService: BrowerService,
-		private commonService: CommonService
+		private commonService: CommonService,
+		private sg: SimpleGlobal
 	) {
+		this.waitLogo += (document.location.hostname === 'localhost') ? 'conalepslp' : document.location.hostname.split('.')[0];
+		this.waitLogo += '.png';
+		// console.log(this.waitLogo);
 		this.router.events.subscribe((event: RouterEvent) => {
 			if(event instanceof NavigationStart) {
 				// console.log('Comenzando navegación');
-				this.loading = true;
+				this.navigate = true;
 			} else if(event instanceof NavigationEnd) {
 				// console.log('Terminando navegación');
-				this.loading = false;
+				this.navigate = false;
 			}
 		});
-		this.envService.validateEnvironment();
 		this.browser = this.browserService.detectBrowser();
 		this.commonService.displayLog('Browser',this.browser);
 		if(this.browser && this.browser.deviceInfo && this.browser.deviceInfo.browser != 'Chrome') {
@@ -49,6 +63,38 @@ export class AppComponent {
 	}
 
 	ngOnInit() {
+		this.loading = true;
+		this.envService.validateEnvironment();
+		this.commonService.getCurrentEnvironment.subscribe((message:string) => {
+			// console.log('Aquí estamos');
+			const tempData = this.sg['instance'];
+			// Borrar tempItem
+			// localStorage.removeItem('temp');
+			// this.commonService.displayLog('tempData',tempData);
+			this.title = tempData.instance.title;
+			this.description = tempData.instance.description;
+			this.siteName = `https://${document.location.hostname}`;
+			this.bigLogo = tempData.logo.big;
+			this.titleService.setTitle(this.title);
+			this.metaService.addTags([
+				{ name: 'title', content: this.title},
+				{ name: 'og:title', content: this.title},
+				{ name: 'og:image', content: this.bigLogo},
+				{ name: 'og:type', content: 'website'},
+				{ name: 'og:alt', content: this.siteName},
+				{ name: 'og:url', content: this.siteUrl},
+				{ name: 'og:site_name', content: this.siteName},
+				{ name: 'og:description', content: this.description},
+				{ name: 'description', content: this.description},
+				{ name: 'twitter:title', content: this.siteName},
+				{ name: 'twitter:site', content: this.siteName},
+				{ name: 'twitter:description', content: this.description}
+			]);
+			// this.commonService.displayLog('Hostname',document.location.hostname);
+			setTimeout(() => {
+				this.loading = false;
+			},801);
+		});
 		this._router = this.router.events.pipe(
 				filter(event => event instanceof NavigationEnd))
 			.subscribe((event: NavigationEnd) => {
