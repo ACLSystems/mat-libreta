@@ -109,6 +109,7 @@
     "qrious": "^4.0.2",
     "rollbar": "^2.17.0",
     "rxjs": "^6.5.5",
+    "secure-random-password": "^0.2.1",
     "sweetalert2": "^8.19.0",
     "twitter-bootstrap-wizard": "^1.2.0",
     "uglify-js": "^3.8.0",

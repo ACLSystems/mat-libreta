@@ -1,0 +1,141 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">Generación de grupos</h3>
+				<p class="card-category">Utiliza estas herramienta para carga masiva de usuarios y generación de grupos</p>
+			</div>
+			<div class="card-body">
+				<div class="row" *ngIf="excelData.length === 0 && !processing">
+					<div class="col">
+						<div class="container alert alert-warning p-2">
+							<p class="text-justify" style="color:black">Esta utilería permite la generación de grupos, generando a la vez, los registros de los usuarios en plataforma.</p>
+							<p class="text-justify" style="color:black">La utilería no genera a los usuarios nuevamente. Si el registro de un usuario ya existe no se realiza ninguna modificación, solo se toman los datos para agregarlo al grupo. Si el usuario ya existe en el grupo, no se agrega al grupo.</p>
+							<p class="text-justify" style="color:black"><b>Instrucciones</b>: Existe ya un formato para la carga de grupos. Si no lo conoces o no lo tienes a la mano lo puedes descargar <a href="https://www.dropbox.com/s/x6axk41ebtrw2wf/Plantilla.xlsx?dl=1">aquí</a>.</p>
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="excelData.length === 0 && !processing">
+					<div class="col">
+						<label for="file" class="custom-file-upload text-primary">
+							<i class="fas fa-cloud-upload-alt"></i> Archivo Excel
+						</label>
+							<input
+							type="file"
+							placeholder="Selecciona un archivo"
+							id="file"
+							accept=".xls,.xlsx"
+							#file
+							multiple="false"
+							(change)="onFileChange($event)"
+							>
+					</div>
+				</div>
+				<div class="row" *ngIf="excelData.length > 0">
+					<div class="col">
+						<div class="row">
+							<div class="col">
+								Usuarios a registrar: <span class="text-success">{{excelData.length}}</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Errores en correo: <span class="text-danger" *ngIf="invalidEmails.length > 0">{{invalidEmails.length}}</span><span *ngIf="invalidEmails.length === 0">0</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Cursos: <span class="text-success" *ngIf="courses.length > 0">{{courses.length}}</span>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Grupos a generar: <span class="text-success" *ngIf="courses.length > 0">{{groups.length - errorGroups.length}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<button
+						class="btn btn-danger"
+						(click)="reset();"
+						>Reiniciar</button>
+						<button
+						class="btn btn-success"
+						(click)="initiate();"
+						>Procesar</button>
+					</div>
+				</div>
+				<div class="row" *ngIf="invalidEmails.length > 0 && !processing">
+					<div class="col">
+						<h3 class="text-danger">Favor de revisar errores. Los registros con errores no serán procesados si se intenta proceder</h3>
+					</div>
+				</div>
+				<div class="row" *ngIf="processing">
+					<div class="col">
+						<h3>En proceso</h3>
+						<div class="progress" style="height:20px;">
+							<div
+								class="progress-bar"
+								[ngClass]="progressColor"
+								role="progressbar"
+								[attr.aria-valuenow]="progress"
+								[style]="progressStyle"
+								aria-valuemin="0"
+								[aria-valuemax]="excelData.length"
+							>{{progress}}</div>
+						</div>
+					</div>
+				</div>
+				<div class="row" *ngIf="!processing">
+					<div class="col">
+						<div class="row" *ngFor="let group of groups; let index=index;">
+							<div class="col">
+								<h3>Grupo {{index+1}}</h3>
+								<h4><b>{{group.course.code}}</b> <span *ngIf="group.course.name !== 'Error'"><small>({{group.course.name}})</small></span> <span *ngIf="group.course.name === 'Error'" class="text-danger">Curso no existe</span> <br />Plantel: <span *ngIf="group.ou.name"><b>{{group.ou.name}}</b> <small>({{group.ou.longName}})</small></span><span *ngIf="group.ou.error"><b>Plantel no existe o no es válido</b></span><br /> <b>{{group.students.length}}</b> Participantes</h4>
+								<table
+									datatable
+									class="table table-striped table-hover"
+									cellspacing="0"
+									width="100%"
+									style="width:100%"
+									[dtOptions]="dtOptions"
+									>
+									<thead>
+										<tr>
+											<th *ngFor="let header of tableHeader">
+												{{header}}
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let user of group.students" [ngClass]="{'text-danger': !user.validEmail}">
+											<td>{{user.person.name}}</td>
+											<td>{{user.person.fatherName}} {{user.person.motherName}}</td>
+											<td>{{user.name}}</td>
+											<td>{{user.password}}</td>
+											<td>{{user.orgUnit}}</td>
+											<td *ngIf="!user.userid"></td>
+											<td *ngIf="user.userid">{{user.userid}}</td>
+											<td *ngIf="user.validEmail"></td>
+											<td *ngIf="!user.validEmail">Email no válido</td>
+										</tr>
+									</tbody>
+									<tfoot>
+										<tr>
+											<th *ngFor="let footer of tableHeader">
+												{{footer}}
+											</th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

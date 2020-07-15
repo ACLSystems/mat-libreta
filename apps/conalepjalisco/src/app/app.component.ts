@@ -40,7 +40,7 @@ export class AppComponent {
 		private commonService: CommonService,
 		private sg: SimpleGlobal
 	) {
-		this.waitLogo += (document.location.hostname === 'localhost') ? 'conalepslp' : document.location.hostname.split('.')[0];
+		this.waitLogo += (document.location.hostname === 'localhost') ? 'conalepjalisco' : document.location.hostname.split('.')[0];
 		this.waitLogo += '.png';
 		// console.log(this.waitLogo);
 		this.router.events.subscribe((event: RouterEvent) => {

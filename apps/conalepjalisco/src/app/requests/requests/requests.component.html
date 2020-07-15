@@ -1,0 +1,21 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Solicitudes</h4>
+				<p class="card-category">Genera nuevos grupos</p>
+			</div>
+			<div class="card-body">
+				<button
+					class="btn btn-success"
+					(click)="goToNew();"
+					>
+						<i class="fas fa-users"></i> Crear grupo(s)
+					</button>
+			</div>
+		</div>
+	</div>
+</div>

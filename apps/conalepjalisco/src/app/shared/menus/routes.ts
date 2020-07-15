@@ -35,7 +35,15 @@ export const ROUTES_1: RouteInfo[] = [{
 		}
 ];
 
-export const ROUTES_2: RouteInfo[] = [{
+export const ROUTES_2: RouteInfo[] = [
+	{
+		path: '/requests',
+		title: 'Solicitudes',
+		type: 'link',
+		icontype: 'group_add',
+		role: 'isRequester'
+	},
+	{
 		path: '/reports',
 		title: 'Reportes MOOC',
 		type: 'link',

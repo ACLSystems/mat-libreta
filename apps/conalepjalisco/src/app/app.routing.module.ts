@@ -102,6 +102,16 @@ const routes: Routes = [
 			}
 		]
 	},{
+		path: '',
+		component: LoggedComponent,
+		canActivate: [AuthGuard],
+		children: [
+			{
+				path: 'requests',
+				loadChildren: () => import('@cjaapp/requests/requests.module').then(mod => mod.RequestsModule)
+			}
+		]
+	},{
 		path: '**',
 		redirectTo: '/pages/error'
 	}

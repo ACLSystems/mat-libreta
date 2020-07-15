@@ -80,7 +80,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 		this.coursesNumber = JSON.parse(localStorage.getItem('courses'));
 		this.courseSelected = !!course;
 		this.instanceName = this.sg['instance']?.instance?.name;
-		this.brand += (document.location.hostname === 'localhost') ? 'conalepslp' : document.location.hostname.split('.')[0];
+		this.brand += (document.location.hostname === 'localhost') ? 'conalepjalisco' : document.location.hostname.split('.')[0];
 		this.brand += '_logo_blanco.png';
 		// console.log('brand',this.brand);
 	}

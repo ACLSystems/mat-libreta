@@ -4,8 +4,8 @@
 
 export const environment = {
 	production: false,
-  url: 'https://apiadmincja.superatemexico.com/',
-	// url: 'http://localhost:3050/'
+  // url: 'https://apiadmincja.superatemexico.com/',
+	url: 'http://localhost:3050/'
 };
 
 /*

@@ -32,8 +32,8 @@ export class EnvService {
 	setEnvironment() {
 		this.publicService.getInstance(environment.url).subscribe((data:any) => {
 			this.sg['instance'] = data;
-			// console.log('data');
-			// console.log(data);
+			console.log('data');
+			console.log(data);
 			localStorage.setItem('url',environment.url);
 			this.commonService.setEnvironment({
 				hostname: data.hostname,
