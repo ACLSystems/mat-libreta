@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { DataTablesModule } from 'angular-datatables';
 
 import { MainComponent } from './main/main.component';
 
@@ -18,7 +19,8 @@ import { SelcompanyComponent } from './selcompany/selcompany.component';
 		SuperRoutingModule,
 		MatInputModule,
 		MatDialogModule,
-		MatSelectModule
+		MatSelectModule,
+		DataTablesModule
   ]
 })
 export class SuperModule { }

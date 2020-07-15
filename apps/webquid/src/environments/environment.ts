@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-	url: 'http://localhost:3050/',
+	// url: 'http://localhost:3050/',
+	url: 'https://api035gin.aclsystems.mx/',
 	tokenVersion: '2'
 };
 

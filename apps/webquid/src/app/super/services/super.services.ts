@@ -33,8 +33,12 @@ export class SuperService{
 					'Authorization',
 					'Bearer ' + this.getToken()
 				),
-				params: new HttpParams().set(
-					'companies', `["${search}"]`
+				params: new HttpParams()
+				.set(
+					'companies', `["${search}"]`,
+				)
+				.set(
+					'perPage', '500'
 				)
 			}
 			const route = this.url+'api/v1/supervisor/user';
