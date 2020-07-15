@@ -37,7 +37,7 @@ export class SuperService{
 					'companies', `["${search}"]`
 				)
 			}
-			const route = this.url+'api/v1/operator/user';
+			const route = this.url+'api/v1/supervisor/user';
 			// console.log(httpOptions);
 			return this.http.get(route,httpOptions);
 		}
@@ -56,7 +56,7 @@ export class SuperService{
 					'general', search
 				)
 			}
-			const route = this.url+'api/v1/operator/company';
+			const route = this.url+'api/v1/supervisor/company';
 			return this.http.get(route,httpOptions);
 		}
 		return null
@@ -71,7 +71,7 @@ export class SuperService{
 					'Bearer ' + this.getToken()
 				)
 			}
-			const route = this.url+'api/v1/operator/user/'+id;
+			const route = this.url+'api/v1/supervisor/user/'+id;
 			return this.http.get(route,httpOptions);
 		}
 		return null
