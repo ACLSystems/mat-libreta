@@ -30,9 +30,11 @@ export class PagesComponent implements OnInit {
 	){
 		this.sidebarVisible = false;
 		this.token = this.userService.getToken();
-		this.instanceName = this.sg['instance']?.instance?.name;
-		this.university = this.sg['instance']?.instance?.university;
-		if(this.sg['instance']?.platform.type === 'mooc') this.mooc = true;
+		const instance = this.sg['instance'];
+		this.instanceName = instance?.instance?.name;
+		this.university = instance?.platform?.university;
+		if(instance?.platform.type === 'mooc') this.mooc = true;
+		// console.log(instance);
 	}
 	ngOnInit(){
 		const navbar: HTMLElement = this.element.nativeElement;
