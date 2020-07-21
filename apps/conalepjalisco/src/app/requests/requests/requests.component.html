@@ -1,20 +1,81 @@
 <div class="main-content">
 	<div *ngIf="loading" class="text-center">
-		<app-loading-spinner></app-loading-spinner>
+		<mat-libreta-requests-spinner></mat-libreta-requests-spinner>
 	</div>
 	<div class="container-fluid" *ngIf="!loading">
 		<div class="card">
 			<div class="card-header">
 				<h4 class="card-title">Solicitudes</h4>
-				<p class="card-category">Genera nuevos grupos</p>
+				<p class="card-category">Genera nuevas solicitudes</p>
 			</div>
 			<div class="card-body">
-				<button
-					class="btn btn-success"
-					(click)="goToNew();"
-					>
-						<i class="fas fa-users"></i> Crear grupo(s)
-					</button>
+				<div class="row justify-content-end">
+					<div class="col">
+						<div class="btn-group">
+							<button
+								class="btn btn-sm btn-success"
+								(click)="goToNew();"
+								>
+								<i class="fas fa-users"></i> Crear grupo(s)
+							</button>
+							<button
+								class="btn btn-sm btn-primary"
+								(click)="export();"
+								>
+								<i class="fas fa-download"></i> Exportar
+							</button>
+						</div>
+					</div>
+					<div class="col" [formGroup]="formGroups">
+						<h3>{{groups.length}} grupos</h3>
+						<div class="togglebutton">
+							<label>
+								<input
+									type="checkbox"
+									formControlName="closedGroups"
+									(change)="getAllGroups();"
+								>
+								<span class="toggle"></span>
+								Incluir grupos cerrados
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<table
+							datatable
+							class="table table-striped table-hover"
+							cellspacing="0"
+							width="100%"
+							style="width:100%"
+							[dtOptions]="dtOptions"
+							id="allGroups"
+						>
+							<thead>
+								<tr>
+									<th *ngFor="let header of tableHeader">
+										{{header}}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let group of groups" class="pointme" (click)="goToGroup(group._id);">
+									<td>{{group.orgUnit.name}} <small>{{group.orgUnit.longName}}</small></td>
+									<td>{{group.code}}</td>
+									<td>{{group.name}}</td>
+									<td>{{group.status}}</td>
+									<td>{{group.type}}</td>
+									<td>{{group.beginDate | date:'mediumDate'}}</td>
+									<td>{{group.endDate | date:'mediumDate'}}</td>
+									<td *ngIf="group.instructor && group.instructor.name">{{group.instructor.name}}</td>
+									<td *ngIf="!group.instructor || (group.instructor && !group.instructor.name)">--</td>
+									<td>{{group.students}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -65,17 +65,23 @@
 						<button
 						class="btn btn-success"
 						(click)="initiate();"
+						*ngIf="!finished"
 						>Procesar</button>
+						<button
+						class="btn btn-primary"
+						(click)="export(0);"
+						*ngIf="finished"
+						>Descargar</button>
 					</div>
 				</div>
-				<div class="row" *ngIf="invalidEmails.length > 0 && !processing">
+				<div class="row" *ngIf="invalidEmails.length > 0 && !processingStudents && !processingGroups">
 					<div class="col">
 						<h3 class="text-danger">Favor de revisar errores. Los registros con errores no serán procesados si se intenta proceder</h3>
 					</div>
 				</div>
-				<div class="row" *ngIf="processing">
+				<div class="row" *ngIf="processingStudents">
 					<div class="col">
-						<h3>En proceso</h3>
+						<h3>Procesando alumnos</h3>
 						<div class="progress" style="height:20px;">
 							<div
 								class="progress-bar"
@@ -84,17 +90,40 @@
 								[attr.aria-valuenow]="progress"
 								[style]="progressStyle"
 								aria-valuemin="0"
-								[aria-valuemax]="excelData.length"
+								[aria-valuemax]="progressTotal"
 							>{{progress}}</div>
 						</div>
+						<mat-libreta-requests-spinner></mat-libreta-requests-spinner>
 					</div>
 				</div>
-				<div class="row" *ngIf="!processing">
+				<div class="row" *ngIf="processingGroups">
+					<div class="col">
+						<h3>Procesando Grupos</h3>
+						<div class="progress" style="height:20px;">
+							<div
+								class="progress-bar"
+								[ngClass]="progressColor"
+								role="progressbar"
+								[attr.aria-valuenow]="progress"
+								[style]="progressStyle"
+								aria-valuemin="0"
+								[aria-valuemax]="progressTotal"
+							>{{progress}}</div>
+						</div>
+						<mat-libreta-requests-spinner></mat-libreta-requests-spinner>
+					</div>
+				</div>
+				<div class="row" *ngIf="!processingStudents && !processingGroups">
 					<div class="col">
 						<div class="row" *ngFor="let group of groups; let index=index;">
 							<div class="col">
 								<h3>Grupo {{index+1}}</h3>
+								<h3 [ngClass]="{'text-success':!group.results.error, 'text-danger': group.results.error}">{{group.results.groupName}}<br><small>{{group.results.groupCode}}</small></h3>
 								<h4><b>{{group.course.code}}</b> <span *ngIf="group.course.name !== 'Error'"><small>({{group.course.name}})</small></span> <span *ngIf="group.course.name === 'Error'" class="text-danger">Curso no existe</span> <br />Plantel: <span *ngIf="group.ou.name"><b>{{group.ou.name}}</b> <small>({{group.ou.longName}})</small></span><span *ngIf="group.ou.error"><b>Plantel no existe o no es válido</b></span><br /> <b>{{group.students.length}}</b> Participantes</h4>
+								<div class="text-danger" *ngIf="group.results.error">
+									Errores:
+									{{group.results.results}}
+								</div>
 								<table
 									datatable
 									class="table table-striped table-hover"
@@ -102,6 +131,7 @@
 									width="100%"
 									style="width:100%"
 									[dtOptions]="dtOptions"
+									id="group-{{index}}"
 									>
 									<thead>
 										<tr>

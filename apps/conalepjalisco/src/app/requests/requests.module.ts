@@ -1,22 +1,30 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
+import { ExportAsModule, ExportAsService } from 'ngx-export-as';
+
 import { RequestComponent } from './request/request.component';
 import { RequestsComponent } from './requests/requests.component';
 import { RequestsRoutingModule } from './requests.routing.module';
-
 import { RequestService } from './services/requests.service';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { GroupComponent } from './group/group.component';
 
 
 @NgModule({
-  declarations: [RequestComponent, RequestsComponent],
+  declarations: [RequestComponent, RequestsComponent, SpinnerComponent, GroupComponent],
   imports: [
     CommonModule,
 		RequestsRoutingModule,
-		DataTablesModule
+		DataTablesModule,
+		ExportAsModule,
+		FormsModule,
+		ReactiveFormsModule
   ],
 	providers: [
-		RequestService
+		RequestService,
+		ExportAsService
 	]
 })
 export class RequestsModule { }

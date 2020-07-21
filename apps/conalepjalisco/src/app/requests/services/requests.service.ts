@@ -77,4 +77,87 @@ export class RequestService {
 		return this.http.post(route, body, httpOptions);
 	}
 
+	createGroup(group:any): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const body = JSON.stringify(group);
+		const route = `${this.url}api/v1/group`;
+		return this.http.post(route, body, httpOptions);
+	}
+
+	modifyGroup(groupid:string, group:any): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const body = JSON.stringify(group);
+		const route = `${this.url}api/v1/group/${groupid}`;
+		return this.http.patch(route, body, httpOptions);
+	}
+
+	createRosters(groupid:string, students:any): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const body = JSON.stringify({roster:students, status: 'pending'});
+		const route = `${this.url}api/v1/roster/${groupid}`;
+		return this.http.post(route, body, httpOptions);
+	}
+
+	getAllGroups(status?:string): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = status ? `${this.url}api/v1/groups?status=${status}` : `${this.url}api/v1/groups`;
+		return this.http.get(route, httpOptions);
+	}
+
+	getGroup(groupid:string): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = `${this.url}api/v1/group/${groupid}`;
+		return this.http.get(route, httpOptions);
+	}
+
+	validateInstructor(name:string) {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = `${this.url}api/v1/validateinstructor/${name}`;
+		return this.http.get(route, httpOptions);
+	}
+
+	// /api/v1/group/:groupid/changetutor/:tutorid
+
+	changeInstructor (groupid:string, tutorid:string): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = `${this.url}api/v1/group/${groupid}/changetutor/${tutorid}`;
+		return this.http.patch(route,{},httpOptions);
+	}
+
+
 }

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RequestComponent } from './request/request.component';
 import { RequestsComponent } from './requests/requests.component';
+import { GroupComponent } from './group/group.component';
 
 const requestsRoutes: Routes = [
 	{
@@ -14,6 +15,9 @@ const requestsRoutes: Routes = [
 			},{
 				path: 'new',
 				component: RequestComponent
+			},{
+				path: 'group/:groupid',
+				component: GroupComponent
 			}
 		]
 	}

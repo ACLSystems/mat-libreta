@@ -8,7 +8,9 @@ import Swal from 'sweetalert2';
 import {
 	Identity,
 	UserService,
-	PublicService } from '@mat-libreta/shared';
+	PublicService,
+	CommonService
+} from '@mat-libreta/shared';
 import { EnvService } from '@cjashared/services/setEnv.service';
 
 // import { Login } from './login';
@@ -49,7 +51,8 @@ export class LoginComponent implements OnInit {
 		private publicService: PublicService,
 		private envService: EnvService,
 		private fb: FormBuilder,
-		private sg: SimpleGlobal
+		private sg: SimpleGlobal,
+		private commonService: CommonService
 	) {
 	}
 
@@ -95,6 +98,7 @@ export class LoginComponent implements OnInit {
 				this.token = data.token;
 				localStorage.setItem('token', this.token);
 				let decodedToken = this.getDecodedAccessToken(this.token);
+				this.commonService.displayLog('Decoded Token',decodedToken);
 				localStorage.setItem('identity', JSON.stringify({
 					admin: decodedToken.admin,
 					attachedToWShift: decodedToken.attachedToWShift,

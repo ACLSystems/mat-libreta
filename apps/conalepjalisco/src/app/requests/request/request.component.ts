@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import * as Secure from 'secure-random-password';
+import { SimpleGlobal } from 'ng2-simple-global';
+import { ExportAsConfig, ExportAsService } from 'ngx-export-as';
 import Swal from 'sweetalert2';
 
 import { CommonService, DtOptions } from '@mat-libreta/shared';
@@ -25,16 +27,26 @@ export class RequestComponent implements OnInit {
 	groups: any[] = [];
 	orgUnits: any[] = [];
 	allOUs: any[] = [];
-	processing: boolean = false;
+	processingStudents: boolean = false;
+	processingGroups: boolean = false;
 	errors: any[] = [];
 	errorGroups: any[] = [];
 	progress: string = '0';
 	progressStyle: string = 'width: 0%;';
 	progressColor: string = 'bg-success';
+	progressTotal: number = 100;
+	orgName: string;
+	finished: boolean = false;
+	exportAsConfig: ExportAsConfig = {
+		type: 'xlsx',
+		elementId: ''
+	}
 
   constructor(
 		private commonService: CommonService,
-		private requestService: RequestService
+		private requestService: RequestService,
+		private sg: SimpleGlobal,
+		private exportAsService: ExportAsService
 	) {
 		this.tableHeader = [
 			'Nombre',
@@ -48,6 +60,8 @@ export class RequestComponent implements OnInit {
 	}
 
   ngOnInit(): void {
+		// console.log(this.sg['environment']);
+		this.orgName = this.sg['environment'].orgName;
 		this.getCourses();
 		this.getOUs();
   }
@@ -59,9 +73,15 @@ export class RequestComponent implements OnInit {
 		this.fullCourses = [];
 		this.groups = [];
 		this.orgUnits = [];
-		this.processing = false;
+		this.processingStudents = false;
+		this.processingGroups = false;
 		this.errors = [];
 		this.errorGroups = [];
+		this.finished = false;
+		this.exportAsConfig = {
+			type: 'xlsx',
+			elementId: ''
+		}
 		$('#file').val('');
 	}
 
@@ -94,24 +114,36 @@ export class RequestComponent implements OnInit {
 			console.group('Loop de cursos');
 			for(let course of this.courses) {
 				let foundCourse = this.fullCourses.find(r => r.code === course);
-				console.group('foundCourse');
-				console.log(course);
-				console.log(foundCourse);
-				console.groupEnd();
+				// console.group('foundCourse');
+				// console.log(course);
+				// console.log(foundCourse);
+				// console.groupEnd();
 				for(let ou of this.orgUnits) {
 					let findOu = this.allOUs.find(o => o.name === ou);
+					const thisStudents = this.excelData.filter(item => item.char1 === course && item.orgUnit === ou);
+					const thisCourse = thisStudents[0].course;
+					const students = cleanStudents(thisStudents);
 					this.groups.push({
 						course: {
 							name: foundCourse ? foundCourse.title : 'Error',
 							code: foundCourse ? foundCourse.code: course,
 							_id: foundCourse ? foundCourse._id: null,
+							beginDate: thisCourse.beginDate,
+							endDate: thisCourse.endDate,
+							minGrade: thisCourse.minGrade,
+							minTrack: thisCourse.minTrack,
+							instructor: thisCourse.instructor
 						},
 						ou: findOu || {error: `No existe plantel con clave ${ou}`},
-						students: [...this.excelData.filter(item => item.char1 === course && item.orgUnit === ou)]
+						students: [...students],
+						results: {
+							error: false
+						},
+						status: 'draft'
 					});
 				}
 			}
-			this.errorGroups = this.groups.filter(c => c.course.name === 'Error');
+			this.errorGroups = this.groups.filter(c => c.course.name === 'Error' || c.ou.error);
 			this.groups = this.groups.filter(r => r.students.length > 0);
 			console.groupEnd();
 			this.commonService.displayLog('Excel',this.excelData);
@@ -172,7 +204,6 @@ export class RequestComponent implements OnInit {
 		}).then(results => {
 			if(results.value) {
 				this.registerUser(0);
-				this.processing = true;
 			}
 		});
 	}
@@ -186,35 +217,43 @@ export class RequestComponent implements OnInit {
 	// }
 
 	registerUser(index:number) {
+		this.processingStudents = true;
+		this.progressTotal = this.excelData.length;
 		if(this.excelData[index]) {
-			let itr = this.excelData[index];
-			let len = this.excelData.length;
-			this.requestService
-				.muir(itr)
-				.subscribe(data => {
-					if(data.userid) {
-						this.excelData[index].userid = data.userid;
-					}
-					this.progress = index + 1 + '';
-					let width = Math.floor((index+1)*100/len);
-					this.progressStyle = `width: ${width}%;`;
-					this.registerUser(index+1);
-				}, error => {
-					this.progress = index +'';
-					let width = Math.floor(index*100/len);
-					this.progressStyle = `width: ${width}%;`;
-					this.errors.push({
-						user: itr.name,
-						error: error.message
+			if(this.excelData[index].validEmail) {
+				let itr = this.excelData[index];
+				let len = this.excelData.length;
+				this.requestService
+					.muir(itr)
+					.subscribe(data => {
+						if(data.userid) {
+							this.excelData[index].userid = data.userid;
+						}
+						if(data.message && data.message.includes('Usuario previamente')) {
+							this.excelData[index].password = '---'
+						}
+						this.progress = index + 1 + '';
+						let width = Math.floor((index+1)*100/len);
+						this.progressStyle = `width: ${width}%;`;
+						this.registerUser(index+1);
+					}, error => {
+						this.progress = index +'';
+						let width = Math.floor(index*100/len);
+						this.progressStyle = `width: ${width}%;`;
+						this.errors.push({
+							user: itr.name,
+							error: error.message
+						});
+						this.registerUser(index+1);
 					});
-					this.registerUser(index+1);
-				})
+			} else {
+				this.registerUser(index + 1);
+			}
 		} else {
 			// this.commonService.displayLog('ExcelData',this.excelData);
 			this.mergeIDs();
 			this.getGroups(0);
 			this.commonService.displayLog('Groups',this.groups);
-			this.processing = false;
 		}
 	}
 
@@ -223,11 +262,15 @@ export class RequestComponent implements OnInit {
 			group.students.forEach(student => {
 				let foundStudent = this.excelData.find(r => r.name === student.name);
 				if(foundStudent) student.userid = foundStudent.userid;
+				if(foundStudent) student.password = foundStudent.password
 			});
 		});
+		this.processingStudents = false;
 	}
 
 	getGroups(index:number) {
+		this.processingGroups = true;
+		this.progressTotal = this.groups.length;
 		if(this.groups[index]) {
 			if(this.groups[index].course.name !== 'Error') {
 				this.requestService.getGroups(
@@ -235,6 +278,7 @@ export class RequestComponent implements OnInit {
 					this.groups[index].course._id
 				).subscribe(data => {
 					// console.log(data);
+					this.commonService.displayLog('GetGroups',data);
 					this.groups[index].last = getLastNumber(data);
 					this.getGroups(index + 1);
 				}, error => {
@@ -248,9 +292,155 @@ export class RequestComponent implements OnInit {
 			} else {
 				this.getGroups(index + 1);
 			}
+		} else {
+			this.createGroups(0);
 		}
 	}
 
+	createGroups(index:number) {
+		this.progressTotal = this.groups.length;
+		if(this.groups[index]) {
+			let len = this.groups.length;
+			const thisGroup = this.groups[index];
+			const groupCode = `${thisGroup.course.code}-${thisGroup.ou.name}-${thisGroup.last}`;
+			const groupName = `${thisGroup.course.name} ${thisGroup.ou.name} ${thisGroup.last}`;
+			const group = {
+				code: groupCode,
+				name: groupName,
+				course: thisGroup.course._id,
+				org: this.orgName,
+				orgUnit: thisGroup.ou._id,
+				instructor: thisGroup.course.instructor,
+				beginDate: thisGroup.course.beginDate,
+				endDate: thisGroup.course.endDate,
+				minGrade: thisGroup.course.minGrade,
+				minTrack: thisGroup.course.minTrack
+			}
+			this.commonService.displayLog('Este es el grupo a cargar',group);
+			this.requestService.createGroup(group).subscribe(data => {
+				this.groups[index].results = {
+					groupCode,
+					groupName,
+					error: false,
+					results: data
+				}
+				this.groups[index]._id = data._id;
+				this.progress = index + 1 + '';
+				let width = Math.floor((index+1)*100/len);
+				this.progressStyle = `width: ${width}%;`;
+				this.createGroups(index +1);
+			}, error => {
+				console.log(error);
+				this.progress = index + 1 + '';
+				let width = Math.floor((index+1)*100/len);
+				this.progressStyle = `width: ${width}%;`;
+				this.groups[index].results = {
+					groupCode,
+					groupName,
+					error: true,
+					results: error
+				}
+				this.createGroups(index +1);
+			})
+		} else {
+			this.modifyGroups(0);
+		}
+	}
+
+	modifyGroups(index:number) {
+		if(this.groups[index]) {
+			if(this.groups[index].results.error) {
+				this.modifyGroups(index + 1);
+			} else {
+				this.requestService
+					.modifyGroup(this.groups[index]._id,{
+						status: 'active'
+					})
+					.subscribe(data => {
+						// console.log(data);
+						if(data.message) {
+							this.groups[index].modifyResults = {
+								error: true,
+								message: data.message
+							}
+						} else {
+							this.groups[index].modifyResults = {
+								error: false,
+								message: ''
+							}
+							this.groups[index].status = data.status;
+						}
+						this.modifyGroups(index + 1);
+					}, error => {
+						this.groups[index].modifyResults = {
+							error: true,
+							message: error.message
+						}
+						this.modifyGroups(index + 1);
+					});
+			}
+		} else {
+			this.createRosters(0);
+		}
+	}
+
+	createRosters(index:number) {
+		if(this.groups[index]) {
+			const group = this.groups[index];
+			if(group.results.error || group.modifyResults.error) {
+				this.createRosters(index + 1);
+			} else {
+				if(group.status !== 'active') {
+					this.createRosters(index +1);
+				}
+				const students = group.students.map(st => st.userid);
+				// console.group('Students to send');
+				// console.log(students);
+				// console.groupEnd();
+				if(students.length === 0) {
+					this.createRosters(index + 1);
+				}
+				this.requestService.createRosters(group._id,students).subscribe(data => {
+					// console.log(data);
+					if(data.message) {
+						this.groups[index].rosterResults = {
+							error: true,
+							message: data.message
+						}
+					} else {
+						this.groups[index].rosterResults = {
+							error: false,
+							message: data
+						}
+					}
+					this.createRosters(index + 1);
+				}, error => {
+					console.log(error);
+					this.groups[index].rosterResults = {
+						error: true,
+						message: error.message
+					}
+					this.createRosters(index + 1);
+				});
+			}
+		} else {
+			this.commonService.displayLog('Resultado de la carga de grupos',this.groups);
+			this.processingGroups = false;
+			this.finished = true;
+		}
+	}
+
+	export(index:number) {
+		if(this.groups[index]) {
+			this.exportAsConfig = {
+				type: 'xlsx',
+				elementId: `group-${index}`
+			}
+			this.exportAsService.save(this.exportAsConfig, `${this.groups[index].results.groupCode}`).subscribe(() => {
+				this.export(index + 1);
+			});
+		}
+	}
 
 
 }
@@ -268,6 +458,8 @@ function convertToArray(arr:any) {
 	// 	}
 	// }
 	// return returnedArray;
+	if(!Array.isArray(arr)) return arr;
+	arr = cleanXLS(arr);
 	const header = arr[0];
 	// console.log(header);
 	arr = arr.slice(0,0).concat(arr.slice(1,arr.length));
@@ -275,10 +467,16 @@ function convertToArray(arr:any) {
 	var returnedArray = [];
 	for(let i=0; i< arr.length; i++) {
 		let obj = {};
-		for(let j=0; j < arr[i].length; j++) {
-			if(arr[i][j] && header[j]) obj[header[j]] = arr[i][j].trim();
+		if(arr[i].length > 0) {
+			for(let j=0; j < arr[i].length; j++) {
+				// console.log(arr[i][j]);
+				if(arr[i][j] && header[j]) {
+					if(typeof arr[i][j] !== 'string') arr[i][j] += '';
+					obj[header[j]] = arr[i][j].trim();
+				}
+			}
+			returnedArray.push(drawObject(obj));
 		}
-		returnedArray.push(drawObject(obj));
 	}
 	return returnedArray;
 }
@@ -287,8 +485,9 @@ function drawObject(obj:any) {
 	let email = obj.email.toLowerCase();
 	let pass = obj.password || generatePassword();
 	let today = new Date();
-	let month = today.getMonth() + 1;
-	let todayString = `${today.getFullYear()}-${month + ''.padStart(2,'0')}-${today.getDay() + ''.padStart(2,'0')}`
+	let endDate = addDays(today,60);
+	let todayString = `${today.getFullYear()}-${today.getMonth() + 1 + ''.padStart(2,'0')}-${today.getDay() + ''.padStart(2,'0')}`;
+	let endDateString = `${endDate.getFullYear()}-${endDate.getMonth() + 1 + ''.padStart(2,'0')}-${endDate.getDay() + ''.padStart(2,'0')}`;
 	return {
 		name: email,
 		validEmail: isValidEmail(email),
@@ -319,7 +518,9 @@ function drawObject(obj:any) {
 			code: obj.courseCode,
 			minGrade: +obj.minGrade || 60,
 			minTrack: +obj.minTrack || 70,
-			beginDate: obj.beginDate ||
+			beginDate: obj.beginDate || todayString,
+			endDate: obj.endDate || endDateString,
+			instructor: obj.instructor
 		}
 	};
 }
@@ -406,4 +607,25 @@ function getLast(arr:any, index:number) {
 	last ++;
 	last = last + '';
 	return last.padStart(3,'0');
+}
+
+function addDays(date:Date = new Date(), days:number = 0){
+	const newDay = new Date(Number(date));
+	newDay.setDate(date.getDate() + days);
+	return newDay;
+}
+
+function cleanXLS(arr:any) {
+	if(!Array.isArray(arr)) return arr;
+	return arr.filter(a => a.length > 0);
+}
+
+function cleanStudents(arr:any) {
+	if(!Array.isArray(arr)) return arr;
+	var newArr = [];
+	for(let a of arr) {
+		const { course, ...newA} = a;
+		newArr.push(newA);
+	}
+	return newArr;
 }

@@ -1,0 +1,102 @@
+<div class="main-content">
+	<div *ngIf="loading" class="text-center">
+		<app-loading-spinner></app-loading-spinner>
+	</div>
+	<div class="container-fluid" *ngIf="!loading">
+		<div class="card">
+			<div class="card-header">
+				<h3 class="card-title">{{ group.name }}</h3>
+				<p class="card-category">{{ group.code }}</p>
+			</div>
+			<div class="card-body">
+				<div class="row">
+					<div class="col">
+						<div class="row">
+							<div class="col">
+								Tipo:
+							</div>
+							<div class="col">
+								{{ group.type }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col bg-light">
+								Instructor:<br />
+								<button class="btn btn-sm btn-primary" (click)="changeTutor();"><i class="fas fa-chalkboard-teacher"></i> Cambiar</button>
+							</div>
+							<div class="col bg-light">
+								{{ group.instructor.person.name }}
+								{{ group.instructor.person.fatherName }}
+								<small>({{ group.instructor.person.email }})</small>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Calificación mínima:
+							</div>
+							<div class="col">{{ group.minGrade }}</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Avance mínimo:
+							</div>
+							<div class="col">{{ group.minTrack }}</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="row">
+							<div class="col">
+								Status:
+							</div>
+							<div class="col" [ngClass]="{'text-success':group.status==='active','text-danger':group.status!=='active'}">
+								{{ group.status }}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Unidad:
+							</div>
+							<div class="col">
+								{{ group.orgUnit.name }} <small>({{group.orgUnit.longName}})</small>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Inicio:<br />
+								<button class="btn btn-sm btn-primary" (click)="modifyGroup('beginDate');"><i class="fas fa-calendar"></i> Cambiar</button>
+							</div>
+							<div class="col">{{ group.beginDate | date: 'mediumDate' }}</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Fin:<br />
+								<button class="btn btn-sm btn-primary" (click)="modifyGroup('endDate');"><i class="fas fa-calendar"></i> Cambiar</button>
+							</div>
+							<div class="col">{{ group.endDate | date: 'mediumDate' }}</div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Apellidos</th>
+									<th>Correo</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let student of group.students">
+									<td>{{student.person.name}}</td>
+									<td>{{student.person.fatherName}} {{student.person.motherName}}</td>
+									<td>{{student.person.email}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

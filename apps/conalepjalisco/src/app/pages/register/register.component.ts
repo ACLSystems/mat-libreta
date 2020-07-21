@@ -101,13 +101,14 @@ export class RegisterComponent implements OnInit {
 						motherName: this.registerForm.get('motherName').value,
 						email: this.registerForm.get('email').value.toLowerCase()
 					},
-					org: this.sg['environment'].instanceName,
-					orgUnit: this.sg['environment'].orgUnitName
+					org: this.sg['instance'].organization,
+					orgUnit: this.sg['instance'].registerOrgUnit.name
 				};
+				// console.log(this.sg['instance']);
 				// console.log(register);
+				// return;
 				Swal.fire('Solicitando registro. Espera...');
 				Swal.showLoading();
-				// console.log(register);
 				this.publicService.register(register).subscribe(data => {
 					if(data && data.uri) {
 						delete data.uri;
