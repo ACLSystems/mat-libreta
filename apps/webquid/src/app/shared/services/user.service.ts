@@ -308,4 +308,19 @@ export class UserService{
 		}
 		return null;
 	}
+
+	refreshRequest(ticketid:string,): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const route = `${this.url}api/v1/request/${ticketid}/refresh`;
+			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
 }

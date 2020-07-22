@@ -19,7 +19,7 @@ export class PDFService {
 		docD: any
 	) {
 
-		this.commonService.displayLog('docD',docD);
+		// this.commonService.displayLog('docD',docD);
 		const doc = new jsPDF({
 			orientation: 'p',
 			unit: 'mm',
@@ -267,7 +267,7 @@ export class PDFService {
 		x = 10;
     yText += 8; y = yText; // 71
     const yPerc = yText;
-    console.log('Percepciones: ',y);
+    // console.log('Percepciones: ',y);
 		doc.setFontStyle('bold');
 		text = 'Clave';
 		doc.text(x,y,text);
@@ -301,6 +301,8 @@ export class PDFService {
 
 		const totalGravado = percepciones.map(item => +item.importeGravado).reduce((acc,curr) => acc + curr);
 		const totalExento = percepciones.map(item => +item.importeExento).reduce((acc,curr) => acc + curr);
+
+		// console.log('Total Exento',totalExento);
 
 		y += 8;
 		yRec = y-4;
@@ -412,6 +414,7 @@ export class PDFService {
 		doc.text(x,y,text);
 		x += 23;
 		text = numberToString(totalExento);
+		// console.log('text',text);
 		doc.text(x,y,text);
 
 		doc.line(112,deducLine,207,deducLine);
@@ -680,7 +683,7 @@ function dateToString(date: Date, short: boolean = true, upper: boolean = true):
 }
 
 function numberToString(number:number) {
-	if(!number) return null;
+	if(number === null || number === undefined) return null;
 	let processedNumber = round(number,2);
 	let newNumber = processedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	// console.log(newNumber);

@@ -31,6 +31,8 @@ export class RequestsComponent implements OnInit {
 	viewCandidate: boolean = false;
 	readyCandidate: boolean = false;
 	candidate: any;
+	refreshing: boolean = false;
+	refreshed: boolean = false;
 
   constructor(
 		private userService: UserService,
@@ -49,17 +51,29 @@ export class RequestsComponent implements OnInit {
 	}
 
   ngOnInit(): void {
-		this.loading = true;
 		this.getMyRequests();
   }
 
 	getMyRequests() {
+		this.loading = true;
+		Swal.fire('Obteniendo lista de tickets. Espera...');
+		Swal.showLoading();
 		this.userService.getMyRequests().subscribe(data => {
 			if(data) {
 				this.allRequests = [...data];
 			}
-			this.loading = false;
 			this.requests = this.allRequests.filter(req => req.freshStatus !== 'Closed');
+			if(!this.refreshed) {
+				Swal.close();
+				Swal.fire('Actualizando tickets...');
+				Swal.showLoading();
+				this.refreshing = true;
+				this.refreshTicket(0);
+			} else {
+				Swal.hideLoading();
+				Swal.close();
+				this.loading = false;
+			}
 			this.commonService.displayLog('Requests', this.requests);
 		}, error => {
 			console.log(error);
@@ -70,6 +84,31 @@ export class RequestsComponent implements OnInit {
 			});
 			this.router.navigate(['/services']);
 		})
+	}
+
+	refreshTicket(index:number) {
+		if(this.requests[index] && !this.refreshed) {
+			const ticket = this.requests[index];
+			console.log(ticket.freshid);
+			Swal.close();
+			Swal.fire(`Actualizando ticket ${ticket.freshid}`);
+			Swal.showLoading();
+			this.userService.refreshRequest(ticket.freshid).subscribe(data => {
+				this.refreshTicket(index+1);
+			}, error => {
+				console.log(error);
+				this.refreshTicket(index+1);
+			});
+		} else {
+			if(this.refreshing) {
+				this.refreshing = false;
+				this.loading = false;
+				Swal.close();
+				Swal.hideLoading();
+				this.refreshed = true;
+				this.getMyRequests();
+			}
+		}
 	}
 
 	goRequest(request:number){

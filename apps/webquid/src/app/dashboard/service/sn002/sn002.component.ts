@@ -240,7 +240,7 @@ export class Sn002Component implements OnInit {
 			value: '25-29 años',
 			viewValue: '25-29 años'
 		},{
-			value: '20-34 años',
+			value: '30-34 años',
 			viewValue: '30-34 años'
 		},{
 			value: '35-39 años',
@@ -255,7 +255,7 @@ export class Sn002Component implements OnInit {
 			value: '50-54 años',
 			viewValue: '50-54 años'
 		},{
-			value: '55-56 años',
+			value: '55-59 años',
 			viewValue: '55-59 años'
 		},{
 			value: '60-64 años',

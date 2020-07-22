@@ -29,15 +29,18 @@
 					<tbody>
 						<tr *ngFor="let request of requests">
 							<td>{{request.freshid}}</td>
-							<td *ngIf="request.freshStatus && request.freshStatus === 'Open'"><span class="badge badge-pill badge-success">Abierto</span></td>
-							<td *ngIf="request.freshStatus && request.freshStatus === 'Closed'"><span class="badge badge-pill badge-primary">Cerrado</span></td>
-							<td *ngIf="request.freshStatus && request.freshStatus === 'Pending'"><span class="badge badge-pill badge-warning">Pendiente</span></td>
-							<td *ngIf="!request.freshStatus && request.data.service_request.status === 2"><span class="badge badge-pill badge-success">Abierto</span></td>
-							<td *ngIf="!request.freshStatus && request.data.service_request.status === 5"><span class="badge badge-pill badge-success">Cerrado</span></td>
-							<td *ngIf="!request.freshStatus && request.data.service_request.status === 3"><span class="badge badge-pill badge-warning">Pendiente</span></td>
-							<td *ngIf="request.freshStatus && request.freshStatus !== 'Open' && request.freshStatus !== 'Closed'"><span class="badge badge-pill badge-warning">En espera</span></td>
-							<td *ngIf="request.freshStatus && (request.freshStatus === 'Open' || request.freshStatus === 'Closed')"><span class="badge badge-pill badge-success">Aprobado</span></td>
-							<td *ngIf="!request.freshStatus"><span class="badge badge-pill badge-warning">En espera</span></td>
+							<td><span
+								class="badge badge-pill"
+								[ngClass]="{'badge-success':request.freshStatus === 'Resuelto' || request.freshStatus === 'Cerrado','badge-warning': request.freshStatus === 'Abierto' || request.freshStatus === 'Pendiente', 'badge-danger': request.freshStatus === 'En espera de autorización'}"
+								>
+									{{request.freshStatus}}
+								</span></td>
+							<td><span
+								class="badge badge-pill"
+								[ngClass]="{'badge-success':request.approvalStatus === 'Aprobado','badge-warning': request.approvalStatus === 'Pendiente', 'badge-danger': request.approvalStatus === 'Rechazado', 'badge-secondary': request.approvalStatus === 'Sin aprobación'}"
+								>
+
+							</span></td>
 							<td>{{request.data.service_request.subject}}</td>
 							<td>{{request.data.service_request.created_at | date: 'medium'}}</td>
 							<td>
