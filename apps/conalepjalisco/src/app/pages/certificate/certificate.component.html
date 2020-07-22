@@ -1,118 +1,120 @@
-<div class="page-header header-filter cetec-filter"
-	data-parallax="true"
-	style="background-image: url('assets/img/cert.jpg');">
-	<div class="container index-page">
-		<div class="row">
-			<div class="col-md-10 col-sm ml-auto mr-auto">
-				<div class="row">
-					<div class="col-sm col-sm-offset-1">
-						<br>
-						<h3 class="text-center"><i class="fas fa-certificate"></i> Validador de constancias</h3>
-						<div class="row">
-							<div class="col-sm">
-								<div class="row">
-									<div class="col-sm-1"></div>
-									<div class="col-sm">
-										<div class="container">
-											<div class="row">
-												<div class="col">
-													<re-captcha (resolved)="resolved($event)" siteKey="{{captchaSiteKey}}"></re-captcha>
-												</div>
-											</div>
-										</div>
-										<div class="input-group mb-3">
+<div class="wrapper">
+	<div class="page-header header-filter cetec-filter"
+		data-parallax="true"
+		style="background-image: url('assets/img/cert.jpg');">
+		<div class="container index-page">
+			<div class="row">
+				<div class="col-md-10 col-sm ml-auto mr-auto">
+					<div class="row">
+						<div class="col-sm col-sm-offset-1">
+							<br>
+							<h3 class="text-center"><i class="fas fa-certificate"></i> Validador de constancias</h3>
+							<div class="row">
+								<div class="col-sm">
+									<div class="row">
+										<div class="col-sm-1"></div>
+										<div class="col-sm">
 											<div class="container">
 												<div class="row">
 													<div class="col">
-														<div>
-															<input type="number" class="form-control text-white" #folio  placeholder="Ingresa el folio de la constancia">
+														<re-captcha (resolved)="resolved($event)" siteKey="{{captchaSiteKey}}"></re-captcha>
+													</div>
+												</div>
+											</div>
+											<div class="input-group mb-3">
+												<div class="container">
+													<div class="row">
+														<div class="col">
+															<div>
+																<input type="number" class="form-control text-white" #folio  placeholder="Ingresa el folio de la constancia">
+															</div>
+														</div>
+													</div>
+													<div class="row">
+														<div class="col">
+															<div class="input-group-append">
+																<button
+																	*ngIf="updateDisable"
+																	class="btn btn-secondary"
+																	type="button" disabled>
+																	<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
+																	Espera {{segundos}} segundos
+																</button>
+																<button
+																	*ngIf="!updateDisable && captchaValidated"
+																	class="btn btn-{{color}}"
+																	type="button"
+																	(click)="searchCertificate(folio.value)">
+																	<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
+																	<span *ngIf="!buscando">Buscar</span>
+																	<span *ngIf="buscando">Buscando</span>
+																</button>
+																<button
+																	*ngIf="!updateDisable && !captchaValidated"
+																	class="btn btn-{{color}}"
+																	placement="bottom"
+																	type="button" disable>
+																	<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
+																	<span *ngIf="!buscando">Buscar</span>
+																	<span *ngIf="buscando">Buscando</span>
+																</button>
+															</div>
 														</div>
 													</div>
 												</div>
-												<div class="row">
-													<div class="col">
-														<div class="input-group-append">
-															<button
-																*ngIf="updateDisable"
-																class="btn btn-secondary"
-																type="button" disabled>
-																<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
-																Espera {{segundos}} segundos
-															</button>
-															<button
-																*ngIf="!updateDisable && captchaValidated"
-																class="btn btn-{{color}}"
-																type="button"
-																(click)="searchCertificate(folio.value)">
-																<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
-																<span *ngIf="!buscando">Buscar</span>
-																<span *ngIf="buscando">Buscando</span>
-															</button>
-															<button
-																*ngIf="!updateDisable && !captchaValidated"
-																class="btn btn-{{color}}"
-																placement="bottom"
-																type="button" disable>
-																<i [ngClass]=" { 'fa-search':!buscando, 'fa-sync fa-spin':buscando }" class="fa"></i>
-																<span *ngIf="!buscando">Buscar</span>
-																<span *ngIf="buscando">Buscando</span>
-															</button>
+							        </div>
+											<div *ngIf='captchaError' class="alert alert-danger">
+												{{captchaError}}
+											</div>
+										</div>
+										<div class="col-sm-1"></div>
+									</div>
+									<div *ngIf="certificateFound" class="row">
+										<div class="col-sm">
+											<div class="row">
+												<div class="col-sm-1"></div>
+												<div class="col-sm">
+													<div class="card" style="width: 26rem;">
+														<img src="{{certificate.courseImage}}" alt="Curso" class="card-img-top">
+														<div class="card-body">
+															<h5 class="card-title">{{certificate.courseName}}</h5>
+															<h6 class="text-{{color}}">{{certificate.studentName}}</h6>
+															<p>{{certificate.passDate | date: 'MMMM dd, yyyy' | titlecase  }}</p>
+															<p>Folio: <span class="text-{{color}}">{{certificate.certificateNumber}}</span></p>
+														</div>
+														<div class="card-footer text-muted">
+															Constancia generada <b class="text-danger">
+																<!-- {{certificate.passDate | timeago:live }} -->
+																{{certificate.passDate | date: 'medium' }}
+															</b>
 														</div>
 													</div>
 												</div>
-											</div>
-						        </div>
-										<div *ngIf='captchaError' class="alert alert-danger">
-											{{captchaError}}
+												</div>
 										</div>
 									</div>
-									<div class="col-sm-1"></div>
-								</div>
-								<div *ngIf="certificateFound" class="row">
-									<div class="col-sm">
-										<div class="row">
-											<div class="col-sm-1"></div>
-											<div class="col-sm">
-												<div class="card" style="width: 26rem;">
-													<img src="{{certificate.courseImage}}" alt="Curso" class="card-img-top">
-													<div class="card-body">
-														<h5 class="card-title">{{certificate.courseName}}</h5>
-														<h6 class="text-{{color}}">{{certificate.studentName}}</h6>
-														<p>{{certificate.passDate | date: 'MMMM dd, yyyy' | titlecase  }}</p>
-														<p>Folio: <span class="text-{{color}}">{{certificate.certificateNumber}}</span></p>
-													</div>
-													<div class="card-footer text-muted">
-														Constancia generada <b class="text-danger">
-															<!-- {{certificate.passDate | timeago:live }} -->
-															{{certificate.passDate | date: 'medium' }}
-														</b>
+									<div *ngIf="!certificateFound && busqueda" class="row">
+										<div class="col-sm">
+											<div class="row">
+												<div class="col-sm-1"></div>
+												<div class="col-sm">
+													<div class="alert alert-primary">
+														<h3 *ngIf="name">{{name}}</h3>
+														<p class="text-justify">{{messageError}}</p>
 													</div>
 												</div>
+												<div class="col-sm-1"></div>
 											</div>
-											</div>
-									</div>
-								</div>
-								<div *ngIf="!certificateFound && busqueda" class="row">
-									<div class="col-sm">
-										<div class="row">
-											<div class="col-sm-1"></div>
-											<div class="col-sm">
-												<div class="alert alert-primary">
-													<h3 *ngIf="name">{{name}}</h3>
-													<p class="text-justify">{{messageError}}</p>
-												</div>
-											</div>
-											<div class="col-sm-1"></div>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-sm">
-								<p class="text-justify">Sabemos que los documentos pueden falsificarse y en {{instanceTitle}} hemos tomado medidas para evitar la falsificación de documentos generados por este sistema.</p>
-								<p class="text-justify">Cada constancia que generamos tiene un número de folio. Este número de folio puedes consultarlo aquí para validar su procedencia.</p>
-								<p class="text-justify">Valida el reCaptcha antes de proceder y luego ingresa el número de folio de la constancia expedida y te diremos a quién pertenece.</p>
-								<hr>
-								<div class=" alert alert-primary text-justify"><span class="font-weight-bolder">Nota:</span> Los folios son generados a partir de la recolecta de la constancia. Es decir, que si el participante recolecta la constancia un año después de haber terminado el curso, le tocará un folio posterior al de algunos participantes que tomaron el mismo curso, aunque la fecha de término se despliega y se imprime en la constancia.</div>
+								<div class="col-sm">
+									<p class="text-justify">Sabemos que los documentos pueden falsificarse y en {{instanceTitle}} hemos tomado medidas para evitar la falsificación de documentos generados por este sistema.</p>
+									<p class="text-justify">Cada constancia que generamos tiene un número de folio. Este número de folio puedes consultarlo aquí para validar su procedencia.</p>
+									<p class="text-justify">Valida el reCaptcha antes de proceder y luego ingresa el número de folio de la constancia expedida y te diremos a quién pertenece.</p>
+									<hr>
+									<div class=" alert alert-primary text-justify"><span class="font-weight-bolder">Nota:</span> Los folios son generados a partir de la recolecta de la constancia. Es decir, que si el participante recolecta la constancia un año después de haber terminado el curso, le tocará un folio posterior al de algunos participantes que tomaron el mismo curso, aunque la fecha de término se despliega y se imprime en la constancia.</div>
+								</div>
 							</div>
 						</div>
 					</div>
