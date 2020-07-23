@@ -4,9 +4,36 @@
 <div class="container-fluid" *ngIf="!loading">
 	<div class="card" *ngIf="request === 0 && !candidate">
 		<div class="card-header">
-			<h4>Mis solicitudes activas</h4>
+			<h3 class="float-left">Mis solicitudes</h3>
+			<span
+					class="badge badge-success pointme float-right align-middle"
+					(click)="refreshTicket(0);"
+				>
+				<i class="fas fa-sync"></i> Actualizar tickets
+			</span>
+			<span
+					class="badge badge-info pointme float-right align-middle"
+					(click)="getMyRequests(true);"
+					*ngIf="!seeingAll"
+				>
+				<i class="fas fa-infinity"></i> Ver todos mis tickets
+			</span>
 		</div>
-		<div class="card-body">
+		<div class="card-body" *ngIf="refreshing">
+			<h3 class="text-center">Actualizando...</h3>
+			<div class="progress" style="height:20px;">
+				<div
+					class="progress-bar"
+					[ngClass]="progressColor"
+					role="progressbar"
+					[attr.aria-valuenow]="progress"
+					[style]="progressStyle"
+					aria-valuemin="0"
+					[aria-valuemax]="requests.length"
+				>{{progress}}</div>
+			</div>
+		</div>
+		<div class="card-body" *ngIf="!refreshing">
 			<div *ngIf="requests.length === 0">
 				No hay solicitudes
 			</div>
@@ -31,7 +58,7 @@
 							<td>{{request.freshid}}</td>
 							<td><span
 								class="badge badge-pill"
-								[ngClass]="{'badge-success':request.freshStatus === 'Resuelto' || request.freshStatus === 'Cerrado','badge-warning': request.freshStatus === 'Abierto' || request.freshStatus === 'Pendiente', 'badge-danger': request.freshStatus === 'En espera de autorización'}"
+								[ngClass]="{'badge-success':request.freshStatus === 'Resuelto','badge-secondary':request.freshStatus === 'Cerrado' ,'badge-info': request.freshStatus === 'Abierto','badge-warning': request.freshStatus === 'Pendiente', 'badge-danger': request.freshStatus === 'En espera de autorización'}"
 								>
 									{{request.freshStatus}}
 								</span></td>
@@ -39,7 +66,7 @@
 								class="badge badge-pill"
 								[ngClass]="{'badge-success':request.approvalStatus === 'Aprobado','badge-warning': request.approvalStatus === 'Pendiente', 'badge-danger': request.approvalStatus === 'Rechazado', 'badge-secondary': request.approvalStatus === 'Sin aprobación'}"
 								>
-
+								{{request.approvalStatus}}
 							</span></td>
 							<td>{{request.data.service_request.subject}}</td>
 							<td>{{request.data.service_request.created_at | date: 'medium'}}</td>
@@ -87,78 +114,105 @@
 					{{request.lastUpdate | date: 'medium'}}
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" *ngIf="request.agent?.person?.name">
 				<div class="col-2">
-					Grupo:
+					Atendiendo:
 				</div>
-				<div class="col" *ngIf="request.groupName">
-					{{request.groupName}}
-				</div>
-				<div class="col" *ngIf="!request.groupName">
-					---
-				</div>
-				<div class="col-2">
-					Agente:
-				</div>
-				<div class="col" *ngIf="request.agentName">
-					{{request.agentName}}
-				</div>
-				<div class="col" *ngIf="!request.agentName">
-					---
+				<div class="col">
+					{{request.agent.person.name}} {{request.agent.person.fatherName}}
 				</div>
 			</div>
 			<hr>
-			<h4 *ngIf="candidates.length === 0">No hay candidatos</h4>
-			<h4 *ngIf="candidates.length > 0 && readyCandidate">Candidatos</h4>
-			<table
-			datatable
-			class="table table-striped table-hover"
-			cellspacing="0"
-			width="100%"
-			style="width:100%"
-			[dtOptions]="dtOptions"
-			*ngIf="candidates.length > 0 && readyCandidate"
-			>
-				<thead>
-					<tr>
-						<th *ngFor="let header of tableHeader">
-							{{header}}
-						</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr *ngFor="let candidate of candidates; let index=index">
-						<td>{{index + 1}}</td>
-						<td>{{candidate.request}}</td>
-						<td>{{candidate.person.name}} {{candidate.person.fatherName}} {{candidate.person.motherName}} {{candidate.person.email}}</td>
-						<td>
-							<div *ngFor="let job of candidate.job">
-								<span>{{job.name}} / {{job.place}}</span>
-							</div>
-						</td>
-						<td>{{candidate.created | date: 'medium'}}</td>
-						<td *ngIf="!candidate.filledBy">
-							<span class="text-warning">Pendiente de llenado</span>
-						</td>
-						<td *ngIf="candidate.filledBy">
-							{{candidate.filledBy.person.name}} {{candidate.filledBy.person.fatherName}} ({{candidate.filledWhen | date: 'medium'}})
-						</td>
-						<td *ngIf="viewCandidate">
+			<ul class="nav nav-pills nav-pills-rose" role="tablist">
+				<li class="nav-item">
+					<a href="#comments" class="nav-link active" data-toggle="tab" role="tablist">Comentarios</a>
+				</li>
+				<li class="nav-item">
+					<a href="#candidates" class="nav-link" data-toggle="tab" role="tablist">Candidatos</a>
+				</li>
+			</ul>
+			<div class="tab-content tab-space">
+				<div class="tab-pane active" id="comments">
+					<div class="row">
+						<div class="col">
+							<span class="h4" *ngIf="request.comments.length === 0">No hay comentarios</span>
+							<span class="h4" *ngIf="request.comments.length === 1">{{request.comments.length}} comentario</span>
+							<span class="h4" *ngIf="request.comments.length > 1">{{request.comments.length}} comentarios</span>
+						</div>
+						<div class="col">
 							<span
-								class="pointme"
-								(click)="goCandidate(index);"
-							>Ver perfil</span>
-						</td>
-					</tr>
-				</tbody>
-				<tfoot>
-					<tr>
-						<th *ngFor="let header of tableHeader">
-							{{header}}
-						</th>
-					</tr>
-				</tfoot>
-			</table>
+								class="badge badge-info pointme float-right align-middle"
+								(click)="reply();"
+							>Comentar</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col">&nbsp;</div>
+					</div>
+					<div *ngIf="request.comments.length > 0">
+						<div class="row" *ngFor="let comment of request.comments">
+							<div class="col">
+								<small class="float-left align-middle text-secondary">Comenta {{comment.user.person.name}} {{comment.user.person.fatherName}} - {{comment.created|date:'medium'}}</small>
+								<hr>
+								<div [innerHTML]="comment.body"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane" id="candidates">
+					<h4 *ngIf="candidates.length === 0">No hay candidatos</h4>
+					<h4 *ngIf="candidates.length > 0 && readyCandidate">Candidatos</h4>
+					<table
+					datatable
+					class="table table-striped table-hover"
+					cellspacing="0"
+					width="100%"
+					style="width:100%"
+					[dtOptions]="dtOptions"
+					*ngIf="candidates.length > 0 && readyCandidate"
+					>
+						<thead>
+							<tr>
+								<th *ngFor="let header of tableHeader">
+									{{header}}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let candidate of candidates; let index=index">
+								<td>{{index + 1}}</td>
+								<td>{{candidate.request}}</td>
+								<td>{{candidate.person.name}} {{candidate.person.fatherName}} {{candidate.person.motherName}} {{candidate.person.email}}</td>
+								<td>
+									<div *ngFor="let job of candidate.job">
+										<span>{{job.name}} / {{job.place}}</span>
+									</div>
+								</td>
+								<td>{{candidate.created | date: 'medium'}}</td>
+								<td *ngIf="!candidate.filledBy">
+									<span class="text-warning">Pendiente de llenado</span>
+								</td>
+								<td *ngIf="candidate.filledBy">
+									{{candidate.filledBy.person.name}} {{candidate.filledBy.person.fatherName}} ({{candidate.filledWhen | date: 'medium'}})
+								</td>
+								<td *ngIf="viewCandidate">
+									<span
+										class="pointme"
+										(click)="goCandidate(index);"
+									>Ver perfil</span>
+								</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th *ngFor="let header of tableHeader">
+									{{header}}
+								</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div class="card" *ngIf="candidate">

@@ -294,7 +294,7 @@ export class UserService{
 		return null;
 	}
 
-	getMyRequests(): Observable<any>|null {
+	getMyRequests(all?:boolean): Observable<any>|null {
 		const token = this.getToken();
 		if(token) {
 			const httpOptions = {
@@ -303,7 +303,7 @@ export class UserService{
 					'Bearer ' + token
 				)
 			};
-			const route = `${this.url}api/v1/requests`;
+			const route = all ? `${this.url}api/v1/requests?status=all` : `${this.url}api/v1/requests`;
 			return this.http.get(route, httpOptions);
 		}
 		return null;
@@ -320,6 +320,27 @@ export class UserService{
 			};
 			const route = `${this.url}api/v1/request/${ticketid}/refresh`;
 			return this.http.get(route, httpOptions);
+		}
+		return null;
+	}
+
+	reply(ticketid: string, body:string, cc_emails?:any): Observable<any>| null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			};
+			const data = cc_emails ? {
+				body,
+				cc_emails
+			} : {
+				body
+			}
+			const route = `${this.url}api/v1/reply/${ticketid}`;
+			return this.http.post(route,data,httpOptions);
 		}
 		return null;
 	}

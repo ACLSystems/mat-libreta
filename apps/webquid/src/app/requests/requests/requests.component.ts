@@ -32,7 +32,12 @@ export class RequestsComponent implements OnInit {
 	readyCandidate: boolean = false;
 	candidate: any;
 	refreshing: boolean = false;
-	refreshed: boolean = false;
+	seeingAll: boolean = false;
+	reqid: number;
+	// refreshed: boolean = false;
+	progress: string = '0';
+	progressStyle: string = 'width: 0%;';
+	progressColor: string = 'bg-success';
 
   constructor(
 		private userService: UserService,
@@ -54,26 +59,28 @@ export class RequestsComponent implements OnInit {
 		this.getMyRequests();
   }
 
-	getMyRequests() {
+	getMyRequests(all?:boolean) {
 		this.loading = true;
 		Swal.fire('Obteniendo lista de tickets. Espera...');
 		Swal.showLoading();
-		this.userService.getMyRequests().subscribe(data => {
+		if(all) this.seeingAll = true;
+		this.userService.getMyRequests(all).subscribe(data => {
 			if(data) {
 				this.allRequests = [...data];
 			}
 			this.requests = this.allRequests.filter(req => req.freshStatus !== 'Closed');
-			if(!this.refreshed) {
-				Swal.close();
-				Swal.fire('Actualizando tickets...');
-				Swal.showLoading();
-				this.refreshing = true;
-				this.refreshTicket(0);
-			} else {
+			// if(!this.refreshed) {
+			// 	Swal.close();
+			// 	Swal.fire('Actualizando tickets...');
+			// 	Swal.showLoading();
+			// 	this.refreshing = true;
+			// 	this.refreshTicket(0);
+			// } else {
 				Swal.hideLoading();
 				Swal.close();
-				this.loading = false;
-			}
+			// 	this.loading = false;
+			// }
+			this.loading = false;
 			this.commonService.displayLog('Requests', this.requests);
 		}, error => {
 			console.log(error);
@@ -87,32 +94,50 @@ export class RequestsComponent implements OnInit {
 	}
 
 	refreshTicket(index:number) {
-		if(this.requests[index] && !this.refreshed) {
+		if(this.requests[index]) {
+			this.refreshing = true;
 			const ticket = this.requests[index];
-			console.log(ticket.freshid);
-			Swal.close();
-			Swal.fire(`Actualizando ticket ${ticket.freshid}`);
-			Swal.showLoading();
+			// console.log(ticket.freshid);
+			// Swal.close();
+			// Swal.fire(`Actualizando tickets ${ticket.freshid}`);
+			// Swal.showLoading();
+			let len = this.requests.length;
 			this.userService.refreshRequest(ticket.freshid).subscribe(data => {
+				this.progress = index + 1 + '';
+				let width = Math.floor((index+1)*100/len);
+				this.progressStyle = `width: ${width}%;`;
 				this.refreshTicket(index+1);
 			}, error => {
 				console.log(error);
 				this.refreshTicket(index+1);
 			});
 		} else {
-			if(this.refreshing) {
+			this.refreshing = false;
+		}
+	}
+
+	refreshOneTicket(index:number) {
+		if(this.requests[index]) {
+			this.refreshing = true;
+			const ticket = this.requests[index];
+			// console.log(ticket.freshid);
+			// Swal.close();
+			// Swal.fire(`Actualizando tickets ${ticket.freshid}`);
+			// Swal.showLoading();
+			let len = this.requests.length;
+			this.userService.refreshRequest(ticket.freshid).subscribe(data => {
 				this.refreshing = false;
-				this.loading = false;
-				Swal.close();
-				Swal.hideLoading();
-				this.refreshed = true;
-				this.getMyRequests();
-			}
+			}, error => {
+				console.log(error);
+			});
+		} else {
+			this.refreshing = false;
 		}
 	}
 
 	goRequest(request:number){
 		this.readyCandidate = false;
+		this.reqid = request;
 		Swal.fire('Cargando ticket. Espera...');
 		Swal.showLoading();
 		this.request = this.requests.find(req => req.freshid === request);
@@ -181,6 +206,42 @@ export class RequestsComponent implements OnInit {
 
 	returnRequests() {
 		this.candidate = false;
+	}
+
+	reply() {
+		if(this.request === 0 || !this.request.freshid) {
+			return;
+		}
+		Swal.fire({
+			title: `Comentario a Solicitud ${this.request.freshid}`,
+			input: 'textarea',
+			inputPlaceholder: 'Escribe tu comentario',
+			inputAttributes: {
+				'aria-label': 'Escribe tu comentario'
+			},
+			showCancelButton: true
+		}).then((results) => {
+			Swal.fire('Enviando...');
+			Swal.showLoading();
+			this.userService.reply(this.request.freshid,results.value).subscribe(()  => {
+				Swal.hideLoading();
+				Swal.close();
+				Swal.fire({
+					type: 'success',
+					text: 'Tu mensaje fue enviado'
+				});
+				this.refreshOneTicket(this.reqid);
+				this.getMyRequests();
+			}, error => {
+				console.log(error);
+				Swal.hideLoading();
+				Swal.close();
+				Swal.fire({
+					type: 'error',
+					text: 'Tu mensaje no pudo ser enviado'
+				});
+			});
+		})
 	}
 
 }
