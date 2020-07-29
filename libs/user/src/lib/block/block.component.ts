@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
-import { UserCourseService, NotElemService, Block } from '@mat-libreta/shared';
+import {
+	UserCourseService,
+	NotElemService,
+	CommonService,
+	Block
+} from '@mat-libreta/shared';
+
 
 @Component({
   selector: 'app-block',
@@ -26,7 +32,8 @@ export class BlockComponent implements OnInit {
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private userCourseService: UserCourseService,
-		private notElementService: NotElemService
+		private notElementService: NotElemService,
+		private CommonService: CommonService
 	) {
 		this.loading = true;
 		this.activatedRoute.params.subscribe(params => {
@@ -38,6 +45,9 @@ export class BlockComponent implements OnInit {
 
   ngOnInit() {
 		// console.log(this.rosterType);
+		this.CommonService.displayLog('rosterType', this.rosterType);
+		this.CommonService.displayLog('id', this.id);
+		this.CommonService.displayLog('blockid', this.blockid);
 		this.loading = true;
 		this.getNextBlock(this.rosterType,this.id,this.blockid);
   }
@@ -49,14 +59,12 @@ export class BlockComponent implements OnInit {
 		lastid?:string) {
 		this.userCourseService.getNextBlock(rosterType,id,blockid,lastid)
 		.subscribe(data => {
-			// console.group('data block')
-			// console.log(data)
-			// console.groupEnd()
+			this.CommonService.displayLog('Data NextBlock', data);
 			if(data) {
-				if(typeof data.message === 'string' && (data.message.includes('Block cannot be displayed because') || data.message.includes('El curso solicitado no está disponible'))) {
+				if(typeof data.message === 'string') {
 					Swal.fire({
 						type: 'warning',
-						text: data.messageUser
+						text: data.messageUser || data.message
 					});
 					this.goGroup(this.rosterType,id);
 				} else {

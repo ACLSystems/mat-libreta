@@ -81,6 +81,7 @@ export class BlockTasksComponent implements OnInit {
 			task: this.taskStudent,
 			force: force || false,
 		};
+		this.commonService.displayLog('Tareas',task);
 		this.userCourseService.sendTasks(JSON.stringify(task)).subscribe(
 			(data) => {
 				if (data && data.message && data.message.includes('task saved')) {

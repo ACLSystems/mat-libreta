@@ -116,9 +116,7 @@ export class CourseMainComponent implements OnInit {
 				if(this.content.blocks && Array.isArray(this.content.blocks) && this.content.blocks.length > 0) {
 					this.blocks = [...this.content.blocks];
 				}
-				// console.group('blocks');
-				// console.log(this.blocks);
-				// console.groupEnd();
+				this.commonService.displayLog('Blocks',this.blocks);
 				this.sections = getUniques(this.blocks);
 				// console.group('sections');
 				// console.log(this.sections);

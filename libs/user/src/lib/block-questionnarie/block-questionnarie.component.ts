@@ -9,7 +9,8 @@ import {
 	Question,
 	Response,
 	QuestionService,
-	UserCourseService
+	UserCourseService,
+	CommonService
 } from '@mat-libreta/shared';
 
 @Component({
@@ -45,11 +46,13 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 	constructor(
 		private router: Router,
 		private questionService: QuestionService,
-		private userCourseService: UserCourseService
+		private userCourseService: UserCourseService,
+		private commonService: CommonService
 	) {
 
 		this.subscription = this.questionService.getResponse
 		.subscribe(response => {
+			// this.commonService.displayLog('Estamos calculando', response);
 			this.calculatePoints(response);
 		});
 	}
@@ -142,6 +145,8 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 				// console.log(this.responses);
 				// console.log(grade);
 				// console.groupEnd();
+				this.commonService.displayLog('Calificaciones',this.responses);
+				this.commonService.displayLog('Calificación',grade);
 				this.userCourseService.setAttempt(this.rosterType,this.id, this.blockid, this.responses, grade).subscribe(data => {
 					// console.log(data);
 					Swal.hideLoading();
@@ -187,10 +192,13 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 	}
 
 	getMaxPoints() {
+		let totalQuestions = 0;
+		this.totalQuestions = totalQuestions;
+		this.pointsPerQuestion = [];
+		this.totalPoints = 0;
 		if(this.questionnarie) {
 			let questions: Question[] = this.questionnarie.questions;
-			// console.log(questions);
-			let totalQuestions = 0;
+			this.commonService.displayLog('Get Max Points questions', questions);
 			if(questions.length > 0) {
 				for(let i=0; i < questions.length; i++){
 					if(questions[i].type === 'map' ||
@@ -210,11 +218,16 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 				});
 				// console.log(this.pointsPerQuestion);
 				// console.log(this.totalPoints);
+				this.commonService.displayLog('Total Questions', this.totalQuestions);
+				this.commonService.displayLog('Points per question', this.pointsPerQuestion);
+				this.commonService.displayLog('Total Points', this.totalPoints);
 			}
 		}
 	}
 
 	resetPoints() {
+		this.commonService.displayLog('Reseting points => responses',this.responses);
+		this.responses = [];
 		this.totalPoints = 0;
 		for(let i=0; i < this.questionnarie.questions.length; i++) {
 			this.pointsObtained[i] = 0;
@@ -227,6 +240,7 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 				points: 0
 			})
 		})
+		this.commonService.displayLog('Reseting points => responses - After reset',this.responses);
 		// console.log(this.pointsObtained);
 		// console.log(this.questionsAnswered);
 	}
@@ -248,7 +262,9 @@ export class BlockQuestionnarieComponent implements OnInit, OnDestroy {
 		}
 		this.pointsObtained[response.result[responseNumber].indexquestion] = sumPoints;
 		processedResponse.points = sumPoints;
+		this.commonService.displayLog('Responses', this.responses);
 		let responseFind = this.responses.findIndex(r => r.indexquestion === processedResponse.indexquestion);
+		this.commonService.displayLog('Response Find Index',responseFind);
 		if(responseFind > -1) {
 			this.responses[responseFind] = processedResponse;
 		}

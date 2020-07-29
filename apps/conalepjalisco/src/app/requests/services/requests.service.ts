@@ -159,5 +159,38 @@ export class RequestService {
 		return this.http.patch(route,{},httpOptions);
 	}
 
+	getRubric (groupid:string): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = `${this.url}api/v1/rubric/${groupid}`;
+		return this.http.get(route,httpOptions);
+	}
+
+	resetRubric(groupid:string): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = `${this.url}api/v1/rubric/${groupid}/reset`;
+		return this.http.patch(route,{},httpOptions);
+	}
+
+	setRubric(groupid:string, rubric:any): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const body = JSON.stringify(rubric);
+		const route = `${this.url}api/v1/rubric/${groupid}`;
+		return this.http.patch(route, body, httpOptions);
+	}
 
 }
