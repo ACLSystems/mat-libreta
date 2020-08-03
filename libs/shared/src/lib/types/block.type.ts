@@ -96,7 +96,8 @@ export interface Task {
 }
 
 export interface TaskEntry {
-	groupid: string,
+	groupid?: string,
+	id?: string,
 	blockid: string,
 	task: Task[],
 	force?: boolean

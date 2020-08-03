@@ -77,6 +77,7 @@ export class BlockTasksComponent implements OnInit {
 	sendTasks(force?: boolean) {
 		const task: TaskEntry = {
 			groupid: this.groupid,
+			id: this.groupid,
 			blockid: this.blockid,
 			task: this.taskStudent,
 			force: force || false,

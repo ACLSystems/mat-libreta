@@ -43,6 +43,7 @@ export class RequestService {
 
 	getMyOU(): Observable<any> {
 		const myOU = JSON.parse(localStorage.getItem('identity')).orgUnit;
+		console.log(myOU);
 		if(!myOU) return null;
 		const route = `${this.url}api/orgunit/${myOU}`;
 		return this.http.get(route);
