@@ -49,7 +49,7 @@ export class LostPassComponent implements OnInit {
 	/*
   Metodo de validacion para las contraseñas del usuario
   */
-	public getPassword(passOne: string, passTwo: string) {
+	getPassword(passOne: string, passTwo: string) {
     if (passOne === passTwo) {
       this.password = passOne;
       this.isPassOk = true;
@@ -61,7 +61,7 @@ export class LostPassComponent implements OnInit {
 	/*
   funcion para hacer el cambio de contraseña desde el landignpage
   */
-  public recoverPass() {
+  recoverPass() {
     if (this.isPassOk) {
       this.passwordRecovery = new PasswordRecovery(this.emailuser, this.tokentemp, this.password);
       this.publicService.recoverPass(this.passwordRecovery).subscribe( () => {

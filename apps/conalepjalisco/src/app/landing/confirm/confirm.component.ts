@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SimpleGlobal } from 'ng2-simple-global';
 import { Person } from '../classes/person';
 import { LandingService } from '../landing.service';
+import Swal from 'sweetalert2';
 // import { environment } from '@cjaenv/environment';
 
 //declare var $:any;
@@ -14,24 +15,25 @@ import { LandingService } from '../landing.service';
 
 export class ConfirmComponent implements OnInit {
 
-	public urlLibreta:string;
-	public tokentemp:string;
-	public emailuser:string;
-	public name:string;
-  public fathername:string;
-  public mothername:string;
-	public isDataOk:boolean = false;
-  public isPassOk:boolean = false;
-	public password:string;
-	public person:Person;
-	public messageSuccess:string;
-  public messageError:string;
-	public emptyPassword: boolean = true;
+	urlLibreta:string;
+	tokentemp:string;
+	emailuser:string;
+	name:string;
+  fathername:string;
+  mothername:string;
+	isDataOk:boolean = false;
+  isPassOk:boolean = false;
+	password:string;
+	person:Person;
+	messageSuccess:string;
+  messageError:string;
+	emptyPassword: boolean = true;
 
   constructor(
 		private landingService: LandingService,
 		private activatedRoute: ActivatedRoute,
-		private sg: SimpleGlobal
+		private sg: SimpleGlobal,
+		private router: Router
 	) {
 		this.urlLibreta = this.sg['environment'].urlLibreta;
     this.activatedRoute.params.subscribe( params=> {
@@ -59,7 +61,7 @@ export class ConfirmComponent implements OnInit {
 	/*
 	Metodo de validación de datos personales del usuario
 	*/
-	public getData($event:any,namecheck:string, fname:string, mname:string){
+	getData($event:any,namecheck:string, fname:string, mname:string){
     if($event.target.checked){
       this.isDataOk = true;
       this.name = namecheck;
@@ -74,7 +76,7 @@ export class ConfirmComponent implements OnInit {
 	/*
   funcion para la confirmacion de usuario y contraseña
   */
-	public sendData(){
+	sendData(){
     this.person = new Person(
 			this.emailuser,
 			this.tokentemp,
@@ -90,14 +92,22 @@ export class ConfirmComponent implements OnInit {
       location.replace(this.urlLibreta);
     },error=>{
       console.log(error);
-      this.messageError = error;
+			if(error.includes('Token is not valid')) {
+				Swal.fire({
+					type: 'warning',
+					html: '<p>Ya habías validado antes. Te estamos dirigiendo a la página de ingreso. No utilices el botón de validación nuevamente.</p>'
+				})
+				this.router.navigate(['/pages/login']);
+			} else {
+				this.messageError = error;
+			}
     });
   }
 
 	/*
   Metodo de validacion para las contraseñas del usuario
   */
-  public getPassword(passOne:string, passTwo:string){
+  getPassword(passOne:string, passTwo:string){
 		if(passOne && passTwo) {
 			this.emptyPassword = false;
 		}

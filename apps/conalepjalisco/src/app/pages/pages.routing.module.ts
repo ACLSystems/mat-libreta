@@ -51,6 +51,9 @@ const pageRoutes: Routes = [
 				path: 'reqrecoverpass',
 				component: RecoverPassComponent
 			},{
+				path: 'reqrecoverpass/:username/:code',
+				component: RecoverPassComponent
+			},{
 				path: 'help',
 				component: HelpComponent
 			},{

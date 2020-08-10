@@ -38,10 +38,17 @@ export const ROUTES_1: RouteInfo[] = [{
 export const ROUTES_2: RouteInfo[] = [
 	{
 		path: '/requests',
-		title: 'Solicitudes',
+		title: 'Grupos',
 		type: 'link',
 		icontype: 'group_add',
 		role: 'isRequester'
+	},
+	{
+		path: '/users',
+		title: 'Usuarios',
+		type: 'link',
+		icontype: 'groups',
+		role: 'isSupervisor'
 	},
 	{
 		path: '/reports',

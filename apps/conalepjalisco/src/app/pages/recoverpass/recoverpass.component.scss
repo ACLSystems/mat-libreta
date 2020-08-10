@@ -8,3 +8,19 @@
 .ng-dirty.ng-invalid:not(form), .ng-touched.ng-invalid:not(form) {
 	border-bottom: 2px solid #ff0000; /* rojo */
 }
+
+.myBox {
+	box-sizing: border-box;
+	height: 46px;
+	width: 24px;
+	box-shadow: rgb(184, 196, 194) 0px 1px 4px 0px inset;
+	margin-right: 6px;
+	font-size: 24px;
+	font-weight: 300;
+	text-align: center;
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgb(184, 196, 194);
+	border-image: initial;
+	border-radius: 2px;
+}

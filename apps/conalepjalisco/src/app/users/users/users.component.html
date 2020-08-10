@@ -1,0 +1,110 @@
+<div class="main-content">
+	<div class="fa-3x" *ngIf="loading">
+		<i class="fas fa-spinner fa-pulse" style="color:green;"></i>
+	</div>
+	<div class="card" *ngIf="!loading">
+		<div class="card-header">
+			<h3 class="card-title">Usuarios</h3>
+		</div>
+		<div class="card-body">
+			<div class="row">
+				<div class="col">
+					<span class="fa-stack fa-2x">
+						<i class="fas fa-square fa-stack-2x" style="color:green"></i>
+						<i class="fas fa-user-plus fa-stack-1x fa-inverse"></i>
+					</span>
+					<span class="fa-stack fa-2x" (click)="getUser();">
+						<i class="fas fa-square fa-stack-2x" style="color:green"></i>
+						<i class="fas fa-user-edit fa-stack-1x fa-inverse"></i>
+					</span>
+				</div>
+			</div>
+			<div class="container-fluid" *ngIf="user">
+				<hr>
+				<div class="row mt-4">
+					<div class="col" style="font-size: 2rem;">
+						<i class="fas fa-chalkboard-teacher fa-fw" style=" vertical-align: middle;" *ngIf="user.corporate?.type === 'teacher'"></i>
+						<i class="fas fa-user-graduate fa-fw" style=" vertical-align: middle;" *ngIf="user.corporate?.type === 'student'"></i>
+						<i class="fas fa-user-tie fa-fw" style=" vertical-align: middle;" *ngIf="user.corporate?.type === 'administrative'"></i>
+						<span class="h3">{{user.person.name}} {{user.person.fatherName}} {{user.person.motherName}}</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						Correo:
+					</div>
+					<div class="col">
+						{{user.name}} <span class="badge badge-danger"><i class="fas fa-pencil-alt"></i> Modificar</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						Activo:
+					</div>
+					<div class="col">
+						<i class="fas fa-circle" style="color:lime"></i>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						Password inicial:
+					</div>
+					<div class="col">
+						{{user.admin?.initialPassword}} <span class="badge badge-danger"><i class="fas fa-lock-open"></i> Reset</span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h4>Grupos:</h4>
+					</div>
+				</div>
+				<div class="row" *ngIf="userGroups.length === 0">
+					<div class="col">
+						<h4>Usuario no tiene grupos/cursos</h4>
+					</div>
+				</div>
+				<div class="row" *ngFor="let group of userGroups">
+					<hr>
+					<div class="col">
+						<div class="row">
+							<div class="col">
+								Tipo:
+							</div>
+							<div class="col">
+								{{group.type}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Curso:
+							</div>
+							<div class="col">
+								{{group.course?.title}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								Grupo:
+							</div>
+							<div class="col">
+								{{group.group?.name}} ({{group.group?.code}})
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">Inicio:</div>
+							<div class="col">{{group.group?.beginDate | date: 'mediumDate'}}</div>
+						</div>
+						<div class="row">
+							<div class="col">Fin:</div>
+							<div class="col">{{group.group?.endDate | date: 'mediumDate'}}</div>
+						</div>
+						<div class="row">
+							<div class="col">Liberación de constancia:</div>
+							<div class="col" [ngClass]="{'text-danger': group.status === 'pending', 'text-success': group.status === 'active'}">{{group.status}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

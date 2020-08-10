@@ -58,9 +58,9 @@ export class CertComponent implements OnInit {
 			// 	});
 			// 	this.router.navigate(['/user/progress', this.groupid]);
 			// }
-			// console.group('Grade');
-			// console.log(this.grade);
-			// console.groupEnd();
+			console.group('Grade');
+			console.log(this.grade);
+			console.groupEnd();
 		}, error => {
 			Swal.fire({
 				type: 'error',

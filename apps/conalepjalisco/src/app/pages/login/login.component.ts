@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
 			Validators.required
 		]]
 	});
+	mooc: boolean = false;
 
 	constructor(
 		private router: Router,
@@ -54,6 +55,8 @@ export class LoginComponent implements OnInit {
 		private sg: SimpleGlobal,
 		private commonService: CommonService
 	) {
+		const instance = this.sg['instance'];
+		if(instance?.platform.type === 'mooc') this.mooc = true;
 	}
 
 	get username() {

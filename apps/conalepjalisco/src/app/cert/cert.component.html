@@ -111,7 +111,7 @@
 			<div class="card-footer">
 				<div
 					class="container"
-					*ngIf="grade.tookCertificate"
+					*ngIf="grade.tookCertificate && grade.pass && folioStatus === 'payed' && ((grade.rosterType === 'group' && grade.certificateActive) || grade.rosterType === 'public') && grade.finalGrade >= grade.minGrade && track >= minTrack"
 					>
 					<button
 						mat-raised-button
@@ -126,7 +126,7 @@
 				>
 					<div
 						class="container"
-						*ngIf="((grade.rosterType === 'public' && grade.pass && grade.folioStatus === 'payed') || (grade.rosterType === 'group' && grade.certificateActive)) && grade.finalGrade >= grade.minGrade && track >= minTrack"
+						*ngIf="grade.pass && grade.folioStatus === 'payed' && (grade.rosterType === 'public' || (grade.rosterType === 'group' && grade.certificateActive)) && grade.finalGrade >= grade.minGrade && track >= minTrack"
 						>
 						<div class="btn-group float-right" role="group">
 							<button
@@ -155,7 +155,13 @@
 						La constancia no ha sido liberada todavía
 					</div>
 					<div
-						*ngIf="grade.rosterType === 'public' && !grade.pass"
+						*ngIf="grade.folioStatus !== 'payed'"
+						class="alert alert-danger"
+						>
+						La constancia no ha sido liberada todavía
+					</div>
+					<div
+						*ngIf="!grade.pass"
 						class="alert alert-danger"
 						>
 						Todavía no cumples los requisitos para constancia
