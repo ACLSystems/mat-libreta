@@ -5,14 +5,14 @@
 		background-size: cover; background-position: top center;"
 		>
 		<div class="container index-page">
-			<div class="row">
+	    <div class="row">
 					<div class="col-lg-5 col-md-6 col-sm-6 ml-auto mr-auto">
-						<div class="card card-login">
+			      <div class="card card-login">
 							<div class="card-header card-header-primary text-center">
-								<p class="h3">Recuperar Acceso</p>
+								<p class="h3">Recuperar Contraseña</p>
 							</div>
-							<div class="card-body">
-								<form class="form" [formGroup]="recoverForm">
+			        <div class="card-body">
+			          <form class="form" [formGroup]="recoverForm">
 									<div class="input-group text-center">
 										<input
 										type="text"
@@ -33,35 +33,19 @@
 										<small>* La cuenta debe ser un correo válido y en minúsculas</small>
 									</div>
 									<!-- <span *ngIf="!dataIsOk" class="text-danger">Ingresa tu correo electrónico</span> -->
-									<div *ngIf="recoveryCode">
-										<h3 class="text-danger">No cierres esta ventana todavía</h3>
-										<p class="text-danger">
-											En unos segundos te deberá llegar un correo electrónico con un número de 6 dígitos.
-											</p>
-										<p>Teclea los 6 dígitos aquí:</p>
-										<input type="text" max-maxlength="1" id="input-0" class="myBox" pattern="[0-9]" (keypress)="addNumbers($event)">
-										<input type="text" max-maxlength="1" id="input-1" class="myBox" pattern="[0-9]" (keypress)="addNumbers($event)">
-										<input type="text" max-maxlength="1" id="input-2" class="myBox" pattern="[0-9]" (keypress)="addNumbers($event)">
-										<input type="text" max-maxlength="1" id="input-3" class="myBox" pattern="[0-9]" (keypress)="addNumbers($event)">
-										<input type="text" max-maxlength="1" id="input-4" class="myBox" pattern="[0-9]" (keypress)="addNumbers($event)">
-										<input type="text" max-maxlength="1" id="input-5" class="myBox" pattern="[0-9]" (keypress)="addNumbers($event)">
-										<button class="btn btn-sm btn-danger" (click)="resetFields();">Borrar los dígitos</button>
-										<p>Código: {{code}}</p>
-									</div>
-								</form>
-								<div
+			          </form>
+			          <div
 									*ngIf="!useRegister"
 									class="form-group text-center">
 									<button
 										type="button"
 										class="btn btn-success"
-										id="submitRequest"
 										(click)="submitRequest();"
 										>
 										<i class="far fa-window-restore"></i>
-										Recuperar Acceso
+										Recuperar contraseña
 									</button>
-								</div>
+			          </div>
 								<div
 									*ngIf="useRegister"
 									class="form-group text-center">
@@ -69,11 +53,10 @@
 										<button
 											type="button"
 											class="btn btn-success"
-											id="submitRequest"
 											(click)="submitRequest();"
 											>
 											<i class="far fa-window-restore"></i>
-											Recuperar acceso
+											Recuperar contraseña
 										</button>
 										<button
 											type="button"
@@ -85,11 +68,11 @@
 										</button>
 									</div>
 
-								</div>
-							</div>
-						</div>
-					</div>
-			</div>
-		</div>
+			          </div>
+			        </div>
+			      </div>
+			    </div>
+	    </div>
+	  </div>
 	</div>
 </div>
