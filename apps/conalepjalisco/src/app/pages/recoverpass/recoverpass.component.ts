@@ -97,7 +97,7 @@ export class RecoverPassComponent implements OnInit {
 				}
 				if(data && data.user && data.user.email === username){
 					this.recoverPass.requestPassRecovery(username).subscribe(data => {
-						// console.log(data);
+						console.log(data);
 						if(data && data.message && data.message === 'Email encontrado') {
 							Swal.hideLoading();
 							Swal.close();
