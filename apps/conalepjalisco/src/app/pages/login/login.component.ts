@@ -101,15 +101,23 @@ export class LoginComponent implements OnInit {
 				this.token = data.token;
 				localStorage.setItem('token', this.token);
 				let decodedToken = this.getDecodedAccessToken(this.token);
+				if(!decodedToken.org.name || !decodedToken.orgUnit.name) {
+					this.userService.logoutAll().subscribe(() => {
+						this.router.navigate(['/pages/logout']);
+					}, error => {
+						console.log(error);
+						this.router.navigate(['/pages/home']);
+					});
+				}
 				this.commonService.displayLog('Decoded Token',decodedToken);
 				localStorage.setItem('identity', JSON.stringify({
 					admin: decodedToken.admin,
 					attachedToWShift: decodedToken.attachedToWShift,
 					name: decodedToken.sub,
-					orgid: decodedToken.org,
-					ouid: decodedToken.orgUnit,
-					// orgid: decodedToken.org._id,
-					// ouid: decodedToken.orgUnit._id,
+					org: decodedToken.org.name,
+					orgUnit: decodedToken.orgUnit.name,
+					orgid: decodedToken.org._id,
+					ouid: decodedToken.orgUnit._id,
 					person: decodedToken.person,
 					preferences: decodedToken.preferences,
 					userid: decodedToken.userid

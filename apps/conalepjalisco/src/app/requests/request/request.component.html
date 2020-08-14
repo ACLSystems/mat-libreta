@@ -119,7 +119,7 @@
 							<div class="col">
 								<h3>Grupo {{index+1}}</h3>
 								<h3 [ngClass]="{'text-success':!group.results.error, 'text-danger': group.results.error}">{{group.results.groupName}}<br><small>{{group.results.groupCode}}</small></h3>
-								<h4><b>{{group.course.code}}</b> <span *ngIf="group.course.name !== 'Error'"><small>({{group.course.name}})</small></span> <span *ngIf="group.course.name === 'Error'" class="text-danger">Curso no existe</span> <br />Plantel: <span *ngIf="group.ou.name"><b>{{group.ou.name}}</b> <small>({{group.ou.longName}})</small></span><span *ngIf="group.ou.error"><b>Plantel no existe o no es válido</b></span><br /> <b>{{group.students.length}}</b> Participantes</h4>
+								<h4><b>{{group.course.code}}</b> <span *ngIf="group.course.name !== 'Error'"><small>({{group.course.name}})</small></span> <span *ngIf="group.course.name === 'Error'" class="text-danger">Curso no existe</span> <br />Plantel: <span *ngIf="group.ou.name"><b>{{group.ou.name}}</b> <small>({{group.ou.longName}})</small></span><span *ngIf="group.ou.error"><b>Plantel no existe o no es válido</b></span><br />Instructor: <span *ngIf="group.course.instructor"><b>{{group.course.instructor}}</b></span><br /> <b>{{group.students.length}}</b> Participantes</h4>
 								<div class="text-danger" *ngIf="group.results.error">
 									Errores:
 									{{group.results.results}}

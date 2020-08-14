@@ -4,7 +4,10 @@ import Swal from 'sweetalert2';
 
 import { RequestService } from '../services/requests.service';
 
-import { DtOptions } from '@mat-libreta/shared';
+import {
+	DtOptions,
+	CommonService
+} from '@mat-libreta/shared';
 
 interface RubricBlock {
 	section: number,
@@ -47,7 +50,8 @@ export class GroupComponent implements OnInit {
   constructor(
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
-		private requestService: RequestService
+		private requestService: RequestService,
+		private commonService: CommonService
 	) {
 		this.activatedRoute.params.subscribe(params => {
 			this.groupid = params.groupid;
@@ -77,8 +81,7 @@ export class GroupComponent implements OnInit {
 		this.loading = true;
 		this.requestService.getGroup(this.groupid).subscribe(data => {
 			this.group = Object.assign({},data);
-			// console.log(this.group);
-			// this.loading = false;
+			this.commonService.displayLog('Group Data', this.group);
 			this.getRubric();
 		}, error => {
 			console.log(error);
@@ -156,7 +159,7 @@ export class GroupComponent implements OnInit {
 		}
 		this.loading = true;
 		this.requestService.getRubric(this.groupid).subscribe(data => {
-			console.log(data);
+			// console.log(data);
 			this.rubric = data;
 			this.rubric.rubric = calculateRubric(this.rubric.rubric);
 			this.loading = false;
@@ -216,7 +219,7 @@ export class GroupComponent implements OnInit {
 				if(field.includes('beginDate') || field.includes('endDate')) {
 					const [day,month,year] = results.value;
 					const newDate = `${year}-${month.padStart(2,'0')}-${day.padStart(2,'0')} 00:00`;
-					console.log(newDate);
+					// console.log(newDate);
 					groupToSend[field] = (field.includes('beginDate') || field.includes('endDate')) ? new Date(newDate) : '';;
 				}
 				this.requestService.modifyGroup(this.groupid,groupToSend).subscribe(data => {
@@ -317,30 +320,30 @@ function calculateRubric(rubric: any[]) {
 	var sections = rubric.map((item:any) => item.section);
 	var sectionW = rubric.filter((item:any) => item.number === 0).map(item => item.w);
 	sections = [... new Set(sections)];
-	console.log('Sections:');
-	console.log(sections);
-	console.log('SectionsW:');
-	console.log(sectionW);
+	// console.log('Sections:');
+	// console.log(sections);
+	// console.log('SectionsW:');
+	// console.log(sectionW);
 	const overallSections = sectionW.reduce((acc,value) => acc + value, 0);
 	if(overallSections === 0) {
 		return rubric;
 	}
-	console.log('Overall', overallSections);
+	// console.log('Overall', overallSections);
 
 	for(var i=0;i<sections.length;i++) {
 		// nos vamos sección por sección y calculamos el 100% de cada sección
 		var totalNumbers = rubric.filter(item => item.section === i && item.number !== 0);
-		console.log('totalNumbers');
-		console.log(totalNumbers);
+		// console.log('totalNumbers');
+		// console.log(totalNumbers);
 		var totalSection = totalNumbers.reduce((acc,value) => acc + value.w, 0);
-		console.log('totalSection:',totalSection);
+		// console.log('totalSection:',totalSection);
 		if(totalSection > 0) {
-			console.log('Sección: ', i, 'Total', totalSection);
+			// console.log('Sección: ', i, 'Total', totalSection);
 			for(let entry of totalNumbers) {
 				var foundEntry = rubric.findIndex(e => e.section === entry.section && e.number === entry.number);
 				if(foundEntry > -1) {
 					rubric[foundEntry].weight = round(100 * rubric[foundEntry].w / totalSection, 2);
-					console.log('i',i,'W',rubric[foundEntry].w, totalSection,100 * rubric[foundEntry].w / totalSection)
+					// console.log('i',i,'W',rubric[foundEntry].w, totalSection,100 * rubric[foundEntry].w / totalSection)
 				}
 			}
 		}
