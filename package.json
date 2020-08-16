@@ -10,7 +10,7 @@
     "start:ce": "ng serve cetec",
     "start:cjal": "ng serve conalepjalisco",
     "build": "ng build",
-    "build:prod": "ng build --prod --aot --vendor-chunk --common-chunk --delete-output-path --buildOptimizer",
+    "build:prod": "ng build --prod --aot --vendor-chunk --common-chunk --delete-output-path --buildOptimizer --stats-json",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
     "e2e": "ng e2e",
