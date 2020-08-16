@@ -49,8 +49,7 @@
 						<td *ngIf="candidate.status && candidate.status.length > 0 && candidate.status[0].status === 'Rechazado'" class="text-danger">
 							{{candidate.status[0].status}}
 						</td>
-						<td *ngIf="!candidate.filledWhen"></td>
-						<td *ngIf="candidate.filledWhen">
+						<td>
 							<span class="pointme" (click)="openCandidateProfile(index)">Ver perfil</span>
 						</td>
 					</tr>
