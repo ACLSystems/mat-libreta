@@ -3,7 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { CertService } from './cert.service';
-import { UserCourseService, Grade, BlockGrade } from '@mat-libreta/shared';
+import {
+	UserCourseService,
+	Grade,
+	CommonService
+} from '@mat-libreta/shared';
 import { Certificates } from './docs';
 
 @Component({
@@ -24,12 +28,17 @@ export class CertComponent implements OnInit {
 	track: number;
 	minTrack: number;
 	poll: boolean;
+	bank: string;
+	bankAccount: string;
+	bankCLABE: string;
+	mocAmount: string;
 
   constructor(
 		private activatedRoute: ActivatedRoute,
 		private userCourseService: UserCourseService,
 		private certService: CertService,
-		private router: Router
+		private router: Router,
+		private commonService: CommonService
 	) {
 		this.activatedRoute.params.subscribe(params => {
 				this.rosterType = params.rostertype;
@@ -37,6 +46,10 @@ export class CertComponent implements OnInit {
 			}
 		);
 		this.poll = false;
+		this.bank = this.commonService.getEnvironment().bank;
+		this.bankAccount = this.commonService.getEnvironment().bankAccount;
+		this.bankCLABE = this.commonService.getEnvironment().bankCLABE;
+		this.mocAmount = this.commonService.getEnvironment().mocAmount;
 	}
 
   ngOnInit() {
@@ -58,9 +71,8 @@ export class CertComponent implements OnInit {
 			// 	});
 			// 	this.router.navigate(['/user/progress', this.groupid]);
 			// }
-			console.group('Grade');
-			console.log(this.grade);
-			console.groupEnd();
+			this.commonService.displayLog('Grade',this.grade);
+			this.commonService.displayLog('Payed',this.grade.folioStatus);
 		}, error => {
 			Swal.fire({
 				type: 'error',
@@ -70,6 +82,10 @@ export class CertComponent implements OnInit {
 			});
 			console.log(error);
 		});
+	}
+
+	print() {
+		window.print();
 	}
 
 	releaseCert() {

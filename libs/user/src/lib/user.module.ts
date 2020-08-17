@@ -8,6 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 
 import { UserRoutingModule } from './user.routing.module';
 import { AccesoriesModule, SafePipe, DateAgoPipe, FilterPipe } from '@mat-libreta/shared';
@@ -32,6 +35,12 @@ import { BlockTaskDdlmrComponent } from './block-task-ddlmr/block-task-ddlmr.com
 import { BlockTaskDdlmmrComponent } from './block-task-ddlmmr/block-task-ddlmmr.component';
 
 registerLocaleData(localeMX);
+
+FullCalendarModule.registerPlugins([
+	dayGridPlugin,
+	timeGridPlugin,
+	listPlugin
+]);
 
 @NgModule({
 	declarations: [

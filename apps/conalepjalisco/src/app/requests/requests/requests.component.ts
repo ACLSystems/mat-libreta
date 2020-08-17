@@ -19,7 +19,7 @@ export class RequestsComponent implements OnInit {
 	tableHeader: string[];
 	exportAsConfig: ExportAsConfig = {
 		type: 'xlsx',
-		elementId: 'allGroups'
+		elementIdOrContent: 'allGroups'
 	}
 	formGroups = this.fb.group({
 		closedGroups: [false]

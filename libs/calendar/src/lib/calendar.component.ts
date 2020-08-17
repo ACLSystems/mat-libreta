@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { EventInput } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
+import { CalendarOptions, EventInput } from '@fullcalendar/angular';
+import bootstrapPlugin from '@fullcalendar/bootstrap';
 import esLocale from '@fullcalendar/core/locales/es';
 
 import {
@@ -31,14 +29,33 @@ export class CalendarComponent implements OnInit {
 	identity: Identity;
 	token: string;
 	loading: boolean;
-	calendarPlugins = [
-		dayGridPlugin,
-		timeGridPlugin,
-		listPlugin];
+	// calendarPlugins = [
+	// 	dayGridPlugin,
+	// 	timeGridPlugin,
+	// 	listPlugin];
 	colorevents: any[];
 	calendarWeekends:boolean = true;
 	calendarEvents: EventInput[] = [];
-	locale: esLocale;
+	calendarAllEvents: EventInput[] = [];
+	calendarOptions: CalendarOptions = {
+		plugins: [ bootstrapPlugin ],
+		themeSystem: 'bootstrap',
+		locale: esLocale,
+		headerToolbar: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+		},
+		initialView: 'dayGridMonth',
+		initialEvents: this.calendarEvents,
+		weekends: true,
+		editable: false,
+		selectable: false,
+		dayMaxEvents: false
+	}
+	eventSelected: string;
+	eventSelectedStart: Date;
+	eventSelectedEnd: Date;
 
 	constructor(
 		private userService: UserService,
@@ -57,7 +74,6 @@ export class CalendarComponent implements OnInit {
 			this.router.navigate(['/pages/login']);
 		} else {
 			this.loadEvents();
-			// console.log(this.calendarEvents);
 		}
 	}
 
@@ -79,6 +95,8 @@ export class CalendarComponent implements OnInit {
 		]
 		this.eventService.getEventSchedule().subscribe(res => {
 			var lastColor = '';
+			// console.log('Hola');
+			// this.commonService.displayLog('Res',res);
 			if(res &&
 				res.message &&
 				res.message.groups &&
@@ -102,9 +120,8 @@ export class CalendarComponent implements OnInit {
 						// textColor: environment.textColor
 					});
 				}
-				// console.group('Eventos Calendario');
-				// console.log(this.calendarEvents);
-				// console.groupEnd();
+				this.calendarAllEvents = [...this.calendarEvents];
+				this.commonService.displayLog('Eventos calendario',this.calendarAllEvents);
 			}
 			this.loading = false;
 		});

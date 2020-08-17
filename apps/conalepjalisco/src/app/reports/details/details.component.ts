@@ -59,7 +59,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
 	exportAsConfig: ExportAsConfig = {
 		type: 'xlsx',
-		elementId: 'allDetails'
+		elementIdOrContent: 'allDetails'
 	}
 
 	selectionForm = this.fb.group({

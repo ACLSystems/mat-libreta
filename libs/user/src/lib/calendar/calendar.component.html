@@ -7,7 +7,7 @@
 		</div>
 		<div *ngIf="!loading" class="container">
 			<div class="row">
-				<div class="col-sm-12 col-md-11 col-lg-10 ml-auto mr-auto">
+				<div class="col ml-auto mr-auto">
 					<div class="card">
 						<div class="card-header card-header-text card-header-primary">
 							<div class="card-text">
@@ -16,46 +16,18 @@
 									Eventos importantes de tu grupo en el curso de <b>{{course.title}}</b>
 								</p>
 							</div>
-							<div class="card-body">
-
-							</div>
 						</div>
 					</div>
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col">
-								<full-calendar
-									locale="es"
-									[buttonText]="{
-										today: 'Hoy',
-										month: 'Mes',
-										week: 'Semana',
-										day: 'Día',
-										list: 'Lista'
-										}"
-									[buttonIcons]="{
-										prev: 'left-single-arrow',
-										next: 'right-single-arrow',
-										prevYear: 'left-double-arrow',
-										nextYear: 'right-double-arrow'
-									}"
-									defaultView="dayGridMonth"
-									allDayText="Todo el día"
-									[header]="{
-										left: 'title',
-										center: 'dayGridMonth,timeGridWeek,timeGridDay',
-										right: 'prev,next today'
-									}"
-									[plugins]="calendarPlugins"
-									[events]="calendarEvents"
-									[weekends]="calendarWeekends"
-									noEventsMessage="No hay eventos que mostrar"
-									>
-								</full-calendar>
-							</div>
+					<div class="card">
+						<div class="card-header">
+						</div>
+						<div class="card-body">
+							<full-calendar
+								[options]="calendarOptions"
+								>
+							</full-calendar>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>

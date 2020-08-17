@@ -70,12 +70,12 @@ export class DashboardComponent implements OnInit {
 		private userService: UserService,
 		private userCourseService: UserCourseService,
 		private currentCourseService: CurrentCourseService,
-		private superService: SuperService,
 		private commonService: CommonService
 	) {
 		this.identity = this.userService.getidentity();
 		this.token = this.userService.getToken();
 		this.platform = this.commonService.getEnvironment().platform;
+		this.commonService.displayLog('Environment',this.commonService.getEnvironment());
 		this.backOffice = this.commonService.getEnvironment().backOffice || null;
 	}
 

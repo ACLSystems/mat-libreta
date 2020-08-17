@@ -39,7 +39,7 @@ export class RequestComponent implements OnInit {
 	finished: boolean = false;
 	exportAsConfig: ExportAsConfig = {
 		type: 'xlsx',
-		elementId: ''
+		elementIdOrContent: ''
 	}
 
   constructor(
@@ -80,7 +80,7 @@ export class RequestComponent implements OnInit {
 		this.finished = false;
 		this.exportAsConfig = {
 			type: 'xlsx',
-			elementId: ''
+			elementIdOrContent: ''
 		}
 		$('#file').val('');
 	}
@@ -434,7 +434,7 @@ export class RequestComponent implements OnInit {
 		if(this.groups[index]) {
 			this.exportAsConfig = {
 				type: 'xlsx',
-				elementId: `group-${index}`
+				elementIdOrContent: `group-${index}`
 			}
 			this.exportAsService.save(this.exportAsConfig, `${this.groups[index].results.groupCode}`).subscribe(() => {
 				this.export(index + 1);
