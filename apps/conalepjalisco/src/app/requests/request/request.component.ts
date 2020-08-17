@@ -39,7 +39,7 @@ export class RequestComponent implements OnInit {
 	finished: boolean = false;
 	exportAsConfig: ExportAsConfig = {
 		type: 'xlsx',
-		elementId: ''
+		elementIdOrContent: ''
 	}
 
   constructor(
@@ -80,7 +80,7 @@ export class RequestComponent implements OnInit {
 		this.finished = false;
 		this.exportAsConfig = {
 			type: 'xlsx',
-			elementId: ''
+			elementIdOrContent: ''
 		}
 		$('#file').val('');
 	}
@@ -111,7 +111,7 @@ export class RequestComponent implements OnInit {
 			this.courses = getCourses(this.excelData);
 			this.groups = [];
 			this.orgUnits = getOrgUnits(this.excelData);
-			console.group('Loop de cursos');
+			// console.group('Loop de cursos');
 			for(let course of this.courses) {
 				let foundCourse = this.fullCourses.find(r => r.code === course);
 				// console.group('foundCourse');
@@ -145,7 +145,7 @@ export class RequestComponent implements OnInit {
 			}
 			this.errorGroups = this.groups.filter(c => c.course.name === 'Error' || c.ou.error);
 			this.groups = this.groups.filter(r => r.students.length > 0);
-			console.groupEnd();
+			// console.groupEnd();
 			this.commonService.displayLog('Excel',this.excelData);
 			this.commonService.displayLog('Errores',this.invalidEmails);
 			this.commonService.displayLog('Courses', this.courses);
@@ -434,7 +434,7 @@ export class RequestComponent implements OnInit {
 		if(this.groups[index]) {
 			this.exportAsConfig = {
 				type: 'xlsx',
-				elementId: `group-${index}`
+				elementIdOrContent: `group-${index}`
 			}
 			this.exportAsService.save(this.exportAsConfig, `${this.groups[index].results.groupCode}`).subscribe(() => {
 				this.export(index + 1);

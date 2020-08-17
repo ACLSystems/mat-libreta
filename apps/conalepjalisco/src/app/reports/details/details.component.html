@@ -26,6 +26,12 @@
 								>
 								Recargar
 							</button>
+							<button
+								class="btn btn-sm btn-primary"
+								(click)="export();"
+								>
+								<i class="fas fa-download"></i> Exportar
+							</button>
 						</div>
 					</div>
 				</div>
@@ -109,6 +115,7 @@
 						width="100%"
 						style="width:100%"
 						[dtOptions]="dtOptions"
+						id="allDetails"
 						>
 						<thead>
 							<tr>

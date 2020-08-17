@@ -1,7 +1,7 @@
 import { HttpClient, HttpRequest, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SimpleGlobal } from 'ng2-simple-global';
+// import { SimpleGlobal } from 'ng2-simple-global';
 
 import { Identity } from '../types/user.type';
 import { Roles } from '../types/user.type';
@@ -19,8 +19,8 @@ export class UserService{
 
 	constructor(
 		private http: HttpClient,
-		private commonService: CommonService,
-		private sg: SimpleGlobal
+		private commonService: CommonService
+		// private sg: SimpleGlobal
 	) {
 		this.url = localStorage.getItem('url');
 		// this.commonService.getCurrentEnvironment.subscribe(() => {
@@ -67,6 +67,15 @@ export class UserService{
 		return this.commonService.updateIdentity(identity);
 	}
 
+	getHttpOptions() {
+		return {
+			headers: JSONHeaders.set(
+				'Authorization',
+				`Bearer ${this.getToken()}`
+			)
+		};
+	}
+
 	/*
 	método para eliminar datos de la sesión
 	*/
@@ -93,12 +102,7 @@ export class UserService{
 	}
 
 	getRolesHTTP():Observable<any>{
-		const httpOptions = {
-			headers: JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-			)
-		};
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/myroles';
 		return this.http.get(route,httpOptions);
 	}
@@ -118,25 +122,18 @@ export class UserService{
 	*/
 	changePassword(newpassword:string){
 		const params = JSON.stringify({password:newpassword});
-		const headers = JSONHeaders.set(
-			'Authorization',
-			'Bearer ' + this.getToken()
-		);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/passwordchange';
-		return this.http.put(route, params, {headers});
+		return this.http.put(route, params, httpOptions);
 	}
 
 	/*
 	metodo para devolver el total de notificaciones nuevas
 	*/
 	bell():Observable<any>{
-		const headers = JSONHeaders.set(
-			'Authorization',
-			'Bearer ' + this.getToken()
-		);
-
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/message/new';
-		return this.http.get(route, {headers});
+		return this.http.get(route, httpOptions);
 	}
 
 	/*
@@ -200,12 +197,9 @@ export class UserService{
 	metodo para obtener mis notificaciones
 	*/
 	getMyNotifications():Observable<any>{
-		const headers = JSONHeaders.set(
-			'Authorization',
-			'Bearer ' + this.getToken()
-		);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/message/my';
-		return this.http.get(route, {headers});
+		return this.http.get(route,httpOptions);
 	}
 
 	/*
@@ -213,12 +207,9 @@ export class UserService{
 	*/
 	setNotification(message:any):Observable<any>{
 		const params = JSON.stringify(message);
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-			);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/message/create';
-		return this.http.post(route, params, {headers});
+		return this.http.post(route, params,httpOptions);
 	}
 
 	/*
@@ -226,12 +217,9 @@ export class UserService{
 	*/
 	closeNotification(notificationid:string):Observable<any>{
 		const params = JSON.stringify({notificationid});
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-			);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/message/close';
-		return this.http.put(route, params, {headers});
+		return this.http.put(route, params,httpOptions);
 	}
 
 	/*
@@ -239,12 +227,9 @@ export class UserService{
 	*/
 	setFollow(follow:any):Observable<any>{
 		const params = JSON.stringify(follow);
-		const headers = JSONHeaders.set(
-			'Authorization',
-			'Bearer ' + this.getToken()
-		);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/follow/create';
-		return this.http.post(route, params, {headers});
+		return this.http.post(route, params,httpOptions);
 	}
 
 	/*
@@ -252,36 +237,25 @@ export class UserService{
 	*/
 	quitFollow(followid: any):Observable<any> {
 		const params = JSON.stringify(followid);
-		const headers = JSONHeaders.set(
-			'Authorization',
-			'Bearer ' + this.getToken()
-		);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/follow/delete';
-		return this.http.put(route, params, {headers});
+		return this.http.put(route, params,httpOptions);
 	}
 	/*
 	metodo para modificar los datos del usuario
 	*/
 	userModify(person: any):Observable<any> {
 		const params = JSON.stringify(person);
-		const headers = JSONHeaders.set(
-			'Authorization',
-			'Bearer ' + this.getToken()
-		);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/modify';
-		return this.http.put(route, params, {headers});
+		return this.http.put(route, params,httpOptions);
 	}
 
 	/*
 	metodo para solicitar clave de validación
 	*/
 	validateEmailWOPR():Observable<any> {
-		const httpOptions = {
-			headers: JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-			)
-		};
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/valemailwopr';
 		return this.http.get(route, httpOptions);
 	}
@@ -293,12 +267,9 @@ export class UserService{
 		var body = {
 			'emailID': code
 		};
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-		);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/confirmemail';
-		return this.http.post(route, body, {headers});
+		return this.http.post(route, body, httpOptions);
 	}
 
 	/*
@@ -310,11 +281,26 @@ export class UserService{
 			'fatherName': identity.person.fatherName,
 			'motherName': identity.person.motherName
 		};
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.getToken()
-		);
+		const httpOptions = this.getHttpOptions();
 		const route = this.url+'api/v1/user/validatemaindata';
-		return this.http.post(route, body, {headers});
+		return this.http.post(route, body, httpOptions);
+	}
+
+	/*
+	metodo logout
+	*/
+	logout(): Observable<any>|null {
+		const httpOptions = this.getHttpOptions();
+		const route = this.url + 'api/v1/user/logout';
+		return this.http.post(route,{},httpOptions);
+	}
+
+	/*
+	metodo logout All
+	*/
+	logoutAll(): Observable<any>|null {
+		const httpOptions = this.getHttpOptions();
+		const route = this.url + 'api/v1/user/logout';
+		return this.http.post(route,{},httpOptions);
 	}
 }

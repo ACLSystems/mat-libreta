@@ -1,8 +1,8 @@
-<div class="main-content">
+<div class="main-content non-printable">
 	<div *ngIf="loading" class="text-center">
 		<app-loading-spinner></app-loading-spinner>
 	</div>
-	<div class="container-fluid" *ngIf="!loading">
+	<div class="container-fluid non-printable" *ngIf="!loading">
 		<div class="card">
 			<div class="card-header card-header-icon card-header-danger">
 				<div class="card-icon">
@@ -12,7 +12,7 @@
 					<h4>Constancia</h4>
 				</div>
 			</div>
-			<div class="card-body" *ngIf="grade.status == 'active'">
+			<div class="card-body">
 				<div class="container">
 					<div class="row">
 						<div class="col">
@@ -111,7 +111,7 @@
 			<div class="card-footer">
 				<div
 					class="container"
-					*ngIf="grade.tookCertificate && grade.pass && folioStatus === 'payed' && ((grade.rosterType === 'group' && grade.certificateActive) || grade.rosterType === 'public') && grade.finalGrade >= grade.minGrade && track >= minTrack"
+					*ngIf="grade.tookCertificate && grade.pass && grade.folioStatus === 'payed' && ((grade.rosterType === 'group' && grade.certificateActive) || grade.rosterType === 'public') && grade.finalGrade >= grade.minGrade && track >= minTrack"
 					>
 					<button
 						mat-raised-button
@@ -122,8 +122,18 @@
 					</button>
 				</div>
 				<div
-					*ngIf="!grade.tookCertificate"
-				>
+					class="container"
+					*ngIf="grade.tookCertificate && grade.pass && grade.folioStatus !== 'payed' && ((grade.rosterType === 'group' && grade.certificateActive) || grade.rosterType === 'public') && grade.finalGrade >= grade.minGrade && track >= minTrack"
+					>
+					<button
+						mat-raised-button
+						class="btn btn-sm btn-danger float-right"
+						data-toggle="modal" data-target="#certificateModal"
+					>
+						Tramita tu Constancia
+					</button>
+				</div>
+				<div *ngIf="!grade.tookCertificate">
 					<div
 						class="container"
 						*ngIf="grade.pass && grade.folioStatus === 'payed' && (grade.rosterType === 'public' || (grade.rosterType === 'group' && grade.certificateActive)) && grade.finalGrade >= grade.minGrade && track >= minTrack"
@@ -158,16 +168,114 @@
 						*ngIf="grade.folioStatus !== 'payed'"
 						class="alert alert-danger"
 						>
-						La constancia no ha sido liberada todavía
+						<button
+							mat-raised-button
+							class="btn btn-sm btn-danger float-right"
+							data-toggle="modal" data-target="#certificateModal"
+						>
+							Tramita tu Constancia
+						</button>
 					</div>
 					<div
 						*ngIf="!grade.pass"
 						class="alert alert-danger"
 						>
-						Todavía no cumples los requisitos para constancia
+						No cumples los requisitos para constancia
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- Modal para constancia-->
+<div class="modal fade printable" id="certificateModal" tabindex="-1" role="dialog" aria-labelledby="certificateModal" aria-hidden="true" *ngIf="!loading">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Obtener Constancia</h4>
+				<button mat-button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					<i class="material-icons non-printable">clear</i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<button mat-button (click)="print();" class="btn btn-sm btn-primary float-right non-printable">Imprimir</button>
+				<div class="card">
+					<div class="card-header alert alert-primary">
+						Para obtener tu constancia realiza un pago por la cantidad de:
+					</div>
+					<h2 class="card-body text-center">
+						{{mocAmount}}
+					</h2>
+					<div class="card-footer">
+						<p class="text-justify">Si ya hiciste el pago, no te preocupes. Tardará un máximo de 3 días hábiles en liberarse. Si ya pasó ese tiempo y no se ha liberado, presiona el botón de "Asistencia" indicando el número de folio que viene debajo y anexa tu comprobante de pago</p>
+					</div>
+				</div>
+				<!-- <div class="card">
+					<h4 class="card-header alert alert-primary printable">
+						En Efectivo
+					</h4>
+					<div class="card-body">
+						En cualquier sucursal de <b>{{bank}}</b> a la cuenta <i><b>{{bankAccount}}</b></i>
+					</div>
+				</div> -->
+				<div class="card">
+					<h4 class="card-header alert alert-primary">
+						Transferencia electrónica
+					</h4>
+					<div class="card-body">
+						Banco <b>{{bank}}</b> con CLABE interbancaria <i><b>{{bankCLABE}}</b></i>
+					</div>
+				</div>
+				<div class="card">
+					<h4 class="card-header alert alert-danger">
+						Importante
+					</h4>
+					<div class="card-body text-justify">
+						<ul>
+							<li>
+								Utiliza el siguiente número de <b>FOLIO</b> como <b><u>CONCEPTO DE PAGO</u></b> en tu depósito o transferencia. De no seguir estas instrucciones no será posible rastrear tu pago.
+							</li>
+							<li>NO REALICES PAGOS EN EFECTIVO. No podemos rastrear estos pagos y por lo tanto no nos hacemos responsables.</li>
+						</ul>
+					</div>
+				</div>
+				<div class="card">
+					<h4 class="card-header alert alert-primary">
+						Folio
+					</h4>
+					<div class="card-body text-center">
+						<h3>{{grade.folio}}</h3>
+					</div>
+				</div>
+				<div class="card">
+					<div class="card-header">Notas:</div>
+					<div class="card-body text-justify">
+						<ul>
+							<li>
+								Tu pago se verá reflejado en un tiempo aproximado de 3 días laborales.
+							</li>
+							<li>
+								Cuando el pago esté validado se te enviará un correo para notificarte.
+							</li>
+							<li>
+								El estado de la cuenta se verá reflejado como <span class="text-success">Activo</span> y podrás generar tu constancia.
+							</li>
+							<li>
+								<span class="text-danger">IMPORTANTE</span>: Este número de folio NO ES TU FOLIO de constancia, por lo que no servirá revisar este folio en el validador de constancias
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="btn-group float-right">
+					<button mat-button (click)="print();" class="btn btn-sm btn-primary  non-printable">Imprimir</button>
+					<button mat-button type="button" class="btn btn-sm non-printable" data-dismiss="modal" aria-hidden="true">
+						Cerrar
+					</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!--  Fin modal para constancia -->

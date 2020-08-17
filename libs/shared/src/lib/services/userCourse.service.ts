@@ -28,22 +28,13 @@ export class UserCourseService {
 	}
 
 	getCourses():Observable<any>{
-		const httpOptions = {
-			headers: JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.commonService.getToken()
-			)
-		};
+		const httpOptions = this.userService.getHttpOptions();
 		const route = this.url+'api/v1/user/mygroups';
 		return this.http.get(route, httpOptions);
 	}
 
 	getCoursesOrg():Observable<any>{
-		const httpOptions = {
-			params: new HttpParams().set(
-				'org', this.instanceName
-			)
-		}
+		const httpOptions = this.userService.getHttpOptions();
 		const route = this.url+'api/course/list';
 		return this.http.get(route,httpOptions);
 	}
@@ -52,12 +43,9 @@ export class UserCourseService {
 		const params = JSON.stringify({
 			courseid
 		});
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.commonService.getToken()
-			);
+		const httpOptions = this.userService.getHttpOptions();
 		const route = this.url+'api/v1/user/enroll';
-		return this.http.post(route, params, {headers});
+		return this.http.post(route, params, httpOptions);
 	}
 
 	/*
@@ -139,12 +127,9 @@ export class UserCourseService {
 			answers: answers,
 			grade: grade
 		});
-		const headers = JSONHeaders.set(
-			'Authorization',
-			'Bearer ' + this.commonService.getToken()
-		);
+		const httpOptions = this.userService.getHttpOptions();
 		const route = this.url+'api/v1/user/createattempt';
-    return this.http.put(route, params, {headers});
+    return this.http.put(route, params, httpOptions);
   }
 
 	/*
@@ -344,12 +329,9 @@ export class UserCourseService {
 	*/
 	setDiscusion(discusion:any):Observable<any>{
 		const params = JSON.stringify(discusion);
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.commonService.getToken()
-			);
+		const httpOptions = this.userService.getHttpOptions();
 		const route = this.url+'api/v1/user/comment/create';
-		return this.http.post(route, params, {headers});
+		return this.http.post(route, params, httpOptions);
 	}
 
 	/*
@@ -357,12 +339,9 @@ export class UserCourseService {
   */
   setReplytto(reply:any): Observable<any> {
     const params = JSON.stringify(reply);
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.commonService.getToken()
-			);
+		const httpOptions = this.userService.getHttpOptions();
 		const route = this.url+'api/v1/user/comment/create';
-    return this.http.post(route, params, {headers});
+    return this.http.post(route, params, httpOptions);
   }
 
 	/*
@@ -383,7 +362,7 @@ export class UserCourseService {
 			reportProgress: true,
 			responseType: 'json'
 		});
-		console.log(req);
+		// console.log(req);
     return this.http.request(req);
   }
 
@@ -393,10 +372,7 @@ export class UserCourseService {
   sendTasks(task:string): Observable <any>{
     // const params = JSON.stringify(task);
 		// Ya debe venir stringifada
-		const headers = JSONHeaders.set(
-				'Authorization',
-				'Bearer ' + this.commonService.getToken()
-			);
-    return this.http.put(this.url + 'api/v1/user/savetask' , task, {headers:headers});
+		const httpOptions = this.userService.getHttpOptions();
+    return this.http.put(this.url + 'api/v1/user/savetask' , task, httpOptions);
   }
 }

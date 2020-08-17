@@ -18,13 +18,23 @@ export class LogoutComponent implements OnInit {
 	) { }
 
   ngOnInit() {
+		this.userService.logout().subscribe(() => {
+			this.destroySession();
+		}, error => {
+			console.log(error);
+			this.destroySession();
+		})
+
+  }
+
+	destroySession() {
 		this.userService.destroySession();
 		this.envService.setEnvironment();
 		// this.router.navigate(['/pages/home']);
-		const ruta = this.router;
+		const route = this.router;
 		setTimeout(function(){
-				ruta.navigate(['/pages/home']);
+				route.navigate(['/pages/home']);
 		}, 3501);
-  }
+	}
 
 }

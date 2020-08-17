@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormBuilder } from '@angular/forms';
 import localeEs from '@angular/common/locales/es';
+import { ExportAsConfig, ExportAsService } from 'ngx-export-as';
 import Swal from 'sweetalert2';
 
 registerLocaleData(localeEs,'es-MX');
@@ -56,6 +57,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 	dtOptions = DtOptions;
 	tableHeader: string[];
 
+	exportAsConfig: ExportAsConfig = {
+		type: 'xlsx',
+		elementIdOrContent: 'allDetails'
+	}
+
 	selectionForm = this.fb.group({
 		month: [0],
 		filter: [''],
@@ -65,7 +71,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   constructor(
 		private superService: SuperService,
 		private router: Router,
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		private exportAsService: ExportAsService
 	) {
 		this.thisMonthString = this.formatThisMonth(this.thisMonth);
 		this.tableHeader = [
@@ -107,6 +114,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     // const table = $('#datatables').DataTable();
 	}
 
+	export() {
+		const today = new Date();
+		this.exportAsService.save(this.exportAsConfig, `Inscripciones-${today.getFullYear()}-${today.getMonth()+1}-${today.getDate()}`).subscribe(() => {});
+	}
 
 	formatThisMonth(date:Date) {
 		const pipe = new DatePipe('es-MX');

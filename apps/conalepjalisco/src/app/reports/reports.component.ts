@@ -22,7 +22,7 @@ export class ReportsComponent implements OnInit {
 
 	exportAsConfig: ExportAsConfig = {
 		type: 'xlsx',
-		elementId: 'publicData'
+		elementIdOrContent: 'publicData'
 	}
 	today: Date = new Date();
 	totalCount: number;
