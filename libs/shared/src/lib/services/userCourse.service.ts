@@ -303,6 +303,15 @@ export class UserCourseService {
     return this.http.get(route,httpOptions);
   }
 
+	getCertTemplate(rosterid:string):Observable<any>{
+		// console.group('rosterType');
+		// console.log(rostertype);
+		// console.groupEnd();
+		const httpOptions = this.userService.getHttpOptions();
+		const route = `${this.url}api/v1/certtemp/${rosterid}`;
+    return this.http.get(route,httpOptions);
+  }
+
 	/*
   Metodo para obtener los datos de los usuario que obtuvieron su constancia
   */

@@ -3,6 +3,11 @@ import { DecimalPipe } from '@angular/common';
 import * as jsPDF from 'jspdf';
 import * as qrious from 'qrious';
 
+import {
+	Drawing,
+	DrawingOption
+} from './cert.model';
+
 @Injectable()
 export class CertService {
 
@@ -11,6 +16,7 @@ export class CertService {
 	) {}
 
 	printCertificate(
+		drawing: Drawing,
 		document:string,
 		certificateNumber:string,
 		nameStudent: string,
@@ -18,88 +24,92 @@ export class CertService {
 		finalGrade: string,
 		time: string,
 		units: string,
-		passDate: string,
-		// docName: string
+		passDate: string
 	) {
 		let grade:string = this.decimal.transform(finalGrade,'.0-2');
 		var doc = new jsPDF({
-			orientation: 'l',
-			unit: 'px'
+			orientation: drawing.doc.orientation || 'l',
+			unit: drawing.doc.unit || 'px'
 			// format: [814,1053]
 		});
 
-		doc.addImage(document,'jpg',0,1);
+		const width = doc.internal.pageSize.getWidth();
+		const height = doc.internal.pageSize.getHeight();
+
+		doc.addImage(
+			document,
+			drawing.doc.type||'PNG',
+			drawing.doc.x || 0,
+			drawing.doc.y || 1,
+			width,
+			height,
+			null,
+			'FAST'
+		);
 
 		//Seccion de los folios
-		doc.setFont("Helvetica");
-		doc.setFontSize(12);
-		doc.setTextColor(255,0,0);
-		doc.text(499,81,"Folio "+certificateNumber,null,null);
+		// doc.text(499,81,"Folio "+certificateNumber,null,null);
+		if(drawing.folio && drawing.folio.enabled) {
+			doc = draw(drawing.folio,certificateNumber,doc);
+		}
 
 		// A
-		doc.setFont("Helvetica");
-		doc.setFontSize(14);
-		doc.setTextColor(100);
-		doc.text(300,225,'A',null,null,'center');
+		// doc.text(300,225,'A',null,null,'center');
+		if(drawing.to && drawing.to.enabled) {
+			doc = draw(drawing.to,'',doc);
+		}
 
 		// Seccion del nombre del alumno
-		doc.setFont("Helvetica");
-		doc.setFontType('bold');
-		doc.setFontSize(28);
-		doc.setTextColor(100);
-		doc.text(300,257,nameStudent,null,null,'center');
-
+		// doc.text(300,257,nameStudent,null,null,'center');
+		if(drawing.studentName && drawing.studentName.enabled) {
+			doc = draw(drawing.studentName,nameStudent,doc);
+		}
 
 		//Seccion de la calificacion final del estudiante
-		doc.setFont("Helvetica");
-		doc.setFontType('regular');
-		doc.setFontSize(16);
-		doc.setTextColor(100);
-		doc.text(300,280,`Por haber acreditado con calificación de ${grade} el curso de:`,null,null,'center');
+		// doc.text(300,280,`Por haber acreditado con calificación de ${grade} el curso de:`,null,null,'center');
+		if(drawing.grade && drawing.grade.enabled) {
+			doc = draw(drawing.grade,grade,doc);
+		}
 
 		//Seccion del nombre del curso
-		doc.setFont("Helvetica");
-		doc.setFontType('bold');
-		doc.setFontSize(16);
-		doc.setTextColor(100);
-		doc.text(300,299,'"'+course+'"',null,null,'center');
+		// doc.text(300,299,'"'+course+'"',null,null,'center');
+		if(drawing.course && drawing.course.enabled) {
+			doc = draw(drawing.course,course,doc);
+		}
 
 		//duracion del curso
-		doc.setFont("Helvetica");
-		doc.setFontType('regular');
-		doc.setFontSize(14);
-		doc.setTextColor(100);
-		doc.text(300,314,'Con una duración de '+time+' '+units,null,null,'center');
-
+		// doc.text(300,314,'Con una duración de '+time+' '+units,null,null,'center');
+		if(drawing.courseDuration && drawing.courseDuration.enabled) {
+			doc = draw(drawing.courseDuration,time+' '+units,doc);
+		}
 
 		//fecha de termino del curso por parte del alumno
-		doc.setFont("Helvetica");
-		doc.setFontType('regular');
-		doc.setFontSize(12);
-		doc.text(162,370,'Zapopan, Jalisco a '+passDate,null,null,'left');
+		// doc.text(162,370,'Zapopan, Jalisco a '+passDate,null,null,'left');
+		if(drawing.endDate && drawing.endDate.enabled) {
+			doc = draw(drawing.endDate,passDate,doc);
+		}
 
-		// //fecha de termino del curso por parte del alumno
-		// doc.setFont("Helvetica");
-		// doc.setFontType('regular');
-		// doc.setFontSize(12);
-		// doc.text(300,440,'El presente documento se puede validar en',null,null,'center');
-		//
-		// //fecha de termino del curso por parte del alumno
-		// doc.setFont("Helvetica");
-		// doc.setFontType('bold');
-		// doc.setFontSize(12);
-		// doc.text(300,450,'https://conalepjalisco.superatemexico.com',null,null,'center');
+		if(drawing.qr && drawing.qr.enabled) {
+			const qr = new qrious();
+			qr.background = 'white';
+			qr.backgroundAlpha = 1;
+			qr.foreground = 'black';
+			qr.foregroundAlpha = 1;
+			qr.level = 'H';
+			qr.size = drawing.qr.size;
+			// qr.value = 'https://conalepjalisco.superatemexico.com/#/pages/certificate';
+			qr.value = drawing.qr.url;
 
-		const qr = new qrious();
-		qr.background = 'white';
-		qr.backgroundAlpha = 1;
-		qr.foreground = 'black';
-		qr.foregroundAlpha = 1;
-		qr.level = 'H';
-		qr.size = 75;
-		qr.value = 'https://conalepjalisco.superatemexico.com/#/pages/certificate';
+			doc.addImage(
+				qr.toDataURL('image/jpg'),
+				'jpg',
+				drawing.qr.x,
+				drawing.qr.y,
+				drawing.qr.w,
+				drawing.qr.h
+			);
+		}
 
-		doc.addImage(qr.toDataURL('image/jpg'),'jpg',45,252,50,50);
 
 		// let docSave = docName || nameStudent;
 		// doc.save(docSave+"-"+course+".pdf");
@@ -157,4 +167,25 @@ export class CertService {
 		// doc.save(docSave+"-"+course+".pdf");
 		window.open(doc.output('bloburl'), '_blank');
 	}
+}
+
+function draw(item: DrawingOption, dataItem: string, doc: any) {
+	doc.setFont(item.font || 'Helvetica');
+	doc.setFontType(item.fontType || 'regular');
+	doc.setFontSize(item.fontSize);
+	if(item.textColor) {
+		doc.setTextColor(
+			item.textColor.r,
+			item.textColor.g,
+			item.textColor.b
+		);
+	}
+	if(item.grayColor) {
+		doc.setTextColor(item.grayColor);
+	}
+	// doc.text(499,81,"Folio "+certificateNumber,null,null);
+	if(!item.text.pre) item.text.pre = '';
+	if(!item.text.post) item.text.post = '';
+	doc.text(item.text.xPos,item.text.yPos,item.text.pre + dataItem + item.text.post,null,null,item.text.justify||null);
+	return doc;
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { CertService } from './cert.service';
+import { Drawing } from './cert.model';
 import {
 	UserCourseService,
 	Grade,
@@ -32,6 +33,9 @@ export class CertComponent implements OnInit {
 	bankAccount: string;
 	bankCLABE: string;
 	mocAmount: string;
+	data: string;
+	drawing: Drawing | null;
+	survey: string;
 
   constructor(
 		private activatedRoute: ActivatedRoute,
@@ -98,19 +102,67 @@ export class CertComponent implements OnInit {
 			confirmButtonText: 'Realizar encuesta'
 		}).then(result=> {
 			if(result.value) {
-				this.poll = true;
-				this.router.navigate([]).then(() =>
-					{window.open('https://forms.gle/cuTZHJ12amgcExTx8', '_blank')});
+				Swal.fire('Espera...');
+				Swal.showLoading();
+				this.userCourseService.getCertTemplate(this.grade.rosterid).subscribe(data => {
+					this.data = data.data || null;
+					this.drawing = data.drawing || null;
+					this.survey = data.survey || null;
+					// console.log(this.drawing);
+					// console.log(this.survey);
+					if(this.survey) {
+						this.poll = true;
+						this.router.navigate([]).then(() =>
+						{window.open(this.survey, '_blank')});
+					}
+					Swal.hideLoading();
+					Swal.close();
+				}, error => {
+					Swal.hideLoading();
+					Swal.close();
+					console.log(error);
+					Swal.fire({
+						type: 'error',
+						html: `Hubo un error ${error}`
+					})
+				});
+				// this.poll = true;
+				// this.router.navigate([]).then(() =>
+				// 	{window.open('https://forms.gle/cuTZHJ12amgcExTx8', '_blank')});
 			}
 		});
 	}
 
 	getCert() {
- 		this.userCourseService.getUserConst(this.rosterType, this.id).subscribe(data => {
+ 		if(!this.data || !this.drawing) {
+			Swal.fire('Espera...');
+			Swal.showLoading();
+			this.userCourseService.getCertTemplate(this.grade.rosterid).subscribe(data => {
+				this.data = data.data || null;
+				this.drawing = data.drawing || null;
+				this.launchCert();
+			}, error => {
+				console.log(error);
+				Swal.hideLoading();
+				Swal.close();
+				Swal.fire({
+					type: 'error',
+					html: `Hubo un error ${error}`
+				})
+			})
+		} else {
+			this.launchCert();
+		}
+	}
+
+	launchCert() {
+		this.commonService.displayLog('Drawing',this.drawing);
+		this.userCourseService.getUserConst(this.rosterType, this.id).subscribe(data => {
 			if(data.message === 'Roster saved') {
 				if(this.grade.finalGrade >= this.grade.minGrade) {
 					this.certService.printCertificate(
-						Certificates.constancia_acreditacion,
+						this.drawing,
+						this.data,
 						this.grade.certificateNumber,
 						this.grade.name,
 						this.grade.course,
@@ -121,6 +173,16 @@ export class CertComponent implements OnInit {
 					);
 				}
 			}
+			Swal.hideLoading();
+			Swal.close();
+		}, error => {
+			Swal.hideLoading();
+			Swal.close();
+			console.log(error);
+			Swal.fire({
+				type: 'error',
+				html: `Hubo un error ${error}`
+			})
 		});
 		localStorage.removeItem('cert');
 	}

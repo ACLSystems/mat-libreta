@@ -109,79 +109,96 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				<div
-					class="container"
-					*ngIf="grade.tookCertificate && grade.pass && grade.folioStatus === 'payed' && ((grade.rosterType === 'group' && grade.certificateActive) || grade.rosterType === 'public') && grade.finalGrade >= grade.minGrade && track >= minTrack"
-					>
-					<button
-						mat-raised-button
-						class="btn btn-sm btn-success float-right"
-						(click)=getCert();
-					>
-						Descargar Constancia
-					</button>
-				</div>
-				<div
-					class="container"
-					*ngIf="grade.tookCertificate && grade.pass && grade.folioStatus !== 'payed' && ((grade.rosterType === 'group' && grade.certificateActive) || grade.rosterType === 'public') && grade.finalGrade >= grade.minGrade && track >= minTrack"
-					>
-					<button
-						mat-raised-button
-						class="btn btn-sm btn-danger float-right"
-						data-toggle="modal" data-target="#certificateModal"
-					>
-						Tramita tu Constancia
-					</button>
-				</div>
-				<div *ngIf="!grade.tookCertificate">
-					<div
-						class="container"
-						*ngIf="grade.pass && grade.folioStatus === 'payed' && (grade.rosterType === 'public' || (grade.rosterType === 'group' && grade.certificateActive)) && grade.finalGrade >= grade.minGrade && track >= minTrack"
-						>
-						<div class="btn-group float-right" role="group">
+				<div *ngIf="grade.pass">
+					<div *ngIf="grade.rosterType === 'public'">
+						<div *ngIf="grade.folioStatus === 'payed'">
+							<div *ngIf="grade.tookCertificate">
+								<button
+									mat-raised-button
+									class="btn btn-sm btn-success float-right"
+									(click)=getCert();
+								>
+									Descargar Constancia
+								</button>
+							</div>
+							<div *ngIf="!grade.tookCertificate">
+								<div class="btn-group float-right" role="group">
+									<button
+										[disabled]="poll"
+										mat-raised-button
+										placeholder="Realiza la encuesta antes de descargar"
+										class="btn btn-sm btn-primary"
+										(click)="releaseCert();"
+									>
+										1. Realizar encuesta
+									</button>
+									<button
+										[disabled]="!poll"
+										mat-raised-button
+										class="btn btn-sm btn-success"
+										(click)=getCert();
+									>
+										2. Descargar Constancia
+									</button>
+								</div>
+							</div>
+						</div>
+						<div *ngIf="grade.folioStatus !== 'payed'">
 							<button
-								[disabled]="poll"
 								mat-raised-button
-								placeholder="Realiza la encuesta antes de descargar"
-								class="btn btn-sm btn-primary"
-								(click)="releaseCert();"
+								class="btn btn-sm btn-info float-right"
+								data-toggle="modal" data-target="#certificateModal"
 							>
-								1. Realizar encuesta
-							</button>
-							<button
-								[disabled]="!poll"
-								mat-raised-button
-								class="btn btn-sm btn-success"
-								(click)=getCert();
-							>
-								2. Descargar Constancia
+								Tramita tu Constancia
 							</button>
 						</div>
 					</div>
-					<div
-						*ngIf="grade.rosterType === 'group' && !grade.certificateActive"
-						class="alert alert-danger"
-						>
-						La constancia no ha sido liberada todavía
+					<div *ngIf="grade.rosterType === 'group'">
+						<div *ngIf="(grade.status === 'active' || grade.folioStatus === 'payed') && grade.certificateActive">
+							<div *ngIf="grade.tookCertificate">
+								<button
+									mat-raised-button
+									class="btn btn-sm btn-success float-right"
+									(click)=getCert();
+								>
+									Descargar Constancia
+								</button>
+							</div>
+							<div *ngIf="!grade.tookCertificate">
+								<div class="btn-group float-right" role="group">
+									<button
+										[disabled]="poll"
+										mat-raised-button
+										placeholder="Realiza la encuesta antes de descargar"
+										class="btn btn-sm btn-primary"
+										(click)="releaseCert();"
+									>
+										1. Realizar encuesta
+									</button>
+									<button
+										[disabled]="!poll"
+										mat-raised-button
+										class="btn btn-sm btn-success"
+										(click)=getCert();
+									>
+										2. Descargar Constancia
+									</button>
+								</div>
+							</div>
+						</div>
+						<div
+							*ngIf="(grade.status !== 'active' && grade.folioStatus !== 'payed') || !grade.certificateActive"
+							class="alert alert-warning"
+							>
+							La constancia no ha sido liberada todavía
+						</div>
 					</div>
-					<div
-						*ngIf="grade.folioStatus !== 'payed'"
-						class="alert alert-danger"
-						>
-						<button
-							mat-raised-button
-							class="btn btn-sm btn-danger float-right"
-							data-toggle="modal" data-target="#certificateModal"
-						>
-							Tramita tu Constancia
-						</button>
-					</div>
-					<div
-						*ngIf="!grade.pass"
-						class="alert alert-danger"
-						>
-						No cumples los requisitos para constancia
-					</div>
+				</div>
+				<div
+					*ngIf="!grade.pass"
+					class="alert alert-danger"
+					>
+					No cumples los requisitos para constancia
 				</div>
 			</div>
 		</div>
