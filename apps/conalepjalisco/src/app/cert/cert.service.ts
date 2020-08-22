@@ -24,7 +24,9 @@ export class CertService {
 		finalGrade: string,
 		time: string,
 		units: string,
-		passDate: string
+		passDate: string,
+		directSave?: boolean,
+		period?: string
 	) {
 		let grade:string = this.decimal.transform(finalGrade,'.0-2');
 		var doc = new jsPDF({
@@ -77,6 +79,12 @@ export class CertService {
 			doc = draw(drawing.course,course,doc);
 		}
 
+		//Periodo
+		// doc.text(300,299,'"'+course+'"',null,null,'center');
+		if(drawing.period && drawing.period.enabled) {
+			doc = draw(drawing.period,period,doc);
+		}
+
 		//duracion del curso
 		// doc.text(300,314,'Con una duración de '+time+' '+units,null,null,'center');
 		if(drawing.courseDuration && drawing.courseDuration.enabled) {
@@ -111,9 +119,13 @@ export class CertService {
 		}
 
 
-		// let docSave = docName || nameStudent;
-		// doc.save(docSave+"-"+course+".pdf");
-		window.open(doc.output('bloburl'), '_blank');
+
+		if(directSave) {
+			let docSave = nameStudent;
+			doc.save(docSave+"-"+course+".pdf");
+		} else {
+			window.open(doc.output('bloburl'), '_blank');
+		}
 	}
 
 	printParticipation(

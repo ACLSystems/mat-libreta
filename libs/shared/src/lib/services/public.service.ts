@@ -23,7 +23,7 @@ export class PublicService {
 
 	getInstance(secondaryUrl?:string) {
 		const url = this.url || secondaryUrl;
-		const route = (document.location.hostname.includes('localhost')) ? `${url}api/instance?hostname=conalepjalisco.superatemexico.com` : `${url}api/instance?hostname=${document.location.hostname}`;
+		const route = (document.location.hostname.includes('localhost')) ? `${url}api/instance?hostname=conalepslp.superatemexico.com` : `${url}api/instance?hostname=${document.location.hostname}`;
 		console.log(route);
 		return this.http.get(route);
 	}

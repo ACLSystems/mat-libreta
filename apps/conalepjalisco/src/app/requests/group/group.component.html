@@ -9,79 +9,15 @@
 				<p class="card-category">{{ group.code }}</p>
 			</div>
 			<div class="card-body">
-				<div class="row">
-					<div class="col">
-						<div class="row">
-							<div class="col">
-								Tipo:
-							</div>
-							<div class="col">
-								{{ group.type }}
-							</div>
-						</div>
-						<div class="row">
-							<div class="col bg-light">
-								Instructor:<br />
-								<button class="btn btn-sm btn-primary" (click)="changeTutor();"><i class="fas fa-chalkboard-teacher"></i> Cambiar</button>
-							</div>
-							<div class="col bg-light">
-								{{ group.instructor.person.name }}
-								{{ group.instructor.person.fatherName }}
-								<small>({{ group.instructor.person.email }})</small>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								Calificación mínima:
-							</div>
-							<div class="col">{{ group.minGrade }}</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								Avance mínimo:
-							</div>
-							<div class="col">{{ group.minTrack }}</div>
-						</div>
-					</div>
-					<div class="col">
-						<div class="row">
-							<div class="col">
-								Status:
-							</div>
-							<div class="col" [ngClass]="{'text-success':group.status==='active','text-danger':group.status!=='active'}">
-								{{ group.status }}
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								Unidad:
-							</div>
-							<div class="col">
-								{{ group.orgUnit.name }} <small>({{group.orgUnit.longName}})</small>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								Inicio:<br />
-								<button class="btn btn-sm btn-primary" (click)="modifyGroup('beginDate');"><i class="fas fa-calendar"></i> Cambiar</button>
-							</div>
-							<div class="col">{{ group.beginDate | date: 'mediumDate' }}</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								Fin:<br />
-								<button class="btn btn-sm btn-primary" (click)="modifyGroup('endDate');"><i class="fas fa-calendar"></i> Cambiar</button>
-							</div>
-							<div class="col">{{ group.endDate | date: 'mediumDate' }}</div>
-						</div>
-					</div>
-				</div>
-				<ul class="nav nav-pills nav-pills-primary" role="tablist">
+				<ul class="nav nav-pills nav-pills-rose" role="tablist">
 					<li class="nav-item">
-						<a href="#rubric" class="nav-link active" data-toggle="tab" role="tablist">Rúbrica</a>
+						<a href="#details" class="nav-link active" data-toggle="tab" role="tablist">Detalles</a>
 					</li>
 					<li class="nav-item">
-						<a href="#students" class="nav-link" data-toggle="tab" role="tablist">Participantes</a>
+						<a href="#rubric" class="nav-link" data-toggle="tab" role="tablist" (click)="getRubric();">Rúbrica</a>
+					</li>
+					<li class="nav-item">
+						<a href="#students" class="nav-link" data-toggle="tab" role="tablist" (click)="getGrades();">Participantes</a>
 					</li>
 					<li class="nav-item">
 						<a href="#calendar" class="nav-link" data-toggle="tab" role="tablist">Calendario</a>
@@ -90,9 +26,86 @@
 				<div class="tab-content tab-space">
 					<div
 						class="tab-pane active"
+						id="details"
+					>
+					<div class="row">
+						<div class="col">
+							<div class="row">
+								<div class="col">
+									Tipo:
+								</div>
+								<div class="col">
+									{{ group.type }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col bg-light">
+									Instructor:<br />
+									<button class="btn btn-sm btn-primary" (click)="changeTutor();"><i class="fas fa-chalkboard-teacher"></i> Cambiar</button>
+								</div>
+								<div class="col bg-light">
+									{{ group.instructor.person.name }}
+									{{ group.instructor.person.fatherName }}
+									<small>({{ group.instructor.person.email }})</small>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									Calificación mínima:
+								</div>
+								<div class="col">{{ group.minGrade }}</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									Avance mínimo:
+								</div>
+								<div class="col">{{ group.minTrack }}</div>
+							</div>
+						</div>
+						<div class="col">
+							<div class="row">
+								<div class="col">
+									Status:
+								</div>
+								<div class="col" [ngClass]="{'text-success':group.status==='active','text-danger':group.status!=='active'}">
+									{{ group.status }}
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									Unidad:
+								</div>
+								<div class="col">
+									{{ group.orgUnit.name }} <small>({{group.orgUnit.longName}})</small>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									Inicio:<br />
+									<button class="btn btn-sm btn-primary" (click)="modifyGroup('beginDate');"><i class="fas fa-calendar"></i> Cambiar</button>
+								</div>
+								<div class="col">{{ group.beginDate | date: 'mediumDate' }}</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									Fin:<br />
+									<button class="btn btn-sm btn-primary" (click)="modifyGroup('endDate');"><i class="fas fa-calendar"></i> Cambiar</button>
+								</div>
+								<div class="col">{{ group.endDate | date: 'mediumDate' }}</div>
+							</div>
+						</div>
+					</div>
+					</div>
+					<div
+						class="tab-pane"
 						id="rubric"
 						>
-						<div class="row">
+						<div class="row" *ngIf="loadingRubric">
+							<div class="col">
+								Un momento...
+							</div>
+						</div>
+						<div class="row" *ngIf="!loadingRubric">
 							<div class="col">
 
 							</div>
@@ -113,7 +126,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="row">
+						<div class="row"  *ngIf="!loadingRubric">
 							<div class="col">
 								<table
 									class="table table-striped"
@@ -199,7 +212,65 @@
 						class="tab-pane"
 						id="students"
 						>
-						<div class="row">
+						<div class="row" *ngIf="loadingGrades">
+							<div class="col">
+								<h1>Un momento...</h1>
+							</div>
+						</div>
+						<div class="row" *ngIf="!loadingGrades">
+							<div class="col-9 ml-md-auto mr-md-auto">
+								<div class="progress" style="height: 30px;">
+									<div class="progress-bar bg-success" role="progressbar" [style]="'width: ' + passPerc + '%'" [attr.aria-valuenow]="passPerc" aria-valuemin="0" aria-valuemax="100">Aprobados {{passPerc + '%'}}</div>
+									<div class="progress-bar bg-danger" role="progressbar" [style]="'width: ' + failedPerc + '%'" [attr.aria-valuenow]="failedPerc" aria-valuemin="0" aria-valuemax="100"> {{failedPerc + '%'}}</div>
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="!loadingGrades">
+							<div class="col">
+								<div class="row">
+									<div class="col">
+										<h3 class="m-0">{{totalStudents}} Participantes</h3>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h3 class="m-0"><span class="text-success">{{passStudents}}</span> Aprobados</h3>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col">
+										<h3 class="m-0"><span class="text-danger">{{totalStudents - passStudents}}</span> No aprobados</h3>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<div class="row">
+									<div class="col">
+										<div class="btn-group">
+											<button
+											class="btn btn-sm btn-primary"
+											(click)="export();"
+											>
+												<i class="fas fa-download"></i> Exportar
+											</button>
+											<button
+											class="btn btn-sm btn-success"
+											(click)="printMassive();"
+											[disabled]="!certTemplate"
+											>
+												<i class="fas fa-list-alt"></i> Descargar todas
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="row" *ngIf="!certTemplate">
+									<div class="col text-danger">
+										No hay aprobados todavía
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row" *ngIf="!loadingGrades">
 							<div class="col">
 								<table
 									datatable
@@ -208,6 +279,7 @@
 									width="100%"
 									style="width:100%"
 									[dtOptions]="dtOptions"
+									id="roster"
 								>
 								<thead>
 									<tr>
@@ -217,10 +289,25 @@
 									</tr>
 								</thead>
 									<tbody>
-										<tr *ngFor="let student of group.students">
-											<td>{{student.person.name}}</td>
-											<td>{{student.person.fatherName}} {{student.person.motherName}}</td>
-											<td>{{student.person.email}}</td>
+										<tr *ngFor="let student of roster; let index = index;">
+											<td *ngIf="groupRos.displayRFC" [ngClass]="{'text-danger': !student.track}">{{student.RFC}}</td>
+											<td [ngClass]="{'text-danger': !student.track}">{{student.name}} {{student.fatherName}} {{student.motherName}}</td>
+											<td [ngClass]="{'text-danger': !student.track}">{{student.email}}</td>
+											<td [ngClass]="{'text-danger': !student.track}">{{student.track}}%</td>
+											<td *ngFor="let grade of student.grades" [ngClass]="{'text-danger': !student.track || !grade.blockGrade}">{{grade.blockGrade|number:'1.0-2'}}</td>
+											<td [ngClass]="{'text-danger': !student.track || !student.finalGrade}">{{student.finalGrade|number:'1.0-2'}}</td>
+											<td *ngIf="student.certificateNumber">{{student.certificateNumber}}</td>
+											<td *ngIf="!student.certificateNumber"></td>
+											<td *ngIf="student.pass" class="text-success">
+												<button
+													class="btn btn-sm btn-success"
+													(click)="printCert(index);"
+													[disabled]="!certTemplate"
+												>
+													<i class="fas fa-certificate"></i> Descargar
+												</button>
+											</td>
+											<td *ngIf="!student.pass"></td>
 										</tr>
 									</tbody>
 									<tfoot>
@@ -234,7 +321,7 @@
 							</div>
 						</div>
 					</div>
-					<div 
+					<div
 						class="tab-pane"
 						id="calendar"
 						>

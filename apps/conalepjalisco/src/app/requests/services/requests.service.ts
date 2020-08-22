@@ -194,4 +194,15 @@ export class RequestService {
 		return this.http.patch(route, body, httpOptions);
 	}
 
+	getGradesforGroup(groupid:string): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const route = `${this.url}api/v1/supervisor/report/gradesbygroup?groupid=${groupid}`;
+		return this.http.get(route,httpOptions);
+	}
+
 }

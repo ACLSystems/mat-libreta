@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataTablesModule } from 'angular-datatables';
 import { ExportAsModule, ExportAsService } from 'ngx-export-as';
+import { CertService } from '../cert/cert.service';
 
 import { RequestComponent } from './request/request.component';
 import { RequestsComponent } from './requests/requests.component';
@@ -24,7 +25,9 @@ import { GroupComponent } from './group/group.component';
   ],
 	providers: [
 		RequestService,
-		ExportAsService
+		ExportAsService,
+		CertService,
+		DecimalPipe
 	]
 })
 export class RequestsModule { }

@@ -76,7 +76,7 @@ export class CertComponent implements OnInit {
 			// 	this.router.navigate(['/user/progress', this.groupid]);
 			// }
 			this.commonService.displayLog('Grade',this.grade);
-			this.commonService.displayLog('Payed',this.grade.folioStatus);
+			// this.commonService.displayLog('Payed',this.grade.folioStatus);
 		}, error => {
 			Swal.fire({
 				type: 'error',
@@ -160,16 +160,24 @@ export class CertComponent implements OnInit {
 		this.userCourseService.getUserConst(this.rosterType, this.id).subscribe(data => {
 			if(data.message === 'Roster saved') {
 				if(this.grade.finalGrade >= this.grade.minGrade) {
+					const endDate = this.grade.presentedEndDate ?
+						this.grade[this.grade.presentedEndDate + 'Spa']
+					:
+						this.grade.passDateSpa;
+					const period = this.grade.rosterType === 'group' && this.drawing.period && this.drawing.period.enabled ?
+						`${this.grade.beginDateSpa} al ${this.grade.endDateSpa}`: null;
 					this.certService.printCertificate(
 						this.drawing,
 						this.data,
-						this.grade.certificateNumber,
+						(this.grade.certificateNumber+'').padStart(6,'0'),
 						this.grade.name,
 						this.grade.course,
 						this.grade.finalGrade + '',
 						this.grade.duration + '',
 						this.grade.durationUnits,
-						this.grade.passDateSpa
+						endDate,
+						false,
+						period
 					);
 				}
 			}

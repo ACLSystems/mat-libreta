@@ -172,9 +172,14 @@ export interface Grade {
 	passDate: Date,
 	passDateSpa: string,
 	rosterid: string,
+	rosterType?: string,
 	status: string,
 	track: string,
 	tookCertificate: boolean,
 	openStatus: string,
-	moocPrice?:string
+	moocPrice?:string,
+	otherEndDate?: Date,
+	otherEndDateSpa?: string,
+	presentedEndDate?: string,
+	displayGroupPeriodDates?: boolean
 }

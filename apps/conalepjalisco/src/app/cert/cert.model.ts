@@ -26,6 +26,7 @@ export interface Drawing {
 	course: DrawingOption,
 	courseDuration?: DrawingOption,
 	endDate?: DrawingOption,
+	period?: DrawingOption,
 	qr?: {
 		enabled: boolean,
 		url: string,
