@@ -38,6 +38,20 @@
 				</div>
 			</a>
 		</div>
+		<div class="card">
+			<a
+			class="btn btn-link"
+			(click)="otherService();"
+			>
+				<div class="card-body text-center">
+					<span style="color:black;">
+						<i class="fas fa-5x fa-asterisk"></i>
+					</span>
+					<h4 class="card-title">Otro Servicio</h4>
+					<p class="card-category">Si no encuentras en los servicios anteriores tu petición hazla aquí</p>
+				</div>
+			</a>
+		</div>
 		<div *ngIf="services.length === 0">
 			<h4 class="bg-warning">No hay servicios disponibles</h4>
 		</div>

@@ -123,4 +123,8 @@ export class DashboardComponent implements OnInit {
 		this.router.navigate(['/services',serviceid]);
 	}
 
+	otherService() {
+		this.router.navigate(['/services','other']);
+	}
+
 }
