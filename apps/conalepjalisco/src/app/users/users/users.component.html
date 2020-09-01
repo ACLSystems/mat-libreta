@@ -9,13 +9,17 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col">
-					<span class="fa-stack fa-2x">
-						<i class="fas fa-square fa-stack-2x" style="color:green"></i>
+					<span class="fa-stack fa-2x pointme" (click)="addUser();">
+						<i class="fas fa-circle fa-stack-2x" style="color:green"></i>
 						<i class="fas fa-user-plus fa-stack-1x fa-inverse"></i>
 					</span>
-					<span class="fa-stack fa-2x" (click)="getUser();">
-						<i class="fas fa-square fa-stack-2x" style="color:green"></i>
+					<span class="fa-stack fa-2x pointme" (click)="getUser();">
+						<i class="fas fa-circle fa-stack-2x" style="color:blue"></i>
 						<i class="fas fa-user-edit fa-stack-1x fa-inverse"></i>
+					</span>
+					<span class="fa-stack fa-2x pointme">
+						<i class="fas fa-circle fa-stack-2x" style="color:red"></i>
+						<i class="fas fa-credit-card-front fa-stack-1x fa-inverse"></i>
 					</span>
 				</div>
 			</div>
@@ -53,9 +57,10 @@
 						{{user.admin?.initialPassword}} <span class="badge badge-danger"><i class="fas fa-lock-open"></i> Reset</span>
 					</div>
 				</div>
+				<hr>
 				<div class="row">
 					<div class="col">
-						<h4>Grupos:</h4>
+						<h4>Grupos/Cursos:</h4>
 					</div>
 				</div>
 				<div class="row" *ngIf="userGroups.length === 0">
@@ -63,45 +68,156 @@
 						<h4>Usuario no tiene grupos/cursos</h4>
 					</div>
 				</div>
-				<div class="row" *ngFor="let group of userGroups">
-					<hr>
+				<div class="row">
 					<div class="col">
-						<div class="row">
-							<div class="col">
-								Tipo:
-							</div>
-							<div class="col">
-								{{group.type}}
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								Curso:
-							</div>
-							<div class="col">
-								{{group.course?.title}}
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								Grupo:
-							</div>
-							<div class="col">
-								{{group.group?.name}} ({{group.group?.code}})
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">Inicio:</div>
-							<div class="col">{{group.group?.beginDate | date: 'mediumDate'}}</div>
-						</div>
-						<div class="row">
-							<div class="col">Fin:</div>
-							<div class="col">{{group.group?.endDate | date: 'mediumDate'}}</div>
-						</div>
-						<div class="row">
-							<div class="col">Liberación de constancia:</div>
-							<div class="col" [ngClass]="{'text-danger': group.status === 'pending', 'text-success': group.status === 'active'}">{{group.status}}</div>
-						</div>
+						<table
+							class="table table-striped table-hover"
+							id="groups"
+						>
+							<thead>
+								<tr>
+									<th *ngFor="let header of tableHeaderGroup">
+										{{header}}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr *ngFor="let group of userGroups">
+									<td *ngIf="group.type === 'public'">
+										Público
+									</td>
+									<td *ngIf="group.type === 'group'">
+										Grupo
+									</td>
+									<td *ngIf="group.type === 'public'">
+										--
+									</td>
+									<td *ngIf="group.type === 'group'">
+										{{group.group?.name}} ({{group.group?.code}})
+									</td>
+									<td>{{group.course?.title}}</td>
+									<td>{{group.finalGrade}}</td>
+									<td>{{group.track}}%</td>
+									<td *ngIf="group.type === 'group'">
+										{{group.group?.beginDate | date: 'mediumDate'}}
+									</td>
+									<td class="row" *ngIf="group.type === 'public'">
+										{{group.course?.beginDate | date: 'mediumDate'}}
+									</td>
+									<td *ngIf="group.type === 'group'">
+										{{group.group?.endDate | date: 'mediumDate'}}
+									</td>
+									<td *ngIf="group.type === 'public'">
+										{{group.course?.endDate | date: 'mediumDate'}}
+									</td>
+									<td [ngClass]="{'text-danger': group.status === 'pending', 'text-success': group.status === 'active'}">{{group.status}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="container-fluid" *ngIf="newUser" [formGroup]="userForm">
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<mat-form-field>
+							<mat-label>Email</mat-label>
+							<input
+								matInput
+								type="text"
+								required
+								formControlName="email"
+								>
+								<mat-error
+									*ngIf="email.hasError('email')"
+								>
+									Debe ser cuenta de correo válida
+								</mat-error>
+								<mat-error
+									*ngIf="email.hasError('pattern')"
+								>
+									Debe ser cuenta de correo válida (no mayúsculas)
+								</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<mat-form-field>
+							<mat-label>Plantel</mat-label>
+							<mat-select
+								required
+								formControlName="campus"
+								>
+								<mat-option *ngFor="let ou of allOUs" [value]="ou.name">
+									{{ou.name}} - {{ou.longName}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 col-md-4">
+						<mat-form-field>
+							<mat-label>Nombre(s)</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="name"
+								required
+								>
+						</mat-form-field>
+					</div>
+					<div class="col-sm-12 col-md-4">
+						<mat-form-field>
+							<mat-label>Apellido Paterno</mat-label>
+							<input
+								matInput
+								type="text"
+								formControlName="fatherName"
+								required
+								>
+						</mat-form-field>
+					</div>
+					<div class="col-sm-12 col-md-4">
+						<mat-form-field>
+							<mat-label>Apellido Materno</mat-label>
+							<input
+								matInput
+								formControlName="motherName"
+								type="text"
+								required
+								>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<mat-form-field>
+							<mat-label>Password</mat-label>
+							<input
+								matInput
+								formControlName="password"
+								type="text"
+								required
+								>
+						</mat-form-field>
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<mat-form-field>
+							<mat-label>Tipo</mat-label>
+							<mat-select
+								required
+								formControlName="type"
+								>
+								<mat-option *ngFor="let type of typeValues" [value]="type.value">
+									{{type.viewValue}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-sm btn-primary" (click)="generateUser();"><i class="fad fa-save"></i> Guardar</button>
 					</div>
 				</div>
 			</div>
