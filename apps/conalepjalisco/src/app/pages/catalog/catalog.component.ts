@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SimpleGlobal } from 'ng2-simple-global';
 
 import { PagesService } from '../pages.service';
+import { CommonService } from '@mat-libreta/shared';
 // import { environment } from '@cjaenv/environment';
 
 // export class Areas {
@@ -37,11 +38,14 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 	logo:string;
 	color:string;
 	categories:string[]=[];
+	selectedCourses:any[]=[];
+	category:string;
 
 	constructor(
 		private pagesService: PagesService,
 		private router: Router,
-		private sg: SimpleGlobal
+		private sg: SimpleGlobal,
+		private commonService: CommonService
 	) {
 		this.org = this.sg['environment'].instanceName;
 		this.instanceTitle = this.sg['environment'].instanceTitle;
@@ -66,18 +70,23 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	getCourseList(){
 		this.loading = true;
+		const orgUnitName = this.sg['instance'].orgUnitName;
+		this.commonService.displayLog('orgUnitName',orgUnitName);
 		this.pagesService.getCoursesOrg().subscribe(data =>{
 			if(data && data.body && data.body.message && data.body.message.courses) {
 				this.cursoslist = data.body.message.courses.filter((course:any) => course.isVisible && course.status === 'published');
 				this.loading = false;
-				// console.log(this.cursoslist);
+				console.log(this.cursoslist);
 				this.categories = [];
 				this.cursoslist.forEach(course => {
 					if(course.categories && Array.isArray(course.categories) && course.categories.length > 0) {
 						this.categories = this.categories.concat(course.categories);
 					}
 				});
-				this.categories = [...new Set(this.categories)];
+				this.selectedCourses = [...this.cursoslist];
+				this.categories = [...new Set(this.categories)].sort();
+				this.categories.unshift('Todos');
+				this.category = 'Todos';
 				// console.log(this.categories);
 			}
 		},error=>{
@@ -129,6 +138,8 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 	*/
 	findCourse(wordcode:string){
 		this.loading = true;
+		this.selectedCourses = [...this.cursoslist];
+		this.category = 'Todos';
 		this.course=[]
 		if(wordcode!=''){
 			for(let id of this.cursoslist){
@@ -148,6 +159,17 @@ export class CatalogComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.isFindOk = false;
 			this.loading = false;
 			this.messageNotFound = null
+		}
+	}
+
+	displayByCategory(category:string) {
+		// console.log(category);
+		this.category = category;
+		this.selectedCourses = [];
+		if(category === 'Todos') {
+			this.selectedCourses = [...this.cursoslist];
+		} else {
+			this.selectedCourses = this.cursoslist.filter(curso => curso.categories.includes(category));
 		}
 	}
 

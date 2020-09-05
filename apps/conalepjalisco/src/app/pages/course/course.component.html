@@ -194,7 +194,7 @@
 							mat-raised-button
 							class="btn btn-rose float-right"
 							(click)="goGoogleForms();"
-							*ngIf="curso.type === 'tutor'"
+							*ngIf="curso.type === 'tutor' && selfRegister"
 							[disabled]="curso.hideEnroll"
 							>
 							Solicitar
@@ -203,7 +203,7 @@
 							mat-raised-button
 							class="btn btn-rose float-right"
 							(click)="goEnroll(curso._id, curso.title);"
-							*ngIf="curso.type !== 'tutor'"
+							*ngIf="curso.type !== 'tutor' && selfRegister"
 							>
 							Inscribirme
 						</button>

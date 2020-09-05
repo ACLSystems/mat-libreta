@@ -29,6 +29,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 	color: string;
 	margin: number = 20;
 	width: number;
+	selfRegister: boolean;
 
   constructor(
 		private activeRoute: ActivatedRoute,
@@ -40,6 +41,8 @@ export class CourseComponent implements OnInit, AfterViewInit {
 		private sg: SimpleGlobal
 	) {
 		this.color = this.sg['environment'].color;
+		this.selfRegister = this.sg['instance'].platform?.selfRegister;
+		commonService.displayLog('selfRegister',this.selfRegister);
     this.activeRoute.params.subscribe( params =>{
       if (params.id != null) {
         this.idc = params.id;

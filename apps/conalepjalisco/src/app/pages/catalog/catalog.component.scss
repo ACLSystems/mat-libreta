@@ -1,5 +1,8 @@
 @import "_def";
 
+.pointme {
+	cursor: pointer;
+}
 
 .card-columns {
 	@include media-breakpoint-only(xl) {

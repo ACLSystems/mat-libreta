@@ -1,16 +1,28 @@
 <br><br><br><br>
 
-<div *ngIf="!loading" class="container animated fast fadeIn">
-	<h2 class="text-center"><i class="material-icons">dashboard</i> Catálogo de cursos</h2>
+<div *ngIf="!loading" class="container">
+	<!-- <h2 class="text-center"><i class="material-icons">dashboard</i> Catálogo de cursos</h2> -->
 	<div class="form-group">
-		<p>
-			<input type="text" class="form-control" #wordcode placeholder="Escribe el nombre de un curso" (keyup)="findCourse(wordcode.value)">
-		</p>
+		<div class="row">
+			<div class="col">
+				<input type="text" class="form-control" #wordcode placeholder="Teclea aquí curso que buscas" (keyup)="findCourse(wordcode.value)">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<span
+					class="badge pointme"
+					*ngFor="let cat of categories"
+					(click)="displayByCategory(cat);"
+					[ngClass]="{'badge-danger': cat === category,'badge-primary': cat !== category}"
+					>{{cat}}</span>
+			</div>
+		</div>
 	</div>
 </div>
 
 <div *ngIf="loading">
-	<div class="row text-center animated fadeIn m-5">
+	<div class="row text-center m-5">
 		<div class="col ">
 			<i class="fas fa-sync fa-spin fa-5x"></i>
 		</div>
@@ -22,34 +34,33 @@
 	</div>
 </div>
 
-<div *ngIf="!loading && !isFindOk && !messageNotFound" class="container animated fast fadeIn">
-	<div class="card-columns">
-		<div *ngFor="let crs of cursoslist, let id=index">
-			<div  class="card w-300" style="max-width:400px;" *ngIf="crs.isVisible && crs.status === 'published'">
-				<img class="card-img-top" [src]="crs.image" alt="Card image cap">
-				<div class="card-body">
-					<div class="container">
-						<div class="row">
-							<div class="col">
-								<h5>{{crs.title}}</h5>
-								<h6 class="card-subtitle">{{crs.code}}</h6>
+<div *ngIf="!loading && !isFindOk && !messageNotFound" class="container">
+	<div class="card-deck">
+		<div *ngFor="let crs of selectedCourses, let id=index">
+			<div
+				class="card bg-transparent shadow-none"
+				style="width:240px;max-width:240px;"
+				*ngIf="crs.isVisible && crs.status === 'published'"
+				>
+				<a class="pointme" (click)="verCurso(crs.id);">
+					<img class="card-img-top" [src]="crs.image" alt="Card image cap">
+					<div class="card-body p-0">
+						<div class="container">
+							<div class="row">
+								<div class="col p-0">
+									<h6 class="card-title text-dark">{{crs.code}}</h6>
+									<p class="card-text text-dark">{{crs.title}}</p>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="card-footer">
-					<button
-						mat-raised-button
-						class="btn btn-primary btn-block" (click)="verCurso(crs.id)">
-						<i class="far fa-arrow-alt-circle-right"></i> Ver detalles
-					</button>
-				</div>
+				</a>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div *ngIf="!loading && isFindOk" class="container animated fast fadeIn">
+<div *ngIf="!loading && isFindOk" class="container">
 	<div *ngFor="let item of course" class="row">
 		<div class="col-md-4">
 			<hr>
@@ -83,7 +94,7 @@
 		</div>
 	</div>
 </div>
-<div *ngIf="!loading && !isFindOk && messageNotFound!=null" class="container animated fast fadeIn">
+<div *ngIf="!loading && !isFindOk && messageNotFound!=null" class="container">
 	<div class="alert alert-warning text-center" role="alert">
 		<h1><i class="fas fa-frown-open"></i> {{messageNotFound}}</h1>
 	</div>
