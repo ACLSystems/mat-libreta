@@ -5,7 +5,7 @@
 	<div class="form-group">
 		<div class="row">
 			<div class="col">
-				<input type="text" class="form-control" #wordcode placeholder="Teclea aquí curso que buscas" (keyup)="findCourse(wordcode.value)">
+				<input type="text" class="form-control" #wordcode placeholder="Teclea aquí alguna palabra del curso que buscas" (keyup)="findCourse(wordcode.value)">
 			</div>
 		</div>
 		<div class="row">
@@ -42,7 +42,7 @@
 				style="width:240px;max-width:240px;"
 				*ngIf="crs.isVisible && crs.status === 'published'"
 				>
-				<a class="pointme" (click)="verCurso(crs.id);">
+				<a class="pointme" (click)="verCurso(crs._id);">
 					<img class="card-img-top" [src]="crs.image" alt="Card image cap">
 					<div class="card-body p-0">
 						<div class="container">
@@ -87,7 +87,7 @@
 					<h6>Grupo <small>Grupo</small> </h6>
 				</div>
 			</div>
-			<button (click)="verCurso(item.id)" type="button" class="btn btn-{{color}}">
+			<button (click)="verCurso(item._id)" type="button" class="btn btn-{{color}}">
 				Ir al curso
 				<i class="far fa-arrow-alt-circle-right"></i>
 			</button>

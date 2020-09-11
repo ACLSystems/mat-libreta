@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SimpleGlobal } from 'ng2-simple-global';
 import Swal from 'sweetalert2';
+import { app, version, year, vendor } from '@version/conalepjalisco_version';
 
 import { EnvService } from '@cjashared/services/setEnv.service';
 import { BrowerService, CommonService } from '@mat-libreta/shared';
@@ -40,7 +41,8 @@ export class AppComponent {
 		private commonService: CommonService,
 		private sg: SimpleGlobal
 	) {
-		this.waitLogo += (document.location.hostname === 'localhost') ? 'conalepjalisco' : document.location.hostname.split('.')[0];
+		console.log(`${app} ${version} @${year} ${vendor}`);
+		this.waitLogo += (document.location.hostname === 'localhost') ? 'conalep' : document.location.hostname.split('.')[0];
 		this.waitLogo += '.png';
 		// console.log(this.waitLogo);
 		this.router.events.subscribe((event: RouterEvent) => {

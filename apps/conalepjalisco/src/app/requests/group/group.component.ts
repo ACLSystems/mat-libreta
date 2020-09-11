@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import { CalendarOptions, EventInput } from '@fullcalendar/angular';
+// import bootstrapPlugin from '@fullcalendar/bootstrap';
+import esLocale from '@fullcalendar/core/locales/es';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ExportAsConfig, ExportAsService } from 'ngx-export-as';
 import Swal from 'sweetalert2';
 
@@ -25,10 +30,18 @@ interface RubricBlock {
 	_id?: string
 }
 
+interface Display {
+	view: string,
+	viewValue: string
+}
+
 @Component({
   selector: 'mat-libreta-group',
   templateUrl: './group.component.html',
-  styleUrls: ['./group.component.scss']
+  styleUrls: ['./group.component.scss'],
+	providers: [
+		DatePipe
+	]
 })
 export class GroupComponent implements OnInit {
 
@@ -65,6 +78,52 @@ export class GroupComponent implements OnInit {
 	passPerc: number;
 	failedPerc: number;
 
+	calendarWeekends:boolean = true;
+	calendarEvents: EventInput[] = [];
+	calendarAllEvents: EventInput[] = [];
+	calendarOptions: CalendarOptions = {
+		// plugins: [ bootstrapPlugin ],
+		themeSystem: 'bootstrap',
+		locale: esLocale,
+		headerToolbar: {
+			left: 'prev,next today',
+			center: 'title',
+			right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+		},
+		initialView: 'dayGridMonth',
+		initialEvents: this.calendarEvents,
+		weekends: true,
+		editable: true,
+		selectable: true,
+		dayMaxEvents: false
+	}
+	eventTypes: Display[] = [
+		{
+			view: 'Tarea/Actividad',
+			viewValue: 'task'
+		},
+		{
+			view: 'Examen/Evaluación',
+			viewValue: 'exam'
+		},
+		{
+			view: 'Liberación de constancia',
+			viewValue: 'certificate'
+		},
+		{
+			view: 'General',
+			viewValue: 'general'
+		},
+	]
+	eventForm = this.fb.group({
+		label: ['',[Validators.required]],
+		type: ['',[Validators.required]],
+		begin: ['',[Validators.required]],
+		beginHour: [''],
+		end: ['',[Validators.required]],
+		endHour: ['']
+	});
+
   constructor(
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
@@ -72,11 +131,14 @@ export class GroupComponent implements OnInit {
 		private commonService: CommonService,
 		private certService: CertService,
 		private userCourseService: UserCourseService,
-		private exportAsService: ExportAsService
+		private exportAsService: ExportAsService,
+		private datePipe: DatePipe,
+		private fb: FormBuilder
 	) {
 		this.activatedRoute.params.subscribe(params => {
 			this.groupid = params.groupid;
 		});
+		if(!this.groupid) this.router.navigate(['/requests']);
 		this.tableHeaderGroup = [
 			'Nombre',
 			'Correo',
@@ -91,19 +153,37 @@ export class GroupComponent implements OnInit {
 			'WQ',
 			'WT'
 		];
+		this.loading = true;
+		this.getGroup();
 	}
 
-  ngOnInit(): void {
-		if(!this.groupid) this.router.navigate(['/requests']);
-		this.getGroup();
-  }
+	get label() {
+		return this.eventForm.get('label');
+	}
+	get type() {
+		return this.eventForm.get('type');
+	}
+	get begin() {
+		return this.eventForm.get('begin');
+	}
+	get beginHour() {
+		return this.eventForm.get('beginHour');
+	}
+	get end() {
+		return this.eventForm.get('end');
+	}
+	get endHour() {
+		return this.eventForm.get('endHour');
+	}
+
+  ngOnInit(): void {}
 
 	getGroup() {
 		this.loading = true;
 		this.requestService.getGroup(this.groupid).subscribe(data => {
 			this.group = Object.assign({},data);
 			this.commonService.displayLog('Group Data', this.group);
-			this.loading = false;
+			this.getCalendarEvents([...this.group.dates]);
 			this.getRubric()
 		}, error => {
 			console.log(error);
@@ -114,6 +194,47 @@ export class GroupComponent implements OnInit {
 			this.router.navigate(['/requests']);
 			this.loading = false;
 		})
+	}
+
+	getCalendarEvents(events) {
+		this.calendarEvents = events.map((event:any) => {
+			return {
+				title: event.label,
+				start: this.datePipe.transform(event.beginDate,'yyyy-MM-dd'),
+				end: this.datePipe.transform(event.endDate, 'yyyy-MM-dd'),
+				color: this.colorevents(event.type),
+				textColor: this.textcolorevents(event.type),
+				type: event.type,
+				allDay: true
+			}
+		});
+		this.calendarOptions.initialEvents = this.calendarEvents;
+		// this.commonService.displayLog('CalendarOptions',this.calendarOptions);
+		this.loading = false;
+	}
+
+	addCalendarEvent() {
+		this.loading = true;
+		const event = {
+			title: this.label.value,
+			type: this.type.value,
+			begin: addHours(this.begin.value,this.beginHour.value),
+			end: addHours(this.end.value,this.endHour.value)
+		}
+		this.calendarEvents.push(event);
+		setTimeout(() => {
+			this.loading = false;
+		}, 801);
+		this.commonService.displayLog('calendarEvents',this.calendarEvents);
+		const calendarSend = this.calendarEvents.map(event => {
+			return {
+				title: event.title,
+				type: event.type,
+				beginDate: event.start,
+				endDate: event.start
+			};
+		});
+		this.commonService.displayLog('Calendario nuevo',calendarSend);
 	}
 
 	changeTutor() {
@@ -459,6 +580,39 @@ export class GroupComponent implements OnInit {
 				});
 			})
 	}
+	colorevents(type: string): string {
+
+		if (type === 'task') {
+			return '#00008B';
+		}
+		if (type === 'exam') {
+			return '#DC143C';
+		}
+		if (type === 'general') {
+			return '#228B22';
+		}
+		if (type === 'certificate') {
+			return '#20B2AA';
+		}
+		return '#FFFFFF';
+	}
+
+	textcolorevents(type: string): string {
+		console.log('textColor',type);
+		if (type === 'task') {
+			return '#FFFFFF';;
+		}
+		if (type === 'exam') {
+			return '#FFFFFF';
+		}
+		if (type === 'general') {
+			return '#FFFFFF';
+		}
+		if (type === 'certificate') {
+			return '#FFFFFF';
+		}
+		return '#000000';
+	}
 }
 
 function calculateRubric(rubric: any[]) {
@@ -512,4 +666,11 @@ function round(num:number, places?:number) {
 		let val = Math.pow(10, places);
 		return Math.round(num*val) / val;
 	}
+}
+
+function addHours(time: any, h:string = '0:0') {
+	const newTime = new Date(time);
+	const [hours,mins] = h.split(':');
+	newTime.setTime(newTime.getTime() + (((+hours * 3600) + (+mins * 60)) * 1000));
+	return time;
 }

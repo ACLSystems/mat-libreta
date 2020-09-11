@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { CalendarOptions, EventInput } from '@fullcalendar/angular';
-import bootstrapPlugin from '@fullcalendar/bootstrap';
+// import bootstrapPlugin from '@fullcalendar/bootstrap';
 import esLocale from '@fullcalendar/core/locales/es';
 
 import {
@@ -38,7 +38,7 @@ export class CalendarComponent implements OnInit {
 	calendarEvents: EventInput[] = [];
 	calendarAllEvents: EventInput[] = [];
 	calendarOptions: CalendarOptions = {
-		plugins: [ bootstrapPlugin ],
+		// plugins: [ bootstrapPlugin ],
 		themeSystem: 'bootstrap',
 		locale: esLocale,
 		headerToolbar: {

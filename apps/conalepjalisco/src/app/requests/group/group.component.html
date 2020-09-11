@@ -19,9 +19,6 @@
 					<li class="nav-item">
 						<a href="#students" class="nav-link" data-toggle="tab" role="tablist" (click)="getGrades();">Participantes</a>
 					</li>
-					<li class="nav-item">
-						<a href="#calendar" class="nav-link" data-toggle="tab" role="tablist">Calendario</a>
-					</li>
 				</ul>
 				<div class="tab-content tab-space">
 					<div
@@ -321,13 +318,113 @@
 							</div>
 						</div>
 					</div>
-					<div
-						class="tab-pane"
-						id="calendar"
-						>
-						<h3>Calendario</h3>
+				</div>
+			</div>
+		</div>
+		<!-- Calendario -->
+		<div class="card">
+			<div class="card-header">
+				<div class="row" [formGroup]="eventForm">
+					<div class="col-2">
+						<mat-form-field>
+							<mat-label>
+									Etiqueta del evento
+							</mat-label>
+							<input
+								matInput
+								formControlName="label"
+								required
+							>
+						</mat-form-field>
+					</div>
+					<div class="col-2">
+						<mat-form-field>
+							<mat-label>
+								Tipo de evento
+							</mat-label>
+							<mat-select
+								formControlName="type"
+								required
+							>
+								<mat-option [value]="event.viewValue" *ngFor="let event of eventTypes">{{event.view}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col-2">
+						<mat-form-field>
+							<mat-label>
+									Fecha Inicio
+							</mat-label>
+							<input
+								matInput
+								formControlName="begin"
+								[matDatepicker]="pickerBegin"
+								required
+							>
+							<mat-datepicker-toggle matSuffix [for]="pickerBegin">
+							</mat-datepicker-toggle>
+							<mat-datepicker #pickerBegin>
+							</mat-datepicker>
+						</mat-form-field>
+						<mat-form-field>
+							<mat-label>
+								Hora Inicio
+							</mat-label>
+							<input
+								matInput
+								formControlName="beginHour"
+								[ngxTimepicker]="horaInicio"
+								[format]="24"
+							>
+							<ngx-material-timepicker #horaInicio [minutesGap]="5" [enableKeyboardInput]="true"></ngx-material-timepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-2">
+						<mat-form-field>
+							<mat-label>
+									Fecha Fin
+							</mat-label>
+							<input
+								matInput
+								formControlName="end"
+								[matDatepicker]="pickerEnd"
+								required
+							>
+							<mat-datepicker-toggle matSuffix [for]="pickerEnd">
+							</mat-datepicker-toggle>
+							<mat-datepicker #pickerEnd>
+							</mat-datepicker>
+						</mat-form-field>
+						<mat-form-field>
+							<mat-label>
+								Hora Fin
+							</mat-label>
+							<input
+								matInput
+								formControlName="endHour"
+								[ngxTimepicker]="horaFin"
+								[format]="24"
+							>
+							<ngx-material-timepicker #horaFin  [minutesGap]="5" [enableKeyboardInput]="true"></ngx-material-timepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-2"></div>
+					<div class="col-2">
+						<button
+							class="btn btn-sm btn-primary"
+							(click)="addCalendarEvent();"
+							>
+							<i class="fas fa-calendar-plus"></i>
+							Agregar Evento
+						</button>
 					</div>
 				</div>
+			</div>
+			<div class="card-body">
+				<full-calendar
+					[options]="calendarOptions"
+					>
+				</full-calendar>
 			</div>
 		</div>
 	</div>

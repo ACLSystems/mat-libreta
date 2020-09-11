@@ -16,6 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+			"@version/*": ["local_scripts/version/*"], 
       "@cetecapp/*": ["apps/cetec/src/app/*"],
       "@cetecnavbar/*": ["apps/cetec/src/app/layouts/navbar/*"],
       "@cetecsidebar/*": ["apps/cetec/src/app/layouts/sidebar/*"],

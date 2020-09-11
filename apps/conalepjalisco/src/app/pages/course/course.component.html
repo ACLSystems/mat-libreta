@@ -171,10 +171,11 @@
 									<div class="col-md">
 										<ul class="list-unstyled">
 											<li *ngFor="let item of blocks">
-												<h5 *ngIf="item.number==0">
-													{{item.section}}.{{item.title}} <span *ngIf="item.beginDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de inicio: {{item.beginDate | date}}</span> <span *ngIf="item.endDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de término: {{item.endDate | date}}</span><span *ngIf="item.duration" class="text-right text-secondary"> | <i class="far fa-clock"></i> Duración:{{item.duration}}</span>
+												<br *ngIf="item.section && !item.number">
+												<h5 *ngIf="!item.number" class="text-primary">
+													<span class="font-weight-bold">{{item.section}}.{{item.title}}</span> <span *ngIf="item.beginDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de inicio: {{item.beginDate | date}}</span> <span *ngIf="item.endDate" class="text-right text-secondary"> | <i class="far fa-calendar-alt"></i> Fecha de término: {{item.endDate | date}}</span><span *ngIf="item.duration" class="text-right text-secondary"> | <i class="far fa-clock"></i> Duración:{{item.duration}}</span>
 												</h5>
-												<span *ngIf="item.number!=0" class="text-primary">
+												<span *ngIf="item.number">
 													&nbsp; {{item.section}}.{{item.number}} {{item.title}}
 												</span>
 											</li>

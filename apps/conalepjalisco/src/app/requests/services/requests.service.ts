@@ -205,4 +205,29 @@ export class RequestService {
 		return this.http.get(route,httpOptions);
 	}
 
+	addBlockDates(groupid:string, blockDatesArray:any[]): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const body = JSON.stringify({blockDates: blockDatesArray});
+		const route = `${this.url}api/v1/group/${groupid}/addblockdates`;
+		return this.http.patch(route,body,httpOptions);
+	}
+
+	addDates(groupid:string, datesArray:any[]): Observable<any> {
+		const httpOptions = {
+			headers: JSONHeaders.set(
+				'Authorization',
+				'Bearer ' + this.getToken()
+			)
+		};
+		const body = JSON.stringify({blockDates: datesArray});
+		const route = `${this.url}api/v1/group/${groupid}/adddates`;
+		return this.http.patch(route,body,httpOptions);
+	}
+
+
 }

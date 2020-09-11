@@ -3,7 +3,11 @@ import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { SimpleGlobal } from 'ng2-simple-global';
 
-import { Identity, UserService } from '@mat-libreta/shared';
+import {
+	Identity,
+	UserService,
+	CommonService
+} from '@mat-libreta/shared';
 
 import { PagesService } from '../pages.service';
 // import { environment } from '@cjaenv/environment';
@@ -36,6 +40,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 		private Meta:Meta,
 		private pagesService:PagesService,
 		private userService: UserService,
+		private commonService: CommonService,
 		private sg: SimpleGlobal
 	) {
 		// this.Meta.addTag(
@@ -76,11 +81,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	getCourseList(){
 		this.loading = true;
 		this.pagesService.getCoursesOrg().subscribe(data =>{
-			this.cursos = data.body.message.courses;
-			// console.log(data);
+			this.cursos = [...data];
+			this.commonService.displayLog('Home Page Courses',this.cursos);
 			this.loading = false;
 			this.curso = this.cursos[this.index];
-			this.traeTemario(this.curso.id);
+			this.traeTemario(this.curso._id);
 		},error=>{
 			console.log(error.message);
 		});
@@ -92,13 +97,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	cambiaCurso(code:string) {
 		this.curso = this.cursos.find( (crs:any) => crs.code === code);
-		this.traeTemario(this.curso.id);
+		this.traeTemario(this.curso._id);
 	}
 
 	traeTemario(id:string) {
 		this.loading = true;
 		this.pagesService.showBlocks(id).subscribe(data => {
-			this.blocks = data.body.message.blocks;;
+			console.log(data);
+			this.blocks = [...data];
 			this.loading = false;
 		});
 	}

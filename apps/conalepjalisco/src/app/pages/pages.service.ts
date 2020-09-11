@@ -44,7 +44,6 @@ export class PagesService {
 		// console.log('URL');
 		// console.log(this.url);
 		const httpOptions = {
-			observe: 'response' as 'body',
 			params: new HttpParams()
 				.set('org', this.org)
 		}
@@ -70,7 +69,6 @@ export class PagesService {
 	*/
 	showBlocks(id: string): Observable<any> {
 		const httpOptions = {
-			observe: 'response' as 'body',
 			params: new HttpParams()
 				.set('id', id)
 		}

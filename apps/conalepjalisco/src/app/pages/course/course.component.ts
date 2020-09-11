@@ -73,7 +73,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 	}
 
 	ngAfterViewInit() {
-		let $navbar = document.getElementsByClassName('navbar')[0];
+		let $navbar = document.getElementById('navbarPages');
 		$navbar.classList.remove('navbar-transparent');
 		// $navbar.classList.remove('bg-primary');
 		// $navbar.classList.add('bg-white');
@@ -112,8 +112,10 @@ export class CourseComponent implements OnInit, AfterViewInit {
     // });
 
     this.pagesService.showBlocks(id).subscribe(data => {
-			if(data && data.body && data.body.message && data.body.message.blocks) {
-      	this.blocks = data.body.message.blocks;
+			console.log(data);
+			this.blocks = [];
+			if(data.length > 0) {
+				this.blocks = [...data];
 			}
       this.loading = false;
     });

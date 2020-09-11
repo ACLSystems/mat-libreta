@@ -109,6 +109,7 @@ export class RequestComponent implements OnInit {
 			this.excelData = convertToArray(XLSX.utils.sheet_to_json(ws,{header:1}));
 			this.invalidEmails = filterErrors(this.excelData);
 			this.courses = getCourses(this.excelData);
+			console.log(this.courses);
 			this.groups = [];
 			this.orgUnits = getOrgUnits(this.excelData);
 			// console.group('Loop de cursos');
@@ -158,9 +159,10 @@ export class RequestComponent implements OnInit {
 
 	getCourses() {
 		this.loading = true;
+		this.fullCourses = [];
 		this.requestService.getCourses().subscribe(data => {
-			if(data.message && data.message.courses) {
-				this.fullCourses = [...data.message.courses];
+			if(data.length > 0) {
+				this.fullCourses = [...data];
 			}
 			this.commonService.displayLog('All Courses',this.fullCourses);
 			this.loading = false;

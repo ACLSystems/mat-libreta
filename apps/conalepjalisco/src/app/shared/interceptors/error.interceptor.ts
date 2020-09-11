@@ -60,10 +60,19 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 						if(error.status > 399 && error.status < 500) {
 							sendError = false;
 						}
-						if(error.error && error.error.message) {
-							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.error.message}</p>`
+						console.log('Status', error.status);
+						if(!error.status) {
+							errorMessage = `<p>El servidor no responde en este momento. Posiblemente no haya Internet o el servidor esté temporalmente fuera de servicio.</p>
+							<p>Si estás seguro que tienes Internet y está respondiendo correctamente y después de 10 minutos el servicio sigue sin responder por favor notifícanos con el widget de asistencia que está abajo a la izquierda</p>
+							<p>${error.message}</p>
+							`
 						} else {
-							errorMessage = `<p>Código de error: ${error.status}</p><p>${error.message}</p>`
+							if(error.error && error.error.message) {
+								console.log('Status', error.status);
+									errorMessage = `<p>Código de error: ${error.status}</p><p>${error.error.message}</p>`
+							} else {
+								errorMessage = `<p>Código de error: ${error.status}</p><p>${error.message}</p>`
+							}
 						}
 						if(sendError) {
 							Swal.fire({

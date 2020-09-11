@@ -97,21 +97,22 @@ export class PagesComponent implements OnInit {
 		this.sidebarVisible = true;
 	};
 	sidebarClose() {
-		var $toggle = document.getElementsByClassName('navbar-toggler')[0];
-		const body = document.getElementsByTagName('body')[0];
-		this.toggleButton.classList.remove('toggled');
-		var $layer = document.createElement('div');
-		$layer.setAttribute('class', 'close-layer');
-
-		this.sidebarVisible = false;
-		body.classList.remove('nav-open');
-		// $('html').removeClass('nav-open');
-		body.classList.remove('nav-open');
-		if ($layer) {
-				$layer.remove();
-		}
-
 		setTimeout(function() {
+			var $toggle = document.getElementsByClassName('navbar-toggler')[0];
+			const body = document.getElementsByTagName('body')[0];
+			if(this.toggleButton?.classList) {
+				this.toggleButton.classList.remove('toggled');
+			}
+			var $layer = document.createElement('div');
+			$layer.setAttribute('class', 'close-layer');
+
+			this.sidebarVisible = false;
+			body.classList.remove('nav-open');
+			// $('html').removeClass('nav-open');
+			body.classList.remove('nav-open');
+			if ($layer) {
+					$layer.remove();
+			}
 			$toggle.classList.remove('toggled');
 		}, 1602);
 
