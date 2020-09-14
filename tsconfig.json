@@ -16,7 +16,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-			"@version/*": ["local_scripts/version/*"], 
+			"@version/*": ["local_scripts/version/*"],
       "@cetecapp/*": ["apps/cetec/src/app/*"],
       "@cetecnavbar/*": ["apps/cetec/src/app/layouts/navbar/*"],
       "@cetecsidebar/*": ["apps/cetec/src/app/layouts/sidebar/*"],
@@ -28,6 +28,7 @@
       "@cetecenv/*": ["apps/cetec/src/environments/*"],
       "@cetecassets/*": ["apps/cetec/src/assets/*"],
       "@cjaapp/*": ["apps/conalepjalisco/src/app/*"],
+			"@cjacert/*": ["apps/conalepjalisco/src/app/cert/*"],
       "@cjanavbar/*": ["apps/conalepjalisco/src/app/layouts/navbar/*"],
       "@cjasidebar/*": ["apps/conalepjalisco/src/app/layouts/sidebar/*"],
       "@cjalanding/*": ["apps/conalepjalisco/src/app/landing/*"],

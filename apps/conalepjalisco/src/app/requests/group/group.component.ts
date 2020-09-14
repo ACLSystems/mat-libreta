@@ -6,11 +6,12 @@ import { CalendarOptions, EventInput } from '@fullcalendar/angular';
 import esLocale from '@fullcalendar/core/locales/es';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ExportAsConfig, ExportAsService } from 'ngx-export-as';
+import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 
 import { RequestService } from '../services/requests.service';
-import { CertService } from '../../cert/cert.service';
-import { Drawing } from '../../cert/cert.model';
+import { CertService } from '@cjacert/cert.service';
+import { Drawing } from '@cjacert/cert.model';
 import { UserCourseService } from '@mat-libreta/shared';
 
 import {
@@ -33,6 +34,13 @@ interface RubricBlock {
 interface Display {
 	view: string,
 	viewValue: string
+}
+
+interface BlockDate {
+	block: string,
+	section: number,
+	number: number,
+	title?: string
 }
 
 @Component({
@@ -121,8 +129,11 @@ export class GroupComponent implements OnInit {
 		begin: ['',[Validators.required]],
 		beginHour: [''],
 		end: ['',[Validators.required]],
-		endHour: ['']
+		endHour: [''],
+		block: ['',[Validators.required]],
+		blockDate: ['',[Validators.required]]
 	});
+	sections: BlockDate[] = [];
 
   constructor(
 		private router: Router,
@@ -175,15 +186,31 @@ export class GroupComponent implements OnInit {
 	get endHour() {
 		return this.eventForm.get('endHour');
 	}
+	get block() {
+		return this.eventForm.get('block');
+	}
+	get blockDate() {
+		return this.eventForm.get('blockDate');
+	}
 
   ngOnInit(): void {}
 
 	getGroup() {
 		this.loading = true;
+		this.sections = [];
 		this.requestService.getGroup(this.groupid).subscribe(data => {
 			this.group = Object.assign({},data);
 			this.commonService.displayLog('Group Data', this.group);
+			this.sections = this.group.rubric.filter(rub => !rub.number).map(rub => {
+				return {
+					section: rub.section,
+					block: rub.block,
+					title: rub.title
+				}
+			})
+			this.commonService.displayLog('Sections',this.sections);
 			this.getCalendarEvents([...this.group.dates]);
+			this.getBlockDatesEvents([...this.group.blockDates]);
 			this.getRubric()
 		}, error => {
 			console.log(error);
@@ -213,28 +240,146 @@ export class GroupComponent implements OnInit {
 		this.loading = false;
 	}
 
+	getBlockDatesEvents(events) {
+		const calendarEvents = events.map((event:any) => {
+			return {
+				title: `${event.section} - ${event.title}`,
+				start: this.datePipe.transform(event.date,'yyyy-MM-dd'),
+				end: this.datePipe.transform(event.date, 'yyyy-MM-dd'),
+				color: this.colorevents('block'),
+				textColor: this.textcolorevents('block'),
+				type: event.type,
+				allDay: true
+			}
+		});
+		this.calendarOptions.initialEvents = this.calendarEvents.concat(calendarEvents);
+		// this.commonService.displayLog('CalendarOptions',this.calendarOptions);
+		this.loading = false;
+	}
+
 	addCalendarEvent() {
+		if(!this.label.valid) {
+			this.label.markAsDirty();
+			this.label.markAsTouched();
+			Swal.fire({
+				type: 'warning',
+				text: 'Agrega la etiqueta del evento'
+			})
+			return;
+		}
+		if(!this.type.valid) {
+			this.type.markAsDirty();
+			this.type.markAsTouched();
+			Swal.fire({
+				type: 'warning',
+				text: 'Agrega el tipo de evento'
+			})
+			return;
+		}
+		if(!this.begin.valid) {
+			this.begin.markAsDirty();
+			this.begin.markAsTouched();
+			Swal.fire({
+				type: 'warning',
+				text: 'Agrega la fecha de inicio del evento'
+			})
+			return;
+		}
+		if(!this.end.valid) {
+			this.end.markAsDirty();
+			this.end.markAsTouched();
+			Swal.fire({
+				type: 'warning',
+				text: 'Agrega la fecha de fin del evento'
+			})
+			return;
+		}
 		this.loading = true;
+		this.commonService.displayLog(this.beginHour.value,this.endHour.value);
 		const event = {
 			title: this.label.value,
 			type: this.type.value,
-			begin: addHours(this.begin.value,this.beginHour.value),
+			start: addHours(this.begin.value,this.beginHour.value),
 			end: addHours(this.end.value,this.endHour.value)
 		}
 		this.calendarEvents.push(event);
-		setTimeout(() => {
-			this.loading = false;
-		}, 801);
 		this.commonService.displayLog('calendarEvents',this.calendarEvents);
 		const calendarSend = this.calendarEvents.map(event => {
 			return {
-				title: event.title,
+				label: event.title,
 				type: event.type,
 				beginDate: event.start,
-				endDate: event.start
+				endDate: event.end
 			};
 		});
 		this.commonService.displayLog('Calendario nuevo',calendarSend);
+		this.requestService.addDates(this.groupid,calendarSend).subscribe(() => {
+			// console.log(data);
+			setTimeout(() => {
+				this.getGroup();
+			}, 305);
+		}, error => {
+			Swal.fire({
+				type: 'error',
+				text: 'Ocurrió un error en el envío'
+			})
+			this.loading = false;
+			console.log(error);
+		});
+	}
+
+	addBlockDates() {
+		if(!this.block.valid) {
+			this.block.markAsDirty();
+			this.block.markAsTouched();
+			Swal.fire({
+				type: 'warning',
+				text: 'Agrega la sección a bloquear'
+			})
+			return;
+		}
+		if(!this.blockDate.valid) {
+			this.blockDate.markAsDirty();
+			this.blockDate.markAsTouched();
+			Swal.fire({
+				type: 'warning',
+				text: 'Agrega la fecha de la sección a bloquear'
+			})
+			return;
+		}
+		const blockDate = this.datePipe.transform(this.blockDate.value,'yyyy-MM-dd') + ' 05:00';
+		this.loading = true;
+		this.commonService.displayLog('Bloque',this.block.value);
+		this.commonService.displayLog('Fecha bloqueo',blockDate);
+		var blockDates = [...this.group.blockDates];
+		if(blockDates.length > 0) {
+			blockDates = blockDates.map(block => {
+				return {
+					block: block.block,
+					date: this.datePipe.transform(block.date,'yyyy-MM-dd') + ' 05:00'
+				}
+			})
+		}
+		blockDates.push({
+			block: this.block.value,
+			date: blockDate
+		});
+		this.commonService.displayLog('blockDates',blockDates);
+		this.requestService.addBlockDates(this.groupid,blockDates).subscribe(() => {
+			// console.log(data);
+			this.block.reset('');
+			this.blockDate.reset('');
+			setTimeout(() => {
+				this.getGroup();
+			}, 305);
+		}, error => {
+			Swal.fire({
+				type: 'error',
+				text: 'Ocurrió un error en el envío'
+			})
+			this.loading = false;
+			console.log(error);
+		})
 	}
 
 	changeTutor() {
@@ -594,6 +739,9 @@ export class GroupComponent implements OnInit {
 		if (type === 'certificate') {
 			return '#20B2AA';
 		}
+		if (type === 'block') {
+			return '#FF8C00'
+		}
 		return '#FFFFFF';
 	}
 
@@ -610,6 +758,9 @@ export class GroupComponent implements OnInit {
 		}
 		if (type === 'certificate') {
 			return '#FFFFFF';
+		}
+		if (type === 'block') {
+			return '#FFFFFF'
 		}
 		return '#000000';
 	}
@@ -668,9 +819,11 @@ function round(num:number, places?:number) {
 	}
 }
 
-function addHours(time: any, h:string = '0:0') {
+function addHours(time: any, h:string) {
+	const hs = h || '0:0';
+	console.log('addHours',hs);
 	const newTime = new Date(time);
-	const [hours,mins] = h.split(':');
+	const [hours,mins] = hs.split(':');
 	newTime.setTime(newTime.getTime() + (((+hours * 3600) + (+mins * 60)) * 1000));
-	return time;
+	return newTime;
 }

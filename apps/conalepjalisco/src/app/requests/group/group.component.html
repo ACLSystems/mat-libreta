@@ -323,8 +323,8 @@
 		</div>
 		<!-- Calendario -->
 		<div class="card">
-			<div class="card-header">
-				<div class="row" [formGroup]="eventForm">
+			<div class="card-header" [formGroup]="eventForm">
+				<div class="row">
 					<div class="col-2">
 						<mat-form-field>
 							<mat-label>
@@ -366,7 +366,7 @@
 							<mat-datepicker #pickerBegin>
 							</mat-datepicker>
 						</mat-form-field>
-						<mat-form-field>
+						<!-- <mat-form-field>
 							<mat-label>
 								Hora Inicio
 							</mat-label>
@@ -377,7 +377,7 @@
 								[format]="24"
 							>
 							<ngx-material-timepicker #horaInicio [minutesGap]="5" [enableKeyboardInput]="true"></ngx-material-timepicker>
-						</mat-form-field>
+						</mat-form-field> -->
 					</div>
 					<div class="col-2">
 						<mat-form-field>
@@ -395,7 +395,7 @@
 							<mat-datepicker #pickerEnd>
 							</mat-datepicker>
 						</mat-form-field>
-						<mat-form-field>
+						<!-- <mat-form-field>
 							<mat-label>
 								Hora Fin
 							</mat-label>
@@ -406,16 +406,56 @@
 								[format]="24"
 							>
 							<ngx-material-timepicker #horaFin  [minutesGap]="5" [enableKeyboardInput]="true"></ngx-material-timepicker>
-						</mat-form-field>
+						</mat-form-field> -->
 					</div>
-					<div class="col-2"></div>
-					<div class="col-2">
+					<div class="col">
 						<button
-							class="btn btn-sm btn-primary"
+							class="btn btn-sm btn-block btn-primary"
 							(click)="addCalendarEvent();"
 							>
 							<i class="fas fa-calendar-plus"></i>
 							Agregar Evento
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-4">
+						<mat-form-field>
+							<mat-label>
+								Sección a bloquear
+							</mat-label>
+							<mat-select
+								formControlName="block"
+								required
+							>
+								<mat-option [value]="block.block" *ngFor="let block of sections">{{block.section}} {{block.title}}</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+					<div class="col-4">
+						<mat-form-field>
+							<mat-label>
+									Fecha de liberación de bloqueo
+							</mat-label>
+							<input
+								matInput
+								formControlName="blockDate"
+								[matDatepicker]="pickerBlock"
+								required
+							>
+							<mat-datepicker-toggle matSuffix [for]="pickerBlock">
+							</mat-datepicker-toggle>
+							<mat-datepicker #pickerBlock>
+							</mat-datepicker>
+						</mat-form-field>
+					</div>
+					<div class="col-4">
+						<button
+							class="btn btn-sm btn-block btn-primary"
+							(click)="addBlockDates();"
+							>
+							<i class="fas fa-calendar-plus"></i>
+							Agregar Bloqueo
 						</button>
 					</div>
 				</div>

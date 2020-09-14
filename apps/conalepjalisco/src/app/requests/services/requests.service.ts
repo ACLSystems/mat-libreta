@@ -224,7 +224,7 @@ export class RequestService {
 				'Bearer ' + this.getToken()
 			)
 		};
-		const body = JSON.stringify({blockDates: datesArray});
+		const body = JSON.stringify({dates: datesArray});
 		const route = `${this.url}api/v1/group/${groupid}/adddates`;
 		return this.http.patch(route,body,httpOptions);
 	}
