@@ -95,6 +95,7 @@ export class LoginComponent implements OnInit {
 				this.sg['tokenVersion'] = environment.tokenVersion;
 				this.sg['tokenExp'] = data.exp;
 				let decodedToken = this.getDecodedAccessToken(this.token);
+				// console.log(decodedToken);
 				this.identity = {
 					identifier: decodedToken.sub,
 					companies: decodedToken.companies,
@@ -102,6 +103,9 @@ export class LoginComponent implements OnInit {
 					userid: decodedToken.userid,
 					roles: data.roles
 				};
+				// console.group('Identity');
+				// console.log(this.identity);
+				// console.groupEnd();
 				const portalVersion = +data.portalVersion;
 				const lsPortalVersion = +localStorage.getItem('wq.portalVersion') || portalVersion;
 				if(!localStorage.getItem('wq.portalVersion')) {

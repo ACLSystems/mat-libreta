@@ -4,7 +4,10 @@ export type Identity = {
 	identifier: String,
 	companies: {
 		isActive: Boolean,
-		company: Company
+		beginDate?: String|Date,
+		company: Company,
+		vacationHistory?: any[],
+		vacations: any
 	}[],
 	person?: Person,
 	userid: String,

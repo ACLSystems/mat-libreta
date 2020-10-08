@@ -38,8 +38,12 @@
 					[serviceid]=service.serviceid
 					*ngIf="service.code === 'SN002'">
 				</webquid-sn002>
+				<webquid-sn005
+					[serviceid]=service.serviceid
+					*ngIf="service.code === 'SN005'">
+				</webquid-sn005>
 				<webquid-generic
-					*ngIf="service.code !== 'SN001' && service.code !== 'SN002'"
+					*ngIf="service.code !== 'SN001' && service.code !== 'SN002' && service.code !== 'SN005'"
 					[service]="service"
 				>
 				</webquid-generic>
@@ -49,9 +53,7 @@
 				<webquid-sn004
 					*ngIf="service.code === 'SN004'">
 				</webquid-sn004>
-				<webquid-sn005
-					*ngIf="service.code === 'SN005'">
-				</webquid-sn005>
+
 				<webquid-sn006
 					*ngIf="service.code === 'SN006'">
 				</webquid-sn006>

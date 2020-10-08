@@ -246,6 +246,36 @@ export class UserService{
 		return null;
 	}
 
+	createVacations(data: any): Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			}
+			const route = `${this.url}api/v1/vacation`;
+			return this.http.post(route, data, httpOptions);
+		}
+		return null;
+	}
+
+	getMyDetails() : Observable<any>|null {
+		const token = this.getToken();
+		if(token) {
+			const httpOptions = {
+				headers: JSONHeaders.set(
+					'Authorization',
+					'Bearer ' + token
+				)
+			}
+			const route = `${this.url}api/v1/user`;
+			return this.http.get(route,httpOptions);
+		}
+		return null;
+	}
+
 	newPass(oldPass:string, newPass:string): Observable<any>| null {
 		const token = this.getToken();
 		if(token) {

@@ -1,167 +1,150 @@
-<div class="container">
- <div class="row">
-	 <div class="col-md-8 col-lg-10 mx-auto">
-		 <div class="card">
-			 <div class="card-header bg-success">
-				 <h3 class="card-title text-white">
-					 Roberto Jiménez
-				 </h3>
-			 </div>
-			 <div class="card-body">
-				 <div class="container">
-					 <div class="row">
-						 <div class="col">
-							 <div class="card bg-warning">
-								 <div class="card-body">
-									 <h4>Te restan <b>{{vacationDays}}</b> días de vacaciones en el 2020</h4>
-								 </div>
-							 </div>
-						 </div>
-					 </div>
-					 <div *ngIf="requestVacationFlag">
-						 <form [formGroup]="vacationForm">
-							 <div class="row">
-								 <div class="col-sm col-md-6">
-										 <mat-form-field>
-											 <mat-label>
-												 Elige la fecha de salida
-											 </mat-label>
-											 <input
-												 matInput
-												 [min]="today"
-												 [matDatepicker]="beginPicker"
-												 formControlName="beginDate"
-												 required
-											 >
-											 <mat-datepicker-toggle matSuffix [for]="beginPicker"></mat-datepicker-toggle>
-											 <mat-datepicker #beginPicker></mat-datepicker>
-										 </mat-form-field>
-										 <div
-										 class="text-danger"
-										 *ngIf="beginDate.touched && beginDate.hasError('required')">
-											 Fecha requerida
-										 </div>
-								 </div>
-								 <div class="col-sm col-md-6">
-										 <mat-form-field>
-											 <mat-label>
-												 Elige la fecha de regreso
-											 </mat-label>
-											 <input
-												 matInput
-												 [min]="today"
-												 [matDatepicker]="endPicker"
-												 formControlName="endDate"
-												 (dateInput)="calcReqDays();"
-												 (dateChange)="calcReqDays();"
-												 required
-											 >
-											 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-											 <mat-datepicker #endPicker></mat-datepicker>
-										 </mat-form-field>
-										 <div
-										 class="text-danger"
-										 *ngIf="endDate.touched && endDate.hasError('required')">
-											 Fecha requerida
-										 </div>
-								 </div>
-							 </div>
-							 <div
-								 class="row text-danger"
-								 *ngIf="endDate.errors?.eGTb"
-							 >
-								 <div class="col">
-									 La fecha de regreso debe ser mayor a la fecha de salida
-								 </div>
-							 </div>
-							 <div
-								 class="row"
-								 [ngClass]="{'bg-success': requestedDays <= vacationDays, 'bg-danger': requestedDays > vacationDays}"
-								 *ngIf="inputDates"
-							 >
-								 <div class="col text-white">
-									 {{requestedDays}} días seleccionados
-								 </div>
-							 </div>
-							 <div class="row">
-								 <div class="col">
-									 <mat-form-field>
-										 <mat-label>
-											 Notas para el aprobador
-										 </mat-label>
-										 <textarea
-											 matInput
-											 formControlName="description"
-											 required
-											 ></textarea>
-									 </mat-form-field>
-									 <div
-									 class="text-danger"
-									 *ngIf="description.touched && description.hasError('required')">
-										 Descripción requerida
-									 </div>
-								 </div>
-							 </div>
-						 </form>
-						 <button
-							 mat-raised-button
-							 class="btn btn-sm btn-success"
-							 (click)="sendRequest();"
-							 >
-							 Enviar Solicitud
-						 </button>
-					 </div>
-					 <div *ngIf="previousRequest">
-						 <button
-							 class="btn btn-sm btn-success"
-							 *ngIf="!checkStatusFlag"
-							 (click)="checkStatusButton();"
-							 >
-							 Revisar estado de solicitud {{requestId}}
-						 </button>
-						 <div class="container bg-light" *ngIf="checkStatusFlag">
-							 <div class="row">
-								 <div class="col">
-									 Estado de la solicitud: <b>{{ticketData.statusSpa}}</b><br />
-									 Estado de aprobación: <b>{{ticketData.approvalStatusSpa}}</b><br />
-									 Fecha de actualización: <b>{{ticketData.updatedSpa | date:'medium'}}</b><br />
-								 </div>
-							 </div>
-							 <!-- <div class="row" *ngFor="let conv of ticketData.conversations">
-								 <div class="col" *ngIf="!conv.private">
-									 Fecha: {{conv.created_at| date:'medium'}}<br />
-									 {{conv.body_text}}
-								 </div>
-							 </div> -->
-							 <ul class="timeline timeline-simple" *ngIf="ticketData.conversations && ticketData.conversations.length > 0">
-								 <li class="timeline-inverted" *ngFor="let conv of ticketData.conversations">
-									 <div class="timeline-badge success" *ngIf="!conv.private">
-										 <i class="fas fa-comment"></i>
-									 </div>
-									 <div class="timeline-panel bg-light" *ngIf="!conv.private">
-										 <div class="timeline-heading">
-											 <span class="badge badge-primary">{{conv.created_at| date:'medium'}}</span>
-										 </div>
-										 <div class="timeline-body">
-											 <div [innerHTML]="conv.body"></div>
-										 </div>
-									 </div>
-								 </li>
-							 </ul>
-						 </div>
-					 </div>
-				 </div>
-			 </div>
-			 <div class="card-footer">
-				 <button
-					 class="btn btn-sm btn-primary"
-					 *ngIf="!requestVacationFlag && !previousRequest"
-					 (click)="requestVacation();"
-					 >
-					 Solicitar vacaciones
-				 </button>
-			 </div>
-		 </div>
-	 </div>
+<div class="container-fluid">
+	<div class="card" *ngFor="let company of identity.companies">
+		<div class="card-header bg-light">
+			<div class="container">
+				<div class="row" *ngIf="company.vacations?.years && company.beginDate">
+					<div class="col">
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<b>Fecha de inicio de labores:</b>
+							</div>
+							<div class="col-sm col-md-3">
+								{{company.beginDate  | date:'mediumDate'}}
+							</div>
+							<div class="col-sm col-md-3">
+								<b>Antigüedad:</b>
+							</div>
+							<div class="col-sm col-md-3">
+								{{company.vacations.years}} años
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<b>Días de vacaciones:</b>
+							</div>
+							<div class="col">
+								{{company.vacations.days}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm col-md-3">
+								<b>Días ya tomados:</b>
+							</div>
+							<div class="col-sm col-md-3">
+								{{daysConsumed}}
+							</div>
+							<div class="col-sm col-md-3">
+								<b>Días restantes por tomar:</b>
+							</div>
+							<div class="col-sm col-md-3">
+								{{daysGranted}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<h5 *ngIf="company.vacationHistory && company.vacationHistory.length > 0">Historial de vacaciones</h5>
+			<table class="table" *ngIf="company.vacationHistory && company.vacationHistory.length > 0">
+				<tr>
+					<th>Desde</th>
+					<th>Hasta</th>
+					<th>Total de días</th>
+					<th>Autorizado</th>
+				</tr>
+				<tr *ngFor="let vacation of company.vacationHistory">
+					<td>{{vacation.beginDate | date:'mediumDate'}}</td>
+					<td>{{vacation.endDate | date:'mediumDate'}}</td>
+					<td>{{vacation.totalDays}}</td>
+					<td>{{vacation.approved}}</td>
+				</tr>
+			</table>
+			<div class="container bg-light" [formGroup]="vacationForm" *ngIf="canSubmit">
+				<h5>Solicitar vacaciones</h5>
+				<div class="row">
+					<div class="col-sm col-md-3">
+						<mat-form-field>
+							<mat-label>
+								Primer día de vacaciones
+							</mat-label>
+							<input
+								matInput
+								[matDatepicker]="beginPicker"
+								formControlName="beginDate"
+								required
+								(dateChange)="datesInput();"
+							>
+							<mat-datepicker-toggle matSuffix [for]="beginPicker">
+							</mat-datepicker-toggle>
+							<mat-datepicker #beginPicker>
+							</mat-datepicker>
+
+						</mat-form-field>
+					</div>
+					<div class="col-sm col-md-3">
+						<mat-form-field>
+							<mat-label>
+								Último día de vacaciones
+							</mat-label>
+							<input
+								matInput
+								[matDatepicker]="endPicker"
+								formControlName="endDate"
+								required
+								(dateChange)="datesInput();"
+							>
+							<mat-datepicker-toggle matSuffix [for]="endPicker">
+							</mat-datepicker-toggle>
+							<mat-datepicker #endPicker>
+							</mat-datepicker>
+							<mat-error
+								*ngIf="beginDate.hasError('eGTB')"
+							>
+								Debe ser fecha anterior al día de hoy
+							</mat-error>
+						</mat-form-field>
+					</div>
+					<div class="col">
+						<mat-form-field>
+							<mat-label>Justificación</mat-label>
+							<input
+								matInput
+								type="text"
+								id="description"
+								placeholder="Detalla la justificación de tus vacaciones"
+								required
+								formControlName="description"
+								>
+						</mat-form-field>
+					</div>
+				</div>
+				<!-- <div class="row">
+					<div class="col" *ngIf="daysToTake">
+						Diferencia en días: <b>{{daysToTake}}</b><br /><small class="text-danger">El número de días a tomar pueden ajustarse debido a los días de trabajo y asuetos definidos en el sistema.</small><br />
+						<small class="text-danger">La aplicación de los días de vacaciones está sujeta a la autorización de tus superiores.</small><br />
+					</div>
+				</div> -->
+				<div class="row">
+					<div class="col">
+						<button
+							class="btn btn-sm btn-primary"
+							[disabled]= "!canSubmit"
+							(click)="submit(company.company._id);"
+						>
+							Solicitar
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="container bg-warning" *ngIf="!canSubmit">
+				<h3>No tienes configurada tu fecha de inicio de labores y esta es necesaria para solicitar vacaciones. Genera un reporte en Servicios > Otros e indica esta problematica para resolverla.</h3>
+			</div>
+		</div>
+	</div>
+	<div class="card" *ngIf="identity.companies.length === 0">
+		<div class="card-body">
+			<h4 class="text-danger">No estás relacionado a ninguna empresa</h4>
+		</div>
 	</div>
 </div>
