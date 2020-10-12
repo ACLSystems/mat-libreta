@@ -1,0 +1,42 @@
+<div *ngIf="loading" class="text-center">
+	<app-loading-spinner></app-loading-spinner>
+</div>
+<div class="container-fluid" *ngIf="!loading">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="col">
+					<h3 class="card-title float-left"><small>Solicitud de</small> {{service.title}}<small *ngIf="identity && identity.person && identity.person.name"> para {{identity.person.name}}</small></h3>
+					<div
+						class="badge badge-pill badge-primary float-right align-middle pointme"
+						(click)="goBack();"
+						>
+						Regresar <i class="fas fa-concierge-bell"></i>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-auto float-left">
+					<p class="card-category">{{service.code}} - {{service.category}}</p>
+				</div>
+				<div class="col">
+					<p class="card-category float-right">{{service.description}}</p>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<webquid-sn005
+				[serviceid]=service.serviceid
+				*ngIf="service.code === 'SN005'">
+			</webquid-sn005>
+		</div>
+		<div class="card-footer">
+			<div
+				class="badge badge-pill badge-primary float-right align-middle pointme"
+				(click)="goBack();"
+				>
+				Regresar <i class="fas fa-concierge-bell"></i>
+			</div>
+		</div>
+	</div>
+</div>

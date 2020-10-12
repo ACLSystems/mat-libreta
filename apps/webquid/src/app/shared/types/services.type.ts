@@ -9,6 +9,7 @@ export type Service = {
 	iconColor?: string,
 	role?: string,
 	category?: string,
+	blank?: string,
 	companies: {
 		isActive: Boolean,
 		company: Company

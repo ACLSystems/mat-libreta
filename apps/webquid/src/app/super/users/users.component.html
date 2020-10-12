@@ -42,6 +42,26 @@
 						<td>{{user.name}} {{user.fatherName}} {{user.motherName}}</td>
 						<td>{{user.email}}</td>
 						<td>{{user.iniPass}}</td>
+						<td *ngIf="user.beginDate">
+							{{user.beginDate| date:'mediumDate'}}
+						</td>
+						<td *ngIf="!user.beginDate">
+						</td>
+						<td *ngIf="user.vacations.years">
+							{{user.vacations.years}}
+						</td>
+						<td *ngIf="!user.vacations.years"></td>
+						<td *ngIf="user.vacations.days">
+							{{user.vacations.days}}
+						</td>
+						<td *ngIf="!user.vacations.days"></td>
+						<td *ngIf="user.vacationHistory && user.vacationHistory.length > 0">
+							<div *ngFor="let vaca of user.vacationHistory">
+								{{vaca.beginDate| date:'mediumDate'}} a {{vaca.endDate| date:'mediumDate'}}<br />
+							</div>
+						</td>
+						<td *ngIf="!user.vacationHistory || user.vacationHistory.length === 0">
+						</td>
 					</tr>
 				</tbody>
 				<tfoot>

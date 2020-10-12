@@ -54,23 +54,19 @@ import { AccesoriesModule } from '@wqshared/accesories/accesories.module';
 //  Import Directivas
 
 // Import componentes
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app.routing.module';
+import { AppComponent } from '@wqapp/app.component';
+import { AppRoutingModule } from '@wqapp/app.routing.module';
 import { PagesComponent } from '@wqlayouts/pages.component';
 import { LandingComponent } from '@wqlayouts/landing.component';
 import { FooterComponent } from '@wqlayouts/footer/footer.component';
 import { LoggedComponent } from '@wqlayouts/logged.component';
+import { HelpComponent } from '@wqshared/help/help.component';
+import { ArticleComponent } from '@wqshared/article/article.component';
+import { BlankComponent } from '@wqlayouts/blank.component';
 // import { LoadingSpinnerComponent } from '@wqshared/spinners/loading.component';
 
+// import servicios
 import { EnumService } from '@wqshared/services/enum.service';
-
-// import {
-// 	UserService,
-// 	CommonService,
-// 	PublicService,
-// 	WindowService
-// } from '@mat-libreta/shared';
-
 import { UserService } from '@wqshared/services/user.service';
 import { CommonService } from '@wqshared/services/common.service';
 import { PublicService } from '@wqshared/services/public.service';
@@ -83,8 +79,7 @@ import {
 	RollbarService,
 	HttpErrorInterceptor
 } from '@wqshared/interceptors/error.interceptor';
-import { HelpComponent } from './shared/help/help.component';
-import { ArticleComponent } from './shared/article/article.component';
+
 
 @NgModule({
 	exports: [
@@ -120,7 +115,7 @@ import { ArticleComponent } from './shared/article/article.component';
     MatToolbarModule,
     MatTooltipModule
 	],
-	declarations: [HelpComponent, ArticleComponent]
+	declarations: []
 })
 export class MaterialModule {}
 
@@ -131,6 +126,9 @@ export class MaterialModule {}
 		FooterComponent,
 		LandingComponent,
 		LoggedComponent,
+		HelpComponent,
+		ArticleComponent,
+		BlankComponent
 		// LoadingSpinnerComponent
   ],
 	exports: [

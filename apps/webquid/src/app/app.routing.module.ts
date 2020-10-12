@@ -7,6 +7,7 @@ import { CustomPreloadingWithDelayStrategy } from '@wqshared/preloading/custompr
 import { PagesComponent } from '@wqlayouts/pages.component';
 import { LoggedComponent } from '@wqlayouts/logged.component';
 import { LandingComponent } from '@wqlayouts/landing.component';
+import { BlankComponent } from '@wqlayouts/blank.component';
 
 
 const routes: Routes = [
@@ -55,6 +56,21 @@ const routes: Routes = [
 				component: LoggedComponent,
 				canActivate: [AuthGuard],
 				loadChildren: () => import('./dashboard/dashboard.module').then(mod => mod.DashboardModule),
+				data: {
+					preload: true,
+					delay: true,
+					time: 2000
+				}
+			}
+		]
+	},{
+		path: '',
+		children: [
+			{
+				path: 'blank',
+				component: BlankComponent,
+				canActivate: [AuthGuard],
+				loadChildren: () => import('./blank-services/blank-services.module').then(mod => mod.BlankServicesModule),
 				data: {
 					preload: true,
 					delay: true,

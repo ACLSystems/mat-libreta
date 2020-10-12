@@ -38,10 +38,10 @@
 					[serviceid]=service.serviceid
 					*ngIf="service.code === 'SN002'">
 				</webquid-sn002>
-				<webquid-sn005
+				<!-- <webquid-sn005
 					[serviceid]=service.serviceid
 					*ngIf="service.code === 'SN005'">
-				</webquid-sn005>
+				</webquid-sn005> -->
 				<webquid-generic
 					*ngIf="service.code !== 'SN001' && service.code !== 'SN002' && service.code !== 'SN005'"
 					[service]="service"

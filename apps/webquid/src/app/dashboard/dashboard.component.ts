@@ -119,8 +119,13 @@ export class DashboardComponent implements OnInit {
 		}
 	}
 
-	goToService(serviceid: string) {
-		this.router.navigate(['/services',serviceid]);
+	goToService(serviceid: string, blank?: boolean) {
+		// console.log('Service ID: ',serviceid);
+		if(blank) {
+			this.router.navigate(['/blank',serviceid]);
+		} else {
+			this.router.navigate(['/services',serviceid]);
+		}
 	}
 
 	otherService() {

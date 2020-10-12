@@ -22,7 +22,6 @@ import { SN001AdminComponent } from './service/sn001-admin/sn001-admin.component
 import { Sn002Component } from './service/sn002/sn002.component';
 import { Sn003Component } from './service/sn003/sn003.component';
 import { Sn004Component } from './service/sn004/sn004.component';
-import { Sn005Component } from './service/sn005/sn005.component';
 import { Sn006Component } from './service/sn006/sn006.component';
 import { Sn007Component } from './service/sn007/sn007.component';
 import { Sn008Component } from './service/sn008/sn008.component';
@@ -39,7 +38,6 @@ import { OtherComponent } from './service/other/other.component';
 		Sn002Component,
 		Sn003Component,
 		Sn004Component,
-		Sn005Component,
 		Sn006Component,
 		Sn007Component,
 		Sn008Component,
