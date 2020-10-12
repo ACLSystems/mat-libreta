@@ -938,6 +938,129 @@
           }
         }
       }
+    },
+    "crm-acl": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/crm-acl",
+      "sourceRoot": "apps/crm-acl/src",
+      "prefix": "mat-libreta",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/crm-acl",
+            "index": "apps/crm-acl/src/index.html",
+            "main": "apps/crm-acl/src/main.ts",
+            "polyfills": "apps/crm-acl/src/polyfills.ts",
+            "tsConfig": "apps/crm-acl/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/crm-acl/src/favicon.ico",
+              "apps/crm-acl/src/assets"
+            ],
+            "styles": ["apps/crm-acl/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/crm-acl/src/environments/environment.ts",
+                  "with": "apps/crm-acl/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "crm-acl:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "crm-acl:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "crm-acl:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/crm-acl/tsconfig.app.json",
+              "apps/crm-acl/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/crm-acl/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/crm-acl/jest.config.js",
+            "tsConfig": "apps/crm-acl/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/crm-acl/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "crm-acl-e2e": {
+      "root": "apps/crm-acl-e2e",
+      "sourceRoot": "apps/crm-acl-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/crm-acl-e2e/cypress.json",
+            "tsConfig": "apps/crm-acl-e2e/tsconfig.e2e.json",
+            "devServerTarget": "crm-acl:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "crm-acl:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/crm-acl-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/crm-acl-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {

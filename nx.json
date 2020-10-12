@@ -54,6 +54,13 @@
     "acl-e2e": {
       "tags": [],
       "implicitDependencies": ["acl"]
+    },
+    "crm-acl": {
+      "tags": []
+    },
+    "crm-acl-e2e": {
+      "tags": [],
+      "implicitDependencies": ["crm-acl"]
     }
   },
   "tasksRunnerOptions": {

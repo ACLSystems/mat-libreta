@@ -62,7 +62,7 @@
       "@wqshared/*": ["apps/webquid/src/app/shared/*"],
       "@wqmd/*": ["apps/webquid/src/app/md/*"],
       "@wqenv/*": ["apps/webquid/src/environments/*"],
-      "@wqassets/*": ["apps/webquid/src/assets/*"],
+      "@wqassets/*": ["apps/webquid/src/assets/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
