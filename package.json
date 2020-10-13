@@ -92,6 +92,7 @@
     "ng2-nouislider": "^1.8.2",
     "ng2-simple-global": "^8.2.1",
     "ngx-avatar": "^3.7.0",
+    "ngx-bootstrap": "^6.1.0",
     "ngx-chips": "^2.1.0",
     "ngx-cookie-service": "^2.4.0",
     "ngx-device-detector": "^1.5.2",

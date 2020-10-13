@@ -112,7 +112,8 @@ import { EnvService } from '@cetecshared/services/setEnv.service';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule
-	]
+	],
+	imports: [BrowserAnimationsModule]
 })
 export class MaterialModule {}
 
