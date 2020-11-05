@@ -1,0 +1,79 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/#organization",
+      "name": "GB Advisors",
+      "url": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/",
+      "sameAs": [
+        "https://www.facebook.com/gbadvisors/",
+        "https://www.linkedin.com/company/gb-advisors-inc-",
+        "https://www.youtube.com/channel/UCCct05A8Zdmo5aSggXbuskw",
+        "https://twitter.com/gbadvisors"
+      ],
+      "logo": {
+        "@type": "ImageObject",
+        "@id": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/#logo",
+        "inLanguage": "es",
+        "url": "https://www.gb-advisors.com/wp-content/uploads/2020/06/gb-logo-.jpg",
+        "width": 335,
+        "height": 392,
+        "caption": "GB Advisors"
+      },
+      "image": {
+        "@id": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/#logo"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/#website",
+      "url": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/",
+      "name": "GB Advisors",
+      "description": "ITSM, Digital Security &amp; Compliance - Software and Services",
+      "publisher": {
+        "@id": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/#organization"
+      },
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      ],
+      "inLanguage": "es"
+    },
+    {
+      "@type": "ImageObject",
+      "@id": "https://www.gb-advisors.com/es/gestion-servicios-ti/freshservice-mesa-de-servicio-itil/#primaryimage",
+      "inLanguage": "es",
+      "url": "https://www.gb-advisors.com/wp-content/uploads/2020/04/freshservice-scaled.jpg",
+      "width": 2560,
+      "height": 2560
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.gb-advisors.com/es/gestion-servicios-ti/freshservice-mesa-de-servicio-itil/#webpage",
+      "url": "https://www.gb-advisors.com/es/gestion-servicios-ti/freshservice-mesa-de-servicio-itil/",
+      "name": "Freshservice Mesa de Servicio ITIL | GB Advisors",
+      "isPartOf": {
+        "@id": "https://www.gb-advisors.com/es/itsm-seguridad-digital-gestion-de-it-cumplimiento-help-desk-software/#website"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://www.gb-advisors.com/es/gestion-servicios-ti/freshservice-mesa-de-servicio-itil/#primaryimage"
+      },
+      "datePublished": "2020-02-05T16:34:30+00:00",
+      "dateModified": "2020-07-14T20:59:46+00:00",
+      "description": "FRESHSERVICE MESA DE SERVICIO ITIL Freshservice es una simple, pero poderos\u00edsima herramienta que no solo te permite automatizar sus tareas de TI, sino que",
+      "inLanguage": "es",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://www.gb-advisors.com/es/gestion-servicios-ti/freshservice-mesa-de-servicio-itil/"
+          ]
+        }
+      ]
+    }
+  ]
+}
