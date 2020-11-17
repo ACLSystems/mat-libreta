@@ -36,7 +36,12 @@
 		  function initFreshChat() {
 		    window.fcWidget.init({
 		      token: "735c6ad0-d880-4f5d-9be6-418b787b4741",
-		      host: "https://wchat.freshchat.com"
+		      host: "https://wchat.freshchat.com",
+					config: {
+						headerProperty: {
+							direction: 'ltr'
+						}
+					}
 		    });
 		  }
 		  function initialize(i,t) {
@@ -74,6 +79,18 @@
 		src="https://www.facebook.com/tr?id=433017874349652&ev=PageView&noscript=1"
 		/></noscript>
 		<!-- End Facebook Pixel Code -->
+		<!-- Snippet de landing Page para Freshservice -->
+		<script>
+		  window.addEventListener("message",function(r){if(location.origin!==r.origin){for(var i=["https://www.freshworks.com","https://freshdesk.com","https://freshservice.com"],t=!1,e=0;e<i.length;e++)if(r.origin.indexOf(i[e])>-1){t=!0;break}if(t&&r.data&&function(r){try{JSON.parse(r)}catch(r){return!1}return!0}(r.data)){var n=JSON.parse(r.data);n.signup_finished&&(window.location.href=n.url.trim())}}},!1);
+		</script>
+		<!-- Principio del widget de globo de Calendly -->
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
+<script type="text/javascript">Calendly.initBadgeWidget({ url: 'https://calendly.com/ventasacl', text: 'Pídenos una demostración', color: '#8700ff', textColor: '#ffffff', branding: false });</script>
+<!-- Final del widget de globo de Calendly -->
+<!-- Fresworks CRM-->
+<script> function createFcn(nm){(window.freshsales)[nm]=function(){(window.freshsales).push([nm].concat(Array.prototype.slice.call(arguments,0)))}; } (function(url,appToken,formCapture){window.freshsales=window.freshsales||[];if(window.freshsales.length==0){list='init identify trackPageView trackEvent set'.split(' ');for(var i=0;i<list.length;i++){var nm=list[i];createFcn(nm);}var t=document.createElement('script');t.async=1;t.src='https://assets.freshsales.io/assets/analytics.js';var ft=document.getElementsByTagName('script')[0];ft.parentNode.insertBefore(t,ft);freshsales.init('https://aclsystems.myfreshworks.com/crm/sales','598f7c81341b0ac3b287601feacb2a9901770c037b1edab5bf65bbce355e45d8',true);}})();</script>
+<!-- Fresworks CRM-->
 	</head>
 	<body>
 		<acl-root>
