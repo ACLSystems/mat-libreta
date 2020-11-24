@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 	private fragment: string;
 
 	constructor(
-		private router: Router,
+		public router: Router,
 		private route: ActivatedRoute
 	) {
 		this.router.events.subscribe(s => {

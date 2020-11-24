@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {
+	ActivatedRoute,
 	Router,
 	RouterEvent,
-	NavigationStart,
 	NavigationEnd
 } from '@angular/router';
 
@@ -16,14 +16,16 @@ declare let fbq:Function;
 })
 export class AppComponent {
   title = 'ACL Systems SA de CV';
+	params: any;
 
 	constructor(
-		private router: Router
+		private router: Router,
+		private activatedRoute: ActivatedRoute,
 	) {
-		const siteName = document.location.hostname;
-		if(siteName.includes('emprendedor')) {
-			this.router.navigate(['/empaudaz']);
-		}
+		this.activatedRoute.params.subscribe(params => {
+			this.params = params.hola;
+			console.log(this.params);
+		});
 		this.router.events.subscribe((event: RouterEvent) => {
 				if(event instanceof NavigationEnd) {
 					gtag('config','UA-76007400-1',{'page_path' : event.url});

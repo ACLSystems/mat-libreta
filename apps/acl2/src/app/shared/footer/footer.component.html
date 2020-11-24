@@ -1,66 +1,153 @@
-<section class="" style="background-size: cover; background-image: url('assets/img/piedepagina.png');">
+<section style="background-image: url('assets/img/piedepagina.png'); background-repeat: no-repeat; background-size: cover;">
 	<footer class="pt-5 pb-5">
 		<div class="container">
-			<div class="row align-items-top text-center text-md-left">
-				<div class="col-12 col-sm-6 col-md-4">
-					<h3><strong>Estado de México</strong></h3>
-					<p>Rio Coahuayana 12<br />
-						Cuautitlán Izcalli<br />
-					Estado de México</p>
-					<!-- <p>+44 800 400 0000</p>
-					<p>
-						<a href="#">ventas@aclsystems.mx</a>
-					</p> -->
+			<div class="row">
+				<div class="col-xs-6 col-sm-3">
+					<div class="row pb-2">
+						<div class="col">
+							<img src="assets/img/acl_logo2.png" alt="ACL Systems" height="36px"><img src="assets/img/acl_logo_name.png" height="36px" alt="ACL Systems">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-auto pr-0">
+							<img src="assets/img/maps_icon.png" alt="ACL Systems" height="27px">
+						</div>
+						<div class="col pl-0">
+							<address class="color-light-20" style="font-size: 12px;">
+								<b>Estado de México</b>
+								<br>Rio Coahuayana 12
+								<br>Cuautitlán Izcalli, México CP 54744
+							</address>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-auto pr-0">
+							<img src="assets/img/maps_icon.png" alt="ACL Systems" height="27px">
+						</div>
+						<div class="col pl-0">
+							<address class="color-light-20" style="font-size: 12px;">
+								<b>Guanajuato</b>
+								<br>Monte Argus 258
+								<br>León, Guanajuato CP 37550
+							</address>
+						</div>
+					</div>
+					<ul class="list-unstyled list-light">
+						<li>
+							<a [routerLink]="['/privacy']" style="font-size: 12px;">Aviso de Privacidad</a>
+						</li>
+					</ul>
 				</div>
-				<div class="col-12 col-sm-6 col-md-4 mt-4 mt-sm-0">
-					<h3><strong>Guanajuato</strong></h3>
-					<p>Monte Argus 258<br />
-						León<br />
-					Guanajuato
-				</p>
+				<div class="col-xs-6 col-sm-3">
+					<h4 class="my-2">Productos</h4>
+					<ul class="list-unstyled list-light" style="font-size: 12px;">
+						<li>
+							<a [routerLink]="['/soon']">Freshworks CRM</a>
+						</li>
+						<li>
+							<a [routerLink]="['/products','freshservice']">Freshservice</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Freshdesk</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Freshchat</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Freshcaller</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Freshteam</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Freshrelease</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Freddy AI</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Integraciones y Desarrollos</a>
+						</li>
+					</ul>
 				</div>
-				<div class="col-12 col-md-4 mt-5 mt-md-0 text-md-left">
-					<h3><strong>ACL Systems SA de CV</strong></h3>
-					<p>Desarrollamos e integramos sistemas en nube para que puedas digitalizar tu negocio a un bajo costo y de forma rápida. Contáctanos:</p>
-					<p class="text-h3"><a href="mailto:ventas@aclsystems.mx">ventas@aclsystems.mx</a></p>
-					<p class="text-h3">
-						<a href="#">
-							<span class="fa-stack fa-2x">
-							  <i class="fas fa-circle fa-stack-2x" style="color:#4AC959"></i>
-							  <i class="fab fa-whatsapp fa-stack-1x fa-inverse" style="color:#ffffff" aria-hidden="true"></i>
-							</span>
-						</a>
-						<a href="#">
-							<span class="fa-stack fa-2x">
-							  <i class="fas fa-circle fa-stack-2x" style="color:#FF0000"></i>
-							  <i class="fab fa-youtube fa-stack-1x fa-inverse" style="color:#ffffff" aria-hidden="true"></i>
-							</span>
-						</a>
-						<a href="#">
-							<span class="fa-stack fa-2x">
-							  <i class="fas fa-circle fa-stack-2x" style="color:#4267B2"></i>
-							  <i class="fab fa-facebook fa-stack-1x fa-inverse" style="color:#ffffff" aria-hidden="true"></i>
-							</span>
-						</a>
-						<a href="#">
-							<span class="fa-stack fa-2x">
-							  <i class="fas fa-circle fa-stack-2x" style="color:#E1306C"></i>
-							  <i class="fab fa-instagram fa-stack-1x fa-inverse" style="color:#ffffff" aria-hidden="true"></i>
-							</span>
-						</a>
-						<a href="#">
-							<span class="fa-stack fa-2x">
-							  <i class="fas fa-circle fa-stack-2x" style="color:#1DA1F2"></i>
-							  <i class="fab fa-twitter fa-stack-1x fa-inverse" style="color:#ffffff" aria-hidden="true"></i>
-							</span>
-						</a>
-
-					</p>
+				<br style="clear:both" class="hidden-sm-up">
+				<div class="col-xs-6 col-sm-3">
+					<h4 class="my-2">ACL Systems</h4>
+					<ul class="list-unstyled list-light" style="font-size: 12px;">
+						<li>
+							<a [routerLink]="['/nosotros']">Nosotros</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Blog</a>
+						</li>
+						<li>
+							<a href="https://aclsystems.freshteam.com/jobs">Empleos</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Noticias</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Eventos</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Contacto</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-xs-6 col-sm-3">
+					<h4 class="my-2">Contáctanos</h4>
+					<ul class="list-unstyled list-light" style="font-size: 12px;">
+						<li>
+							<a [routerLink]="['/soon']">Soporte</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Redes Sociales</a>
+						</li>
+						<li>
+							<a [routerLink]="['/soon']">Comunidad</a>
+						</li>
+					</ul>
+					<p class="color-light mt-2" style="font-size:12px;">Mantente al día</p>
+					<form>
+						<div class="form-group">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control form-control-sm" placeholder="Email" aria-label="Email" aria-describedby="basic-addon2">
+								<div class="input-group-append">
+									<button class="btn btn-primary btn-sm" type="button">Ok</button>
+								</div>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
-			<div class="row mt-5">
-				<div class="col text-center">
-					© {{year}} ACL Systems SA de CV. Derechos Reservados
+			<hr class="m-0">
+			<div class="row f-flex justify-content-between" style="justify-content: space-between;font-size:12px;">
+				<div class="col-md-7 text-xs-center  text-left text-secondary my-1">
+					<p class="mt-2 text-dark" style="font-size:14px;">ACL Systems SA de CV © 2020 • Todos los derechos reservados |
+						<a class=" " [routerLink]="['/privacy']">Aviso de privacidad</a> |
+						<a class=" " [routerLink]="['/soon']">Contacto</a>
+					</p>
+				</div>
+				<div class="col-md-5 text-xs-center   text-lg-right text-secondary my-1">
+					<div class="btn-container  mt-1 text-md-right text-sm-center">
+						<div class="mb-1 mr-3 align-self-right pt-0 d-inline-block">
+							<a href="https://wa.me/525587950609?text=Hola.%20Estoy%20viendo%20la%20p%C3%A1gina%20de%20ACL%20Systems%20y%20necesito%20informaci%C3%B3n" role="button" class="p-2 m-2" target="_blank">
+								<i class="fab fa-whatsapp fa-lg text-dark" aria-hidden="true"></i>
+							</a>
+							<a href="https://www.youtube.com/channel/UC8omy0P7bsmW_iCaHi2vTfw" role="button" class="p-2 m-2"  target="_blank">
+								<i class="fab fa-youtube fa-lg text-dark" aria-hidden="true"></i>
+							</a>
+							<a href="https://www.facebook.com/aclsystemsmx" role="button" class="p-2 m-2"  target="_blank">
+								<i class="fab fa-facebook fa-lg text-dark" aria-hidden="true"></i>
+							</a>
+							<a href="https://www.linkedin.com/company/acl-systems" role="button" class="p-2 m-2"  target="_blank">
+								<i class="fab fa-linkedin fa-lg text-dark" aria-hidden="true"></i>
+							</a>
+							<a href="https://twitter.com/aclsystemsmx" role="button" class="p-2 m-2">
+								<i class="fab fa-twitter fa-lg text-dark" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

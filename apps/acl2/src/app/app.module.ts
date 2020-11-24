@@ -3,26 +3,31 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app.routing.module';
+import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
+
+
 import { HomeComponent } from './pages/home/home.component';
 import { UsComponent } from './pages/us/us.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
-import { FooterComponent } from './shared/footer/footer.component';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
+import { SoonComponent } from './pages/soon/soon.component';
 
 @NgModule({
   declarations: [
 		AppComponent,
 		HomeComponent,
 		UsComponent,
-		NavbarComponent,
-		FooterComponent
+		PrivacyComponent,
+		SoonComponent
 	],
   imports: [
     BrowserModule,
 		AppRoutingModule,
-    RouterModule
+    RouterModule,
+		SharedModule
   ],
   providers: [],
+	exports: [],
   bootstrap: [
 		AppComponent
 	],
