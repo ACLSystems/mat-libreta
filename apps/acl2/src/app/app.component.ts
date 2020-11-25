@@ -22,7 +22,7 @@ export class AppComponent {
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
 	) {
-		this.activatedRoute.params.subscribe(params => {
+		this.activatedRoute.queryParams.subscribe(params => {
 			this.params = params.hola;
 			console.log(this.params);
 		});
