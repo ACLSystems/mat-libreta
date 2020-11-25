@@ -15,7 +15,7 @@ declare let fbq:Function;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'ACL Systems SA de CV';
+	title = 'ACL Systems SA de CV';
 	params: any;
 
 	constructor(
@@ -23,8 +23,12 @@ export class AppComponent {
 		private activatedRoute: ActivatedRoute,
 	) {
 		this.activatedRoute.queryParams.subscribe(params => {
-			this.params = params.hola;
-			console.log(this.params);
+			this.params = params;
+			const keys = Object.keys(this.params);
+			if(keys.length) {
+				console.group('Desde Query Params');
+				console.log(this.params);
+			}
 		});
 		this.router.events.subscribe((event: RouterEvent) => {
 				if(event instanceof NavigationEnd) {

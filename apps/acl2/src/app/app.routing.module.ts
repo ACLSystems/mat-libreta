@@ -27,6 +27,9 @@ const routes: Routes = [
 		path: 'products',
 		loadChildren: () => import('./products/products.module').then(mod => mod.ProductsModule)
 	},{
+		path: 'landing',
+		loadChildren: () => import('./landing/landing.module').then(mod => mod.LandingModule)
+	},{
 		path: '**',
 		redirectTo: '/home'
 	}

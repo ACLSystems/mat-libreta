@@ -4,11 +4,13 @@ import { RouterModule } from '@angular/router';
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { FreshworksComponent } from './freshworks/freshworks.component';
 
 @NgModule({
   declarations: [
 		NavbarComponent,
-		FooterComponent
+		FooterComponent,
+		FreshworksComponent
 	],
   imports: [
     CommonModule,
@@ -16,7 +18,8 @@ import { FooterComponent } from './footer/footer.component';
   ],
 	exports: [
 		NavbarComponent,
-		FooterComponent
+		FooterComponent,
+		FreshworksComponent
 	]
 })
 export class SharedModule { }
