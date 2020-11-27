@@ -8,6 +8,7 @@ import { FreshserviceComponent } from './freshservice/freshservice.component';
 import { FreshworksCRMComponent } from './freshworks-crm/freshworks-crm.component';
 import { FreshdeskComponent } from './freshdesk/freshdesk.component';
 import { FreshchatComponent } from './freshchat/freshchat.component';
+import { FreshcallerComponent } from './freshcaller/freshcaller.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { FreshchatComponent } from './freshchat/freshchat.component';
 		FreshserviceComponent,
 		FreshworksCRMComponent,
 		FreshdeskComponent,
-		FreshchatComponent
+		FreshchatComponent,
+		FreshcallerComponent
 	],
   imports: [
     CommonModule,
