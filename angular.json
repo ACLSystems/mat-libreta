@@ -21,7 +21,10 @@
             "polyfills": "apps/cetec/src/polyfills.ts",
             "tsConfig": "apps/cetec/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/cetec/src/favicon.ico", "apps/cetec/src/assets"],
+            "assets": [
+              "apps/cetec/src/favicon.ico",
+              "apps/cetec/src/assets"
+            ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
@@ -119,14 +122,20 @@
               "apps/cetec/tsconfig.app.json",
               "apps/cetec/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/cetec/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/cetec/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/cetec/jest.config.js",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
@@ -184,8 +193,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/cetec-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/cetec-e2e/**/*"]
+            "tsConfig": [
+              "apps/cetec-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/cetec-e2e/**/*"
+            ]
           }
         }
       }
@@ -308,7 +322,10 @@
               "apps/conalepjalisco/tsconfig.app.json",
               "apps/conalepjalisco/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/conalepjalisco/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/conalepjalisco/**/*"
+            ]
           }
         },
         "test": {
@@ -340,8 +357,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/conalepjalisco-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/conalepjalisco-e2e/**/*"]
+            "tsConfig": [
+              "apps/conalepjalisco-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/conalepjalisco-e2e/**/*"
+            ]
           }
         }
       }
@@ -366,7 +388,10 @@
             "polyfills": "apps/crm/src/polyfills.ts",
             "tsConfig": "apps/crm/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/crm/src/favicon.ico", "apps/crm/src/assets"],
+            "assets": [
+              "apps/crm/src/favicon.ico",
+              "apps/crm/src/assets"
+            ],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
               "node_modules/sweetalert2/src/sweetalert2.scss",
@@ -454,7 +479,10 @@
               "apps/crm/tsconfig.app.json",
               "apps/crm/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/crm/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/crm/**/*"
+            ]
           }
         },
         "test": {
@@ -486,8 +514,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/crm-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/crm-e2e/**/*"]
+            "tsConfig": [
+              "apps/crm-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/crm-e2e/**/*"
+            ]
           }
         }
       }
@@ -505,7 +538,10 @@
               "libs/shared/tsconfig.lib.json",
               "libs/shared/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/**/*"
+            ]
           }
         },
         "test": {
@@ -534,7 +570,10 @@
               "libs/calendar/tsconfig.lib.json",
               "libs/calendar/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/calendar/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/calendar/**/*"
+            ]
           }
         },
         "test": {
@@ -563,7 +602,10 @@
               "libs/dashboard/tsconfig.lib.json",
               "libs/dashboard/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/dashboard/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/dashboard/**/*"
+            ]
           }
         },
         "test": {
@@ -592,7 +634,10 @@
               "libs/user/tsconfig.lib.json",
               "libs/user/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/user/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/user/**/*"
+            ]
           }
         },
         "test": {
@@ -621,7 +666,10 @@
               "libs/exam/tsconfig.lib.json",
               "libs/exam/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/exam/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/exam/**/*"
+            ]
           }
         },
         "test": {
@@ -750,7 +798,10 @@
               "apps/webquid/tsconfig.app.json",
               "apps/webquid/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/webquid/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/webquid/**/*"
+            ]
           }
         },
         "test": {
@@ -782,8 +833,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/webquid-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/webquid-e2e/**/*"]
+            "tsConfig": [
+              "apps/webquid-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/webquid-e2e/**/*"
+            ]
           }
         }
       }
@@ -808,7 +864,10 @@
             "polyfills": "apps/acl/src/polyfills.ts",
             "tsConfig": "apps/acl/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/acl/src/favicon.ico", "apps/acl/src/assets"],
+            "assets": [
+              "apps/acl/src/favicon.ico",
+              "apps/acl/src/assets"
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "apps/acl/src/assets/fontawesome/css/fontawesome.min.css",
@@ -879,7 +938,10 @@
               "apps/acl/tsconfig.app.json",
               "apps/acl/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/acl/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/acl/**/*"
+            ]
           }
         },
         "test": {
@@ -912,8 +974,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/acl-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/acl-e2e/**/*"]
+            "tsConfig": [
+              "apps/acl-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/acl-e2e/**/*"
+            ]
           }
         }
       }
@@ -942,7 +1009,9 @@
               "apps/crm-acl/src/favicon.ico",
               "apps/crm-acl/src/assets"
             ],
-            "styles": ["apps/crm-acl/src/styles.scss"],
+            "styles": [
+              "apps/crm-acl/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -1000,7 +1069,10 @@
               "apps/crm-acl/tsconfig.app.json",
               "apps/crm-acl/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/crm-acl/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/crm-acl/**/*"
+            ]
           }
         },
         "test": {
@@ -1033,8 +1105,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/crm-acl-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/crm-acl-e2e/**/*"]
+            "tsConfig": [
+              "apps/crm-acl-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/crm-acl-e2e/**/*"
+            ]
           }
         }
       }
@@ -1059,8 +1136,13 @@
             "polyfills": "apps/acl2/src/polyfills.ts",
             "tsConfig": "apps/acl2/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/acl2/src/favicon.ico", "apps/acl2/src/assets"],
-            "styles": ["apps/acl2/src/styles.scss"],
+            "assets": [
+              "apps/acl2/src/favicon.ico",
+              "apps/acl2/src/assets"
+            ],
+            "styles": [
+              "apps/acl2/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -1119,7 +1201,10 @@
               "apps/acl2/tsconfig.spec.json",
               "apps/acl2/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/acl2/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/acl2/**/*"
+            ]
           }
         },
         "test": {
@@ -1152,15 +1237,21 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/acl2-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/acl2-e2e/**/*"]
+            "tsConfig": [
+              "apps/acl2-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/acl2-e2e/**/*"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/angular"
+    "defaultCollection": "@nrwl/angular",
+    "analytics": false
   },
   "schematics": {
     "@nrwl/angular:application": {

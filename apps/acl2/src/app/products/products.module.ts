@@ -5,11 +5,13 @@ import { SharedModule } from '../shared/shared.module';
 
 import { ProductsRoutingModule } from './product.routing.module';
 import { FreshserviceComponent } from './freshservice/freshservice.component';
+import { FreshworksCRMComponent } from './freshworks-crm/freshworks-crm.component';
 
 
 @NgModule({
   declarations: [
-		FreshserviceComponent
+		FreshserviceComponent,
+		FreshworksCRMComponent
 	],
   imports: [
     CommonModule,
