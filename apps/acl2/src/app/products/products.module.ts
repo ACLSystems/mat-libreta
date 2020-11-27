@@ -7,13 +7,15 @@ import { ProductsRoutingModule } from './product.routing.module';
 import { FreshserviceComponent } from './freshservice/freshservice.component';
 import { FreshworksCRMComponent } from './freshworks-crm/freshworks-crm.component';
 import { FreshdeskComponent } from './freshdesk/freshdesk.component';
+import { FreshchatComponent } from './freshchat/freshchat.component';
 
 
 @NgModule({
   declarations: [
 		FreshserviceComponent,
 		FreshworksCRMComponent,
-		FreshdeskComponent
+		FreshdeskComponent,
+		FreshchatComponent
 	],
   imports: [
     CommonModule,
