@@ -97,7 +97,7 @@ export class RecoverPassComponent implements OnInit {
 				}
 				if(data && data.user && data.user.email === username){
 					this.recoverPass.requestPassRecovery(username).subscribe(data => {
-						console.log(data);
+						this.commonService.displayLog('Usuario',data);
 						if(data && data.message && data.message === 'Email encontrado') {
 							Swal.hideLoading();
 							Swal.close();
@@ -109,7 +109,7 @@ export class RecoverPassComponent implements OnInit {
 							this.recoveryCode = true;
 							setTimeout(() => {
 								const input0 = document.getElementById('input-0');
-								console.log(input0);
+								// console.log(input0);
 								if(input0) input0.focus();
 							}, 261);
 						}
@@ -142,6 +142,7 @@ export class RecoverPassComponent implements OnInit {
 		}).subscribe(data => {
 			Swal.hideLoading();
 			Swal.close();
+			this.commonService.displayLog('Respuesta de recoverPass',data);
 			if(data.message && data.message.includes('no existe')) {
 				Swal.fire({
 					type: 'warning',
@@ -239,7 +240,7 @@ export class RecoverPassComponent implements OnInit {
 	}
 
 	addNumbers(event:any) {
-		console.log(event);
+		// console.log(event);
 		if(this.digitsCount === 6) {
 			this.resetFields();
 			return;
@@ -256,8 +257,8 @@ export class RecoverPassComponent implements OnInit {
 		const next = event.target.nextElementSibling;
 		this.code += event.key;
 		this.digitsCount ++;
-		console.log(this.code);
-		console.log(this.digitsCount);
+		// console.log(this.code);
+		// console.log(this.digitsCount);
 		if(this.digitsCount < 6 && next) {
 			next.focus()
 		}

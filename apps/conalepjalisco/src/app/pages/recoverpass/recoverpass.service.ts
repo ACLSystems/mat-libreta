@@ -20,7 +20,7 @@ export class RecoverPassService {
 			'Content-Type': 'application/json'
 		});
 		let body = {email};
-		const route: string = this.url + 'api/user/validateemail?email' + email;
+		const route: string = this.url + 'api/user/validateemail';
 		return this.http.post(route,body,{headers})
 	}
 }
