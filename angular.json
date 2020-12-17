@@ -210,6 +210,14 @@
             "polyfills": "apps/conalepjalisco/src/polyfills.ts",
             "tsConfig": "apps/conalepjalisco/tsconfig.app.json",
             "aot": true,
+						"allowedCommonJsDependencies": [
+							"html2pdf.js",
+							"html2canvas",
+							"xlsx",
+							"secure-random-password",
+							"jwt-decode",
+							"socket.io-client"
+						],
             "assets": [
               "apps/conalepjalisco/src/favicon.ico",
               "apps/conalepjalisco/src/assets"

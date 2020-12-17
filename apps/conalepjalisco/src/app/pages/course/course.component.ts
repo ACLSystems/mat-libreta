@@ -183,7 +183,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 	}
 
 	goGoogleForms() {
-		window.open('https://forms.gle/rto6dLUHCoV5gf2g6','_blank');
+		window.open(this.curso.request,'_blank');
 	}
 
 }
