@@ -95,6 +95,11 @@ export class CourseComponent implements OnInit, AfterViewInit {
 				});
 				this.router.navigate(['/pages/catalog']);
 			}
+			console.group('getCourse');
+			console.log(this.curso.type);
+			console.log(this.curso.request);
+			console.log(this.selfRegister);
+			console.groupEnd();
 		}, error => {
 			Swal.fire({
 				type: 'error',

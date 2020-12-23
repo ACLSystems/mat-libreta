@@ -216,7 +216,9 @@
 							"xlsx",
 							"secure-random-password",
 							"jwt-decode",
-							"socket.io-client"
+							"socket.io-client",
+							"jspdf",
+							"chartist"
 						],
             "assets": [
               "apps/conalepjalisco/src/favicon.ico",

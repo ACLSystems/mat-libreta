@@ -195,7 +195,7 @@
 							mat-raised-button
 							class="btn btn-rose float-right"
 							(click)="goGoogleForms();"
-							*ngIf="curso.request !== '' && selfRegister"
+							*ngIf="(curso.request && curso.request !== '') && selfRegister"
 							[disabled]="curso.hideEnroll"
 							>
 							Solicitar
@@ -204,7 +204,7 @@
 							mat-raised-button
 							class="btn btn-rose float-right"
 							(click)="goEnroll(curso._id, curso.title);"
-							*ngIf="curso.type !== 'tutor' && curso.request === '' && selfRegister"
+							*ngIf="curso.type !== 'tutor' && (!curso.request || curso.request === '') && selfRegister"
 							[disabled]="curso.hideEnroll"
 							>
 							Inscribirme
