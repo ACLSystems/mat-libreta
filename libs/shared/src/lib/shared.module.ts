@@ -7,12 +7,14 @@ import { PublicService } from './services/public.service';
 import { WindowService } from './services/windowSize.service';
 
 import { DateAgoPipe } from './pipes/dateago.pipe';
-import { SafePipe } from './pipes/video.pipe';
+import { VideoSafePipe } from './pipes/video.pipe';
+import { HtmlSafePipe } from './pipes/safeHtml.pipe';
 
 @NgModule({
 	declarations: [
 		DateAgoPipe,
-		SafePipe
+		HtmlSafePipe,
+		VideoSafePipe
 	],
   imports: [
 		CommonModule

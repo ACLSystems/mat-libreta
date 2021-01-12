@@ -4,7 +4,8 @@ export { AccesoriesModule } from './lib/accesories/accesories.module';
 
 // Export pipes
 
-export { SafePipe } from './lib/pipes/video.pipe';
+export { VideoSafePipe } from './lib/pipes/video.pipe';
+export { HtmlSafePipe } from './lib/pipes/safeHtml.pipe';
 export { DateAgoPipe } from './lib/pipes/dateago.pipe';
 export { FilterPipe } from './lib/pipes/filter.pipe';
 

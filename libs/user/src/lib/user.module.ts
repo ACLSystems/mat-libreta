@@ -13,7 +13,13 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 
 import { UserRoutingModule } from './user.routing.module';
-import { AccesoriesModule, SafePipe, DateAgoPipe, FilterPipe } from '@mat-libreta/shared';
+import {
+	AccesoriesModule,
+	VideoSafePipe,
+	HtmlSafePipe,
+	DateAgoPipe,
+	FilterPipe
+} from '@mat-libreta/shared';
 
 import { ExamModule } from '@mat-libreta/exam';
 
@@ -44,8 +50,9 @@ FullCalendarModule.registerPlugins([
 
 @NgModule({
 	declarations: [
-		SafePipe,
+		VideoSafePipe,
 		DateAgoPipe,
+		HtmlSafePipe,
 		FilterPipe,
 		CourseMainComponent,
 		BlockComponent,

@@ -74,7 +74,7 @@
 				class="video-container"
 				*ngIf="blockData.blockMedia.length > 0 && blockData.blockBegin">
 				<iframe
-					[src]="blockData.blockMedia | safe "
+					[src]="blockData.blockMedia | videoSafe "
 					frameborder="0"
 					allow="autoplay; encrypted-media"
 					width="853"
@@ -82,7 +82,7 @@
 					allowfullscreen
 					></iframe>
 			</div>
-			<div [innerHtml]="blockData.blockContent">
+			<div [innerHtml]="blockData.blockContent | htmlSafe " *ngIf="blockData.blockContent">
 			</div>
 			<div *ngIf="blockData.questionnarie">
 				<app-block-questionnarie
@@ -107,7 +107,7 @@
 				class="video-container"
 				*ngIf="blockData.blockMedia.length > 0 && !blockData.blockBegin">
 				<iframe
-					[src]="blockData.blockMedia | safe"
+					[src]="blockData.blockMedia | videoSafe"
 					frameborder="0"
 					allow="autoplay; encrypted-media"
 					width="853"
