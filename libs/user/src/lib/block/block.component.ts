@@ -33,7 +33,7 @@ export class BlockComponent implements OnInit {
 		private router: Router,
 		private userCourseService: UserCourseService,
 		private notElementService: NotElemService,
-		private CommonService: CommonService
+		private commonService: CommonService
 	) {
 		this.loading = true;
 		this.activatedRoute.params.subscribe(params => {
@@ -45,9 +45,9 @@ export class BlockComponent implements OnInit {
 
   ngOnInit() {
 		// console.log(this.rosterType);
-		this.CommonService.displayLog('rosterType', this.rosterType);
-		this.CommonService.displayLog('id', this.id);
-		this.CommonService.displayLog('blockid', this.blockid);
+		this.commonService.displayLog('rosterType', this.rosterType);
+		this.commonService.displayLog('id', this.id);
+		this.commonService.displayLog('blockid', this.blockid);
 		this.loading = true;
 		this.getNextBlock(this.rosterType,this.id,this.blockid);
   }
@@ -59,7 +59,7 @@ export class BlockComponent implements OnInit {
 		lastid?:string) {
 		this.userCourseService.getNextBlock(rosterType,id,blockid,lastid)
 		.subscribe(data => {
-			this.CommonService.displayLog('Data NextBlock', data);
+			this.commonService.displayLog('Data NextBlock', data);
 			if(data) {
 				if(typeof data.message === 'string') {
 					Swal.fire({

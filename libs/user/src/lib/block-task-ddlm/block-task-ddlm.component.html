@@ -1,0 +1,151 @@
+<!-- LM Left-Middle1 -->
+<!-- Pantallas Grandes -->
+<div class="d-none d-lg-block">
+	<div class="row">
+		<div class="col text-center p-0">
+			<div
+				class="example-lg-container">
+				<div
+					cdkDropList
+					#lgLeft="cdkDropList"
+					[cdkDropListData]="arrayLeft"
+					[cdkDropListConnectedTo]="[lgMiddle]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: bgLeftLg}"
+				>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayLeft"
+						[ngStyle]="{color: colorLeftLg}"
+						cdkDrag
+						>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center p-0">
+			<div class="example-lg-container">
+				<div
+					cdkDropList
+					#lgMiddle="cdkDropList"
+					[cdkDropListData]="arrayMiddle"
+					[cdkDropListConnectedTo]="[lgLeft]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: bgMiddleLg}"
+				>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayMiddle"
+						[ngStyle]="{color: colorMiddleLg}"
+						cdkDrag
+					>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Pantallas medianas -->
+<div class="d-none d-md-block d-lg-none">
+	<div class="row">
+		<div class="col text-center p-0">
+			<div
+				class="example-md-container">
+				<div
+					cdkDropList
+					#mdLeft="cdkDropList"
+					[cdkDropListData]="arrayLeft"
+					[cdkDropListConnectedTo]="[mdMiddle]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: bgLeftMd}"
+				>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayLeft"
+						[ngStyle]="{color: colorLeftMd}"
+						cdkDrag
+					>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col text-center p-0">
+			<div class="example-md-container">
+				<div
+					cdkDropList
+					#mdMiddle="cdkDropList"
+					[cdkDropListData]="arrayMiddle"
+					[cdkDropListConnectedTo]="[mdLeft]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: bgMiddleMd}"
+				>
+				<div
+					class="example-box"
+					*ngFor="let item of arrayMiddle"
+					[ngStyle]="{color: colorMiddleMd}"
+					cdkDrag
+				>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Pantallas pequeñas -->
+<div class="d-block d-md-none">
+	<div class="row">
+		<div class="col-12 text-center p-0 mb-3">
+			<div
+				class="example-sm-container">
+				<div
+					cdkDropList
+					#smLeft="cdkDropList"
+					[cdkDropListData]="arrayLeft"
+					[cdkDropListConnectedTo]="[smMiddle]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: bgLeftSm}"
+				>
+					<div
+						class="example-box"
+						*ngFor="let item of arrayLeft"
+						[ngStyle]="{color: colorLeftSm}"
+						cdkDrag
+					>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12 text-center p-0">
+			<div class="example-sm-container">
+				<div
+					cdkDropList
+					#smMiddle="cdkDropList"
+					[cdkDropListData]="arrayMiddle"
+					[cdkDropListConnectedTo]="[smLeft]"
+					class="example-list"
+					(cdkDropListDropped)="dropped($event);"
+					[ngStyle]="{background: bgMiddleSm}"
+				>
+				<div
+					class="example-box"
+					*ngFor="let item of arrayMiddle"
+					[ngStyle]="{color: colorMiddleSm}"
+					cdkDrag
+				>
+						{{item}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

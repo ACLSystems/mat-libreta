@@ -12,16 +12,9 @@ import {
 	Task,
 	// TaskEntry,
 	// NotElemService,
+	SendTask,
 	CommonService,
 } from '@mat-libreta/shared';
-
-interface SendTask {
-	content: string,
-	type: string,
-	id: string,
-	label: string,
-	text: string
-}
 
 @Component({
 	selector: 'mat-libreta-block-task-ddlmmr',
@@ -38,31 +31,31 @@ export class BlockTaskDdlmmrComponent implements OnInit {
 	arrayMiddle2: string[] = [];
 	arrayRight	: string[] = [];
 
-	bgLeftLg		: string;
-	bgMiddle1Lg	: string;
-	bgMiddle2Lg	: string;
-	bgRightLg		: string;
-	bgLeftMd		: string;
-	bgMiddle1Md	: string;
-	bgMiddle2Md	: string;
-	bgRightMd		: string;
-	bgLeftSm		: string;
-	bgMiddle1Sm	: string;
-	bgMiddle2Sm	: string;
-	bgRightSm		: string;
+	bgLeftLg		= '';
+	bgMiddle1Lg	= '';
+	bgMiddle2Lg	= '';
+	bgRightLg		= '';
+	bgLeftMd		= '';
+	bgMiddle1Md	= '';
+	bgMiddle2Md	= '';
+	bgRightMd		= '';
+	bgLeftSm		= '';
+	bgMiddle1Sm	= '';
+	bgMiddle2Sm	= '';
+	bgRightSm		= '';
 
-	colorLeftLg		: string;
-	colorMiddle1Lg: string;
-	colorMiddle2Lg: string;
-	colorRightLg	: string;
-	colorLeftMd		: string;
-	colorMiddle1Md: string;
-	colorMiddle2Md: string;
-	colorRightMd	: string;
-	colorLeftSm		: string;
-	colorMiddle1Sm: string;
-	colorMiddle2Sm: string;
-	colorRightSm	: string;
+	colorLeftLg		= '';
+	colorMiddle1Lg= '';
+	colorMiddle2Lg= '';
+	colorRightLg	= '';
+	colorLeftMd		= '';
+	colorMiddle1Md= '';
+	colorMiddle2Md= '';
+	colorRightMd	= '';
+	colorLeftSm		= '';
+	colorMiddle1Sm= '';
+	colorMiddle2Sm= '';
+	colorRightSm	= '';
 
 	constructor(
 		private commonService: CommonService
@@ -71,43 +64,60 @@ export class BlockTaskDdlmmrComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.commonService.displayLog('tarea dlmmr', this.task);
+		this.commonService.displayLog('tarea ddlmmr', this.task);
 		this.setFields();
 	}
 
 	setFields() {
+		if(this.task.array1 && this.task.array1.length > 0)
 		this.arrayMiddle1 = [...this.task.array1];
+		if(this.task.array2 && this.task.array2.length > 0)
 		this.arrayMiddle2 = [...this.task.array2];
-		this.bgLeftLg			= this.task.style.bgLg.left;
-		this.bgMiddle1Lg	= this.task.style.bgLg.middle1;
-		this.bgMiddle2Lg	= this.task.style.bgLg.middle2;
-		this.bgRightLg		= this.task.style.bgLg.right;
-		this.bgLeftMd			= this.task.style.bgMd?.left		|| this.bgLeftLg;
-		this.bgMiddle1Md	= this.task.style.bgMd?.middle1	|| this.bgMiddle1Lg;
-		this.bgMiddle2Md	= this.task.style.bgMd?.middle2	|| this.bgMiddle2Lg;
-		this.bgRightMd		= this.task.style.bgMd?.right		|| this.bgRightLg;
-		this.bgLeftSm			= this.task.style.bgSm?.left		|| this.bgLeftLg;
-		this.bgMiddle1Sm	= this.task.style.bgSm?.middle1	|| this.bgMiddle1Lg;
-		this.bgMiddle2Sm	= this.task.style.bgSm?.middle2	|| this.bgMiddle2Lg;
-		this.bgRightSm		= this.task.style.bgSm?.right		|| this.bgRightLg;
-		this.colorLeftLg	= this.task.style.colorLg.left;
-		this.colorMiddle1Lg = this.task.style.colorLg.middle1;
-		this.colorMiddle2Lg = this.task.style.colorLg.middle2;
-		this.colorRightLg	= this.task.style.colorLg.right;
-		this.colorLeftMd	= this.task.style.colorMd?.left || this.colorLeftLg;
-		this.colorMiddle1Md = this.task.style.colorMd?.middle1 || this.colorMiddle1Lg;
-		this.colorMiddle2Md = this.task.style.colorMd?.middle2 || this.colorMiddle2Lg;
-		this.colorRightMd	= this.task.style.colorMd?.right || this.colorRightLg;
-		this.colorLeftSm	= this.task.style.colorSm?.left || this.colorLeftLg;
-		this.colorMiddle1Sm = this.task.style.colorSm?.middle1 || this.colorMiddle1Lg;
-		this.colorMiddle2Sm = this.task.style.colorSm?.middle2 || this.colorMiddle2Lg;
-		this.colorRightSm	= this.task.style.colorSm?.right || this.colorRightLg;
+		const style = this.task.style;
+		if(style) {
+			this.bgLeftLg			= style.bgLg?.left;
+			this.bgMiddle1Lg	= style.bgLg?.middle1;
+			this.bgMiddle2Lg	= style.bgLg?.middle2;
+			this.bgRightLg		= style.bgLg?.right;
+			this.bgLeftMd			= style.bgMd?.left		|| this.bgLeftLg;
+			this.bgMiddle1Md	= style.bgMd?.middle1	|| this.bgMiddle1Lg;
+			this.bgMiddle2Md	= style.bgMd?.middle2	|| this.bgMiddle2Lg;
+			this.bgRightMd		= style.bgMd?.right		|| this.bgRightLg;
+			this.bgLeftSm			= style.bgSm?.left		|| this.bgLeftLg;
+			this.bgMiddle1Sm	= style.bgSm?.middle1	|| this.bgMiddle1Lg;
+			this.bgMiddle2Sm	= style.bgSm?.middle2	|| this.bgMiddle2Lg;
+			this.bgRightSm		= style.bgSm?.right		|| this.bgRightLg;
+			this.colorLeftLg	= style.colorLg?.left;
+			this.colorMiddle1Lg = style.colorLg?.middle1;
+			this.colorMiddle2Lg = style.colorLg?.middle2;
+			this.colorRightLg	= style.colorLg?.right;
+			this.colorLeftMd	= style.colorMd?.left || this.colorLeftLg;
+			this.colorMiddle1Md = style.colorMd?.middle1 || this.colorMiddle1Lg;
+			this.colorMiddle2Md = style.colorMd?.middle2 || this.colorMiddle2Lg;
+			this.colorRightMd	= style.colorMd?.right || this.colorRightLg;
+			this.colorLeftSm	= style.colorSm?.left || this.colorLeftLg;
+			this.colorMiddle1Sm = style.colorSm?.middle1 || this.colorMiddle1Lg;
+			this.colorMiddle2Sm = style.colorSm?.middle2 || this.colorMiddle2Lg;
+			this.colorRightSm	= style.colorSm?.right || this.colorRightLg;
+		}
 	}
 
 	dropped(event: CdkDragDrop<string[]>) {
 		if (event.previousContainer === event.container) {
-			moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+			moveItemInArray(
+				event.container.data,
+				event.previousIndex,
+				event.currentIndex
+			);
 		} else {
+			if(this.task.dd === 'one' && event.container.data.length > 0) {
+				transferArrayItem(
+					event.container.data,
+					event.previousContainer.data,
+					0,
+					event.previousIndex + 1
+				);
+			}
 			transferArrayItem(
 				event.previousContainer.data,
 				event.container.data,

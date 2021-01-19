@@ -39,6 +39,7 @@ import { AnnouncementComponent } from './announcement/announcement.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { BlockTaskDdlmrComponent } from './block-task-ddlmr/block-task-ddlmr.component';
 import { BlockTaskDdlmmrComponent } from './block-task-ddlmmr/block-task-ddlmmr.component';
+import { BlockTaskDdlmComponent } from './block-task-ddlm/block-task-ddlm.component';
 
 registerLocaleData(localeMX);
 
@@ -69,7 +70,8 @@ FullCalendarModule.registerPlugins([
 		AnnouncementComponent,
 		CalendarComponent,
 		BlockTaskDdlmrComponent,
-		BlockTaskDdlmmrComponent
+		BlockTaskDdlmmrComponent,
+		BlockTaskDdlmComponent
 	],
   imports: [
 		CommonModule,

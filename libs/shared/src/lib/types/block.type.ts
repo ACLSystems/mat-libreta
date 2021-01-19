@@ -80,6 +80,22 @@ export interface Questionnarie {
 	}
 }
 
+export interface Sides {
+	left?: string;
+	middle1?: string;
+	middle2?: string;
+	right?: string;
+}
+
+export interface Style {
+	bgSm?: Sides;
+	bgMd?: Sides;
+	bgLg: Sides;
+	colorLg?: Sides;
+	colorMd?: Sides;
+	colorSm?: Sides;
+}
+
 export interface Task {
 	header?: string,
 	footer?: string,
@@ -87,11 +103,12 @@ export interface Task {
 	label?: string,
 	content: string,
 	text?: string,
-	type: string,
+	type: string, //'textarea'|'text'|'file'|'ddlmr'|'ddlmmr'|'ddlm',
 	files?: string[],
 	array1?: string[],
 	array2?: string[],
-	style?: any,
+	style?: Style,
+	dd?: string,
 	w?: number
 }
 
@@ -101,6 +118,14 @@ export interface TaskEntry {
 	blockid: string,
 	task: Task[],
 	force?: boolean
+}
+
+export interface SendTask {
+	content: string,
+	type: string,
+	id: string,
+	label?: string,
+	text?: string
 }
 
 export interface Block {

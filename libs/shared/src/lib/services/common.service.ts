@@ -110,4 +110,14 @@ export class CommonService {
 		console.groupEnd();
 	}
 
+	isLandscape(): boolean {
+		if(window.matchMedia('(orientation: landscape)').matches) return true;
+		return false;
+	}
+
+	isPortrait(): boolean {
+		if(window.matchMedia('(orientation: portrait)').matches) return true;
+		return false;
+	}
+
  }

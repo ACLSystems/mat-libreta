@@ -107,6 +107,14 @@
 				>
 				</mat-libreta-block-task-ddlmmr>
 			</div>
+			<div class="container-fluid" *ngIf="task.type === 'ddlm'">
+				<mat-libreta-block-task-ddlm
+				[task]="task"
+				(sendTask)="receiveTask($event);"
+				>
+
+				</mat-libreta-block-task-ddlm>
+			</div>
 		</div>
 	</div>
 	<button
