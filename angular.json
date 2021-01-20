@@ -49,11 +49,8 @@
               "node_modules/datatables/media/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/jqvmap/dist/jquery.vmap.min.js",
-              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
             ]
           },
@@ -152,11 +149,8 @@
               "node_modules/datatables/media/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/jqvmap/dist/jquery.vmap.min.js",
-              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
             ]
           }
@@ -248,11 +242,8 @@
               "node_modules/datatables/media/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/jqvmap/dist/jquery.vmap.min.js",
-              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
             ]
           },
@@ -401,11 +392,8 @@
               "node_modules/datatables/media/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/jqvmap/dist/jquery.vmap.min.js",
-              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
             ]
           },
@@ -697,11 +685,8 @@
               "node_modules/datatables/media/js/jquery.dataTables.js",
               "node_modules/datatables.net-bs4/js/dataTables.bootstrap4.js",
               "node_modules/datatables.net-responsive/js/dataTables.responsive.js",
-              "node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
-              "node_modules/jqvmap/dist/jquery.vmap.min.js",
-              "node_modules/jqvmap/dist/maps/jquery.vmap.world.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
             ]
           },
