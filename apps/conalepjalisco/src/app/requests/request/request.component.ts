@@ -599,16 +599,30 @@ function getLastNumber(arr:any) {
 }
 
 function getLast(arr:any, index:number) {
+	// console.log(arr);
+	// console.log(index);
 	let [last] = arr.slice(index);
 	// console.log(last);
 	if(!last) return 0;
-	if(isNaN(last)){
+	if(isNaN(last) && isValidIndex(arr,index-1)){
 		getLast(arr,index-1);
+	}
+	if(isNaN(last)) {
+		last = 0;
 	}
 	last = +last;
 	last ++;
 	last = last + '';
 	return last.padStart(3,'0');
+}
+
+function isValidIndex(arr:any, index:number) {
+	if(!Array.isArray(arr)) return false;
+	if(typeof index !== 'number') return false;
+	const length = arr.length;
+	const absolutIndex = Math.abs(index);
+	if(absolutIndex > length) return false;
+	return true;
 }
 
 function addDays(date:Date = new Date(), days:number = 0){
