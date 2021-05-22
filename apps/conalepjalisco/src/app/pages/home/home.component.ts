@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener, AfterViewInit } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
+// import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { SimpleGlobal } from 'ng2-simple-global';
 
@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	*/
 	constructor(
 		private _router:Router,
-		private Meta:Meta,
+		// private Meta:Meta,
 		private pagesService:PagesService,
 		private userService: UserService,
 		private commonService: CommonService,
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 		this.loading = true;
 		this.pagesService.getCoursesOrg().subscribe(data =>{
 			this.cursos = [...data];
-			this.commonService.displayLog('Home Page Courses',this.cursos);
+			this.commonService.displayLog('Cursos del home',this.cursos);
 			this.loading = false;
 			this.curso = this.cursos[this.index];
 			this.traeTemario(this.curso._id);
@@ -103,7 +103,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 	traeTemario(id:string) {
 		this.loading = true;
 		this.pagesService.showBlocks(id).subscribe(data => {
-			console.log(data);
+			// console.log(data);
+			this.commonService.displayLog('Temario del primer curso de la lista',data);
 			this.blocks = [...data];
 			this.loading = false;
 		});
@@ -111,6 +112,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 	@HostListener('window:scroll', ['$event'])
 	scrollHandler(event?:any) {
+		this.commonService.displayLog('Evento scroll',event);
 		let pos = document.documentElement.scrollTop;
 		let $navbar = document.getElementsByClassName('navbar')[0];
 		if(pos > 100){

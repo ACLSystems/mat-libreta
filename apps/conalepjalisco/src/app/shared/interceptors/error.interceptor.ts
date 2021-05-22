@@ -4,6 +4,9 @@ import {
 	InjectionToken
 } from '@angular/core';
 import {
+	Router
+} from '@angular/router';
+import {
 	HttpEvent,
 	HttpInterceptor,
 	HttpHandler,
@@ -34,7 +37,8 @@ export const RollbarService = new InjectionToken<Rollbar>('rollbar');
 export class HttpErrorInterceptor implements HttpInterceptor {
 
 	constructor(
-		private injector: Injector
+		private injector: Injector,
+		private router: Router
 	) {}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -58,6 +62,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 						console.log(error);
 						console.groupEnd();
 						if(error.status > 399 && error.status < 500) {
+							if(error.status === 401) {
+								console.log('Ve a login!');
+								this.router.navigate(['/pages/login'],{queryParams:{error:'401'}});
+							}
 							sendError = false;
 						}
 						console.log('Status', error.status);

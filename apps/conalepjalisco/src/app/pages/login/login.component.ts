@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as jwt_decode from 'jwt-decode';
 import { SimpleGlobal } from 'ng2-simple-global';
@@ -45,8 +45,12 @@ export class LoginComponent implements OnInit {
 		]]
 	});
 	mooc: boolean = false;
+	errors = {
+		auth: false
+	}
 
 	constructor(
+		private activatedRoute: ActivatedRoute,
 		private router: Router,
 		private userService: UserService,
 		private publicService: PublicService,
@@ -57,6 +61,12 @@ export class LoginComponent implements OnInit {
 	) {
 		const instance = this.sg['instance'];
 		if(instance?.platform.type === 'mooc') this.mooc = true;
+		this.activatedRoute.queryParams.subscribe(params => {
+			console.log('Login... viene de error',params['error']);
+			if(params['error'] && params['error'] === '401') {
+				this.errors.auth = true;
+			}
+		})
 	}
 
 	get username() {
@@ -68,15 +78,23 @@ export class LoginComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.token = this.userService.getToken();
-		this.identity = this.userService.getidentity();
-		if(!this.token || !this.identity) {
+		if(this.errors.auth) {
 			this.userService.destroySession();
 			this.envService.setEnvironment();
+			this.errors.auth = false;
+		} else {
+			this.token = this.userService.getToken();
+			this.identity = this.userService.getidentity();
+			if(!this.token || !this.identity) {
+				this.userService.destroySession();
+				this.envService.setEnvironment();
+			}
+			if(this.token && this.identity) {
+				this.router.navigate(['/dashboard']);
+			}
 		}
-		if(this.token && this.identity) {
-			this.router.navigate(['/dashboard']);
-		}
+
+
 		// const card = document.getElementsByClassName('card')[0];
 		// setTimeout(function() {
 		// 		// after 1000 ms we add the class animated to the login/register card

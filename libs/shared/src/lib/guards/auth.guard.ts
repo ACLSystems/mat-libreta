@@ -31,6 +31,9 @@ export class AuthGuard implements CanActivate {
 				const now = new Date();
 				exp.setMilliseconds(tokenDecoded.exp);
 				var diffDays = Math.round(Math.abs((exp.getTime() - now.getTime())/oneDay));
+				console.log('Exp',exp);
+				console.log('Now',now);
+				console.log('Diffdays',diffDays);
 				if(diffDays > minDays) {
 					return true;
 				} else {
