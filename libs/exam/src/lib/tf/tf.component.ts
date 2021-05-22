@@ -1,6 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {
+	Component,
+	Input,
+	OnChanges,
+	OnInit
+} from '@angular/core';
 
-import { Question, Result, Response } from '@mat-libreta/shared';
+import {
+	Question,
+	Result,
+	Response
+} from '@mat-libreta/shared';
 
 import { QuestionService } from '@mat-libreta/shared';
 
@@ -9,7 +18,7 @@ import { QuestionService } from '@mat-libreta/shared';
 	templateUrl: './tf.component.html',
 	styleUrls: ['./tf.component.scss']
 })
-export class TfComponent implements OnInit {
+export class TfComponent implements OnInit, OnChanges {
 
 	@Input() selectedValue: string;
 	@Input() questionNumber: number;
@@ -19,21 +28,15 @@ export class TfComponent implements OnInit {
 
 	constructor(
 		private questionService: QuestionService
-	) { }
+	) {}
 
 	ngOnInit() {
-		let question = this.question;
-		this.results[0] = {
-			answer: (question.answers[0].tf === "true")? true : false,
-			answerString: question.answers[0].tf,
-			response: false,
-			responseString: 'false',
-			type: question.type,
-			index: 0,
-			indexquestion: this.questionNumber,
-			result: false,
-			points: question.w * 0
-		}
+		// console.group('Question type TF - Init');
+		// console.log('Question number: ',this.questionNumber);
+		// console.log(this.question);
+		// console.log('Selected value: ',this.selectedValue);
+		// console.groupEnd();
+		this.results[0] = this.setQuestion();
 		this.response = {
 			indexquestion: this.question.id,
 			result: this.results
@@ -41,6 +44,16 @@ export class TfComponent implements OnInit {
 		setTimeout(() => {
 			this.questionService.sendResponse(this.response);
 		}, 300);
+	}
+
+	ngOnChanges() {
+		// console.group('Question type TF - OnChange');
+		// console.log('Question number: ',this.questionNumber);
+		// console.log(this.question);
+		// console.log('Selected value: ',this.selectedValue);
+		// console.groupEnd();
+		this.selectedValue = '';
+		this.getUserResponse();
 	}
 
 	getUserResponse() {
@@ -55,31 +68,41 @@ export class TfComponent implements OnInit {
 		// console.log(this.question)
 		// console.log(this.selectedValue);
 		// console.log(typeof this.selectedValue)
-		let question = this.question;
-		let selectedOption: boolean = false;
-		if(question.answers.length === 1) {
-			if(this.selectedValue === question.answers[0].tf){
-				selectedOption = true;
-			}
-		}
-
-		this.results[0] = {
-			answer: (question.answers[0].tf === "true")? true : false,
-			answerString: question.answers[0].tf,
-			response: (this.selectedValue === "true" && this.selectedValue) ? true : false,
-			responseString: this.selectedValue + '',
-			type: question.type,
-			index: 0,
-			indexquestion: this.questionNumber,
-			result: selectedOption,
-			points: selectedOption ? question.w : 0
-		}
-
+		this.results[0] = this.setQuestion();
 		this.response = {
-			indexquestion: question.id,
+			indexquestion: this.question.id,
 			result: this.results
 		}
 		this.questionService.sendResponse(this.response);
+	}
+
+	setQuestion() {
+		let selectedOption: boolean = false;
+		let question = this.question;
+		let questionNumber = this.questionNumber;
+		let selectedValue = this.selectedValue || '';
+		if(question.answers.length === 1) {
+			const valueAnswer = question.answers[0].tf;
+			if(this.selectedValue === valueAnswer){
+				selectedOption = true;
+			}
+			if(!this.selectedValue && valueAnswer !== 'true') {
+				selectedOption = true;
+			}
+		}
+		const result = {
+			answer: (question.answers[0].tf === "true")? true : false,
+			answerString: question.answers[0].tf,
+			response: (selectedValue === "true") ? true : false,
+			responseString: (selectedValue === "true") ? "true" : "false",
+			type: question.type,
+			index: 0,
+			indexquestion: questionNumber,
+			result: selectedOption,
+			points: selectedOption ? question.w : 0
+		};
+		// console.log('Result: ',result);
+		return result;
 	}
 
 }

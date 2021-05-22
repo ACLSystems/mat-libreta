@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
@@ -180,6 +180,7 @@ export class ExamComponent implements OnInit {
 
 	calculatePoints(response: Response) {
 		var processedResponse = response;
+		// console.log('processedResponse: ',response)
 		let sumPoints = 0;
 		sumPoints = response.result.reduce((acc,cur) => {
 			return acc + cur.points;
@@ -214,10 +215,12 @@ export class ExamComponent implements OnInit {
 		this.totalQuestionsAnswered = this.questionsAnswered.reduce((acc, cur) => {
 			return acc + cur;
 		})
+		// console.group('Respuestas');
 		// console.log(this.questionsAnswered);
 		// console.log(`Points ${this.totalAnswered} / ${this.totalPoints}. Questions responded: ${this.totalQuestionsAnswered} / ${this.totalQuestions}`);
 		// console.log(this.responses);
 		// console.log(sumPoints);
+		// console.groupEnd()
 	}
 
 	validateResponses() {

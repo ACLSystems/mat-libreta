@@ -19,11 +19,15 @@ export class OptionComponent implements OnInit {
 
 	constructor(
 		private questionService: QuestionService
-	) { }
+	) {}
 
 	ngOnInit() {
 		this.results = Array(1);
 		// console.log(this.question);
+		// console.group('Question type Option');
+		// console.log('Question number: ',this.questionNumber);
+		// console.log(this.question);
+		// console.groupEnd();
 	}
 
 	/*

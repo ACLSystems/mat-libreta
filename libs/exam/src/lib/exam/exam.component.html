@@ -52,7 +52,7 @@
 				</div>
 				<!--  -->
 				<!--Seccion para el tipo de respuesta en optativas-->
-				<div *ngIf="question.type == 'option'" style="margin-top:15px;">
+				<div *ngIf="question.type === 'option'" style="margin-top:15px;">
 					<app-option
 					[question]="question"
 					[questionNumber]="questionNumber"
@@ -61,7 +61,7 @@
 				</div>
 				<!--  -->
 				<!--Seccion para el tipo de preguntas map-->
-				<div *ngIf="question.type == 'map'" style="margin-top:15px;">
+				<div *ngIf="question.type === 'map'" style="margin-top:15px;">
 					<app-map
 					[question]="question"
 					[questionNumber]="questionNumber"
@@ -70,7 +70,7 @@
 				</div>
 				<!---->
 				<!--Seccion para el tipo de preguntas group-->
-				<div *ngIf="question.type == 'group'" style="margin-top:15px;">
+				<div *ngIf="question.type === 'group'" style="margin-top:15px;">
 					<app-group
 					[question]="question"
 					[questionNumber]="questionNumber"
@@ -80,7 +80,7 @@
 				</div>
 				<!---->
 				<!--Seccion para el tipo de respuesta en texto-->
-				<div *ngIf="question.type == 'text'" style="margin-top:15px;">
+				<div *ngIf="question.type === 'text'" style="margin-top:15px;">
 					<app-text
 					[question]="question"
 					[questionNumber]="questionNumber"
@@ -90,7 +90,7 @@
 				</div>
 				<!--  -->
 				<!--Seccion para el tipo de respuesta en true o false-->
-				<div *ngIf="question.type == 'tf'" style="margin-top:15px;">
+				<div *ngIf="question.type === 'tf'" style="margin-top:15px;">
 					<app-tf
 					[question]="question"
 					[questionNumber]="questionNumber"
