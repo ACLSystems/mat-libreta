@@ -81,7 +81,6 @@
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",
     "ng-recaptcha": "^7.0.0",
-    "ng-select": "^1.0.2",
     "ng2-nouislider": "^1.8.2",
     "ng2-simple-global": "^8.2.1",
     "ngx-avatar": "4.0.x",
