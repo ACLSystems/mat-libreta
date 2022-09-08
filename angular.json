@@ -20,6 +20,7 @@
             "main": "apps/cetec/src/main.ts",
             "polyfills": "apps/cetec/src/polyfills.ts",
             "tsConfig": "apps/cetec/tsconfig.app.json",
+            "aot": true,
             "assets": ["apps/cetec/src/favicon.ico", "apps/cetec/src/assets"],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -51,13 +52,7 @@
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            ]
           },
           "configurations": {
             "production": {
@@ -95,8 +90,7 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -209,6 +203,7 @@
             "main": "apps/conalepjalisco/src/main.ts",
             "polyfills": "apps/conalepjalisco/src/polyfills.ts",
             "tsConfig": "apps/conalepjalisco/tsconfig.app.json",
+            "aot": true,
 						"allowedCommonJsDependencies": [
 							"html2pdf.js",
 							"html2canvas",
@@ -250,13 +245,7 @@
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            ]
           },
           "configurations": {
             "production": {
@@ -294,8 +283,7 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -378,6 +366,7 @@
             "main": "apps/crm/src/main.ts",
             "polyfills": "apps/crm/src/polyfills.ts",
             "tsConfig": "apps/crm/tsconfig.app.json",
+            "aot": true,
             "assets": ["apps/crm/src/favicon.ico", "apps/crm/src/assets"],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",
@@ -406,13 +395,7 @@
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            ]
           },
           "configurations": {
             "production": {
@@ -443,8 +426,7 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -672,6 +654,7 @@
             "main": "apps/webquid/src/main.ts",
             "polyfills": "apps/webquid/src/polyfills.ts",
             "tsConfig": "apps/webquid/tsconfig.app.json",
+            "aot": true,
             "assets": [
               "apps/webquid/src/favicon.ico",
               "apps/webquid/src/assets"
@@ -705,13 +688,7 @@
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
               "node_modules/jquery-validation/dist/jquery.validate.min.js"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            ]
           },
           "configurations": {
             "production": {
@@ -742,8 +719,7 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -826,6 +802,7 @@
             "main": "apps/acl/src/main.ts",
             "polyfills": "apps/acl/src/polyfills.ts",
             "tsConfig": "apps/acl/tsconfig.app.json",
+            "aot": true,
             "assets": ["apps/acl/src/favicon.ico", "apps/acl/src/assets"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -840,13 +817,7 @@
               "node_modules/jquery/dist/jquery.js",
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap-material-design/dist/js/bootstrap-material-design.min.js"
-            ],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            ]
           },
           "configurations": {
             "production": {
@@ -877,8 +848,7 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -962,18 +932,13 @@
             "main": "apps/crm-acl/src/main.ts",
             "polyfills": "apps/crm-acl/src/polyfills.ts",
             "tsConfig": "apps/crm-acl/tsconfig.app.json",
+            "aot": true,
             "assets": [
               "apps/crm-acl/src/favicon.ico",
               "apps/crm-acl/src/assets"
             ],
             "styles": ["apps/crm-acl/src/styles.scss"],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -1004,8 +969,7 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1089,15 +1053,10 @@
             "main": "apps/acl2/src/main.ts",
             "polyfills": "apps/acl2/src/polyfills.ts",
             "tsConfig": "apps/acl2/tsconfig.app.json",
+            "aot": true,
             "assets": ["apps/acl2/src/favicon.ico", "apps/acl2/src/assets"],
             "styles": ["apps/acl2/src/styles.scss"],
-            "scripts": [],
-            "vendorChunk": true,
-            "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -1128,8 +1087,7 @@
                 }
               ]
             }
-          },
-          "defaultConfiguration": ""
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
